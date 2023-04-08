@@ -1,0 +1,14 @@
+# OSD location
+progbar-align=100
+fstype=none
+# heartbeat-cmd="xscreensaver-command -deactivate >&- 2>&- &"
+
+# Set font.
+# font=/home/weiss/.fonts/FZPingXYSJW.TTF
+
+# Set font encoding.
+subfont-encoding=unicode
+
+# Set subtitle file encoding.
+unicode=yes
+utf8=yes

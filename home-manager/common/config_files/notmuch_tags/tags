@@ -1,0 +1,126 @@
++163 --  path:163/**
++WebDE -- path:WEBDE/**
++RPTU -- path:RPTU/**
++RPTU_CS -- path:RPTU_CS/**
++gmail -- path:gmail/**
+
++from_self -- from:"WeissBai@web.de" or from:"bai@rhrk.uni-kl.de" or from:"b_bai19@cs.uni-kl.de" or from:"kingbaiing@163.com"
+
++gitlab -- from:gitlab
++github -- from:github
++google -- from:google
++apple -- from:apple
++paypal -- from:paypal
++vultr -- from:vultr
++amazon -- from:amazon
+
++paypal_receipt -- is:paypal and (subject:Receipt or subject:"Bestätigung Ihrer Zahlung" or subject:Beleg)
++paypal_service -- from:"service@paypal.de"
++paypal_transaction -- is:paypal_service and (subject:"You've got money" or subject:"Sie haben eine Zahlung erhalten" or subject:"You sent a payment" or subject:"Sie haben eine Zahlung gesendet" or subject:"Sie haben Geld erhalten" or subject:"refund" )
++paypal_security_alert -- is:paypal_service and (subject:"login" or subject:"You have authorized")
++paypal_advertisement -- from:paypal@mail.paypal.de
+
++print_notification -- from:rz-druckausgabe@rptu.de or (from:sci@cs.uni-kl.de and subject:"Drucker im SCI")
++cs_rundmail -- is:RPTU_CS and (subject:inf-stud or subject:inf-kolloquium or subject:inf-all)
+
++vlu -- from:vlu@cs.uni-kl.de
++vlu_reminder -- is:vlu and subject:Erinnerung and subject:VLU
+
++digivine -- subject:digivine
++mattermost -- from:mattermost or (subject:mattermost and from:"gitlab@rhrk.uni-kl.de")
++DBIS -- is:digivine or subject:DBIS
+
++google_security_alert -- is:google and subject:"security alert"
++google_sign_in_notification -- (is:google_security_alert and body:"a new sign in")
++google_drive_access_granted -- (is:google_security_alert and body:"Google Drive" body:"grant access")
+
++unidays -- to:bai@rhrk.uni-kl.de and from:unidays
++unidays_advertisement -- is:unidays and not subject:wichtig
++unidays_security_alert -- is:unidays and subject:"log-in" and body:"angemeldet"
+
++kis -- tag:RPTU and body:"KIS-Office" 
++olat -- tag:RPTU and from:lms-admin@vcrp.de 
++olat_notification -- is:olat and subject:"OpenOLAT-Neuigkeiten"
++rptu_rundmail -- (is:RPTU and from:rundmail)
++urm -- (is:RPTU and from:urm)
+
+
++check24 -- from:check24
++webde_info -- from:neu@mailings.web.de
++webde_security_alert -- subject:"WEB.DE Sicherheitshinweis" and from:"keineantwortadresse@sicher.web.de" 
++heystudium -- from:heystudium
+
++klarmobil -- from:klarmobil
++klarmobil_receipt -- is:klarmobil and subject:Rechnung
++klarmobil_vertrag -- is:klarmobil and subject:"/.*Vertrag.*/"
++klarmobil_info -- is:klarmobil and from:info
++klarmobil_unimportant -- is:klarmobil_info and not is:klarmobil_vertrag
+
++commerzbank -- from:commerzbank
++commerzbank_doc -- is:commerzbank and subject:"Neues Dokument"
+
++comdirect -- from:comdirect
++comdirect_news -- is:comdirect and from:news
+
++medium -- from:medium
++medium_advertisement -- is:medium and (subject:member or subject:save) 
++medium_prog -- is:medium and from:programming or subject:programming
++medium_daily -- is:medium and from:"Medium Daily Digest"
++medium_newsleter -- is:medium and (is:medium_prog or is:medium_daily or subject:stories) and not is:medium_advertisement
+ 
++lte_volume -- from:vodafone and subject:"Ihr LTE-Datenvolumen ist fast verbraucht"
+
++bieleinianjian -- from:bielainianjian
++stochastic_volatility -- from:StochasticVolatility
+
++government -- from:kaiserslautern.de or to:kaiserslautern.de
++residence -- is:government and (subject:Aufenthaltstitel or body:Aufenthaltstitel)
+
++icloud -- is:apple and (subject:iCloud or from:iCloud)
++apple_receipt -- (is:apple and subject:invoice) or (is:paypal_receipt and subject:Apple)
++apple_security_alert -- is:apple and subject:"Deine Apple-ID wurde verwendet"
+
++cloudflare -- from:cloudflare
++cloudflare_security_alert -- is:cloudflare and subject:account and subject:accessed
++cloudflare_advertisement -- from:product-updates@cloudflare.com
+
++roastmarket -- from:roastmarket
++roastmarket_advertisement -- from:"service@my.roastmarket.de"
+
++meetup -- from:meetup
+
++drawboard -- from:drawboard
++inoreader -- from:Inoreader
++codepen -- from:codepen
+
++youtube -- from:youtube
+
++vultr_receipt -- (is:vultr and subject:Invoice) or (is:paypal_receipt and subject:Vultr)
+
++amazon_shipment_today -- is:amazon and from:shipment-tracking
++amazon_shipment -- is:amazon and (from:versandbestaetigung or is:amazon_shipment_today)
++amazon_order_status -- is:amazon and from:order-update
++amazon_receipt -- is:amazon and from:bestellbestaetigung
++amazon_unimportant -- is:amazon and (from:versandbestaetigung or is:amazon_receipt or is:amazon_order_status) 
+
++dhl -- from:dhl
++dhl_shipment_today -- is:dhl and subject:"live verfolgen"
++dhl_shipment -- is:dhl and (is:dhl_shipment_today or subject:"kommt bald" or subject:"Zustellbenachrichtigung")
++dhl_unimportant -- is:dhl and not is:dhl_shipment
+
++security_alert -- tag:"/.*security_alert.*/" 
++shipment -- tag:"/.*shipment.*/" 
++shipment_today -- tag:"/.*shipment_today.*/" 
++order_status -- tag:"/.*order_status.*/"
+
++receipt -- tag:"/.*receipt.*/"
+
+-inbox -unread -- (is:security_alert or is:shipment or is:order_status or is:paypal_transaction) and date:..three_days
+
++newsletter -- is:medium_newsleter or is:bieleinianjian or is:stochastic_volatility
+
++advertisement -- is:check24 or is:webde_info or is:heystudium or is:comdirect_news or from:"TrySail" or from:前程无忧 or tag:"/.*advertisement.*/"
+
+-inbox -unread -- subject:"Mail delivery failed: returning message to sender" or subject:"Returned mail: see transcript for details"
+
++unimportant -- (not is:inbox) or (is:shipment and not is:shipment_today) or is:dhl_unimportant or is:receipt or is:advertisement or is:rptu_rundmail or is:cs_rundmail or is:print_notification or is:vlu_reminder or (is:mattermost and is:DBIS) or is:olat_notification or is:klarmobil_unimportant or is:commerzbank_doc or is:newsletter or is:lte_volume or is:from_self or is:drawboard or is:inoreader or is:codepen or is:amazon_unimportant or is:youtube or is:paypal

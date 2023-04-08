@@ -1,0 +1,27 @@
+;;; loaddefs.el --- automatically extracted autoloads  -*- lexical-binding: t -*-
+;;
+;;; Code:
+
+
+;;;### (autoloads nil "chinese-yasdcv/yasdcv" "chinese-yasdcv/yasdcv.el"
+;;;;;;  (0 0 0 0))
+;;; Generated autoloads from chinese-yasdcv/yasdcv.el
+
+(autoload 'yasdcv-translate-at-point "chinese-yasdcv/yasdcv" "\
+Translate current word at point with sdcv" t nil)
+
+(autoload 'yasdcv-translate-input "chinese-yasdcv/yasdcv" "\
+Translate the input word with sdcv" t nil)
+
+(register-definition-prefixes "chinese-yasdcv/yasdcv" '("yasdcv-"))
+
+;;;***
+
+(provide 'loaddefs)
+;; Local Variables:
+;; version-control: never
+;; no-byte-compile: t
+;; no-update-autoloads: t
+;; coding: utf-8
+;; End:
+;;; loaddefs.el ends here

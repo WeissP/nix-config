@@ -1,0 +1,35 @@
+[colors]
+ansi = [
+    '#1c1f24',
+    '#cb4b16',
+    '#26a6a6',
+    '#bcd42a',
+    '#2a6cc6',
+    '#a9a1e1',
+    '#5699af',
+    '#ede0ce',
+]
+background = '#2b2a27'
+brights = [
+    '#68655E',  
+    '#ff5d38',
+    '#98be65',
+    '#e6f972',
+    '#51afef',
+    '#c678dd',
+    '#46d9ff',
+    '#dfdfdf',
+]
+cursor_bg = '#9c9c9d'
+cursor_border = '#9c9c9d'
+cursor_fg = '#36312b'
+foreground = '#ede0ce'
+selection_bg = '#a60033'
+selection_fg = '#ffffff'
+scrollbar_thumb = '#777570'
+quick_select_label_bg = { Color = '#ff5d38' }
+quick_select_label_fg = { Color = '#ffffff' }
+quick_select_match_bg = { Color = '#a9a1e1' }
+quick_select_match_fg = { Color = '#FAFBF2' }
+[colors.indexed]
+
