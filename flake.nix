@@ -107,36 +107,15 @@
       # NixOS configuration entrypoint
       # Available through 'nixos-rebuild --flake .#your-hostname'
       nixosConfigurations = {
-        vmware = nixpkgs.lib.nixosSystem {
-          specialArgs = {
-            inherit inputs outputs secrets;
-            myEnv = linuxEnv;
-          };
-          modules = [
-            ./nixos/vmware/configuration.nix
-            ./nixos/vmware/hardware-configuration.nix
-          ];
-        };
-        iso = nixpkgs.lib.nixosSystem {
+        desktop = nixpkgs.lib.nixosSystem {
           system = "x86_64-linux";
           specialArgs = {
             inherit inputs outputs secrets;
             myEnv = linuxEnv;
           };
           modules = [
-            (nixpkgs
-              + "/nixos/modules/installer/cd-dvd/installation-cd-minimal.nix")
             ./nixos/desktop/configuration.nix
-            home-manager.nixosModules.home-manager
-            {
-              home-manager.extraSpecialArgs = {
-                inherit inputs outputs secrets;
-                myEnv = linuxEnv;
-              };
-              home-manager.useGlobalPkgs = true;
-              home-manager.useUserPackages = true;
-              home-manager.users.weiss = import ./home-manager/weiss.nix;
-            }
+            ./home-manager 
           ];
         };
       };
