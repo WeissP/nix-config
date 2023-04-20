@@ -46,10 +46,10 @@
                 source = ./config_files/flypy;
                 recursive = true;
               };
-              "${configDir}/fcitx5" = {
-                source = ./config_files/fcitx5;
-                recursive = true;
-              };
+              # "${configDir}/fcitx5" = {
+              #   source = ./config_files/fcitx5;
+              #   recursive = true;
+              # };
               "${configDir}/xmobar" = {
                 source = ./config_files/xmobar;
                 recursive = true;
@@ -67,17 +67,15 @@
         ];
       }
       (ifLinux {
-        # services.setup = {
-        #   enable = true;
-        #   commands = [
-        #     "pushd ~/"
-        #     "! [[ -d .password-store.git ]] && git clone git@github.com:WeissP/.password-store.git "
-        #     "popd"
-        #   ];
-        # };
-
         systemd.user.services = with myLib.service; {
           flameshot = startup { cmds = "${pkgs.flameshot}/bin/flameshot"; };
+          init_dir = startup {
+            cmds = ''
+              pushd ~/
+              ! [[ -d .password-store.git ]] && git clone git@github.com:WeissP/.password-store.git 
+              popd
+            '';
+          };
           mouse_scroll =
             startup { cmds = "${homeDir}/scripts/mouse_scroll.sh"; };
         };

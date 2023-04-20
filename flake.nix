@@ -110,12 +110,13 @@
         desktop = nixpkgs.lib.nixosSystem {
           system = "x86_64-linux";
           specialArgs = {
-            inherit inputs outputs secrets;
+            inherit inputs outputs secrets myLib;
             myEnv = linuxEnv;
           };
           modules = [
             ./nixos/desktop/configuration.nix
-            ./home-manager 
+            ./nixos/desktop/hardware-configuration.nix
+            ./home-manager
           ];
         };
       };
@@ -145,8 +146,6 @@
           ];
         };
       };
-
-      # home-manager.backupFileExtension = "backup";
 
       homeConfigurations = {
         "weiss@desktop" = home-manager.lib.homeManagerConfiguration {

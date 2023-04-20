@@ -2,6 +2,7 @@
 let
   home-manager = {
     extraSpecialArgs = { inherit inputs outputs secrets myEnv myLib; };
+    backupFileExtension = "backup";
     useGlobalPkgs = true;
     useUserPackages = true;
     users."${myEnv.username}" = import (./users + "/${myEnv.username}.nix");

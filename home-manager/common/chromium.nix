@@ -58,7 +58,7 @@ let
   };
   SmartUpGestures = {
     id = "bgjfekefhjemchdeigphccilhncnjldn";
-    sha256 = "sha256:0jd1s9v20gj6vqy7aphf7gpcxcw8waq6xsywdqga2dg4pm0jl6n0";
+    sha256 = "sha256:12h6zlhhvv9kbkrfj87794vcw7lvs7l8aqa2vl2f6cns6l6qqrk1";
     version = "7.1.1355.1162";
   };
   uBlockOrigin = {

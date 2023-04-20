@@ -18,7 +18,7 @@ let
       id = "ZEWY7Z3-RKRCGAN-IJA5YPS-2SV5UR2-PC5FEMY-ECF4EMO-GVRIZGK-2YTPOAA";
     };
   };
-in {
+in (ifLinux {
   services.syncthing = {
     enable = true;
     user = "${username}";
@@ -58,3 +58,4 @@ in {
   };
 }
 
+)
