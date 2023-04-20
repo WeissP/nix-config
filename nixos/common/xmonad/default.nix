@@ -1,6 +1,8 @@
-{ config, lib, pkgs, ... }:
+{ config, myEnv, lib, pkgs, ... }:
 
-let myXmonad = import ./myXmonad { pkgs = pkgs; };
+let
+  myXmonad = import ./myXmonad { pkgs = pkgs; };
+  xmobarDir = "${myEnv.homeDir}" + "/.config/xmobar";
 in {
   environment.systemPackages = with pkgs; [
     xorg.xdpyinfo
@@ -12,7 +14,6 @@ in {
     dmenu
     picom
     rofi
-    # haskellPackages.status-notifier-item
   ];
 
   services = {
@@ -38,17 +39,16 @@ in {
           import MyXmobar
 
           main :: IO ()
-          main = MyXMonad.main
+          main = MyXMonad.runXmonad "${xmobarDir}"
         '';
       };
-      # displayManager.sddm.enable = lib.mkForce false;
-      # desktopManager.plasma5.enable = lib.mkForce false;
+      displayManager.sddm.enable = lib.mkForce false;
+      desktopManager.plasma5.enable = lib.mkForce false;
       displayManager = {
         defaultSession = "none+xmonad";
         lightdm.enable = true;
         sessionCommands = ''
-          # status-notifier-watcher&
-          # wezterm&
+          wezterm&
         '';
       };
     };

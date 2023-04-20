@@ -22,6 +22,7 @@
       };
     in {
       recentf = inputs.recentf.packages."${prev.system}".default;
+      webman = inputs.webman.packages."${prev.system}";
       # tdlib = tdlib180.tdlib;
       # example = prev.example.overrideAttrs (oldAttrs: rec {
       # ...

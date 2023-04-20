@@ -1,4 +1,5 @@
-{ inputs, outputs, lib, config, pkgs, myLib, ... }: {
+{ inputs, outputs, lib, myEnv, config, pkgs, myLib, ... }:
+(myEnv.ifLinux {
   programs.mpv = {
     enable = true;
     scripts = with pkgs; [ additions.mpv-bookmarker mpvScripts.thumbnail ];
@@ -36,4 +37,4 @@
     ];
   };
 
-}
+})

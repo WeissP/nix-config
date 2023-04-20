@@ -1,7 +1,24 @@
-{ lib, pkgs, ... }: {
-  mergeAttrList =
-    lib.lists.foldr (elem: res: lib.trivial.mergeAttrs elem res) { };
-  homeDir = username: "/home/${username}";
+{ lib, pkgs, ... }:
+with lib; {
+  genEnv = env:
+    with env; rec {
+      ifDarwin = optionalAttrs (arch == "darwin");
+      ifLinux = optionalAttrs (arch == "linux");
+      ifPersonal = optionalAttrs (usage == "personal");
+      ifLinuxPersonal = optionalAttrs (arch == "linux" && usage == "personal");
+      ifDarwinPersonal =
+        optionalAttrs (arch == "darwin" && usage == "personal");
+      username = env.username;
+      arch = env.arch;
+      usage = env.usage;
+      homeDir = if (arch == "darwin") then
+        "/Users/${username}"
+      else
+        "/home/${username}";
+      nixDir = "${homeDir}/nix-config";
+    };
+  mergeAttrList = lists.foldr (elem: res: trivial.mergeAttrs elem res) { };
+  interval = { minutes = m: filter (t: trivial.mod t m == 0) (range 1 60); };
   service = {
     startup = { cmds, description ? "STARTUP"
       , wantedBy ? [ "graphical-session.target" ] }: {

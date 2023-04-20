@@ -1,5 +1,9 @@
-{ pkgs, config, secrets, ... }:
-let tags_path = "${config.xdg.configHome}/notmuch_tags";
+{ pkgs, config, myEnv, secrets, ... }:
+with myEnv;
+let
+  tags_path = "${config.xdg.configHome}/notmuch_tags";
+  with_pass = name: extract:
+    "${homeDir}/.nix-profile/bin/pass ${name} 2>&1 | ${extract}";
 in {
   programs = {
     mbsync.enable = true;
@@ -29,8 +33,8 @@ in {
     rptu = genAcc {
       address = secrets.email.rptu;
       imap.host = "mail.uni-kl.de";
-      primary = false;
-      passwordCommand = "pass tuk 2>&1 | head -n 1";
+      primary = true;
+      passwordCommand = with_pass "tuk" "head -n 1";
       smtp = {
         host = "smtp.uni-kl.de";
         port = 465;
@@ -41,8 +45,8 @@ in {
     webde = genAcc {
       address = secrets.email.webde;
       imap.host = "imap.web.de";
-      primary = true;
-      passwordCommand = "pass webde 2>&1 | head -n 1";
+      primary = false;
+      passwordCommand = with_pass "webde" "head -n 1";
       smtp = {
         host = "smtp.web.de";
         port = 587;
@@ -55,7 +59,7 @@ in {
       address = secrets.email.rptu_cs;
       imap.host = "mail.uni-kl.de";
       primary = false;
-      passwordCommand = "pass cs-tuk 2>&1 | head -n 1";
+      passwordCommand = with_pass "cs-tuk" "head -n 1";
       smtp = {
         host = "smtp.uni-kl.de";
         port = 587;
@@ -68,14 +72,14 @@ in {
       address = secrets.email."163";
       imap.host = "imap.163.com";
       primary = false;
-      passwordCommand = "pass 163 2>&1 | grep '^授权码：' | cut -c13-";
+      passwordCommand = with_pass "163" "grep '^shou-quan-ma:' | cut -c15-";
     };
 
     gmail = genAcc {
       address = secrets.email.gmail;
       imap.host = "imap.gmail.com";
       primary = false;
-      passwordCommand = "pass google 2>&1 | grep '^mail_imap: ' | cut -c12-";
+      passwordCommand = with_pass "google" "grep '^mail_imap: ' | cut -c12-";
     };
   };
 }

@@ -16,12 +16,15 @@
       (rime--return)
       )
     )
-  (setq emacs-host-list '("f" "f" "f"))
-  (when (string= emacs-host (nth 3 emacs-host-list))
-    (setq rime-emacs-module-header-root "/opt/homebrew/include/")
-    (setq rime-share-data-dir "/Users/bozhoubai/Library/Rime/")    
-    )
+
+  ;; (setq rime-emacs-module-header-root "/opt/homebrew/include/")
+  ;; (setq rime-share-data-dir "/Users/bozhoubai/Library/Rime/")  
+
   )
+
+;; (add-to-list 'load-path "/Users/bozhoubai/.emacs.d/emacs-rime/")
+(require 'rime)
+
 
 ;; parent: 
 (provide 'weiss_rime_settings)

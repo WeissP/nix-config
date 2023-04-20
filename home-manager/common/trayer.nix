@@ -1,4 +1,5 @@
-{ pkgs, config, ... }: {
+{ pkgs, config, myEnv, ... }:
+(myEnv.ifLinux {
   xsession.enable = true;
   services.trayer = {
     enable = true;
@@ -18,5 +19,5 @@
       height = 24;
     };
   };
-}
+})
 

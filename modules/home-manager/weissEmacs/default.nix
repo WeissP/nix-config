@@ -1,26 +1,58 @@
-{ pkgs, lib, config, ... }:
+{ pkgs, lib, myEnv, config, ... }:
 with lib;
+with myEnv;
 let cfg = config.programs.weissEmacs;
 in {
   options.programs.weissEmacs = rec {
     enable = mkEnableOption "weissEmacs";
-    extraPackages = with types;
-      mkOption {
-        type = anything;
-        default = lib.id;
+    package = mkOption {
+      type = types.package;
+      default = pkgs.emacs;
+      defaultText = literalExpression "pkgs.emacs";
+      example = literalExpression "pkgs.emacs25-nox";
+      description = "The Emacs package to use.";
+    };
+    rimeIntegration = mkOption {
+      description = "TODO Whether to enable rime integration";
+      default = { enable = false; };
+      type = types.submodule {
+        options = {
+          enable = mkEnableOption "rime integration";
+          package = mkOption { type = types.package; };
+        };
       };
-    arch = with types;
-      mkOption {
-        type = enum [ "linux" "mac" ];
-        default = "linux";
+    };
+    telegaIntegration = mkOption {
+      description = "TODO Whether to enable rime integration";
+      default = { enable = false; };
+      type = types.submodule {
+        options = {
+          enable = mkEnableOption "telega integration";
+          package = mkOption { type = types.package; };
+        };
       };
-    user = with types;
+    };
+    userEmacsDirectory = with types;
       mkOption {
+        description = "absolute path to emacs root config dir";
         type = str;
-        default = "";
       };
-    emacsConfigPath = with types; mkOption { type = path; };
+    emacsConfigPath = with types;
+      mkOption {
+        description = "nix path to emacs config files dir";
+        type = path;
+      };
+    isConfigP = with types;
+      mkOption {
+        description =
+          "a function that receives a package name and returns a predicate function to filter pkg related config files located in `emacsConfigPath`";
+        type = anything;
+        example = pkg: lib.strings.hasPrefix "weiss_${pkg}_";
+      };
     chaseSymLink = mkOption {
+      description =
+        "replace nix link to the real config path when open configs in emacs";
+      default = { enable = false; };
       type = with types;
         submodule {
           options = {
@@ -28,65 +60,63 @@ in {
               type = bool;
               default = false;
             };
-            absConfigDir = mkOption { type = str; };
+            absConfigDir = mkOption {
+              description = "absolute path to emacs config files dir";
+              type = str;
+            };
           };
         };
     };
-    userEmacsDirectory = with types; mkOption { type = str; };
-    isConfigP = with types; mkOption { type = anything; };
-    recipes = with types;
-      mkOption {
-        type = attrsOf anything;
-        default = { };
-      };
     emacsPkgs = with types;
       mkOption {
         type = listOf str;
         default = [ ];
-        description = lib.mdDoc
-          "packages need to be installed via straight. Special recipe rules need to be set in recipes. Note that all packages listed here are enabled.";
+        description = "emacs packages";
       };
 
     afterStartup = with types;
       mkOption {
         type = str;
         default = "(ignore)";
+        description = "commands need to be invoked with emacs-startup-hook";
       };
     autoload = with types;
       mkOption {
         type = attrsOf (listOf str);
         default = { };
+        description = lib.mdDoc
+          "An attrset where keys are packages and values are a list of functions of the package that need to be autoloaded. Note that only pkgs of `emacsPkgs` are considered";
       };
     eagerLoad = with types;
       mkOption {
         type = listOf str;
         default = [ ];
-        description = lib.mdDoc "local packages need to be enabled";
+        description = lib.mdDoc
+          "packages need to be eager loaded. Note that only pkgs of `emacsPkgs` are considered";
       };
     skipInstall = with types;
       mkOption {
         type = listOf str;
         default = [ ];
-        description = lib.mdDoc "local packages need to be enabled";
+        description = lib.mdDoc
+          "packages that dont need to be installed by nix. Note that the package related config files are still loaded";
       };
     earlyInit = with types;
       mkOption {
         type = str;
         default = "";
-        description = lib.mdDoc "local packages need to be enabled";
+        description = lib.mdDoc "config in early-init.el";
       };
     extraConfig = with types;
       mkOption {
         type = anything;
         default = lib.id;
-      };
-    straightConfig = with types;
-      mkOption {
-        type = anything;
-        default = lib.id;
+        description =
+          "a function to receive generated basic config and return new config";
       };
     localPkg = mkOption {
-      description = "submodule example";
+      description = "local package related config";
+      default = { enable = false; };
       type = with types;
         submodule {
           options = {
@@ -94,16 +124,22 @@ in {
               type = bool;
               default = true;
             };
-            dir = mkOption { type = path; };
+            dir = mkOption {
+              type = path;
+              description = "local package config directory";
+            };
             extraConfig = mkOption {
               type = anything;
               default = lib.id;
+              description =
+                "a function to receive generated basic config and return new config";
             };
           };
         };
     };
     startupOptimization = mkOption {
       description = "submodule example";
+      default = { enable = true; };
       type = with types;
         submodule {
           options = {
@@ -117,6 +153,9 @@ in {
 
   };
   config = let
+    optionalString = cond: text: if cond then text else "";
+    optionalList = cond: list: if cond then list else [ ];
+
     userEmacsDirectory = cfg.userEmacsDirectory;
     filterPkg = builtins.filter (e: builtins.elem e cfg.emacsPkgs);
     join = list: lib.strings.concatLines (filter isString (flatten list));
@@ -133,31 +172,28 @@ in {
         [ ]) cfg.autoload;
     eagerLoadCmds = map (pkg: "(require '${pkg})") (filterPkg cfg.eagerLoad);
 
-    localPkgCfg = if cfg.localPkg.enable then
-      cfg.localPkg.extraConfig ''
-        (setq weiss/local-package-path  "${userEmacsDirectory}/local-packages")
-        (setq weiss/local-package-autoloads "${userEmacsDirectory}/local-package-loaddefs.el")
-        (defun weiss-update-local-packages-autoloads ()
-          "update autoloads of local packages"
-          (interactive)
-          (dolist (dir (seq-filter
-                        'file-directory-p
-                        (directory-files weiss/local-package-path t "^[^.]") ;ignore /. and /..
-          )) 
-            (make-directory-autoloads dir weiss/local-package-autoloads)
-          )
+    localPkgCfg = cfg.localPkg.extraConfig ''
+      (setq weiss/local-package-path  "${userEmacsDirectory}/local-packages")
+      (setq weiss/local-package-autoloads "${userEmacsDirectory}/local-package-loaddefs.el")
+      (defun weiss-update-local-packages-autoloads ()
+        "update autoloads of local packages"
+        (interactive)
+        (dolist (dir (seq-filter
+                      'file-directory-p
+                      (directory-files weiss/local-package-path t "^[^.]") ;ignore /. and /..
+        )) 
+          (make-directory-autoloads dir weiss/local-package-autoloads)
         )
+      )
 
-        (unless (file-exists-p weiss/local-package-autoloads)
-          (message "autoloads of local packages do not exist, generating...")
-          (weiss-update-local-packages-autoloads)
-        )
-        (load weiss/local-package-autoloads)
-        (let ((default-directory weiss/local-package-path))
-          (normal-top-level-add-subdirs-to-load-path))
-      ''
-    else
-      "";
+      (unless (file-exists-p weiss/local-package-autoloads)
+        (message "autoloads of local packages do not exist, generating...")
+        (weiss-update-local-packages-autoloads)
+      )
+      (load weiss/local-package-autoloads)
+      (let ((default-directory weiss/local-package-path))
+        (normal-top-level-add-subdirs-to-load-path))
+    '';
     customCfg = ''
       (setq custom-file "${userEmacsDirectory}/custom.el")
       (when (file-exists-p custom-file)
@@ -169,11 +205,17 @@ in {
             ${cfg.afterStartup}
           ))
     '';
-    nixEnvCfg = ''
-      (setq emacs-host-list '("arch" "arch without roam" "ros" "mac"))
-      (setq emacs-host (nth 0 emacs-host-list))
-    '' + (if cfg.chaseSymLink.enable then ''
-      (defvar weiss/configs-dir "${cfg.chaseSymLink.absConfigDir}/")
+    telegaIntegrationCfg = ''
+      (setq telega-server-command "${cfg.telegaIntegration.package.outPath}/bin/telega-server") '';
+    rimeIntegrationCfg = (if arch == "linux" then ''
+      (setq rime--module-path "${cfg.rimeIntegration.package.outPath}/include/librime-emacs.so")
+    '' else ''
+      (setq rime-emacs-module-header-root "${cfg.package.outPath}/include")
+      (setq rime-librime-root "${cfg.userEmacsDirectory}/librime/dist")
+      (setq rime-share-data-dir "${homeDir}/Library/Rime/")
+    '');
+    chaseSymLinkCfg = ''
+      (setq weiss/configs-dir "${cfg.chaseSymLink.absConfigDir}/")
       (defun replace-nix-link (args)
         "replace nix link to the real config path"
         (cons
@@ -181,15 +223,18 @@ in {
           (cdr args))
       )
       (advice-add 'find-file-noselect :filter-args #'replace-nix-link)
-    '' else
-      ''(defvar weiss/configs-dir "${cfg.emacsConfigPath}/")'');
+    '';
+    nixEnvCfg = ''(defvar weiss/configs-dir "${cfg.emacsConfigPath}/")'';
 
     basicCfg = join [
       customCfg
-      localPkgCfg
+      (optionalList cfg.localPkg.enable localPkgCfg)
       autoloadCmds
       eagerLoadCmds
       nixEnvCfg
+      (optionalList cfg.telegaIntegration.enable [ telegaIntegrationCfg ])
+      (optionalList cfg.rimeIntegration.enable [ rimeIntegrationCfg ])
+      (optionalList cfg.chaseSymLink.enable [ chaseSymLinkCfg ])
       configsCmds
       "(package-activate-all)"
       afterStartupCfg
@@ -198,9 +243,6 @@ in {
   in mkIf cfg.enable {
     programs.emacs = {
       enable = true;
-      extraPackages = epkg:
-        map (pkgName: lib.attrsets.getAttrFromPath [ pkgName ] epkg)
-        (filter (pkg: !(elem pkg cfg.skipInstall)) cfg.emacsPkgs);
       overrides = prev: final: {
         org-table-to-qmk-keymap =
           pkgs.callPackage ./packages/org-table-to-qmk-keymap {
@@ -221,12 +263,53 @@ in {
           inherit (pkgs) fetchFromGitHub;
         };
       };
+      # rime and telega can only be installed via xxxIntegration option
+      extraPackages = epkg:
+        map (pkgName: lib.attrsets.getAttrFromPath [ pkgName ] epkg)
+        ((filter (pkg: !(elem pkg (cfg.skipInstall ++ [ "rime" "telega" ])))
+          cfg.emacsPkgs)
+          ++ (optionalList (cfg.rimeIntegration.enable && arch == "linux")
+            [ "rime" ]) # rime will be installed locally on MacOS
+          ++ (optionalList cfg.telegaIntegration.enable [ "telega" ]));
     };
 
-    home.file = {
-      "${userEmacsDirectory}/early-init.el".text = cfg.earlyInit;
-      "${userEmacsDirectory}/init.el".text = cfg.extraConfig basicCfg;
-    };
+    home.file = mkMerge [
+      {
+        "${userEmacsDirectory}/early-init.el".text = cfg.earlyInit;
+        "${userEmacsDirectory}/init.el".text = cfg.extraConfig basicCfg;
+      }
+      (lib.optionalAttrs cfg.localPkg.enable {
+        "${userEmacsDirectory}/local-packages" = {
+          source = cfg.localPkg.dir;
+          recursive = true;
+        };
+      })
+      (optionalAttrs (arch == "darwin" && cfg.rimeIntegration.enable) {
+        "${userEmacsDirectory}/local-packages/emacs-rime" = {
+          source = pkgs.fetchFromGitHub {
+            owner = "DogLooksGood";
+            repo = "emacs-rime";
+            rev = version;
+            hash = "sha256-Z4hGsXwWDXZie/8IALhyoH/eOVfzhbL69OiJlLHmEXw=";
+          };
+          recursive = true;
+        };
+        "${userEmacsDirectory}/librime" = {
+          source = pkgs.fetchzip {
+            url =
+              "https://github.com/rime/librime/releases/download/1.8.4/rime-a94739f-macOS.tar.bz2";
+            sha256 = "sha256-rxkbiTIC8+i8Zr66lfj6JDFOf4ju8lo3dPP1UDIPC1c=";
+            stripRoot = false;
+          };
+          recursive = true;
+        };
+      })
+    ];
+    home.packages = [ ]
+      ++ (optionalList (cfg.rimeIntegration.enable && arch == "linux")
+        [ cfg.rimeIntegration.package ])
+      ++ (optionalList cfg.telegaIntegration.enable
+        [ cfg.telegaIntegration.package ]);
   };
 }
 

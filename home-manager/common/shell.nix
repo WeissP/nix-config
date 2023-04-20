@@ -1,7 +1,5 @@
-{ config, pkgs, ... }:
-
-{
-
+{ config, myEnv, secrets, lib, pkgs, ... }:
+with myEnv; {
   programs = {
     bat.enable = true;
     autojump = {
@@ -11,38 +9,46 @@
     fzf.enable = true;
     jq.enable = true;
 
-    zsh = {
-      enable = true;
-
-      enableSyntaxHighlighting = true;
-      enableCompletion = true;
-      enableAutosuggestions = true;
-      autocd = true;
-      historySubstringSearch.enable = true;
-      history = {
-        expireDuplicatesFirst = true;
-        ignoreDups = true;
-        size = 50000;
-      };
-
-      zplug = {
+    zsh = lib.mkMerge [
+      {
         enable = true;
-        plugins = [
-          { name = "ael-code/zsh-colored-man-pages"; }
-          { name = "le0me55i/zsh-extract"; }
-          { name = "hlissner/zsh-autopair"; }
-          { name = "greymd/docker-zsh-completion"; }
-          { name = "trystan2k/zsh-tab-title"; }
-          { name = "le0me55i/zsh-systemd"; }
-          { name = "hcgraf/zsh-sudo"; }
-          {
-            name = "akash329d/zsh-alias-finder";
-            tags = [ "defer:1" ];
+
+        enableSyntaxHighlighting = true;
+        enableCompletion = true;
+        enableAutosuggestions = true;
+        autocd = true;
+        historySubstringSearch.enable = true;
+        history = {
+          expireDuplicatesFirst = true;
+          ignoreDups = true;
+          size = 50000;
+        };
+        zplug = {
+          enable = true;
+          plugins = [
+            { name = "ael-code/zsh-colored-man-pages"; }
+            { name = "le0me55i/zsh-extract"; }
+            { name = "hlissner/zsh-autopair"; }
+            { name = "greymd/docker-zsh-completion"; }
+            { name = "trystan2k/zsh-tab-title"; }
+            { name = "le0me55i/zsh-systemd"; }
+            { name = "hcgraf/zsh-sudo"; }
+            {
+              name = "akash329d/zsh-alias-finder";
+              tags = [ "defer:1" ];
+            }
+          ];
+        };
+      }
+      (ifDarwin {
+        initExtra = ''
+          sync_videos () {
+              echo "Sync videos from Mac to Desktop"
+          rsync -PamAXvtu -e ssh ${homeDir}/Downloads/videos/rsync weiss@${secrets.nodes.Desktop.ip}:/home/weiss/Downloads/videos/ 
           }
-        ];
-      };
-    };
-    # zplug , 
+        '';
+      })
+    ];
 
     starship = {
       enable = true;

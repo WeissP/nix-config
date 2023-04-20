@@ -1,4 +1,4 @@
-{ pkgs, lib, ... }:
+{ pkgs, myEnv, lib, ... }:
 
 let
   better-onetab = {
@@ -8,7 +8,7 @@ let
   };
   CaretTab = {
     id = "cojpndognjdcakkimaloeealehpkljna";
-    sha256 = "sha256:185d2m4b6mf46635lzghy13bjpa2pb909rrj54zysj9jj5x9shm3";
+    sha256 = "sha256:06dawcpcgwi068sjn3mmqsvi12l4s5kb3qiki5dymng47yfy0l16";
     version = "3.8.1";
   };
   DisableAutomaticGainControl = {
@@ -33,7 +33,7 @@ let
   };
   ImTranslator = {
     id = "noaijdpnepcgjemiklgfkcfbkokogabh";
-    sha256 = "sha256:1znw97ln9mjg01dvaqhpjk3nqyfklax3mngdhh1v72srkfh7wnij";
+    sha256 = "sha256:0d5xm2baq0hpizclfwx1jxbwxf2nh71rn2kicwzqykl6mxqda2pb";
     version = "16.21";
   };
   Keepa = {
@@ -63,7 +63,7 @@ let
   };
   uBlockOrigin = {
     id = "cjpalhdlnbpafiamejdnhcphjbkeiagm";
-    sha256 = "sha256:0n6806xw9vw8smx03ym99fwlxf8c9nx6s3qys0h1iz7p8na7x1gj";
+    sha256 = "sha256:0fcrpxv3y5n72znwgvbaa223hyb464vs2s2bjynyk26sqq09pg4j";
     version = "1.47.2";
   };
   VideoDownloadHelper = {
@@ -81,7 +81,7 @@ let
     sha256 = "sha256:0pd2m0324zhgg6bcfg068b7955vdr9nwnj3syr3shrc9xz5rxprs";
     version = "8.3.2";
   };
-in {
+in (myEnv.ifLinux {
   programs.chromium = rec {
     enable = true;
     package = pkgs.ungoogled-chromium;
@@ -117,4 +117,4 @@ in {
       Wikiwand
     ];
   };
-}
+})

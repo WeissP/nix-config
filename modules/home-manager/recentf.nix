@@ -43,11 +43,14 @@ in {
       };
   };
   config = mkIf cfg.enable {
-    xdg.configFile."recentf/${filename}".source = toToml {
-      tramp_aliases = cfg.tramps;
-      database.url = cfg.databaseUrl;
-      search.limit = cfg.searchLimit;
-      filter = cfg.filters;
+    xdg = {
+      enable = true;
+      configFile."recentf/${filename}".source = toToml {
+        tramp_aliases = cfg.tramps;
+        database.url = cfg.databaseUrl;
+        search.limit = cfg.searchLimit;
+        filter = cfg.filters;
+      };
     };
     home.packages = [ pkgs.recentf ];
   };

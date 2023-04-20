@@ -12,6 +12,20 @@
   boot.kernelModules = [ ];
   boot.extraModulePackages = [ ];
 
+  # boot.loader = {
+  #   systemd-boot.enable = true;
+  #   efi.canTouchEfiVariables = true;
+  #   # VMware, Parallels both only support this being 0 otherwise you see
+  #   # "error switching console mode" on boot.
+  #   systemd-boot.consoleMode = "0";
+  # };
+
+  boot.loader.grub = {
+    enable = true;
+    device = "/dev/sda";
+    useOSProber = true;
+  };
+
   fileSystems."/" = {
     device = "/dev/disk/by-uuid/13a839c9-dcbb-4fe6-bb81-5d22c7ccdc76";
     fsType = "ext4";

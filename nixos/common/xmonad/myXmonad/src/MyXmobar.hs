@@ -80,14 +80,14 @@ myXmobarVerticalPP = def
     -- , ppRename = \s ws -> fn1 s 
     }
 
-xmobarVertical = statusBarPropTo
+xmobarVertical dir = statusBarPropTo
     "_XMONAD_LOG_Vertical"
-    "xmobar -x 0 /home/weiss/.config/xmobar/xmobarrc0.hs"
+    ("xmobar -x 0 " ++ dir ++ "/xmobarrc0.hs")
     (pure myXmobarVerticalPP)
 
-xmobarHori = statusBarPropTo
+xmobarHori dir = statusBarPropTo
     "_XMONAD_LOG_Hori"
-    "xmobar -x 1 /home/weiss/.config/xmobar/xmobarrc1.hs"
+    ("xmobar -x 1 " ++ dir ++ "/xmobarrc1.hs")
     (pure myXmobarHoriPP)
 
 -- xmobar3 = statusBarPropTo

@@ -3,37 +3,17 @@
 
 { inputs, outputs, lib, config, pkgs, secrets, ... }: {
   # You can import other NixOS modules here
-  imports = [ ../common/personal.nix ./hardware-configuration.nix ];
-
-  # FIXME: Add the rest of your current configuration
-
+  imports = [ ../common/minimum.nix ../common/personal.nix ];
+  time.timeZone = "Europe/Berlin";
   networking.hostName = "vmware";
-
-  # boot.loader = {
-  #   systemd-boot.enable = true;
-  #   efi.canTouchEfiVariables = true;
-  #   # VMware, Parallels both only support this being 0 otherwise you see
-  #   # "error switching console mode" on boot.
-  #   systemd-boot.consoleMode = "0";
-  # };
-
-  boot.loader.grub = {
-    enable = true;
-    device = "/dev/sda";
-    useOSProber = true;
-  };
 
   virtualisation.vmware.guest.enable = true;
 
   users.users.root.openssh.authorizedKeys.keys = [ secrets.ssh."163".public ];
-  users.users = {
-    weiss = {
-      isNormalUser = true;
-      openssh.authorizedKeys.keys = [ secrets.ssh."163".public ];
-      extraGroups = [ "wheel" "networkmanager" ];
-    };
-  };
-  nix.settings.trusted-users = [ "root" "weiss" ];
+
+  services.xserver.enable = true;
+  services.xserver.displayManager.sddm.enable = true;
+  services.xserver.desktopManager.plasma5.enable = true;
 
   # This setups a SSH server. Very important if you're setting up a headless system.
   # Feel free to remove if you don't need it.
@@ -45,6 +25,17 @@
     };
   };
 
+  environment.plasma5.excludePackages = with pkgs.libsForQt5; [
+    elisa
+    gwenview
+    okular
+    oxygen
+    khelpcenter
+    konsole
+    plasma-browser-integration
+    print-manager
+  ];
+
   security.sudo.extraRules = [{
     users = [ "weiss" ];
     commands = [{
@@ -53,7 +44,4 @@
         [ "NOPASSWD" ]; # "SETENV" # Adding the following could be a good idea
     }];
   }];
-
-  # https://nixos.wiki/wiki/FAQ/When_do_I_update_stateVersion
-  system.stateVersion = "22.11";
 }

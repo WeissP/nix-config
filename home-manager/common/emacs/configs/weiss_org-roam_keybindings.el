@@ -16,8 +16,9 @@
    '(("C-i" . org-roam-node-insert)
      ))
 
+  (wks-unset-key org-mode-map '("C-c C-j"))
   (wks-define-key
-   org-mode-map "y j "
+   org-mode-map "C-c C-j "
    '(
      ("t" . org-roam-tag-add)
      ("a" . org-roam-alias-add)

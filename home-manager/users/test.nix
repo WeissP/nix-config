@@ -1,33 +1,30 @@
-{ inputs, outputs, lib, myLib, config, pkgs, username, ... }: {
+{ pkgs, lib, myEnv, config, inputs, outputs, ... }:
+with myEnv; {
+  imports = [
+    # ./terminal/wezterm.nix
+    ./common/shell.nix
+    ./common/aliases.nix
+    # ./email.nix
+    ./common/recentf.nix
+    ./common/webman.nix
+    ./common/emacs
+    # ./syncthing.nix
+  ];
+
   nixpkgs = {
-    # You can add overlays here
     overlays = [
-      # Add overlays your own flake exports (from overlays and pkgs dir):
       outputs.overlays.additions
       outputs.overlays.modifications
       outputs.overlays.weissNur
       outputs.overlays.lts
-
-      # You can also add overlays exported from other flakes:
-      # neovim-nightly-overlay.overlays.default
-
-      # Or define it inline, for example:
-      # (final: prev: {
-      #   hi = final.hello.overrideAttrs (oldAttrs: {
-      #     patches = [ ./change-hello-to-hi.patch ];
-      #   });
-      # })
     ];
-    # Configure your nixpkgs instance
     config = {
-      # Disable if you don't want unfree packages
       allowUnfree = true;
       # Workaround for https://github.com/nix-community/home-manager/issues/2942
       allowUnfreePredicate = (_: true);
     };
   };
 
-  # Enable home-manager and git
   programs = {
     home-manager.enable = true;
     git.enable = true;
@@ -42,6 +39,15 @@
     keyboard.layout = "de";
     stateVersion = "22.11";
     username = username;
-    homeDirectory = myLib.homeDir username;
+    homeDirectory = homeDir;
+    packages = with pkgs; [ yt-dlp lux qemu ];
+  };
+
+  home.file = let configDir = config.xdg.configHome;
+  in {
+    "${configDir}/wezterm" = {
+      source = ./common/config_files/wezterm;
+      recursive = true;
+    };
   };
 }

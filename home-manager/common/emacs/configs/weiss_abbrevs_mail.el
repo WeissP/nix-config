@@ -18,6 +18,13 @@
   (define-abbrev-table 'message-mode-abbrev-table weiss-mail-abbrevs)
   )
 
+(with-eval-after-load 'notmuch
+  (when (boundp 'notmuch-message-mode-abbrev-table)
+    (clear-abbrev-table notmuch-message-mode-abbrev-table))
+  (define-abbrev-table 'notmuch-message-mode-abbrev-table weiss-mail-abbrevs)
+  )
+
+
 (provide 'weiss_abbrevs_mail)
 
 

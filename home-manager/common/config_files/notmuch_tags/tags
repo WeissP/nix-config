@@ -1,10 +1,10 @@
 +163 --  path:163/**
-+WebDE -- path:WEBDE/**
-+RPTU -- path:RPTU/**
-+RPTU_CS -- path:RPTU_CS/**
++WebDE -- path:webde/**
++RPTU -- path:rptu/**
++RPTU_CS -- path:rptu_cs/**
 +gmail -- path:gmail/**
 
-+from_self -- from:"WeissBai@web.de" or from:"bai@rhrk.uni-kl.de" or from:"b_bai19@cs.uni-kl.de" or from:"kingbaiing@163.com"
++from_self -- from:"WeissBai@web.de" or from:"bai@rhrk.uni-kl.de" or from:"bai@rptu.de" or from:"b_bai19@cs.uni-kl.de" or from:"kingbaiing@163.com"
 
 +gitlab -- from:gitlab
 +github -- from:github

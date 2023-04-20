@@ -5,7 +5,7 @@
    org-noter-doc-mode-map
    ""
    '(
-     ("x" . (weiss-org-noter-insert-note (org-noter-insert-precise-note t)))
+     ("x" . org-noter-insert-precise-note-toggle-no-questions)
      ))
   )
 

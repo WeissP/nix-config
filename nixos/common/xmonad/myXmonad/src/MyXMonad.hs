@@ -1,7 +1,7 @@
 {-# LANGUAGE KindSignatures #-}
 {-# LANGUAGE RankNTypes #-}
 
-module MyXMonad (main) where
+module MyXMonad (runXmonad) where
 
 import Data.List
 import Data.Maybe
@@ -260,7 +260,7 @@ myManageHook =
       ["Blueman-manager", "zoom", "Pavucontrol", "SimpleScreenRecorder"]
     myCenterFloatTitle = ["tmux-Scratchpad", "flameshot"]
     myCenterFloatTitleReg = []
-    myFullFloatClass = ["MPlayer"]
+    myFullFloatClass = ["MPlayer", "mpv"]
     netName = stringProperty "_NET_WM_NAME"
 
 myConfig =
@@ -280,14 +280,12 @@ myConfig =
     -- `removeKeysP` ["M-4"]
     `additionalKeysP` myKeys
 
-main :: IO ()
-main = do
+runXmonad :: String ->  IO ()
+runXmonad xmobarDir = do
   xmonad $
     ewmhFullscreen $
       ewmh $
-        withEasySB xmobarVertical defToggleStrutsKey $
-          -- withEasySB (xmobarVertical <> xmobarHori) defToggleStrutsKey $
-          -- pagerHints $
+          withEasySB ((xmobarVertical xmobarDir) <> (xmobarHori xmobarDir)) defToggleStrutsKey $
             docks myConfig
 
 getWorkspace :: Int -> String
