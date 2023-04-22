@@ -1,4 +1,5 @@
-{ pkgs, lib, myLib, myEnv, secrets, config, inputs, outputs, ... }: {
+{ pkgs, lib, myLib, myEnv, secrets, config, inputs, outputs, configSession, ...
+}: {
   imports = [ ./syncthing.nix ];
   config = with lib;
     with myEnv;
@@ -38,14 +39,13 @@
           config = { allowUnfree = true; };
         };
 
+        users.defaultUserShell = pkgs.zsh;
         users.users."${username}" = mkMerge [
           { home = homeDir; }
           (ifLinux {
             isNormalUser = true;
             openssh.authorizedKeys.keys = [ secrets.ssh."163".public ];
-            hashedPassword =
-              "$6$rTlWIad.TlbAKZJI$xcXjWxb5kalXYbxJM359lOIxMq3w7MkHO0sVRzgHrJSnnRhBpiwtvtFUQ.W5a4M2Gww6Q/CTiZA00ZSTRQXG80";
-            extraGroups = [ "wheel" "networkmanager" ];
+            extraGroups = [ "wheel" "networkmanager" "input" ];
           })
         ];
 
@@ -55,12 +55,7 @@
           (ifLinux {
             printing.enable = true;
             dbus.packages = [ pkgs.gcr ];
-            pipewire = {
-              enable = true;
-              alsa.enable = true;
-              alsa.support32Bit = true;
-              pulse.enable = true;
-            };
+            udisks2.enable = true;
           })
         ];
 
@@ -69,10 +64,10 @@
           (ifLinux { rtkit.enable = true; })
         ];
 
-        programs = mkMerge [
-          { nix-index.enable = false; }
-          (ifDarwin { zsh.enable = true; })
-        ];
+        programs = {
+          nix-index.enable = false;
+          zsh.enable = true;
+        };
 
         fonts = mkMerge [
           {
@@ -115,22 +110,30 @@
         ];
 
         environment = {
+          shells = [ pkgs.zsh ];
+          pathsToLink = [ "/share/zsh" ];
           variables = { LANG = "en_US.UTF-8"; };
           systemPackages = with pkgs; [
             git
             git-crypt
+            ripgrep
             vim
             cachix
             fd
             killall
             locale
             wezterm
+            udisks
+            babashka
+            util-linux
+            unzip
           ];
         };
 
         system = mkMerge [ (ifDarwin { stateVersion = 4; }) ];
       }
       (ifLinux {
+        networking.networkmanager.enable = true;
         i18n = {
           defaultLocale = "en_US.UTF-8";
           extraLocaleSettings = {

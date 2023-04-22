@@ -1,7 +1,10 @@
-{ inputs, outputs, lib, myLib, config, pkgs, myEnv, secrets, ... }:
+{ inputs, outputs, lib, myLib, config, pkgs, myEnv, secrets, configSession, ...
+}:
 let
   home-manager = {
-    extraSpecialArgs = { inherit inputs outputs secrets myEnv myLib; };
+    extraSpecialArgs = {
+      inherit inputs outputs secrets myEnv myLib configSession;
+    };
     backupFileExtension = "backup";
     useGlobalPkgs = true;
     useUserPackages = true;

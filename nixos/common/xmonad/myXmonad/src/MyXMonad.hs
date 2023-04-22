@@ -25,6 +25,7 @@ import XMonad.Hooks.StatusBar
 import XMonad.Layout.Accordion
 import XMonad.Layout.LayoutModifier
 import XMonad.Layout.NoBorders
+import XMonad.Layout.MultiColumns
 import XMonad.Layout.NoFrillsDecoration
 import XMonad.Layout.PerScreen (ifWider)
 import XMonad.Layout.Spacing
@@ -69,11 +70,7 @@ myWorkspaces :: [WorkspaceId]
 myWorkspaces =
   map show [1 .. 9]
     ++ [scratchpadWorkspaceTag]
-    ++ ["娱N", "邮H", "聊Y", "音-"]
-
--- zipWith (\i n -> show i ++ n)
---         [1 .. 9 :: Int]
---         (map (":" ++) ["主", "副", "娱", "邮", "音"] ++ repeat "")
+    ++ ["娱", "邮", "聊", "音"]
 
 mylogLayout :: Logger
 mylogLayout = withWindowSet $ return . Just . ld
@@ -108,14 +105,12 @@ myLayout =
       smartBorders $
         mouseResize $
           windowArrange $
-            ifWider 1500 myTall (Mirror myTall ||| myStackTile)
-              ||| myTall
-              ||| Mirror myTall
+            ifWider 1500 (myMulCol ||| myTall) (Mirror myTall ||| myStackTile)
   where
-    -- addTopBar = noFrillsDeco shrinkText topBarTheme
+    myMulCol = multiCol [1, 1] 0 0.01 (-0.5)
     twoPane = TwoPane delta ratio
     myTall = Tall nmaster delta ratio
-    myStackTile = StackTile 1 (3 / 100) (1 / 2)
+    myStackTile = StackTile 1 (3 / 100) (4 / 9)
     nmaster = 1
     ratio = 1 / 2
     delta = 3 / 100
@@ -129,10 +124,6 @@ myKeys =
     ("<XF86Launch8>", nextScreen),
     ("<F6>", spawnHereNamedScratchpadAction myScratchPads "term"),
     ("<F11>", withFocused toggleFloat),
-    ( "M-3",
-      spawn
-        "if type xmonad; then xmonad --recompile && xmonad --restart; else xmessage xmonad not in \\$PATH: \"$PATH\"; fi"
-    ),
     ("<XF86Launch6>", mySwapMaster),
     ("M-<Escape>", kill),
     ("M-1", myFocusUp),
@@ -170,7 +161,7 @@ myKeys =
              [ ("t", sendMessage NextLayout),
                ( "r",
                  spawn
-                   "if type xmonad; then xmonad --recompile && xmonad --restart; else xmessage xmonad not in \\$PATH: \"$PATH\"; fi"
+                   "xmonad --restart"
                ),
                ("v", spawn "sh $HOME/.screenlayout/vertical.sh"),
                ("b", spawn "sh $HOME/.screenlayout/horizontal.sh"),

@@ -7,11 +7,11 @@
         lib.attrsets.genAttrs nodeNames
         (name: (lib.attrsets.getAttr name nodes).ip);
     in lib.mkMerge [{
-
       programs.recentf = {
         enable = true;
+        databaseUrl =
+          "postgres://${username}:${secrets.sql.localPassword}@localhost/recentf";
         tramps = toTramps [ "RaspberryPi" "Vultr" ];
-        databaseUrl = "postgres://${username}@localhost/recentf";
         filters = [
           { name_prefix = "COMMIT_EDITMSG"; }
           {
@@ -30,12 +30,6 @@
           }
         ];
       };
-    }
-    # (ifLinux {
-    #   systemd.user.services.recentf = myLib.service.startup {
-    #     cmds = ''
-    #       echo "SELECT 'CREATE DATABASE recentf' WHERE NOT EXISTS (SELECT FROM pg_database WHERE datname = 'recentf')\gexec" | psql'';
-    #   };
-    # })
-    ];
+    }];
 }
+

@@ -1,25 +1,15 @@
-{ pkgs, lib, myEnv, config, inputs, outputs, ... }:
+{ pkgs, lib, myEnv, config, secrets, inputs, outputs, ... }:
 with myEnv; {
   imports =
     [ ./terminal/wezterm.nix ./shell.nix ./aliases.nix ./webman.nix ./emacs ];
 
-  # nixpkgs = {
-  #   overlays = [
-  #     outputs.overlays.additions
-  #     outputs.overlays.modifications
-  #     outputs.overlays.weissNur
-  #     outputs.overlays.lts
-  #   ];
-  #   config = {
-  #     allowUnfree = true;
-  #     # Workaround for https://github.com/nix-community/home-manager/issues/2942
-  #     allowUnfreePredicate = (_: true);
-  #   };
-  # };
-
   programs = {
     home-manager.enable = true;
-    git.enable = true;
+    git = {
+      enable = true;
+      userEmail = secrets.email."163";
+      userName = "weiss";
+    };
     htop.enable = true;
   };
 

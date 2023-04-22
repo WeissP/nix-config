@@ -1,7 +1,8 @@
-{ pkgs, lib, myLib, myEnv, secrets, config, inputs, outputs, ... }:
+{ pkgs, lib, myLib, myEnv, secrets, config, inputs, outputs, configSession, ...
+}:
 with lib;
 with myEnv; {
-  imports = [ ./xmonad ./psql.nix ];
+  imports = [ ./minimum.nix ./xmonad ./psql.nix ];
 
   services = {
     xserver = {
@@ -13,7 +14,16 @@ with myEnv; {
       autoRepeatInterval = 30;
       # Enable automatic login for the user.
       displayManager.autoLogin.enable = true;
-      displayManager.autoLogin.user = "weiss";
+      displayManager.autoLogin.user = "${username}";
+      libinput.touchpad = {
+        naturalScrolling = true;
+        accelSpeed = "0.5"; # float number between -1 and 1.
+      };
+    };
+    blueman.enable = true;
+    myPostgresql = {
+      enable = true;
+      package = pkgs.lts.postgresql_15;
     };
   };
 
@@ -25,15 +35,16 @@ with myEnv; {
   };
 
   environment = {
+    systemPackages = with pkgs; [ pavucontrol xdotool ];
     sessionVariables = {
       LEDGER_FILE = "\${HOME}/finance/2021.journal";
       POSTGIS_DIESEL_DATABASE_URL = "postgres://weiss@localhost/digivine";
     };
   };
 
-  sound.enable = false;
+  sound.enable = true;
   hardware = {
-    pulseaudio.enable = false;
+    pulseaudio.enable = true;
     bluetooth.enable = true;
   };
 }

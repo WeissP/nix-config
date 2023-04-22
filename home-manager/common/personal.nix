@@ -6,6 +6,7 @@
     ./chromium.nix
     ./mpv.nix
     ./trayer.nix
+    ./fusuma.nix
   ];
 
   config = with myEnv;
@@ -14,7 +15,7 @@
         home = let configDir = config.xdg.configHome;
         in lib.mkMerge [
           {
-            packages = with pkgs; [ flameshot ];
+            packages = with pkgs; [ flameshot lux ];
             file = {
               "${homeDir}/scripts" = {
                 source = ./config_files/scripts;
@@ -24,7 +25,13 @@
             };
           }
           (ifLinux {
-            packages = with pkgs; [ xbindkeys cider calibre ];
+            packages = with pkgs; [
+              xbindkeys
+              xautomation
+              cider
+              calibre
+              dolphin
+            ];
             file = {
               ".xbindkeysrc".text = ''
                 "xte 'keydown Control_L' 'key Tab' 'keyup Control_L' "
@@ -42,10 +49,10 @@
                 "xte 'keydown Control_L' 'key v' 'keyup Control_L'"
                 b:7
               '';
-              "${homeDir}/.local/share/fcitx5/rime" = {
-                source = ./config_files/flypy;
-                recursive = true;
-              };
+              # "${homeDir}/.local/share/fcitx5/rime" = {
+              #   source = ./config_files/flypy;
+              #   recursive = true;
+              # };
               # "${configDir}/fcitx5" = {
               #   source = ./config_files/fcitx5;
               #   recursive = true;
@@ -82,10 +89,15 @@
 
         i18n.inputMethod = {
           enabled = "fcitx5";
-          fcitx5.addons = with pkgs; [ fcitx5-rime fcitx5-chinese-addons ];
+          fcitx5.addons = with pkgs; [
+            fcitx5-rime
+            fcitx5-configtool
+            fcitx5-chinese-addons
+          ];
         };
 
         services = {
+          dunst.enable = true;
           blueman-applet.enable = true;
           mpris-proxy.enable = true; # let buttons of bluetooth devices work
           unclutter = {

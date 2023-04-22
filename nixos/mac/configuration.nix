@@ -2,10 +2,6 @@
 with myEnv; {
   imports = [ ../common/minimum.nix ../common/psql.nix ];
 
-  services.myPostgresql = {
-    enable = true;
-    package = pkgs.lts.postgresql_15;
-  };
   networking.hostName = "Bozhous-Air";
 
   launchd.user.agents.webman-cli.serviceConfig = {

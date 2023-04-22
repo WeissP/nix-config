@@ -9,9 +9,6 @@ in {
   home.packages = with pkgs; [ clj-kondo nodePackages.jsonlint nixfmt ];
   programs.weissEmacs = lib.mkMerge [
     # (ifDarwin { package = pkgs.emacsMacport; })
-    (ifLinux {
-
-    })
     {
       inherit userEmacsDirectory;
       enable = true;
@@ -55,6 +52,7 @@ in {
       '';
       extraConfig = oldCfg: ''
         (setq vanilla-global-map (current-global-map))
+        (setq recentf-executable "${pkgs.recentf.outPath}/bin/recentf")
 
         ${oldCfg}
       '';

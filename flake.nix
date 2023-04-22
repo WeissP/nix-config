@@ -112,6 +112,7 @@
           specialArgs = {
             inherit inputs outputs secrets myLib;
             myEnv = linuxEnv;
+            configSession = "desktop";
           };
           modules = [
             ./nixos/desktop/configuration.nix

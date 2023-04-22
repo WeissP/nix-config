@@ -66,6 +66,7 @@
 
    ("e b" .  org-babel-tangle)
    ("e c" .  org-capture)
+   ("e -" .  weiss-add-dashs)
 
    ("f" . execute-extended-command)
    ("g" . kill-line)

@@ -1,3 +1,30 @@
+(defun weiss-add-dashs ()
+  "DOCSTRING"  
+  (interactive)
+  ;; in case of narrowing buffer
+  (save-excursion
+    (save-restriction
+      (widen)
+      (let (beg end line-nums)
+        (if (weiss-region-p)
+            (progn
+              (setq beg (region-beginning))
+              (setq end (region-end))
+              )
+          (setq beg (line-beginning-position))
+          (setq end (line-end-position))
+          )
+        (setq line-nums (number-sequence (line-number-at-pos beg) (line-number-at-pos end)))
+        (dolist (n line-nums) 
+          (goto-line n)
+          (goto-char (line-beginning-position))
+          (xah-fly-delete-spaces) 
+          (insert "- ")
+          )
+        )
+      ))
+  )
+
 (defun weiss-add-colon ()
   "DOCSTRING"
   (interactive)

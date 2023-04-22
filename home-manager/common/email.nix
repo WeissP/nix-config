@@ -2,8 +2,7 @@
 with myEnv;
 let
   tags_path = "${config.xdg.configHome}/notmuch_tags";
-  with_pass = name: extract:
-    "${homeDir}/.nix-profile/bin/pass ${name} 2>&1 | ${extract}";
+  with_pass = name: extract: "${userBin "pass"} ${name} 2>&1 | ${extract}";
 in {
   programs = {
     mbsync.enable = true;
@@ -13,6 +12,7 @@ in {
       hooks = { postNew = "notmuch tag --batch --input=${tags_path}/tags"; };
     };
   };
+  home.packages = with pkgs; [ pass ];
   home.file."${tags_path}" = {
     source = ./config_files/notmuch_tags;
     recursive = true;

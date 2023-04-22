@@ -1,54 +1,6 @@
 ;;; Require
 (require 'snails-core)
 
-(setq recentf-executable
-      (or (executable-find "recentf") "~/rust/recentf/recentf"))
-
-(defun weiss-insert-file-to-recentf ()
-  "DOCSTRING"
-  (interactive)
-  (ignore-errors
-    (when-let ((name (buffer-file-name)))
-      (call-process
-       recentf-executable
-       nil
-       0
-       t
-       "add"
-       name
-       )
-      ))  
-  (ignore-errors
-    (when-let ((name (buffer-file-name)))
-      (call-process
-       "/home/weiss/nix/shared/recentf/recentf_bin"
-       nil
-       0
-       t
-       "add"
-       name
-       )
-      ))
-  )
-
-(defun weiss-delete-file-advice (l arg &optional trash)
-  "DOCSTRING"
-  (interactive)
-  (dolist (f l) 
-    (ignore-errors
-      (call-process
-       "/home/weiss/nix/shared/recentf/recentf_bin"
-       nil
-       0
-       t
-       "remove"
-       (car f)
-       )))
-  )
-
-(advice-add 'dired-internal-do-deletions :after #'weiss-delete-file-advice)
-(add-hook 'find-file-hook 'weiss-insert-file-to-recentf)
-
 (defun snails-backend-recentf-root ()
   "Find projectile root."
   (if (file-remote-p (snails-start-buffer-dir))
@@ -67,9 +19,7 @@
                   (input)
                   (when (> (length input) 1)
                     (append
-                     '("~/rust/recentf/recentf"
-                       "prefixed-search"
-                       )
+                     `(,recentf-executable "search")
                      (split-string input  " ")
                      )
                     ))

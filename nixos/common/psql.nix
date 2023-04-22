@@ -1,4 +1,4 @@
-{ pkgs, lib, myEnv, config, inputs, outputs, ... }:
+{ pkgs, lib, myEnv, config, inputs, secrets, outputs, ... }:
 with lib;
 with myEnv;
 let cfg = config.services.myPostgresql;
@@ -17,6 +17,11 @@ in {
         type = str;
         default = "/var/lib/postgresql";
       };
+    databases = with types;
+      mkOption {
+        type = listOf str;
+        default = [ ];
+      };
   };
 
   config = mkIf cfg.enable (mkMerge [
@@ -25,30 +30,30 @@ in {
         {
           postgresql = mkMerge [
             {
-              dataDir = cfg.dataDir;
               enable = true;
               package = cfg.package;
               enableTCPIP = true;
               authentication = pkgs.lib.mkOverride 10 ''
                 local all all              trust
-                host  all all 127.0.0.1/32 md5
+                host  all all 127.0.0.1/32 trust
                 host  all all ::1/128      md5
               '';
             }
             (ifDarwin {
+              dataDir = cfg.dataDir;
               initdbArgs = [ "--locale=de_DE.UTF-8" "-D ${cfg.dataDir}" ];
             })
             (ifLinux {
               initialScript = pkgs.writeText "backend-initScript" ''
-                CREATE ROLE ${username} WITH LOGIN PASSWORD '${secrets.password}' CREATEDB;
+                CREATE ROLE ${username} WITH LOGIN PASSWORD '${secrets.sql.localPassword}' CREATEDB;
                 CREATE DATABASE ${username};
                 GRANT ALL PRIVILEGES ON DATABASE ${username} TO ${username};
-                ALTER ROLE "${username}" WITH LOGIN;
+                ALTER ROLE ${username} WITH LOGIN';
               '';
             })
           ];
         }
-        (ifLinux { postgresqlBackup.enable = true; })
+        (ifLinux { postgresqlBackup.enable = false; })
       ];
     }
     (ifDarwin {

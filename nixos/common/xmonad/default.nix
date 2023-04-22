@@ -4,17 +4,20 @@ let
   myXmonad = import ./myXmonad { pkgs = pkgs; };
   xmobarDir = "${myEnv.homeDir}" + "/.config/xmobar";
 in {
-  environment.systemPackages = with pkgs; [
-    xorg.xdpyinfo
-    xorg.xrandr
-    arandr
-    # autorandr
-    # xterm
-    xmobar
-    dmenu
-    picom
-    rofi
-  ];
+  environment = {
+    variables = { SCRIPTS_DIR = myEnv.scriptsDir; };
+    systemPackages = with pkgs; [
+      xorg.xdpyinfo
+      xorg.xrandr
+      arandr
+      # autorandr
+      # xterm
+      xmobar
+      dmenu
+      picom
+      rofi
+    ];
+  };
 
   services = {
     dbus.enable = true;
@@ -27,7 +30,6 @@ in {
         enableContribAndExtras = false;
         haskellPackages =
           pkgs.haskellPackages.extend (self: super: { xmonad = myXmonad; });
-        # extraPackages = (haskellPackages: [ haskellPackages.taffybar ]);
         config = ''
           module Main where
 
@@ -42,13 +44,16 @@ in {
           main = MyXMonad.runXmonad "${xmobarDir}"
         '';
       };
-      displayManager.sddm.enable = lib.mkForce false;
+      displayManager.sddm.enable = true;
       desktopManager.plasma5.enable = lib.mkForce false;
       displayManager = {
         defaultSession = "none+xmonad";
-        lightdm.enable = true;
         sessionCommands = ''
-          wezterm&
+          # emacs &
+          chromium &
+          xbindkeys &
+          sh $HOME/.screenlayout/horizontal.sh &
+          sh ${myEnv.scriptsDir}/mouse_scroll.sh &
         '';
       };
     };

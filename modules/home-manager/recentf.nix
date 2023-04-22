@@ -1,11 +1,10 @@
-{ pkgs, lib, config, ... }:
+{ pkgs, myEnv, lib, config, ... }:
 with lib;
 let
   cfg = config.programs.recentf;
   filename = "recentf.toml";
   path = "${config.xdg.configHome}/recentf/${filename}";
   toToml = (pkgs.formats.toml { }).generate filename;
-  f = pkgs.runCommand "f" { };
 in {
   options.programs.recentf = {
     enable = mkEnableOption "recentf";
@@ -53,7 +52,7 @@ in {
       };
     };
     home.packages = [ pkgs.recentf ];
+    systemd.user.services."ensure-recentf-db" = myEnv.ensurePsqlDb "recentf";
   };
-
 }
 

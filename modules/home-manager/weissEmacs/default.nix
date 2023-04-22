@@ -1,4 +1,4 @@
-{ pkgs, lib, myEnv, config, ... }:
+{ pkgs, lib, myLib, myEnv, config, ... }:
 with lib;
 with myEnv;
 let cfg = config.programs.weissEmacs;
@@ -273,43 +273,46 @@ in {
           ++ (optionalList cfg.telegaIntegration.enable [ "telega" ]));
     };
 
-    home.file = mkMerge [
-      {
-        "${userEmacsDirectory}/early-init.el".text = cfg.earlyInit;
-        "${userEmacsDirectory}/init.el".text = cfg.extraConfig basicCfg;
-      }
-      (lib.optionalAttrs cfg.localPkg.enable {
-        "${userEmacsDirectory}/local-packages" = {
-          source = cfg.localPkg.dir;
-          recursive = true;
-        };
-      })
-      (optionalAttrs (arch == "darwin" && cfg.rimeIntegration.enable) {
-        "${userEmacsDirectory}/local-packages/emacs-rime" = {
-          source = pkgs.fetchFromGitHub {
-            owner = "DogLooksGood";
-            repo = "emacs-rime";
-            rev = version;
-            hash = "sha256-Z4hGsXwWDXZie/8IALhyoH/eOVfzhbL69OiJlLHmEXw=";
+    home = {
+      file = mkMerge [
+        {
+          "${userEmacsDirectory}/early-init.el".text = cfg.earlyInit;
+          "${userEmacsDirectory}/init.el".text = cfg.extraConfig basicCfg;
+        }
+        (lib.optionalAttrs cfg.localPkg.enable {
+          "${userEmacsDirectory}/local-packages" = {
+            source = cfg.localPkg.dir;
+            recursive = true;
           };
-          recursive = true;
-        };
-        "${userEmacsDirectory}/librime" = {
-          source = pkgs.fetchzip {
-            url =
-              "https://github.com/rime/librime/releases/download/1.8.4/rime-a94739f-macOS.tar.bz2";
-            sha256 = "sha256-rxkbiTIC8+i8Zr66lfj6JDFOf4ju8lo3dPP1UDIPC1c=";
-            stripRoot = false;
+        })
+        (optionalAttrs (arch == "darwin" && cfg.rimeIntegration.enable) {
+          "${userEmacsDirectory}/local-packages/emacs-rime" = {
+            source = pkgs.fetchFromGitHub {
+              owner = "DogLooksGood";
+              repo = "emacs-rime";
+              rev = version;
+              hash = "sha256-Z4hGsXwWDXZie/8IALhyoH/eOVfzhbL69OiJlLHmEXw=";
+            };
+            recursive = true;
           };
-          recursive = true;
-        };
-      })
-    ];
-    home.packages = [ ]
-      ++ (optionalList (cfg.rimeIntegration.enable && arch == "linux")
-        [ cfg.rimeIntegration.package ])
-      ++ (optionalList cfg.telegaIntegration.enable
-        [ cfg.telegaIntegration.package ]);
+          "${userEmacsDirectory}/librime" = {
+            source = pkgs.fetchzip {
+              url =
+                "https://github.com/rime/librime/releases/download/1.8.4/rime-a94739f-macOS.tar.bz2";
+              sha256 = "sha256-rxkbiTIC8+i8Zr66lfj6JDFOf4ju8lo3dPP1UDIPC1c=";
+              stripRoot = false;
+            };
+            recursive = true;
+          };
+        })
+      ];
+      packages = [ ]
+        ++ (optionalList (cfg.rimeIntegration.enable && arch == "linux")
+          [ cfg.rimeIntegration.package ])
+        ++ (optionalList cfg.telegaIntegration.enable
+          [ cfg.telegaIntegration.package ]);
+      sessionVariables.EDITOR = "emacsclient --create-frame";
+    };
   };
 }
 

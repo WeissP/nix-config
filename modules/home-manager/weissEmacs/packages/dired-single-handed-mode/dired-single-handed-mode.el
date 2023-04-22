@@ -13,7 +13,7 @@
   (interactive)
   (start-process-shell-command
    "mplayer" nil
-   (format "mplayer -ao pulse -softvol -softvol-max 2000 -title  \"%s\" -fs \"%s\" %s"
+   (format "mpv -title  \"%s\" -fs \"%s\" %s"
            (thread-last file
                         (file-name-nondirectory)
                         (file-name-sans-extension)

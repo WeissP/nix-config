@@ -1,7 +1,9 @@
-{ pkgs, ... }:
+{ pkgs, myEnv, configSession, ... }:
+with myEnv;
 let
   shellAliases = {
-    nix_rebuild = "sudo nixos-rebuild switch --flake .#weiss";
+    switch =
+      "sudo nixos-rebuild switch --flake ${homeDir}/nix-config#${configSession}";
     py = "python";
     ec = ''emacsclient --create-frame --alternate-editor=""'';
     ed = "emacs --dump-file='/home/weiss/.emacs.d/emacs.pdmp' &";
@@ -21,7 +23,7 @@ let
     edit = "emacsclient -c";
     redshiftDual =
       "redshift -m randr:crtc=0 -l 51.5:10.5 -t 6500:3300 -b 1:0.9 & redshift -m randr:crtc=1 -l 51.5:10.5 -t 6500:3300  -b 1:1 &";
-    mnt = "bb /home/weiss/clojure/scripts/mount.clj";
+    mnt = "bb /home/weiss/scripts/mount.clj";
     mp = "mplayer ";
     pre_beg = "dunstctl set-paused true && xscreensaver-command -exit &";
     pre_end = "dunstctl set-paused false && xscreensaver -no-splash &";
