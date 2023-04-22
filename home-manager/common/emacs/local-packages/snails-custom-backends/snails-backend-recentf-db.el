@@ -18,10 +18,7 @@
  :build-command (lambda
                   (input)
                   (when (> (length input) 1)
-                    (append
-                     `(,recentf-executable "search")
-                     (split-string input  " ")
-                     )
+                    (list recentf-executable "search" input)
                     ))
 
  :candidate-filter (lambda
