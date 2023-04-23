@@ -4,7 +4,7 @@
  'weiss-light
  '(default
     ((t
-      (:family "JetBrains Mono" :foundry "JB" :width normal :height 120 :weight normal :slant normal :underline nil :overline nil :extend nil :strike-through nil :box nil :inverse-video nil :foreground "#383a42" :background "#fafafa" :stipple nil :inherit nil))))
+      (:family "cascadia code" :width normal :height 120 :weight normal :slant normal :underline nil :overline nil :extend nil :strike-through nil :box nil :inverse-video nil :foreground "#383a42" :background "#fafafa" :stipple nil :inherit nil))))
  '(bold
    ((t
      (:weight demibold :slant normal :underline nil :foreground "#f5355e" :background nil))))
@@ -17,7 +17,7 @@
  '(cursor ((t (:background "#4078f2"))))
  '(fixed-pitch
    ((t
-     (:family "JetBrains Mono" :foundry "JB" :width normal :height 120 :weight normal :slant normal))))
+     (:family "cascadia code" :width normal :height 120 :weight normal :slant normal))))
  '(variable-pitch
    ((t
      (:family "Lato" :foundry "tyPL" :width normal :height 1.2 :weight normal :slant normal))))
@@ -40,7 +40,7 @@
  '(hl-paren-face ((t (:weight bold))))
 
  '(font-lock-builtin-face
-   ((t (:slant italic :foreground "#a0522d"))))
+   ((t (:slant italic :foreground "#a0522d" :inherit (default)))))
  '(font-lock-comment-delimiter-face
    ((default (:inherit (font-lock-comment-face)))))
  '(font-lock-comment-face
@@ -54,7 +54,7 @@
    ((t (:inherit (font-lock-constant-face)))))
  '(font-lock-function-name-face ((t (:foreground "#a626a4"))))
  '(font-lock-keyword-face
-   ((t (:weight extrabold :slant italic :foreground "#5b5e6b"))))
+   ((t (:weight bold))))
  '(font-lock-negation-char-face
    ((t (:foreground "#4078f2" :inherit (bold)))))
  '(font-lock-preprocessor-face
@@ -142,7 +142,7 @@
  '(query-replace
    ((t (:inherit (isearch)))))
 
-'(highlight-defined-builtin-function-name-face
+ '(highlight-defined-builtin-function-name-face
    ((t (:foreground "#b751b6" :weight bold))))
 
  '(company-preview ((t (:foreground "#9ca0a4"))))
@@ -240,15 +240,15 @@
  '(org-indent
    ((t (:inherit (org-hide fixed-pitch)))))
  '(org-verbatim
-   ((t (:height 0.9 :family "JetBrains Mono" :underline nil :background "#e2e8ea"))))
+   ((t (:height 0.9 :family "cascadia code" :underline nil :background "#e2e8ea"))))
  '(org-link ((t (:height 1.0 :inherit nil :underline t :foreground "#4da8d0"))))
  '(org-block-begin-line
    ((t
      (:weight normal :slant normal :extend t :underline nil :foreground "#999999" :background "#FAFAFA"))))
- '(org-checkbox ((t (:font "JetBrains Mono" :extend nil))))
- '(org-table ((t (:font "JetBrains Mono" :extend nil))))
+ '(org-checkbox ((t (:font "cascadia code" :extend nil))))
+ '(org-table ((t (:font "cascadia code" :extend nil))))
  '(org-block
-   ((t (:font "JetBrains Mono" :extend nil :background "#FAFAFA"))))
+   ((t (:font "cascadia code" :extend nil :background "#FAFAFA"))))
  '(org-drawer
    ((t
      (:foreground "#999999" :slant normal :weight light :background nil))))

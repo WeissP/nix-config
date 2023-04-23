@@ -1,4 +1,4 @@
-{ pkgs, lib, myLib, myEnv, config, ... }:
+{ pkgs, lib, myLib, secrets, myEnv, config, ... }:
 with lib;
 with myEnv;
 let cfg = config.programs.weissEmacs;
@@ -311,7 +311,10 @@ in {
           [ cfg.rimeIntegration.package ])
         ++ (optionalList cfg.telegaIntegration.enable
           [ cfg.telegaIntegration.package ]);
-      sessionVariables.EDITOR = "emacsclient --create-frame";
+      sessionVariables = {
+        EDITOR = "emacsclient --create-frame";
+        "OPENAI_API_KEY" = secrets.openai.apiKey;
+      };
     };
   };
 }

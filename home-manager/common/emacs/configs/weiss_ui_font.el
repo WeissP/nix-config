@@ -4,14 +4,8 @@
 
 (when (display-graphic-p)
   ;; Set default font
-  (cl-loop for font in '("JetBrainsMono" "JetBrains Mono" "Fira Code" "DejaVu Sans Mono" "M+1m" "SF Mono" "iosevka" "Hack" "Source Code Pro" 
-                         "Menlo" "Monaco" "Consolas")
-           when (font-installed-p font)
-           return (set-face-attribute 'default nil
-                                      :font font
-                                      :height 120))
-
   (set-fontset-font t 'mathematical "Noto Sans Math" nil nil)
+  (set-fontset-font t 'symbol "Noto Sans Math" nil nil)
   (set-fontset-font t 'symbol "Noto Color Emoji" nil 'prepend)
 
   ;; Specify font for Chinese characters
@@ -19,8 +13,7 @@
            when (font-installed-p font)
            return (set-fontset-font t '(#x4e00 . #x9fff) font))
   )
-
-
+;; (font-installed-p "cascadia code")
 
 
 (provide 'weiss_ui_font)

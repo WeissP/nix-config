@@ -21,7 +21,7 @@ with lib; rec {
         if arch == "linux" then
           "/run/current-system/sw/bin/${binary}"
         else
-          "/etc/profiles/per-user/${username}/bin/${binary}";
+          binary;
       userBin = binary: "/etc/profiles/per-user/${username}/bin/${binary}";
       ensurePsqlDb = dbName:
         (ifLinux (service.startup {

@@ -10,8 +10,6 @@ in {
       xorg.xdpyinfo
       xorg.xrandr
       arandr
-      # autorandr
-      # xterm
       xmobar
       dmenu
       picom

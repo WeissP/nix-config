@@ -1,6 +1,6 @@
 (defvar recentf-executable (executable-find "recentf"))
 
-(defun weiss-insert-file-to-recentf ()
+(defun weiss-insert-file-to-recentf (&rest args)
   "DOCSTRING"
   (interactive)
   (ignore-errors
@@ -14,7 +14,6 @@
        name
        )
       ))  
-
   )
 
 (defun weiss-delete-file-advice (l arg &optional trash)
@@ -33,8 +32,7 @@
   )
 
 (advice-add 'dired-internal-do-deletions :after #'weiss-delete-file-advice)
-(add-hook 'find-file-hook 'weiss-insert-file-to-recentf)
-
+(advice-add 'find-file-noselect :after #'weiss-insert-file-to-recentf)
 
 ;; parent: 
 (provide 'weiss_recentf-db_settings)

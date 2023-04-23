@@ -33,6 +33,7 @@ in {
             target = mkOption { type = str; };
             tagsFile = mkOption { type = str; };
             provider = mkOption { type = attrsOf anything; };
+            freq = mkOption { type = str; };
           };
         };
     };
@@ -46,8 +47,19 @@ in {
               type = enum [ "critical" "normal" "debug" "off" ];
               default = "normal";
             };
-            reactLocation = mkOption { type = str; };
-            limits = mkOption { type = attrsOf str; };
+            reactLocation = mkOption {
+              type = str;
+              default = pkgs.fetchFromGitHub {
+                owner = "WeissP";
+                repo = "webman";
+                rev = "fe4660c9256729b64b4fe37d5fb39312cf018586";
+                sha256 = "sha256-J5CbEY0oRqf2CcMghA/+SG1JTcqTQvD+wxy+W4uSFzo=";
+              } + "/webman-cljs/resources/public/";
+            };
+            limits = mkOption {
+              type = attrsOf str;
+              default = { msgpack = "20 MiB"; };
+            };
             dbUrl = mkOption { type = str; };
             secretKey = mkOption { type = str; };
             sync = mkOption {
@@ -86,6 +98,27 @@ in {
           secret_key = cfg.server.secretKey;
           sync = cfg.server.sync;
         };
+      };
+    };
+    systemd.user = {
+      services.webman-cli-provider = {
+        Unit.Description =
+          "provide local browser history to nodes via webman-cli";
+        Service = {
+          ExecStart =
+            "${pkgs.webman.webman-cli.outPath}/bin/webman-cli provide";
+        };
+      };
+      timers.webman-cli-provider = {
+        Unit.Description =
+          "provide local browser history to nodes via webman-cli";
+
+        Timer = {
+          OnBootSec = "5s";
+          OnUnitActiveSec = cfg.cli.freq;
+          Unit = "webman-cli-provider.service";
+        };
+        Install = { WantedBy = [ "timers.target" ]; };
       };
     };
     home.packages = [ ]

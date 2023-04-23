@@ -7,6 +7,7 @@
     ./mpv.nix
     ./trayer.nix
     ./fusuma.nix
+    ./flameshot.nix
   ];
 
   config = with myEnv;
@@ -15,7 +16,6 @@
         home = let configDir = config.xdg.configHome;
         in lib.mkMerge [
           {
-            packages = with pkgs; [ flameshot lux ];
             file = {
               "${homeDir}/scripts" = {
                 source = ./config_files/scripts;
@@ -75,7 +75,7 @@
       }
       (ifLinux {
         systemd.user.services = with myLib.service; {
-          flameshot = startup { cmds = "${pkgs.flameshot}/bin/flameshot"; };
+          # cider = startup { cmds = "${pkgs.cider}/bin/cider"; };
           init_dir = startup {
             cmds = ''
               pushd ~/
@@ -83,8 +83,8 @@
               popd
             '';
           };
-          mouse_scroll =
-            startup { cmds = "${homeDir}/scripts/mouse_scroll.sh"; };
+          # mouse_scroll =
+          #   startup { cmds = "${homeDir}/scripts/mouse_scroll.sh"; };
         };
 
         i18n.inputMethod = {

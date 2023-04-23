@@ -72,6 +72,7 @@
         fonts = mkMerge [
           {
             fonts = with pkgs; [
+              route159
               noto-fonts
               noto-fonts-cjk
               noto-fonts-emoji
@@ -86,6 +87,7 @@
               source-han-serif
               lato
               jetbrains-mono
+              cascadia-code
               sarasa-gothic
               emacs-all-the-icons-fonts
             ];

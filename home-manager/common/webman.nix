@@ -23,15 +23,7 @@
           tagsFile = "${homeDir}/.config/webman/tags.yaml";
         };
         server = {
-          enable = true;
           logLevel = "normal";
-          reactLocation = pkgs.fetchFromGitHub {
-            owner = "WeissP";
-            repo = "webman";
-            rev = "fe4660c9256729b64b4fe37d5fb39312cf018586";
-            sha256 = "sha256-J5CbEY0oRqf2CcMghA/+SG1JTcqTQvD+wxy+W4uSFzo=";
-          } + "/webman-cljs/resources/public/";
-          limits.msgpack = "20 MiB";
           secretKey = secrets.webman.secretKey;
         };
       }
@@ -48,8 +40,9 @@
           target = "MacBook";
         };
         server = {
+          enable = true;
           dbUrl =
-            "postgres://${username}:${secrets.password}@localhost:5432/webman";
+            "postgres://${username}:${secrets.sql.password}@localhost:5432/webman";
           sync = [{
             name = "Vultr";
             interval = "5 hours";
@@ -64,11 +57,13 @@
         };
         nodeName = "Desktop";
         cli = {
-          provider.browsers.safari.browser = "Chromium";
+          provider.browsers.daily.browser = "Chromium";
           logLevel = "info";
           target = "RaspberryPi";
+          freq = "1min";
         };
         server = {
+          enable = false;
           dbUrl = "postgres://postgres:postgres@localhost:7776/webman";
           sync = [{
             name = "RaspberryPi";

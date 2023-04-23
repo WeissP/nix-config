@@ -1,9 +1,18 @@
-{ pkgs, config, myEnv, secrets, ... }:
+{ pkgs, config, lib, myEnv, secrets, ... }:
 with myEnv;
 let
   tags_path = "${config.xdg.configHome}/notmuch_tags";
-  with_pass = name: extract: "${userBin "pass"} ${name} 2>&1 | ${extract}";
+  withPass = name: extract: "${userBin "pass"} ${name} 2>&1 | ${extract}";
+  withGrep = prefix:
+    "${systemBin "grep"} '^${prefix}' | ${systemBin "cut"} -c${
+      toString (lib.stringLength prefix + 1)
+    }-";
+  first = "${systemBin "head"} -n 1";
 in {
+  services.mbsync = {
+    enable = true;
+    frequency = "*:0/3"; # every 3 minutes
+  };
   programs = {
     mbsync.enable = true;
     msmtp.enable = true;
@@ -34,7 +43,7 @@ in {
       address = secrets.email.rptu;
       imap.host = "mail.uni-kl.de";
       primary = true;
-      passwordCommand = with_pass "tuk" "head -n 1";
+      passwordCommand = withPass "tuk" first;
       smtp = {
         host = "smtp.uni-kl.de";
         port = 465;
@@ -46,7 +55,7 @@ in {
       address = secrets.email.webde;
       imap.host = "imap.web.de";
       primary = false;
-      passwordCommand = with_pass "webde" "head -n 1";
+      passwordCommand = withPass "webde" first;
       smtp = {
         host = "smtp.web.de";
         port = 587;
@@ -59,7 +68,7 @@ in {
       address = secrets.email.rptu_cs;
       imap.host = "mail.uni-kl.de";
       primary = false;
-      passwordCommand = with_pass "cs-tuk" "head -n 1";
+      passwordCommand = withPass "cs-tuk" first;
       smtp = {
         host = "smtp.uni-kl.de";
         port = 587;
@@ -72,14 +81,14 @@ in {
       address = secrets.email."163";
       imap.host = "imap.163.com";
       primary = false;
-      passwordCommand = with_pass "163" "grep '^shou-quan-ma:' | cut -c15-";
+      passwordCommand = withPass "163" (withGrep "shou-quan-ma: ");
     };
 
     gmail = genAcc {
       address = secrets.email.gmail;
       imap.host = "imap.gmail.com";
       primary = false;
-      passwordCommand = with_pass "google" "grep '^mail_imap: ' | cut -c12-";
+      passwordCommand = withPass "google" (withGrep "mail_imap: ");
     };
   };
 }

@@ -10,6 +10,7 @@ with myEnv; {
       autorun = true;
       libinput.enable = true;
       layout = "de";
+      xkbVariant = "nodeadkeys";
       autoRepeatDelay = 230;
       autoRepeatInterval = 30;
       # Enable automatic login for the user.
@@ -35,7 +36,11 @@ with myEnv; {
   };
 
   environment = {
-    systemPackages = with pkgs; [ pavucontrol xdotool ];
+    systemPackages = with pkgs; [
+      pavucontrol
+      xdotool
+      (python311.withPackages (ps: with ps; [ openai epc sexpdata six ]))
+    ];
     sessionVariables = {
       LEDGER_FILE = "\${HOME}/finance/2021.journal";
       POSTGIS_DIESEL_DATABASE_URL = "postgres://weiss@localhost/digivine";
