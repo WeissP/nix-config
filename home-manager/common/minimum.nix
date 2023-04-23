@@ -19,7 +19,7 @@ with myEnv; {
   # https://nixos.wiki/wiki/FAQ/When_do_I_update_stateVersion
   home = {
     keyboard.layout = "de";
-    stateVersion = "22.11";
+    stateVersion = "23.05";
     username = username;
     homeDirectory = homeDir;
     packages = with pkgs; [ yt-dlp lux ];

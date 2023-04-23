@@ -26,11 +26,23 @@
           }
           (ifLinux {
             packages = with pkgs; [
+              # fontpreview
               xbindkeys
               xautomation
               cider
               calibre
               dolphin
+              libnotify
+              (texlive.combine {
+                inherit (texlive)
+                  scheme-small collection-langkorean algorithms cm-super pgf
+                  dvipng;
+                pkgFilter = pkg:
+                  pkg.tlType == "run" || pkg.tlType == "bin" || pkg.pname
+                  == "cm-super";
+                # elem tlType [ "run" "bin" "doc" "source" ]
+                # there are also other attributes: version, name
+              })
             ];
             file = {
               ".xbindkeysrc".text = ''

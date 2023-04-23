@@ -4,7 +4,7 @@
  'weiss-light
  '(default
     ((t
-      (:family "cascadia code" :width normal :height 120 :weight normal :slant normal :underline nil :overline nil :extend nil :strike-through nil :box nil :inverse-video nil :foreground "#383a42" :background "#fafafa" :stipple nil :inherit nil))))
+      (:foundry "SAJA" :family "Cascadia Code PL" :width normal :height 120 :weight normal :slant normal :underline nil :overline nil :extend nil :strike-through nil :box nil :inverse-video nil :foreground "#383a42" :background "#fafafa" :stipple nil :inherit nil))))
  '(bold
    ((t
      (:weight demibold :slant normal :underline nil :foreground "#f5355e" :background nil))))
@@ -17,7 +17,7 @@
  '(cursor ((t (:background "#4078f2"))))
  '(fixed-pitch
    ((t
-     (:family "cascadia code" :width normal :height 120 :weight normal :slant normal))))
+     (:inherit (default) :width normal :height 120 :weight normal :slant normal))))
  '(variable-pitch
    ((t
      (:family "Lato" :foundry "tyPL" :width normal :height 1.2 :weight normal :slant normal))))
@@ -54,7 +54,7 @@
    ((t (:inherit (font-lock-constant-face)))))
  '(font-lock-function-name-face ((t (:foreground "#a626a4"))))
  '(font-lock-keyword-face
-   ((t (:weight bold))))
+   ((t (:weight bold :slant italic))))
  '(font-lock-negation-char-face
    ((t (:foreground "#4078f2" :inherit (bold)))))
  '(font-lock-preprocessor-face
@@ -240,15 +240,15 @@
  '(org-indent
    ((t (:inherit (org-hide fixed-pitch)))))
  '(org-verbatim
-   ((t (:height 0.9 :family "cascadia code" :underline nil :background "#e2e8ea"))))
+   ((t (:inherit (default) :height 0.9 :underline nil :background "#e2e8ea"))))
  '(org-link ((t (:height 1.0 :inherit nil :underline t :foreground "#4da8d0"))))
  '(org-block-begin-line
    ((t
      (:weight normal :slant normal :extend t :underline nil :foreground "#999999" :background "#FAFAFA"))))
- '(org-checkbox ((t (:font "cascadia code" :extend nil))))
- '(org-table ((t (:font "cascadia code" :extend nil))))
+ '(org-checkbox ((t (:inherit (default) :extend nil))))
+ '(org-table ((t (:inherit (default) :extend nil))))
  '(org-block
-   ((t (:font "cascadia code" :extend nil :background "#FAFAFA"))))
+   ((t (:inherit (default) :extend nil :background "#FAFAFA"))))
  '(org-drawer
    ((t
      (:foreground "#999999" :slant normal :weight light :background nil))))

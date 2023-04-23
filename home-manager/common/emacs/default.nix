@@ -71,6 +71,7 @@ in {
         weiss-tsc-mode = [ "weiss-tsc-mode" ];
       };
       eagerLoad = [
+        # "mind-wave"
         "cl-lib"
         "mode-local"
         "snails"
@@ -88,9 +89,9 @@ in {
         "ligature"
         "gcmh"
         "tab-line"
-        "apheleia"
       ];
       skipInstall = [
+        "mind-wave"
         "server"
         "wks"
         "global"

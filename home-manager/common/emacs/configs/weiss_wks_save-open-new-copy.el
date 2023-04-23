@@ -294,12 +294,12 @@ Version 2015-10-14"
     (setq buffer-offer-save t)
     $buf))
 
-(defun weiss-mplayer-video (file &optional subtitle-path)
+(defun weiss-play-video (file &optional subtitle-path)
   "DOCSTRING"
   (interactive)
   (start-process-shell-command
-   "mplayer" nil
-   (format "mplayer -ao pulse -softvol -softvol-max 2000 -title  \"%s\" -fs \"%s\" %s"
+   "mpv" nil
+   (format "mpv -title  \"%s\" -fs \"%s\" %s"
            (thread-last file
                         (file-name-nondirectory)
                         (file-name-sans-extension)
@@ -347,8 +347,8 @@ Version 2015-10-14"
        ((string-equal system-type "gnu/linux")
         (mapc
          (lambda ($fpath)
-           (if (member (file-name-extension $fpath) '("mp4" "mkv"))
-               (weiss-mplayer-video $fpath)
+           (if (member (downcase (file-name-extension $fpath)) '("mp4" "mkv" "webm"))
+               (weiss-play-video $fpath)
              (let ((process-connection-type nil))
                (start-process "" nil "xdg-open" $fpath))))
          $file-list))))))
