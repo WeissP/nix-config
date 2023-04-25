@@ -6,8 +6,6 @@ in {
 
   home.file."${userEmacsDirectory}/weiss-light-theme.el".source =
     ./weiss-light-theme.el;
-  home.file."${userEmacsDirectory}/mind-wave/chatgpt_api_key.txt".text =
-    secrets.openai.apiKey;
   home.packages = with pkgs; [ clj-kondo nodePackages.jsonlint nixfmt ];
   programs.weissEmacs = lib.mkMerge [
     # (ifDarwin { package = pkgs.emacsMacport; })
@@ -23,7 +21,7 @@ in {
         enable = true;
         package = pkgs.weissNur.emacs-rime;
       };
-      # mindwaveIntegration.enable = true;
+      mindwaveIntegration.enable = true;
       telegaIntegration = {
         enable = true;
         package = pkgs.weissNur.telega-server;
@@ -95,7 +93,7 @@ in {
         "tab-line"
       ];
       idleLoad = {
-        enable = true;
+        enable = false;
         idleSeconds = 2;
         packages = [ "org" "pdf-view" ];
       };
@@ -231,7 +229,7 @@ in {
         email = [ "email" "notmuch" ];
         tramp = [ "tramp" "sudo-edit" ];
         translate = [ "fanyi" ];
-        apps = [ "pass" "nov" ];
+        apps = [ "pass" "nov" "telega" ];
         inputs = [ "agda-input" "rime" ];
       in lib.lists.flatten [
         "server"

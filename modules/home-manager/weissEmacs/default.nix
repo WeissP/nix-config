@@ -22,13 +22,13 @@ in {
         };
       };
     };
-    # mindwaveIntegration = mkOption {
-    #   description = "TODO Whether to enable rime integration";
-    #   default = { enable = false; };
-    #   type = types.submodule {
-    #     options = { enable = mkEnableOption "mindwave integration"; };
-    #   };
-    # };
+    mindwaveIntegration = mkOption {
+      description = "TODO Whether to enable rime integration";
+      default = { enable = false; };
+      type = types.submodule {
+        options = { enable = mkEnableOption "mindwave integration"; };
+      };
+    };
     telegaIntegration = mkOption {
       description = "TODO Whether to enable rime integration";
       default = { enable = false; };
@@ -173,15 +173,108 @@ in {
 
   };
   config = let
-    optionalString = cond: text: if cond then text else "";
     optionalList = cond: list: if cond then list else [ ];
 
     userEmacsDirectory = cfg.userEmacsDirectory;
-    filterPkg = builtins.filter (e: builtins.elem e cfg.emacsPkgs);
+    localPkgPath = "${userEmacsDirectory}/local-packages";
     join = list: lib.strings.concatLines (filter isString (flatten list));
     getConfigs = pkg:
       filter (cfg.isConfigP pkg)
       (builtins.attrNames (builtins.readDir cfg.emacsConfigPath));
+
+    handleRime = (if arch == "linux" then
+      let pkg = pkgs.weissNur.emacs-rime;
+      in {
+        emacsPackages = [ "rime" ];
+        externalPackages = [ pkg ];
+        cmds = ''
+          (setq rime--module-path "${pkg.outPath}/include/librime-emacs.so")
+        '';
+      }
+    else {
+      cmds = ''
+        (setq rime-emacs-module-header-root "${cfg.package.outPath}/include")
+        (setq rime-librime-root "${userEmacsDirectory}/librime/dist")
+        (setq rime-share-data-dir "${homeDir}/Library/Rime/")
+      '';
+      localPackages."emacs-rime" = pkgs.fetchFromGitHub {
+        owner = "DogLooksGood";
+        repo = "emacs-rime";
+        rev = version;
+        hash = "sha256-Z4hGsXwWDXZie/8IALhyoH/eOVfzhbL69OiJlLHmEXw=";
+      };
+      files."librime" = {
+        source = pkgs.fetchzip {
+          url =
+            "https://github.com/rime/librime/releases/download/1.8.4/rime-a94739f-macOS.tar.bz2";
+          sha256 = "sha256-rxkbiTIC8+i8Zr66lfj6JDFOf4ju8lo3dPP1UDIPC1c=";
+          stripRoot = false;
+        };
+        recursive = true;
+      };
+    });
+    handleTelega = let pkg = pkgs.weissNur.telega-server;
+    in {
+      cmds =
+        ''(setq telega-server-command "${pkg.outPath}/bin/telega-server")'';
+      externalPackages = [ pkg ];
+    };
+    handleMindWave = let apiPath = "${localPkgPath}/mind-wave/schluessel.txt";
+    in {
+      cmds = ''
+        (setq mind-wave-python-command "nix-shell")
+        (setq mind-wave-api-key-path "${apiPath}")
+      '';
+      files."${apiPath}".text = secrets.openai.apiKey;
+      localPackages."mind-wave" = pkgs.fetchFromGitHub {
+        owner = "manateelazycat";
+        repo = "mind-wave";
+        rev = "075e5b0c11c8a3f670d2c8ef8dc4e66c6084b958";
+        sha256 = "sha256-avwFsfrbOPWcT/ZLdRVhf8fK3/yUX1S36d4QPqq6meA=";
+        postFetch = ''
+          sed -i -e '1s:^#!/usr/bin/env python3:#! /usr/bin/env nix-shell:' -e '1a #! nix-shell -i python3 -p python3Packages.openai python3Packages.epc python3Packages.sexpdata python3Packages.six' "$out/mind_wave.py"
+        '';
+      };
+    };
+    handleLocalPackages = pkg: {
+      localPackages."${pkg}" = ./local-packages + "/${pkg}";
+    };
+
+    recipes = map (pkgName:
+      if pkgName == "rime" then
+        handleRime
+      else if pkgName == "telega" then
+        handleTelega
+      else if pkgName == "mind-wave" then
+        handleMindWave
+      else if (builtins.elem pkgName [
+        "snails"
+        "snails-custom-backends"
+        "snails-roam"
+        "chinese-yasdcv"
+        "org-edit-latex"
+      ]) then
+        handleLocalPackages pkgName
+      else {
+        emacsPackages =
+          optionalList (!builtins.elem pkgName cfg.skipInstall) [ pkgName ];
+      }) cfg.emacsPkgs;
+
+    localPkgs = lib.flatten (map (lib.attrsets.mapAttrsToList (k: v: {
+      name = k;
+      value = v;
+    })) (lib.attrsets.catAttrs "localPackages" recipes));
+    files = lib.flatten (map (lib.attrsets.mapAttrsToList (k: v: {
+      name = k;
+      value = v;
+    })) (lib.attrsets.catAttrs "files" recipes));
+    emacsPackages = flatten (lib.attrsets.catAttrs "emacsPackages" recipes);
+    externalPackages =
+      flatten (lib.attrsets.catAttrs "externalPackages" recipes);
+    recipeCmds = (lib.attrsets.catAttrs "cmds" recipes) ++ (map (localPkg: ''
+      (add-to-list 'load-path "${localPkgPath}/${localPkg}")
+    '') (lib.attrsets.catAttrs "name" localPkgs));
+    filterPkg = builtins.filter (e: builtins.elem e cfg.emacsPkgs);
 
     configsCmds = map (pkg: ''(load "${cfg.emacsConfigPath}/${pkg}" nil t)'')
       (flatten (map getConfigs cfg.emacsPkgs));
@@ -230,19 +323,19 @@ in {
             ${cfg.afterStartup}
           ))
     '';
-    telegaIntegrationCfg = ''
-      (setq telega-server-command "${cfg.telegaIntegration.package.outPath}/bin/telega-server") '';
-    rimeIntegrationCfg = (if arch == "linux" then ''
-      (setq rime--module-path "${cfg.rimeIntegration.package.outPath}/include/librime-emacs.so")
-    '' else ''
-      (setq rime-emacs-module-header-root "${cfg.package.outPath}/include")
-      (setq rime-librime-root "${cfg.userEmacsDirectory}/librime/dist")
-      (setq rime-share-data-dir "${homeDir}/Library/Rime/")
-    '');
-    mindwaveIntegrationCfg = ''
-      (setq mind-wave-python-command "nix-shell")
-      (setq mind-wave-python-file "${userEmacsDirectory}/local-packages/mind-wave/mind_wave.py")
-    '';
+    # telegaIntegrationCfg = ''
+    #   (setq telega-server-command "${cfg.telegaIntegration.package.outPath}/bin/telega-server") '';
+    # rimeIntegrationCfg = (if arch == "linux" then ''
+    #   (setq rime--module-path "${cfg.rimeIntegration.package.outPath}/include/librime-emacs.so")
+    # '' else ''
+    #   (setq rime-emacs-module-header-root "${cfg.package.outPath}/include")
+    #   (setq rime-librime-root "${cfg.userEmacsDirectory}/librime/dist")
+    #   (setq rime-share-data-dir "${homeDir}/Library/Rime/")
+    # '');
+    # mindwaveIntegrationCfg = ''
+    #   (setq mind-wave-python-command "nix-shell")
+    #   (add-to-list 'load-path "${cfg.userEmacsDirectory}/mind-wave/")
+    # '';
     chaseSymLinkCfg = ''
       (setq weiss/configs-dir "${cfg.chaseSymLink.absConfigDir}/")
       (defun replace-nix-link (args)
@@ -262,8 +355,9 @@ in {
       eagerLoadCmds
       (optionalList cfg.idleLoad.enable [ idleLoadCmds ])
       nixEnvCfg
-      (optionalList cfg.telegaIntegration.enable [ telegaIntegrationCfg ])
-      (optionalList cfg.rimeIntegration.enable [ rimeIntegrationCfg ])
+      recipeCmds
+      # (optionalList cfg.telegaIntegration.enable [ telegaIntegrationCfg ])
+      # (optionalList cfg.rimeIntegration.enable [ rimeIntegrationCfg ])
       # (optionalList cfg.mindwaveIntegration.enable [ mindwaveIntegrationCfg ])
       (optionalList cfg.chaseSymLink.enable [ chaseSymLinkCfg ])
       configsCmds
@@ -293,59 +387,26 @@ in {
           inherit (final) trivialBuild;
           inherit (pkgs) fetchFromGitHub;
         };
-        mind-wave =
-          pkgs.callPackage ./packages/mind-wave { inherit (final) melpaBuild; };
+        # mind-wave =           pkgs.callPackage ./packages/mind-wave { inherit (final) melpaBuild; };
       };
-      # rime and telega can only be installed via xxxIntegration option
       extraPackages = epkg:
         map (pkgName: lib.attrsets.getAttrFromPath [ pkgName ] epkg)
-        ((filter (pkg: !(elem pkg (cfg.skipInstall ++ [ "rime" "telega" ])))
-          cfg.emacsPkgs)
-          ++ (optionalList (cfg.rimeIntegration.enable && arch == "linux")
-            [ "rime" ]) # rime will be installed locally on MacOS
-          # ++ (optionalList cfg.telegaIntegration.enable [ "mind-wave" ])
-          ++ (optionalList cfg.telegaIntegration.enable [ "telega" ])
+        (emacsPackages
           ++ (optionalList cfg.idleLoad.enable [ "idle-require" ]));
     };
 
     home = {
-      file = mkMerge [
-        {
-          "${userEmacsDirectory}/early-init.el".text = cfg.earlyInit;
-          "${userEmacsDirectory}/init.el".text = cfg.extraConfig basicCfg;
-        }
-        (lib.optionalAttrs cfg.localPkg.enable {
-          "${userEmacsDirectory}/local-packages" = {
-            source = cfg.localPkg.dir;
-            recursive = true;
-          };
-        })
-        (optionalAttrs (arch == "darwin" && cfg.rimeIntegration.enable) {
-          "${userEmacsDirectory}/local-packages/emacs-rime" = {
-            source = pkgs.fetchFromGitHub {
-              owner = "DogLooksGood";
-              repo = "emacs-rime";
-              rev = version;
-              hash = "sha256-Z4hGsXwWDXZie/8IALhyoH/eOVfzhbL69OiJlLHmEXw=";
-            };
-            recursive = true;
-          };
-          "${userEmacsDirectory}/librime" = {
-            source = pkgs.fetchzip {
-              url =
-                "https://github.com/rime/librime/releases/download/1.8.4/rime-a94739f-macOS.tar.bz2";
-              sha256 = "sha256-rxkbiTIC8+i8Zr66lfj6JDFOf4ju8lo3dPP1UDIPC1c=";
-              stripRoot = false;
-            };
-            recursive = true;
-          };
-        })
-      ];
-      packages = [ ]
-        ++ (optionalList (cfg.rimeIntegration.enable && arch == "linux")
-          [ cfg.rimeIntegration.package ])
-        ++ (optionalList cfg.telegaIntegration.enable
-          [ cfg.telegaIntegration.package ]);
+      file = (builtins.listToAttrs files) // (builtins.listToAttrs (map (o: {
+        name = "${localPkgPath}/${o.name}";
+        value = {
+          source = o.value;
+          recursive = true;
+        };
+      }) localPkgs)) // {
+        "${userEmacsDirectory}/early-init.el".text = cfg.earlyInit;
+        "${userEmacsDirectory}/init.el".text = cfg.extraConfig basicCfg;
+      };
+      packages = externalPackages;
       sessionVariables = { EDITOR = "emacsclient --create-frame"; };
     };
   };

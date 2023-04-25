@@ -9,7 +9,7 @@
   '("|" "`" ":" "." "," "\"" "-" "+" "_" "=" "/" "@" "$" "*"))
 
 
-;; need mode-local.el
+(require 'mode-local)
 (setq-mode-local
  python-mode
  weiss-non-stop-delimiters-list

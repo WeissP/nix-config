@@ -1,6 +1,6 @@
 (defvar recentf-executable (executable-find "recentf"))
 
-(defun weiss-insert-file-to-recentf (filename &rest args)
+(defun weiss-insert-file-to-recentf (filename &optional nowarn rawfile wildcards)
   "DOCSTRING"
   (interactive)
   (ignore-errors
