@@ -39,7 +39,6 @@
           config = { allowUnfree = true; };
         };
 
-        users.defaultUserShell = pkgs.zsh;
         users.users."${username}" = mkMerge [
           { home = homeDir; }
           (ifLinux {
@@ -71,6 +70,7 @@
 
         fonts = mkMerge [
           {
+            fontDir.enable = true;
             fonts = with pkgs; [
               route159
               noto-fonts
@@ -93,7 +93,6 @@
             ];
           }
           (ifLinux {
-            fontDir.enable = true;
             fontconfig = {
               defaultFonts = {
                 emoji = [ "Noto Color Emoji" ];
@@ -125,9 +124,7 @@
             killall
             locale
             wezterm
-            udisks
             babashka
-            util-linux
             unzip
           ];
         };
@@ -135,6 +132,8 @@
         system = mkMerge [ (ifDarwin { stateVersion = 4; }) ];
       }
       (ifLinux {
+        users.defaultUserShell = pkgs.zsh;
+        environment.systemPackages = with pkgs; [ udisks util-linux ];
         networking.networkmanager.enable = true;
         i18n = {
           defaultLocale = "en_US.UTF-8";

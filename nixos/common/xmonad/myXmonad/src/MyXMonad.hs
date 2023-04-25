@@ -119,7 +119,7 @@ myKeys :: [([Char], X ())]
 myKeys =
   [ ( "<XF86Launch5>",
       spawn
-        "rofi -m -4 -no-lazy-grab -run-list-command \". $SCRIPTS_DIR/zsh_aliases.sh\" -run-command \"zsh -i -c '{cmd}'\" -show run"
+        "rofi -m -4 -no-lazy-grab -run-command \"zsh -i -c '{cmd}'\" -show run"
     ),
     ("<XF86Launch8>", nextScreen),
     ("<F6>", spawnHereNamedScratchpadAction myScratchPads "term"),
@@ -132,8 +132,7 @@ myKeys =
     ("M-<Down>", sendMessage Expand),
     ("M-k", spawn "wezterm"),
     ( "M-p",
-      spawn
-        "rofi -m -4 -no-lazy-grab -run-list-command \". $SCRIPTS_DIR/zsh_aliases.sh\" -run-command \"zsh -i -c '{cmd}'\" -show run"
+      spawn "rofi -m -4 -no-lazy-grab -run-command \"zsh -i -c '{cmd}'\" -show run"
     )
     -- , ("C-<Tab>"      , unGrab *> spawn "xdotool key Control_L+Tab")
     -- , ("C-<Tab>"      , myFocusDown)

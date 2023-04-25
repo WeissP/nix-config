@@ -42,7 +42,7 @@
         server = {
           enable = true;
           dbUrl =
-            "postgres://${username}:${secrets.sql.password}@localhost:5432/webman";
+            "postgres://${username}:${secrets.sql.localPassword}@localhost:5432/webman";
           sync = [{
             name = "Vultr";
             interval = "5 hours";

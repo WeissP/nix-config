@@ -1,6 +1,7 @@
 { pkgs, myEnv, myLib, lib, ... }:
 
-with myEnv; {
+with myEnv;
+(ifLinux {
   services.flameshot = {
     enable = true;
     settings = {
@@ -12,4 +13,4 @@ with myEnv; {
       };
     };
   };
-}
+})

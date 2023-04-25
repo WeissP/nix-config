@@ -44,16 +44,7 @@ in {
       };
       displayManager.sddm.enable = true;
       desktopManager.plasma5.enable = lib.mkForce false;
-      displayManager = {
-        defaultSession = "none+xmonad";
-        sessionCommands = ''
-          # emacs &
-          chromium &
-          xbindkeys &
-          sh $HOME/.screenlayout/horizontal.sh &
-          sh ${myEnv.scriptsDir}/mouse_scroll.sh &
-        '';
-      };
+      displayManager = { defaultSession = "none+xmonad"; };
     };
   };
 }

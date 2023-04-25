@@ -2,8 +2,10 @@
 with myEnv;
 let
   shellAliases = {
-    switch =
-      "sudo nixos-rebuild switch --flake ${homeDir}/nix-config#${configSession}";
+    switch = if (arch == "linux") then
+      "sudo nixos-rebuild switch --flake ${homeDir}/nix-config#${configSession}"
+    else
+      "darwin-rebuild switch --flake ${homeDir}/nix-config#${configSession}";
     py = "python";
     ec = ''emacsclient --create-frame --alternate-editor=""'';
     ed = "emacs --dump-file='/home/weiss/.emacs.d/emacs.pdmp' &";

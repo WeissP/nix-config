@@ -4,12 +4,20 @@
 
 (defun font-family-available-p (family)
   "Check if font with FONT-NAME is available."
-  (-filter (lambda (s) (cl-search family s))
+  (require 'dash)
+  (-filter (lambda (s) (cl-search (downcase family) (downcase s)))
            (font-family-list)
            )
   )
-
+;; (font-installed-p "Noto Color Emoji")
+;; (font-family-available-p "Apple Color Emoji")
 ;; (setq use-default-font-for-symbols t)
+
+;; (-filter (lambda (s) (and (cl-search (downcase "noto") (downcase s))
+;;                           (cl-search (downcase "emoji") (downcase s))
+;;                           ))
+;;          (font-family-list)
+;;          )
 
 (defun with-font (s)
   "DOCSTRING"
@@ -25,6 +33,7 @@
   (set-fontset-font t 'symbol (with-font "Noto Sans symbols 2") nil 'prepend)
   (set-fontset-font t 'symbol (with-font "Noto Sans Math") nil 'prepend)
   (set-fontset-font t 'symbol (with-font "Noto Color Emoji") nil 'prepend)
+  (set-fontset-font t 'symbol (with-font "Apple Color Emoji") nil 'prepend)
   )
 
 (when (display-graphic-p)

@@ -22,6 +22,13 @@ in {
         };
       };
     };
+    # mindwaveIntegration = mkOption {
+    #   description = "TODO Whether to enable rime integration";
+    #   default = { enable = false; };
+    #   type = types.submodule {
+    #     options = { enable = mkEnableOption "mindwave integration"; };
+    #   };
+    # };
     telegaIntegration = mkOption {
       description = "TODO Whether to enable rime integration";
       default = { enable = false; };
@@ -94,6 +101,19 @@ in {
         description = lib.mdDoc
           "packages need to be eager loaded. Note that only pkgs of `emacsPkgs` are considered";
       };
+    idleLoad = with types;
+      mkOption {
+        description = "packages to load while idle";
+        default = { enable = false; };
+        type = submodule {
+          options = {
+            enable = mkEnableOption "Idle Load";
+            idleSeconds = mkOption { type = int; };
+            packages = mkOption { type = listOf str; };
+          };
+        };
+      };
+
     skipInstall = with types;
       mkOption {
         type = listOf str;
@@ -171,7 +191,12 @@ in {
       else
         [ ]) cfg.autoload;
     eagerLoadCmds = map (pkg: "(require '${pkg})") (filterPkg cfg.eagerLoad);
-
+    idleLoadCmds = [
+      "(require 'idle-require)"
+      "(setq idle-require-idle-delay ${toString cfg.idleLoad.idleSeconds})"
+      (map (pkg: "(idle-require '${pkg})") cfg.idleLoad.packages)
+      "(idle-require-mode 1)"
+    ];
     localPkgCfg = cfg.localPkg.extraConfig ''
       (setq weiss/local-package-path  "${userEmacsDirectory}/local-packages")
       (setq weiss/local-package-autoloads "${userEmacsDirectory}/local-package-loaddefs.el")
@@ -214,6 +239,10 @@ in {
       (setq rime-librime-root "${cfg.userEmacsDirectory}/librime/dist")
       (setq rime-share-data-dir "${homeDir}/Library/Rime/")
     '');
+    mindwaveIntegrationCfg = ''
+      (setq mind-wave-python-command "nix-shell")
+      (setq mind-wave-python-file "${userEmacsDirectory}/local-packages/mind-wave/mind_wave.py")
+    '';
     chaseSymLinkCfg = ''
       (setq weiss/configs-dir "${cfg.chaseSymLink.absConfigDir}/")
       (defun replace-nix-link (args)
@@ -231,9 +260,11 @@ in {
       (optionalList cfg.localPkg.enable localPkgCfg)
       autoloadCmds
       eagerLoadCmds
+      (optionalList cfg.idleLoad.enable [ idleLoadCmds ])
       nixEnvCfg
       (optionalList cfg.telegaIntegration.enable [ telegaIntegrationCfg ])
       (optionalList cfg.rimeIntegration.enable [ rimeIntegrationCfg ])
+      # (optionalList cfg.mindwaveIntegration.enable [ mindwaveIntegrationCfg ])
       (optionalList cfg.chaseSymLink.enable [ chaseSymLinkCfg ])
       configsCmds
       "(package-activate-all)"
@@ -262,6 +293,8 @@ in {
           inherit (final) trivialBuild;
           inherit (pkgs) fetchFromGitHub;
         };
+        mind-wave =
+          pkgs.callPackage ./packages/mind-wave { inherit (final) melpaBuild; };
       };
       # rime and telega can only be installed via xxxIntegration option
       extraPackages = epkg:
@@ -270,7 +303,9 @@ in {
           cfg.emacsPkgs)
           ++ (optionalList (cfg.rimeIntegration.enable && arch == "linux")
             [ "rime" ]) # rime will be installed locally on MacOS
-          ++ (optionalList cfg.telegaIntegration.enable [ "telega" ]));
+          # ++ (optionalList cfg.telegaIntegration.enable [ "mind-wave" ])
+          ++ (optionalList cfg.telegaIntegration.enable [ "telega" ])
+          ++ (optionalList cfg.idleLoad.enable [ "idle-require" ]));
     };
 
     home = {
@@ -311,10 +346,7 @@ in {
           [ cfg.rimeIntegration.package ])
         ++ (optionalList cfg.telegaIntegration.enable
           [ cfg.telegaIntegration.package ]);
-      sessionVariables = {
-        EDITOR = "emacsclient --create-frame";
-        "OPENAI_API_KEY" = secrets.openai.apiKey;
-      };
+      sessionVariables = { EDITOR = "emacsclient --create-frame"; };
     };
   };
 }

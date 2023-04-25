@@ -23,26 +23,30 @@
               };
               "${homeDir}/.ssh/id_rsa".text = secrets.ssh."163".private;
             };
-          }
-          (ifLinux {
             packages = with pkgs; [
-              # fontpreview
-              xbindkeys
-              xautomation
-              cider
-              calibre
-              dolphin
-              libnotify
+              (python3.withPackages (ps: with ps; [ openai epc sexpdata six ]))
               (texlive.combine {
                 inherit (texlive)
                   scheme-small collection-langkorean algorithms cm-super pgf
-                  dvipng;
+                  dvipng dvisvgm enumitem graphics wrapfig amsmath ulem hyperref
+                  capt-of framed multirow vmargin comment;
                 pkgFilter = pkg:
                   pkg.tlType == "run" || pkg.tlType == "bin" || pkg.pname
                   == "cm-super";
                 # elem tlType [ "run" "bin" "doc" "source" ]
                 # there are also other attributes: version, name
               })
+            ];
+          }
+          (ifLinux {
+            packages = with pkgs; [
+              simplescreenrecorder
+              xbindkeys
+              xautomation
+              cider
+              calibre
+              dolphin
+              libnotify
             ];
             file = {
               ".xbindkeysrc".text = ''
@@ -117,8 +121,12 @@
             extraOptions = [ "exclude-root" "ignore-scrolling" ];
           };
           xscreensaver.enable = true;
+          gpg-agent = {
+            enable = true;
+            maxCacheTtl = 86400; # 24 hours
+            pinentryFlavor = "gnome3";
+          };
         };
-
       })
     ];
 }

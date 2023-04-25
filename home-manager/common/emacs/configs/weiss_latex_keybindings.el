@@ -19,9 +19,7 @@
 ;;      ("<RET>" . weiss-deactivate-mark-and-new-line))
 ;;    ))
 
-(with-eval-after-load 'LaTeX-mode
-  (require 'weiss_latex_quick-insert)
-
+(with-eval-after-load 'latex   
   (wks-unset-key LaTeX-mode-map '("$" "_"))
 
   (wks-define-key
@@ -30,7 +28,9 @@
      ("<tab>" . weiss-indent)
      ("t" . weiss-latex-to-pdf)
      ("C-c C-M-x r" . reftex-reference)
-     ("<RET>" . weiss-deactivate-mark-and-new-line))
-   ))
+     ("<RET>" . weiss-deactivate-mark-and-new-line)
+     ("C-c C-SPC" . TeX-next-error))
+   )
+)
 
 (provide 'weiss_latex_keybindings)

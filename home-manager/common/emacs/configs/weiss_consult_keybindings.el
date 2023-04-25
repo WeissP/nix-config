@@ -17,9 +17,9 @@
  )
 
 ;; not work in org-noter
-;; (with-eval-after-load 'org
-;;   (define-key org-mode-map [remap consult-imenu] 'consult-org-heading)
-;; )
+(with-eval-after-load 'org
+  (define-key org-mode-map [remap consult-imenu] 'consult-org-heading)
+)
 
 (with-eval-after-load 'consult
   (setq consult-narrow-key "<f5>")

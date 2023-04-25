@@ -1,5 +1,7 @@
+;; apheleia-global-mode autoloads has something wrong with nix pkgs
+(require 'apheleia-core)
+(apheleia-global-mode)
 (with-eval-after-load 'apheleia
-  (apheleia-global-mode)
   (push '(zprint . ("zprint")) apheleia-formatters)    
   (push '(rustfmt . ("rustfmt" "+nightly" "--quiet" "--emit" "stdout")) apheleia-formatters)
   (push '(clojurescript-mode . zprint) apheleia-mode-alist)

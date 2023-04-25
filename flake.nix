@@ -126,7 +126,10 @@
       in {
         Bozhous-Air = inputs.darwin.lib.darwinSystem {
           system = "aarch64-darwin";
-          specialArgs = { inherit inputs outputs secrets myLib myEnv; };
+          specialArgs = {
+            inherit inputs outputs secrets myLib myEnv;
+            configSession = "Bozhous-Air";
+          };
           modules = [
             ./nixos/mac/configuration.nix
             ./home-manager

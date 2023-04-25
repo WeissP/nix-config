@@ -1,4 +1,4 @@
-{ inputs, outputs, lib, myEnv, config, pkgs, ... }:
+{ inputs, outputs, lib, myEnv, config, secrets, pkgs, ... }:
 with myEnv;
 let userEmacsDirectory = "${homeDir}/.emacs.d";
 in {
@@ -6,6 +6,8 @@ in {
 
   home.file."${userEmacsDirectory}/weiss-light-theme.el".source =
     ./weiss-light-theme.el;
+  home.file."${userEmacsDirectory}/mind-wave/chatgpt_api_key.txt".text =
+    secrets.openai.apiKey;
   home.packages = with pkgs; [ clj-kondo nodePackages.jsonlint nixfmt ];
   programs.weissEmacs = lib.mkMerge [
     # (ifDarwin { package = pkgs.emacsMacport; })
@@ -21,6 +23,7 @@ in {
         enable = true;
         package = pkgs.weissNur.emacs-rime;
       };
+      # mindwaveIntegration.enable = true;
       telegaIntegration = {
         enable = true;
         package = pkgs.weissNur.telega-server;
@@ -51,6 +54,7 @@ in {
               garbage-collection-messages nil)
       '';
       extraConfig = oldCfg: ''
+        (setq mac-right-option-modifier nil)
         (setq vanilla-global-map (current-global-map))
         (setq recentf-executable "${pkgs.recentf.outPath}/bin/recentf")
 
@@ -71,7 +75,7 @@ in {
         weiss-tsc-mode = [ "weiss-tsc-mode" ];
       };
       eagerLoad = [
-        # "mind-wave"
+        "mind-wave"
         "cl-lib"
         "mode-local"
         "snails"
@@ -90,8 +94,12 @@ in {
         "gcmh"
         "tab-line"
       ];
+      idleLoad = {
+        enable = true;
+        idleSeconds = 2;
+        packages = [ "org" "pdf-view" ];
+      };
       skipInstall = [
-        "mind-wave"
         "server"
         "wks"
         "global"
@@ -120,6 +128,7 @@ in {
         "snails"
         "snails-custom-backends"
         "recentf-db"
+        "latex"
         # "weiss-tsc-mode"
         # "weiss-dired-single-handed-mode"
         # "weiss-org-sp"
@@ -169,6 +178,7 @@ in {
           "gcmh"
           "citre"
           "tab-line"
+          "mind-wave"
           # [ "tree-sitter" "tree-sitter-langs" "weiss-tsc-mode" ]
         ];
         lint =
@@ -183,8 +193,13 @@ in {
           "org-table-to-qmk-keymap"
           "org-edit-latex"
         ];
-        latex =
-          [ "auctex" "org-ref" "magic-latex-buffer" "latex-preview-pane" ];
+        latex = [
+          "latex"
+          "auctex"
+          "org-ref"
+          "magic-latex-buffer"
+          "latex-preview-pane"
+        ];
         dired = [
           "dired"
           "wdired"

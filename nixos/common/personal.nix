@@ -20,6 +20,14 @@ with myEnv; {
         naturalScrolling = true;
         accelSpeed = "0.5"; # float number between -1 and 1.
       };
+      displayManager.sessionCommands = ''
+        emacs &
+        cider &
+        chromium &
+        xbindkeys &
+        sh $HOME/.screenlayout/horizontal.sh &
+        sh ${myEnv.scriptsDir}/mouse_scroll.sh &
+      '';
     };
     blueman.enable = true;
     myPostgresql = {
@@ -28,18 +36,11 @@ with myEnv; {
     };
   };
 
-  programs = {
-    gnupg.agent = {
-      enable = true;
-      pinentryFlavor = "gnome3";
-    };
-  };
-
   environment = {
     systemPackages = with pkgs; [
       pavucontrol
       xdotool
-      (python311.withPackages (ps: with ps; [ openai epc sexpdata six ]))
+      # (python311.withPackages (ps: with ps; [ openai epc sexpdata six ]))
     ];
     sessionVariables = {
       LEDGER_FILE = "\${HOME}/finance/2021.journal";

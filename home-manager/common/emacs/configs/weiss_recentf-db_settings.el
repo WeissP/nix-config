@@ -1,19 +1,17 @@
 (defvar recentf-executable (executable-find "recentf"))
 
-(defun weiss-insert-file-to-recentf (&rest args)
+(defun weiss-insert-file-to-recentf (filename &rest args)
   "DOCSTRING"
   (interactive)
   (ignore-errors
-    (when-let ((name (buffer-file-name)))
-      (call-process
+    (call-process
        recentf-executable
        nil
        0
        t
        "add"
-       name
-       )
-      ))  
+       filename
+       ))  
   )
 
 (defun weiss-delete-file-advice (l arg &optional trash)

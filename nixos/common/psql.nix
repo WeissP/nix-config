@@ -48,7 +48,7 @@ in {
                 CREATE ROLE ${username} WITH LOGIN PASSWORD '${secrets.sql.localPassword}' CREATEDB;
                 CREATE DATABASE ${username};
                 GRANT ALL PRIVILEGES ON DATABASE ${username} TO ${username};
-                ALTER ROLE ${username} WITH LOGIN';
+                ALTER ROLE ${username} WITH LOGIN;
               '';
             })
           ];

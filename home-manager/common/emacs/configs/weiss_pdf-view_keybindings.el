@@ -28,6 +28,7 @@
      ("c" .  pdf-view-kill-ring-save)
      ;; ("d"  weiss-direct-insert-note)
      ("h" .  pdf-view-fit-height-to-window)
+     ("u" .  pdf-view-deactivate-region)
      ("i" .  image-backward-hscroll)
      ("j" .  (weiss-pdf-next-page (pdf-view-next-page-command) (image-set-window-vscroll 0)))
      ("k" .  (weiss-pdf-previous-page (pdf-view-previous-page-command) (image-next-line 1000)))
