@@ -245,10 +245,10 @@
  '(org-block-begin-line
    ((t
      (:weight normal :slant normal :extend t :underline nil :foreground "#999999" :background "#FAFAFA"))))
- '(org-checkbox ((t (:inherit (default) :extend nil))))
- '(org-table ((t (:inherit (default) :extend nil))))
+ '(org-checkbox ((t (:inherit (fixed-pitch) :foundry "SAJA" :family "Cascadia Code PL" :extend nil))))
+ '(org-table ((t (:inherit (fixed-pitch) :foundry "SAJA" :family "Cascadia Code PL" :extend nil))))
  '(org-block
-   ((t (:inherit (default) :extend nil :background "#FAFAFA"))))
+   ((t (:inherit (fixed-pitch) :foundry "SAJA" :family "Cascadia Code PL" :extend nil :background "#FAFAFA"))))
  '(org-drawer
    ((t
      (:foreground "#999999" :slant normal :weight light :background nil))))

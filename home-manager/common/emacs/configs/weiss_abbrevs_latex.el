@@ -1,4 +1,4 @@
-(with-eval-after-load 'latex-mode
+(with-eval-after-load 'latex
   (when (boundp 'latex-mode-abbrev-table)
     (clear-abbrev-table latex-mode-abbrev-table))
 
@@ -242,7 +242,8 @@
       ("mbs" "\\bigskip" weiss--ahf)    
       ("mpp" "\\begin{itemize}\n\\item[\\(\\Rightarrow\\)] ▮\n\n\\item[\\(\\Leftarrow\\)] \n\\end{itemize}" weiss--ahf)    
       ("meq" "\\begin{equation*}\n▮\n\\end{equation}" weiss--ahf-indent)    
-      ("mal" "\\begin{aligned}\n▮\n\\end{aligned}" weiss--ahf-indent)    
+      ("mald" "\\begin{aligned}\n▮\n\\end{aligned}" weiss--ahf-indent)    
+      ("mal" "\\begin{align*}\n▮\n\\end{align*}" weiss--ahf-indent)    
       ("mid" "\\setlength{\\itemindent}{.4in}\n" weiss--ahf-indent)    
       ("mit" "\\begin{itemize}\n    \\item ▮\n    \\item \n\\end{itemize}" weiss--ahf-indent)    
       ("mitem" "\\begin{itemize}\n    \\item ▮\n    \\item \n\\end{itemize}" weiss--ahf-indent)    

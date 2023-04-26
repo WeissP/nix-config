@@ -1,4 +1,4 @@
-(with-eval-after-load 'LaTeX-mode
+(with-eval-after-load 'latex
   (define-prefix-command 'wks-latex-quick-insert-keymap)
 
   (wks-define-key
@@ -9,6 +9,7 @@
      ("=" . (weiss-latex-insert-texttt (weiss--quick-add-latex-style "texttt")))
      ("t" . (weiss-latex-insert-text (weiss--quick-add-latex-style "text" t)))
      ("b" . (weiss-latex-insert-mathbb (weiss--quick-add-latex-style "mathbb")))
+     ("m s f" . (weiss-latex-insert-mathbb (weiss--quick-add-latex-style "mathsf")))
      ("r" . (weiss-latex-insert-textrm (weiss--quick-add-latex-style "textrm")))
      ("s" . (weiss-latex-insert-textsc (weiss--quick-add-latex-style "textsc")))
      ("e" . (weiss-latex-insert-textem (weiss--quick-add-latex-style "emph")))

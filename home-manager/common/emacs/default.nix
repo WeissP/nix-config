@@ -71,6 +71,7 @@ in {
         dired-single-handed-mode = [ "weiss-dired-single-handed-mode" ];
         rotate-text = [ "rotate-text" ];
         weiss-tsc-mode = [ "weiss-tsc-mode" ];
+        org-edit-latex = [ "org-edit-latex-mode" ];
       };
       eagerLoad = [
         "mind-wave"
@@ -93,7 +94,7 @@ in {
         "tab-line"
       ];
       idleLoad = {
-        enable = false;
+        enable = true;
         idleSeconds = 2;
         packages = [ "org" "pdf-view" ];
       };
@@ -145,6 +146,7 @@ in {
           [ "company" "company-box" ]
         ];
         lang = [
+          [ "elixir-mode" "flymake-elixir" "inf-elixir" ]
           "cider"
           "python"
           "php-mode"
@@ -177,6 +179,7 @@ in {
           "citre"
           "tab-line"
           "mind-wave"
+          "maxima"
           # [ "tree-sitter" "tree-sitter-langs" "weiss-tsc-mode" ]
         ];
         lint =

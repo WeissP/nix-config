@@ -236,10 +236,19 @@ in {
         '';
       };
     };
+    handleMaxima = {
+      localPackages."maxima" = pkgs.fetchFromGitLab {
+        owner = "sasanidas";
+        repo = "maxima";
+        rev = "1913ee496bb09430e85f76dfadf8ba4d4f95420f";
+        hash = "sha256-PSZlcv48h6ML/HXneH/kZ7gfA3fEwptsI/elCyjGNNY";
+      };
+      externalPackages = with pkgs; [ maxima ghostscript gnuplot ];
+    };
+
     handleLocalPackages = pkg: {
       localPackages."${pkg}" = ./local-packages + "/${pkg}";
     };
-
     recipes = map (pkgName:
       if pkgName == "rime" then
         handleRime
@@ -247,6 +256,8 @@ in {
         handleTelega
       else if pkgName == "mind-wave" then
         handleMindWave
+      else if pkgName == "maxima" then
+        handleMaxima
       else if (builtins.elem pkgName [
         "snails"
         "snails-custom-backends"
@@ -350,9 +361,8 @@ in {
 
     basicCfg = join [
       customCfg
-      (optionalList cfg.localPkg.enable localPkgCfg)
+      # (optionalList cfg.localPkg.enable localPkgCfg)
       autoloadCmds
-      eagerLoadCmds
       (optionalList cfg.idleLoad.enable [ idleLoadCmds ])
       nixEnvCfg
       recipeCmds
@@ -361,6 +371,7 @@ in {
       # (optionalList cfg.mindwaveIntegration.enable [ mindwaveIntegrationCfg ])
       (optionalList cfg.chaseSymLink.enable [ chaseSymLinkCfg ])
       configsCmds
+      eagerLoadCmds
       "(package-activate-all)"
       afterStartupCfg
     ];

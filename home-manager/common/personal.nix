@@ -24,12 +24,13 @@
               "${homeDir}/.ssh/id_rsa".text = secrets.ssh."163".private;
             };
             packages = with pkgs; [
+              elixir
               (python3.withPackages (ps: with ps; [ openai epc sexpdata six ]))
               (texlive.combine {
                 inherit (texlive)
                   scheme-small collection-langkorean algorithms cm-super pgf
                   dvipng dvisvgm enumitem graphics wrapfig amsmath ulem hyperref
-                  capt-of framed multirow vmargin comment;
+                  capt-of framed multirow vmargin comment minted;
                 pkgFilter = pkg:
                   pkg.tlType == "run" || pkg.tlType == "bin" || pkg.pname
                   == "cm-super";
@@ -40,6 +41,7 @@
           }
           (ifLinux {
             packages = with pkgs; [
+              mattermost-desktop
               simplescreenrecorder
               xbindkeys
               xautomation
