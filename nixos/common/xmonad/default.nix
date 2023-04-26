@@ -5,7 +5,6 @@ let
   xmobarDir = "${myEnv.homeDir}" + "/.config/xmobar";
 in {
   environment = {
-    variables = { SCRIPTS_DIR = myEnv.scriptsDir; };
     systemPackages = with pkgs; [
       xorg.xdpyinfo
       xorg.xrandr

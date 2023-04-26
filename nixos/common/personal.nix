@@ -37,14 +37,9 @@ with myEnv; {
   };
 
   environment = {
-    systemPackages = with pkgs; [
-      pavucontrol
-      xdotool
-      # (python311.withPackages (ps: with ps; [ openai epc sexpdata six ]))
-    ];
+    systemPackages = with pkgs; [ pavucontrol xdotool ];
     sessionVariables = {
-      LEDGER_FILE = "\${HOME}/finance/2021.journal";
-      POSTGIS_DIESEL_DATABASE_URL = "postgres://weiss@localhost/digivine";
+
     };
   };
 

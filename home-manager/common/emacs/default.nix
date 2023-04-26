@@ -146,7 +146,7 @@ in {
           [ "company" "company-box" ]
         ];
         lang = [
-          [ "elixir-mode" "flymake-elixir" "inf-elixir" ]
+          [ "elixir-mode" "flymake-elixir" "inf-elixir" "ob-elixir" ]
           "cider"
           "python"
           "php-mode"

@@ -16,6 +16,12 @@
         home = let configDir = config.xdg.configHome;
         in lib.mkMerge [
           {
+            sessionVariables = {
+              SCRIPTS_DIR = myEnv.scriptsDir;
+              # LEDGER_FILE = "\${HOME}/finance/2021.journal";
+              # POSTGIS_DIESEL_DATABASE_URL =
+              #   "postgres://weiss@localhost/digivine";
+            };
             file = {
               "${homeDir}/scripts" = {
                 source = ./config_files/scripts;

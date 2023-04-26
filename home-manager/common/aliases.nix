@@ -11,7 +11,7 @@ let
     ed = "emacs --dump-file='/home/weiss/.emacs.d/emacs.pdmp' &";
     emdbg = "emacs --debug-init &";
     edmake = "emacs --batch -q -l ~/.emacs.d/dump.el";
-    pyav = "python /home/weiss/Python/getAvInfo.py";
+    pyav = "$SCRIPTS_DIR/getAvInfo.py";
     vpnon = "nmcli connection up wgtuk-Full-desk";
     vpnoff = "nmcli connection down wgtuk-Full-desk";
     dc = "docker container ";
