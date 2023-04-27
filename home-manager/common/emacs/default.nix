@@ -94,9 +94,9 @@ in {
         "tab-line"
       ];
       idleLoad = {
-        enable = true;
-        idleSeconds = 2;
-        packages = [ "org" "pdf-view" ];
+        enable = false;
+        idleSeconds = 3;
+        packages = [ "org" "pdf-view" "eglot" ];
       };
       skipInstall = [
         "server"
@@ -164,6 +164,7 @@ in {
         ];
         pdf = [ "pdf-tools" "pdf-view" "pdf-view-restore" ];
         tools = [
+          "project"
           "recentf-db"
           "rg"
           "which-key"

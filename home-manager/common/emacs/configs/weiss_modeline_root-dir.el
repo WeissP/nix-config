@@ -9,7 +9,8 @@
      "🏠Remote"            
      )
     ((featurep 'project)
-     (if-let ((r (ignore-errors (caddr (project-current)))))      
+     (if-let ((r (or (ignore-errors (caddr (project-current)))
+                     (ignore-errors (cdr (project-current))))))      
          (if (< (length r) 1) 
              ""
            (concat

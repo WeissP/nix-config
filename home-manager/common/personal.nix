@@ -30,7 +30,9 @@
               "${homeDir}/.ssh/id_rsa".text = secrets.ssh."163".private;
             };
             packages = with pkgs; [
+              direnv
               elixir
+              elixir-ls
               (python3.withPackages (ps: with ps; [ openai epc sexpdata six ]))
               (texlive.combine {
                 inherit (texlive)

@@ -8,12 +8,12 @@
   (ignore-errors (match-string 0 s))
   )
 
-(defun weiss-mplayer-video (file &optional subtitle-path)
+(defun single-handed--play-video (file &optional subtitle-path)
   "DOCSTRING"
   (interactive)
   (start-process-shell-command
-   "mplayer" nil
-   (format "mpv -title  \"%s\" -fs \"%s\" %s"
+   "mpv" nil
+   (format "mpv --start=0%% -title  \"%s\" -fs \"%s\" %s"
            (thread-last file
                         (file-name-nondirectory)
                         (file-name-sans-extension)
@@ -34,7 +34,7 @@
          (subtitle-path (when bangou (format "%ssubtitles/%s.srt" (file-name-directory file) bangou)))
          )
     (message "subtitle-path: %s" subtitle-path)
-    (weiss-mplayer-video file (when (ignore-errors (file-exists-p subtitle-path)) subtitle-path))))
+    (single-handed--play-video file (when (ignore-errors (file-exists-p subtitle-path)) subtitle-path))))
 
 ;;;###autoload
 (define-minor-mode weiss-dired-single-handed-mode

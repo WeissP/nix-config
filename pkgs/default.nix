@@ -3,4 +3,5 @@
 
 { pkgs ? (import ../nixpkgs.nix) { } }: {
   mpv-bookmarker = pkgs.callPackage ./mpv-bookmarker.nix { };
+  mpv-thumbfast = pkgs.callPackage ./mpv-thumbfast.nix { };
 }

@@ -2,8 +2,18 @@
 (myEnv.ifLinux {
   programs.mpv = {
     enable = true;
-    scripts = with pkgs; [ additions.mpv-bookmarker mpvScripts.thumbnail ];
-    config = { osc = "no"; };
+    scripts = with pkgs; [
+      additions.mpv-bookmarker
+      additions.mpv-thumbfast
+      # mpvScripts.thumbnail
+      mpvScripts.uosc
+    ];
+    config = {
+      osc = "no";
+      osd-bar = "no";
+      border = "no";
+      save-position-on-quit = "yes";
+    };
     bindings = let
       forwards = {
         f = 3;
@@ -36,5 +46,5 @@
       }
     ];
   };
-
+  # home.file.
 })

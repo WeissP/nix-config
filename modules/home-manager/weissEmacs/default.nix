@@ -203,7 +203,7 @@ in {
         rev = version;
         hash = "sha256-Z4hGsXwWDXZie/8IALhyoH/eOVfzhbL69OiJlLHmEXw=";
       };
-      files."librime" = {
+      files."${userEmacsDirectory}/librime" = {
         source = pkgs.fetchzip {
           url =
             "https://github.com/rime/librime/releases/download/1.8.4/rime-a94739f-macOS.tar.bz2";
