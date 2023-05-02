@@ -1,5 +1,11 @@
 (with-eval-after-load 'org
   (add-to-list 'image-file-name-extensions "pdf")
+  (defun weiss-mac-org-insert-screenshot ()
+    "call flameshot to capture screen shot"
+    (interactive)
+    (weiss-org-insert-image
+     (concat "~/Desktop/Screenshot.png")
+     t t))
 
   (defun weiss-org-preview-latex-and-image()
     (interactive)

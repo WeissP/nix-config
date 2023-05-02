@@ -55,6 +55,9 @@
   (wks-unset-key message-mode-map '("<tab>" "TAB"))
   )
 
+(with-eval-after-load 'cc-mode
+  (wks-unset-key java-mode-map '("/" ":" ","))  
+  )
 
 (with-eval-after-load 'image-mode
   (wks-unset-key image-mode-map '("SPC" "a" "s"))

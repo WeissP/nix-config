@@ -6,7 +6,11 @@
     '(
       ("if" "if ▮ do\n   \nend"  weiss--ahf)
       ("def" "def ▮() do   \nend"  weiss--ahf)
+      ("case" "case ▮ do\n  _ ->\nend"  weiss--ahf)
+      ("fn" "fn ▮ ->  end"  weiss--ahf)
       ))
   )
+
+
 (provide 'weiss_abbrevs_elixir)
 ;; (require 'flymake-eli)

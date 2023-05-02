@@ -12,19 +12,11 @@ in {
     {
       inherit userEmacsDirectory;
       enable = true;
+      package = pkgs.emacsUnstable;
       emacsConfigPath = ./configs;
       chaseSymLink = {
         enable = true;
         absConfigDir = "${nixDir}/home-manager/common/emacs/configs";
-      };
-      rimeIntegration = {
-        enable = true;
-        package = pkgs.weissNur.emacs-rime;
-      };
-      mindwaveIntegration.enable = true;
-      telegaIntegration = {
-        enable = true;
-        package = pkgs.weissNur.telega-server;
       };
       isConfigP = pkg: lib.strings.hasPrefix "weiss_${pkg}_";
       earlyInit = ''
@@ -72,8 +64,10 @@ in {
         rotate-text = [ "rotate-text" ];
         weiss-tsc-mode = [ "weiss-tsc-mode" ];
         org-edit-latex = [ "org-edit-latex-mode" ];
+        eglot-java = [ "eglot-java-mode" ];
       };
       eagerLoad = [
+        "direnv"
         "mind-wave"
         "cl-lib"
         "mode-local"
@@ -94,7 +88,7 @@ in {
         "tab-line"
       ];
       idleLoad = {
-        enable = false;
+        enable = true;
         idleSeconds = 3;
         packages = [ "org" "pdf-view" "eglot" ];
       };
@@ -164,6 +158,7 @@ in {
         ];
         pdf = [ "pdf-tools" "pdf-view" "pdf-view-restore" ];
         tools = [
+          "direnv"
           "project"
           "recentf-db"
           "rg"
@@ -172,7 +167,7 @@ in {
           "command-log-mode"
           "gud"
           "quickrun"
-          "eglot"
+          [ "eglot" "eglot-java" ]
           "magit"
           "browse-at-remote"
           "aweshell"

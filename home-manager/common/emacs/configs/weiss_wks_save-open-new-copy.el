@@ -341,8 +341,11 @@ Version 2015-10-14"
        ((string-equal system-type "darwin")
         (mapc
          (lambda ($fpath)
-           (shell-command
-            (concat "open " (shell-quote-argument $fpath))))
+           (if (member (downcase (file-name-extension $fpath)) '("mp4" "mkv" "webm"))
+               (weiss-play-video $fpath)
+             (shell-command
+              (concat "open " (shell-quote-argument $fpath))))
+           )
          $file-list))
        ((string-equal system-type "gnu/linux")
         (mapc

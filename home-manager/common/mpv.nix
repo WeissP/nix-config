@@ -1,11 +1,9 @@
-{ inputs, outputs, lib, myEnv, config, pkgs, myLib, ... }:
-(myEnv.ifLinux {
+{ inputs, outputs, lib, myEnv, config, pkgs, myLib, ... }: {
   programs.mpv = {
     enable = true;
     scripts = with pkgs; [
       additions.mpv-bookmarker
       additions.mpv-thumbfast
-      # mpvScripts.thumbnail
       mpvScripts.uosc
     ];
     config = {
@@ -46,5 +44,4 @@
       }
     ];
   };
-  # home.file.
-})
+}

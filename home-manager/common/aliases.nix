@@ -6,11 +6,10 @@ let
       "sudo nixos-rebuild switch --flake ${homeDir}/nix-config#${configSession}"
     else
       "darwin-rebuild switch --flake ${homeDir}/nix-config#${configSession}";
-    py = "python";
+    suspend = "sudo systemctl suspend";
     ec = ''emacsclient --create-frame --alternate-editor=""'';
-    ed = "emacs --dump-file='/home/weiss/.emacs.d/emacs.pdmp' &";
+    emacs = "Exec=GTK_IM_MODULE= QT_IM_MODULE= XMODIFIERS= emacs";
     emdbg = "emacs --debug-init &";
-    edmake = "emacs --batch -q -l ~/.emacs.d/dump.el";
     pyav = "$SCRIPTS_DIR/getAvInfo.py";
     vpnon = "nmcli connection up wgtuk-Full-desk";
     vpnoff = "nmcli connection down wgtuk-Full-desk";
@@ -25,11 +24,9 @@ let
     edit = "emacsclient -c";
     redshiftDual =
       "redshift -m randr:crtc=0 -l 51.5:10.5 -t 6500:3300 -b 1:0.9 & redshift -m randr:crtc=1 -l 51.5:10.5 -t 6500:3300  -b 1:1 &";
-    mnt = "bb /home/weiss/scripts/mount.clj";
-    mp = "mplayer ";
+    mnt = "bb /home/${username}/scripts/mount.clj";
     pre_beg = "dunstctl set-paused true && xscreensaver-command -exit &";
     pre_end = "dunstctl set-paused false && xscreensaver -no-splash &";
-    cg = "cargo";
   };
 in {
   programs.bash = { inherit shellAliases; };

@@ -27,12 +27,17 @@ with myEnv; {
     };
 
     mail-sync.serviceConfig = {
-      ProgramArguments = [ "${homeDir}/.nix-profile/bin/mbsync" "-a" ];
+      ProgramArguments = [ "${userBin "mbsync"}" "-a" ];
       StandardErrorPath = "${homeDir}/.config/mbsync/mbsync.err.log";
       StandardOutPath = "${homeDir}/.config/mbsync/mbsync.out.log";
       StartCalendarInterval =
-        map (min: { Minute = min; }) (myLib.interval.minutes 10);
+        map (min: { Minute = min; }) (myLib.interval.minutes 3);
     };
+  };
+
+  homebrew = {
+    enable = false;
+    casks = [ ];
   };
 }
 

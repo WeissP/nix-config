@@ -23,9 +23,18 @@
               }
               (ifLinux { trusted-users = [ "root" "${username}" ]; })
             ];
+
+            extraOptions = ''
+              keep-outputs = true
+              keep-derivations = true
+            '';
           }
           (ifDarwin {
-            extraOptions = "extra-platforms = aarch64-darwin x86_64-darwin";
+            extraOptions = ''
+              extra-platforms = aarch64-darwin x86_64-darwin
+              keep-outputs = true
+              keep-derivations = true
+            '';
           })
         ];
 
@@ -35,6 +44,7 @@
             outputs.overlays.modifications
             outputs.overlays.weissNur
             outputs.overlays.lts
+            (import inputs.emacs-overlay)
           ];
           config = { allowUnfree = true; };
         };
@@ -90,6 +100,8 @@
               cascadia-code
               sarasa-gothic
               emacs-all-the-icons-fonts
+              wqy_microhei
+              wqy_zenhei
             ];
           }
           (ifLinux {
@@ -126,6 +138,7 @@
             wezterm
             babashka
             unzip
+            zip
           ];
         };
 

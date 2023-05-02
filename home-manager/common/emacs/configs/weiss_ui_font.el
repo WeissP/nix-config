@@ -40,10 +40,11 @@
   (patch-fonts)
 
   ;; Specify font for Chinese characters
-  ;; (cl-loop for font in '("FZPingXianYaSongS-R-GB" "WenQuanYi Micro Hei" "Microsoft Yahei" "LXGW WenKai")
-  ;;          when (font-installed-p font)
-  ;;          return (set-fontset-font t '(#x4e00 . #x9fff) font))
+  (cl-loop for font in '("WenQuanYi Micro Hei" "Microsoft Yahei" "LXGW WenKai")
+           when (font-installed-p font)
+           return (set-fontset-font t '(#x4e00 . #x9fff) font))
   )
+
 ;; (set-fontset-font t ?⇐ (with-font "Noto Sans Math") nil nil)
 
 (provide 'weiss_ui_font)

@@ -1,4 +1,7 @@
 (with-eval-after-load 'eglot
+  (add-to-list 'eglot-server-programs '(nix-mode . ("nil")))
+  (add-to-list 'eglot-server-programs '(elixir-mode "elixir-ls"))
+  (add-to-list 'eglot-server-programs '(java-mode "jdt-language-server"  "-configuration" "../config-linux" "-data" "../java-workspace"))
   (add-to-list 'eglot-ignored-server-capabilities :documentHighlightProvider)
   (setq-default
    eglot-workspace-configuration

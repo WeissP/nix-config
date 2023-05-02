@@ -1,4 +1,4 @@
-(with-eval-after-load 'sql-mode
+(with-eval-after-load 'sql
   (when (boundp 'sql-mode-abbrev-table)
     (clear-abbrev-table sql-mode-abbrev-table))
 

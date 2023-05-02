@@ -1,5 +1,6 @@
 (with-eval-after-load 'eglot-java
-(eglot-java-init)
+  (setq eglot-java-eglot-server-programs-manual-updates t)
+;; (eglot-java-init)
   )
 
 

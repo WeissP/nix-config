@@ -12,33 +12,6 @@ in {
       example = literalExpression "pkgs.emacs25-nox";
       description = "The Emacs package to use.";
     };
-    rimeIntegration = mkOption {
-      description = "TODO Whether to enable rime integration";
-      default = { enable = false; };
-      type = types.submodule {
-        options = {
-          enable = mkEnableOption "rime integration";
-          package = mkOption { type = types.package; };
-        };
-      };
-    };
-    mindwaveIntegration = mkOption {
-      description = "TODO Whether to enable rime integration";
-      default = { enable = false; };
-      type = types.submodule {
-        options = { enable = mkEnableOption "mindwave integration"; };
-      };
-    };
-    telegaIntegration = mkOption {
-      description = "TODO Whether to enable rime integration";
-      default = { enable = false; };
-      type = types.submodule {
-        options = {
-          enable = mkEnableOption "telega integration";
-          package = mkOption { type = types.package; };
-        };
-      };
-    };
     userEmacsDirectory = with types;
       mkOption {
         description = "absolute path to emacs root config dir";
@@ -189,6 +162,7 @@ in {
         externalPackages = [ pkg ];
         cmds = ''
           (setq rime--module-path "${pkg.outPath}/include/librime-emacs.so")
+          (setq rime-share-data-dir "${homeDir}/.local/share/fcitx5/rime/")
         '';
       }
     else {
@@ -217,7 +191,8 @@ in {
     in {
       cmds =
         ''(setq telega-server-command "${pkg.outPath}/bin/telega-server")'';
-      externalPackages = [ pkg ];
+      externalPackages = [ pkg pkgs.ffmpeg ];
+      emacsPackages = [ "telega" ];
     };
     handleMindWave = let apiPath = "${localPkgPath}/mind-wave/schluessel.txt";
     in {
@@ -246,6 +221,11 @@ in {
       externalPackages = with pkgs; [ maxima ghostscript gnuplot ];
     };
 
+    handleEglotJava = {
+      emacsPackages = [ "eglot-java" ];
+      extraPackages = [ pkgs.jdt-language-server ];
+    };
+
     handleLocalPackages = pkg: {
       localPackages."${pkg}" = ./local-packages + "/${pkg}";
     };
@@ -258,6 +238,8 @@ in {
         handleMindWave
       else if pkgName == "maxima" then
         handleMaxima
+        # else if pkgName == "eglot-java" then
+        # handleEglotJava
       else if (builtins.elem pkgName [
         "snails"
         "snails-custom-backends"
@@ -379,6 +361,7 @@ in {
   in mkIf cfg.enable {
     programs.emacs = {
       enable = true;
+      package = cfg.package;
       overrides = prev: final: {
         org-table-to-qmk-keymap =
           pkgs.callPackage ./packages/org-table-to-qmk-keymap {

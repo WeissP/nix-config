@@ -19,6 +19,7 @@ let
   VideoDownloadHelper = "lmjnegcaeklhafolokijcfjliaokphfk";
   Vimium = "dbepggeogbaibhgnhhndojpepiihcmeb";
   Wikiwand = "emffkefkbkpkgpdeeooapgaicgmcbolj";
+  GitZip = "ffabmkklhbepgcgfonabamgnfafbdlkn";
 in (myEnv.ifLinux {
   programs.chromium = rec {
     inherit package;
@@ -40,6 +41,7 @@ in (myEnv.ifLinux {
       VideoDownloadHelper
       Vimium
       Wikiwand
+      GitZip
     ];
   };
 })

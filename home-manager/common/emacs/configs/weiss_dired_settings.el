@@ -16,6 +16,7 @@
    dired-auto-revert-buffer t
    dired-omit-files "\\`[.]?#\\|\\`[.][.]?\\'|\\|.*aria2$\\|.*agdai$\\|^.*frag-master.*$\\|^my_tmp$\\|^\\."
    dired-listing-switches "-altGh"
+   dired-mouse-drag-files t
    )
   )
 

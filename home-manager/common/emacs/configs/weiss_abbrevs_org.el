@@ -8,6 +8,7 @@
       ("wa" "WhatsApp")
 ;;;;; symbols
       ("pc" "*＋* ▮\n*－* cons ")    
+      ("norm" "∥ ▮ ∥")    
 
 ;;;;; roam
       ("ro" "#+roam_▮: ")
@@ -45,6 +46,7 @@
       ("json" "JSON " weiss--ahf)    
       ("joda" "JODA " weiss--ahf)    
       ("algo" "algorithm" weiss--ahf)
+      ("prop" "properties" weiss--ahf)
 ;;;;; for Germany language
       ("ht" "heute" weiss--ahf)
       ("ad" "außerdem" weiss--ahf)

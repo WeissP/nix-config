@@ -19,8 +19,6 @@
             sessionVariables = {
               SCRIPTS_DIR = myEnv.scriptsDir;
               # LEDGER_FILE = "\${HOME}/finance/2021.journal";
-              # POSTGIS_DIESEL_DATABASE_URL =
-              #   "postgres://weiss@localhost/digivine";
             };
             file = {
               "${homeDir}/scripts" = {
@@ -30,10 +28,15 @@
               "${homeDir}/.ssh/id_rsa".text = secrets.ssh."163".private;
             };
             packages = with pkgs; [
-              direnv
+              zenith
               elixir
               elixir-ls
-              (python3.withPackages (ps: with ps; [ openai epc sexpdata six ]))
+              erlang
+              nil
+              docker-compose
+              dua
+              xmlstarlet
+              # (python3.withPackages (ps: with ps; [ openai epc sexpdata six ]))
               (texlive.combine {
                 inherit (texlive)
                   scheme-small collection-langkorean algorithms cm-super pgf
@@ -98,6 +101,12 @@
             };
           })
         ];
+        programs = {
+          direnv = {
+            enable = true;
+            nix-direnv.enable = true;
+          };
+        };
       }
       (ifLinux {
         systemd.user.services = with myLib.service; {
