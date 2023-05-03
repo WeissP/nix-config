@@ -7,13 +7,13 @@
       (:foundry "SAJA" :family "Cascadia Code PL" :width normal :height 120 :weight normal :slant normal :underline nil :overline nil :extend nil :strike-through nil :box nil :inverse-video nil :foreground "#383a42" :background "#fafafa" :stipple nil :inherit nil))))
  '(bold
    ((t
-     (:weight demibold :slant normal :underline nil :foreground "#f5355e" :background nil))))
+     (:weight demibold :slant normal :underline nil :foreground "#f5355e" :background unspecified))))
  '(italic
    ((t
-     (:weight normal :underline nil :slant italic :height 0.95 :foreground "#606060" :background nil))))
+     (:weight normal :underline nil :slant italic :height 0.95 :foreground "#606060" :background unspecified))))
  '(underline
    ((t
-     (:weight normal :underline t :foreground "blue violet" :background nil))))
+     (:weight normal :underline t :foreground "blue violet" :background unspecified))))
  '(cursor ((t (:background "#4078f2"))))
  '(fixed-pitch
    ((t
@@ -76,11 +76,11 @@
  '(tab-line-tab-current
    ((t (:box nil :foreground "#383a42" :background "wheat"))))
  '(tab-line-tab-inactive-alternate
-   ((t (:box nil :foreground "#383a42" :background nil))))
+   ((t (:box nil :foreground "#383a42" :background unspecified))))
  '(tab-line-tab-inactive
-   ((t (:box nil :foreground "#383a42" :background nil))))
+   ((t (:box nil :foreground "#383a42" :background unspecified))))
  '(tab-line-tab
-   ((t (:box nil  :foreground "#383a42" :background nil ))))
+   ((t (:box nil  :foreground "#383a42" :background unspecified ))))
  '(tab-line ((t (:background "#f0f0f0" :foreground "#f0f0f0"))))
 
  '(snails-header-line-face
@@ -251,7 +251,7 @@
    ((t (:inherit (fixed-pitch) :foundry "SAJA" :family "Cascadia Code PL" :extend nil :background "#FAFAFA"))))
  '(org-drawer
    ((t
-     (:foreground "#999999" :slant normal :weight light :background nil))))
+     (:foreground "#999999" :slant normal :weight light :background unspecified))))
  '(org-special-keyword
    ((t (:weight bold :slant normal :inherit 'org-drawer))))
  '(org-property-value

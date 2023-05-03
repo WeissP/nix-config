@@ -86,6 +86,9 @@ in {
         "ligature"
         "gcmh"
         "tab-line"
+        "nerd-icons"
+        "diredfl"
+        "nerd-icons-dired"
       ];
       idleLoad = {
         enable = true;
@@ -200,7 +203,10 @@ in {
         dired = [
           "dired"
           "wdired"
-          [ "diredfl" "all-the-icons-dired" ]
+          [
+            "diredfl" # "all-the-icons-dired"
+            "nerd-icons-dired"
+          ]
           [ "dired-filter" "dired-avfs" "dired-collapse" "dired-quick-sort" ]
           "dired-hacks-utils"
           "peep-dired"
@@ -223,6 +229,7 @@ in {
           "whitespace"
           "ligature"
           "all-the-icons"
+          "nerd-icons"
           "display-line-numbers"
         ];
         email = [ "email" "notmuch" ];

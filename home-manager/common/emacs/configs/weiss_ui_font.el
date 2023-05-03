@@ -25,6 +25,7 @@
   )
 
 
+
 (defun patch-fonts ()
   "DOCSTRING"
   (interactive)
@@ -34,10 +35,8 @@
   (set-fontset-font t 'symbol (with-font "Noto Sans Math") nil 'prepend)
   (set-fontset-font t 'symbol (with-font "Noto Color Emoji") nil 'prepend)
   (set-fontset-font t 'symbol (with-font "Apple Color Emoji") nil 'prepend)
-  )
 
-(when (display-graphic-p)
-  (patch-fonts)
+  ;; (set-fontset-font t ? (with-font "file-icons") nil nil)
 
   ;; Specify font for Chinese characters
   (cl-loop for font in '("WenQuanYi Micro Hei" "Microsoft Yahei" "LXGW WenKai")
@@ -45,6 +44,12 @@
            return (set-fontset-font t '(#x4e00 . #x9fff) font))
   )
 
+(when (display-graphic-p)
+  (patch-fonts)
+  )
+;; (font-family-available-p "icons")
+;; (font-family-available-p "awesome")
+;; (font-installed-p "all-the-icons")
 ;; (set-fontset-font t ?⇐ (with-font "Noto Sans Math") nil nil)
 
 (provide 'weiss_ui_font)

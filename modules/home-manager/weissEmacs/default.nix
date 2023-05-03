@@ -3,7 +3,33 @@ with lib;
 with myEnv;
 let cfg = config.programs.weissEmacs;
 in {
-  options.programs.weissEmacs = rec {
+  options.programs.weissEmacs = let
+    recipe = with types;
+      submodule {
+        options = {
+          emacsPackages = mkOption {
+            type = listOf str;
+            default = [ ];
+          };
+          externalPackages = mkOption {
+            type = listOf package;
+            default = [ ];
+          };
+          cmds = mkOption {
+            type = str;
+            default = "";
+          };
+          localPackages = mkOption {
+            type = attrsOf path;
+            default = { };
+          };
+          files = mkOption {
+            type = attrsOf anything;
+            default = { };
+          };
+        };
+      };
+  in rec {
     enable = mkEnableOption "weissEmacs";
     package = mkOption {
       type = types.package;
@@ -15,6 +41,12 @@ in {
     userEmacsDirectory = with types;
       mkOption {
         description = "absolute path to emacs root config dir";
+        type = str;
+      };
+    localPkgPath = with types;
+      mkOption {
+        description = "absolute path local Pkg";
+        default = "${cfg.userEmacsDirectory}/local-packages";
         type = str;
       };
     emacsConfigPath = with types;
@@ -130,6 +162,7 @@ in {
           };
         };
     };
+
     startupOptimization = mkOption {
       description = "submodule example";
       default = { enable = true; };
@@ -143,7 +176,86 @@ in {
           };
         };
     };
-
+    recipes = mkOption {
+      description = "recipes";
+      default = {
+        rime = if arch == "linux" then
+          let pkg = pkgs.weissNur.emacs-rime;
+          in {
+            emacsPackages = [ "rime" ];
+            externalPackages = [ pkg ];
+            cmds = ''
+              (setq rime--module-path "${pkg.outPath}/include/librime-emacs.so")
+              (setq rime-share-data-dir "${homeDir}/.local/share/fcitx5/rime/")
+            '';
+          }
+        else {
+          cmds = ''
+            (setq rime-emacs-module-header-root "${cfg.package.outPath}/include")
+            (setq rime-librime-root "${userEmacsDirectory}/librime/dist")
+            (setq rime-share-data-dir "${homeDir}/Library/Rime/")
+          '';
+          localPackages."emacs-rime" = pkgs.fetchFromGitHub {
+            owner = "DogLooksGood";
+            repo = "emacs-rime";
+            rev = version;
+            hash = "sha256-Z4hGsXwWDXZie/8IALhyoH/eOVfzhbL69OiJlLHmEXw=";
+          };
+          files."${userEmacsDirectory}/librime" = {
+            source = pkgs.fetchzip {
+              url =
+                "https://github.com/rime/librime/releases/download/1.8.4/rime-a94739f-macOS.tar.bz2";
+              sha256 = "sha256-rxkbiTIC8+i8Zr66lfj6JDFOf4ju8lo3dPP1UDIPC1c=";
+              stripRoot = false;
+            };
+            recursive = true;
+          };
+        };
+        telega = let pkg = pkgs.weissNur.telega-server;
+        in {
+          cmds =
+            ''(setq telega-server-command "${pkg.outPath}/bin/telega-server")'';
+          externalPackages = [ pkg pkgs.ffmpeg ];
+          emacsPackages = [ "telega" ];
+        };
+        mind-wave =
+          let apiPath = "${cfg.localPkgPath}/mind-wave/schluessel.txt";
+          in {
+            cmds = ''
+              (setq mind-wave-python-command "nix-shell")
+              (setq mind-wave-api-key-path "${apiPath}")
+            '';
+            files."${apiPath}".text = secrets.openai.apiKey;
+            localPackages."mind-wave" = pkgs.fetchFromGitHub {
+              owner = "manateelazycat";
+              repo = "mind-wave";
+              rev = "075e5b0c11c8a3f670d2c8ef8dc4e66c6084b958";
+              sha256 = "sha256-avwFsfrbOPWcT/ZLdRVhf8fK3/yUX1S36d4QPqq6meA=";
+              postFetch = ''
+                sed -i -e '1s:^#!/usr/bin/env python3:#! /usr/bin/env nix-shell:' -e '1a #! nix-shell -i python3 -p python3Packages.openai python3Packages.epc python3Packages.sexpdata python3Packages.six' "$out/mind_wave.py"
+              '';
+            };
+          };
+        maxima = {
+          localPackages."maxima" = pkgs.fetchFromGitLab {
+            owner = "sasanidas";
+            repo = "maxima";
+            rev = "1913ee496bb09430e85f76dfadf8ba4d4f95420f";
+            hash = "sha256-PSZlcv48h6ML/HXneH/kZ7gfA3fEwptsI/elCyjGNNY";
+          };
+          externalPackages = with pkgs; [ maxima ghostscript gnuplot ];
+        };
+        nerd-icons-dired = {
+          localPackages."nerd-icons-dired" = pkgs.fetchFromGitHub {
+            owner = "rainstormstudio";
+            repo = "nerd-icons-dired";
+            rev = "5abd8f6d9f395f91d3e67afadbea6c638dee7e6e";
+            hash = "sha256-FBuzk7k5VFek4ZIiUWgDzXmle8n+EV+KI+RcxZ8hcvE=";
+          };
+        };
+      };
+      type = types.attrsOf recipe;
+    };
   };
   config = let
     optionalList = cond: list: if cond then list else [ ];
@@ -230,14 +342,18 @@ in {
       localPackages."${pkg}" = ./local-packages + "/${pkg}";
     };
     recipes = map (pkgName:
-      if pkgName == "rime" then
-        handleRime
-      else if pkgName == "telega" then
-        handleTelega
-      else if pkgName == "mind-wave" then
-        handleMindWave
-      else if pkgName == "maxima" then
-        handleMaxima
+      if (builtins.hasAttr pkgName cfg.recipes) then
+      # { }
+        cfg.recipes."${pkgName}"
+        # lib.attrsets.getAttrFromPath [ pkgName ] cfg.recipes
+        # if pkgName == "rime" then
+        #   handleRime
+        # else if pkgName == "telega" then
+        #   handleTelega
+        # else if pkgName == "mind-wave" then
+        #   handleMindWave
+        # else if pkgName == "maxima" then
+        #   handleMaxima
         # else if pkgName == "eglot-java" then
         # handleEglotJava
       else if (builtins.elem pkgName [

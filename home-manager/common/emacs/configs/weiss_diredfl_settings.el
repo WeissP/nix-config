@@ -1,4 +1,4 @@
-(with-eval-after-load 'dired
+(with-eval-after-load 'diredfl
   (diredfl-global-mode 1)
   )
 
