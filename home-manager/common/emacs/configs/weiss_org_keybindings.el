@@ -2,7 +2,6 @@
  (current-global-map)
  "SPC "
  '(("d a" .  weiss-custom-daily-agenda)
-   ("d c" .  org-roam-capture)
    ("d t" .  org-todo-list)))
 
 (with-eval-after-load 'org

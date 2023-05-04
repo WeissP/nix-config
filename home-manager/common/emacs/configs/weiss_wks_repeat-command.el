@@ -7,7 +7,7 @@
         (weiss-cut-line-or-delete-region . weiss-delete-current-block)
         (kill-region . weiss-delete-current-block)
         (er/expand-region . weiss-expand-region-outside)
-        (xah-toggle-letter-case . weiss-downcase-region)
+        (weiss-toggle-letters . weiss-downcase-region)
         (weiss-exchange-point-and-select-block-backward . xah-beginning-of-line-or-block)
         (undo . undo-redo)
         (weiss-split-or-switch-window . weiss-delete-other-window)

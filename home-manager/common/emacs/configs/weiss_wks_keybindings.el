@@ -105,7 +105,7 @@
    ("@" . weiss-mark-brackets)
 
    ("a" . weiss-split-or-switch-window)
-   ("b" . xah-toggle-letter-case)
+   ("b" . weiss-toggle-letters)
    ("c" . xah-copy-line-or-region)
    ("C" . weiss-kill-append-with-comma)
    ("d" . weiss-puni-kill-line)
@@ -177,6 +177,7 @@
    ("y x r" . "C-x C-a C-r")
    ("y y" . "C-c C-M-x")
    ("y y" . "C-c C-M-x")
+   ("y ," . "C-c C-,")
    ("<dead-circumflex>" . "^")
    ))
 

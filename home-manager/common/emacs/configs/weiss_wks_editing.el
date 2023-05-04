@@ -940,6 +940,14 @@ Version 2017-08-19"
         (setq $p2 (point))))
     (downcase-region $p1 $p2)))
 
+(defun weiss-toggle-letters ()
+  "DOCSTRING"
+  (interactive)
+  (if current-prefix-arg
+      (call-interactively 'weiss-subscriptify-region)
+    (call-interactively 'xah-toggle-letter-case)
+    ))
+
 (defun xah-toggle-letter-case ()
   "Toggle the letter case of current word or text selection.
                                       Always cycle in this order: Init Caps, ALL CAPS, all lower.
@@ -969,6 +977,46 @@ Version 2017-08-19"
       (downcase-region $p1 $p2)
       (upcase-initials-region $p1 $p2)
       (put this-command 'state 1)))))
+
+(defun weiss-subscriptify-region ()
+  "DOCSTRING"
+  (interactive)
+  (let (beg end)
+    (if (weiss-region-p)
+        (progn
+          (setq beg (region-beginning))
+          (setq end (region-end))
+          )
+      (setq beg (line-beginning-position))
+      (setq end (line-end-position))
+      )
+    (insert
+     (mapconcat
+      'identity
+      (-map (lambda (c) (char-to-string (weiss-subscriptify-char c))) (delete-and-extract-region beg end))
+      ))
+    )
+  )
+
+(defun weiss-subscriptify-char (c)
+  "Converts a number or letter to its subscript equivalent."
+  (pcase c
+    (0 ?₀)
+    (1 ?₁)
+    (2 ?₂)
+    (3 ?₃)
+    (4 ?₄)
+    (5 ?₅)
+    (6 ?₆)
+    (7 ?₇)
+    (8 ?₈)
+    (9 ?₉)
+    (?i ?ᵢ)
+    (?j ?ⱼ)
+    (?k ?ₖ)
+    (?l ?ₗ)
+    (_ c)))
+
 
 (defun weiss-indent-nearby-lines ()
   "DOCSTRING"

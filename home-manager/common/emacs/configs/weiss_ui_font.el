@@ -9,22 +9,11 @@
            (font-family-list)
            )
   )
-;; (font-installed-p "Noto Color Emoji")
-;; (font-family-available-p "Apple Color Emoji")
-;; (setq use-default-font-for-symbols t)
-
-;; (-filter (lambda (s) (and (cl-search (downcase "noto") (downcase s))
-;;                           (cl-search (downcase "emoji") (downcase s))
-;;                           ))
-;;          (font-family-list)
-;;          )
 
 (defun with-font (s)
   "DOCSTRING"
   (font-spec :family  s)
   )
-
-
 
 (defun patch-fonts ()
   "DOCSTRING"
@@ -36,8 +25,6 @@
   (set-fontset-font t 'symbol (with-font "Noto Color Emoji") nil 'prepend)
   (set-fontset-font t 'symbol (with-font "Apple Color Emoji") nil 'prepend)
 
-  ;; (set-fontset-font t ? (with-font "file-icons") nil nil)
-
   ;; Specify font for Chinese characters
   (cl-loop for font in '("WenQuanYi Micro Hei" "Microsoft Yahei" "LXGW WenKai")
            when (font-installed-p font)
@@ -47,10 +34,6 @@
 (when (display-graphic-p)
   (patch-fonts)
   )
-;; (font-family-available-p "icons")
-;; (font-family-available-p "awesome")
-;; (font-installed-p "all-the-icons")
-;; (set-fontset-font t ?⇐ (with-font "Noto Sans Math") nil nil)
 
 (provide 'weiss_ui_font)
 

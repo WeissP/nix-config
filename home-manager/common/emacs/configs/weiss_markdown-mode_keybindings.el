@@ -2,7 +2,7 @@
   (wks-define-key
    markdown-mode-map ""
    '(
-     ("y" . markdown-toggle-inline-images)
+     ("t" . markdown-toggle-inline-images)
      )
    )
   )

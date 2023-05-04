@@ -36,7 +36,6 @@
               docker-compose
               dua
               xmlstarlet
-              # (python3.withPackages (ps: with ps; [ openai epc sexpdata six ]))
               (texlive.combine {
                 inherit (texlive)
                   scheme-small collection-langkorean algorithms cm-super pgf

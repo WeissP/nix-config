@@ -63,7 +63,7 @@
 +comdirect_news -- is:comdirect and from:news
 
 +medium -- from:medium
-+medium_advertisement -- is:medium and (subject:member or subject:save) 
++medium_advertisement -- is:medium and (subject:member or subject:save or from:"/hello_at_medium_.*/") 
 +medium_prog -- is:medium and from:programming or subject:programming
 +medium_daily -- is:medium and from:"Medium Daily Digest"
 +medium_newsleter -- is:medium and (is:medium_prog or is:medium_daily or subject:stories) and not is:medium_advertisement
@@ -119,7 +119,7 @@
 
 +newsletter -- is:medium_newsleter or is:bieleinianjian or is:stochastic_volatility
 
-+advertisement -- is:check24 or is:webde_info or is:heystudium or is:comdirect_news or from:"TrySail" or from:前程无忧 or tag:"/.*advertisement.*/"
++advertisement -- is:check24 or is:webde_info or is:heystudium or is:comdirect_news or from:"trysail" or from:前程无忧 or tag:"/.*advertisement.*/"
 
 -inbox -unread -- subject:"Mail delivery failed: returning message to sender" or subject:"Returned mail: see transcript for details"
 
