@@ -28,6 +28,7 @@
               "${homeDir}/.ssh/id_rsa".text = secrets.ssh."163".private;
             };
             packages = with pkgs; [
+              nodejs
               zenith
               elixir
               elixir-ls

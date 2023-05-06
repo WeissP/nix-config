@@ -21,7 +21,7 @@ with myEnv; {
         accelSpeed = "0.5"; # float number between -1 and 1.
       };
       displayManager.sessionCommands = ''
-        emacs &
+        Exec=GTK_IM_MODULE= QT_IM_MODULE= XMODIFIERS= emacs &
         cider &
         chromium &
         xbindkeys &

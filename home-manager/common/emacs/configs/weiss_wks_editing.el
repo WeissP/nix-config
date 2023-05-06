@@ -990,31 +990,44 @@ Version 2017-08-19"
       (setq beg (line-beginning-position))
       (setq end (line-end-position))
       )
-    (insert
-     (mapconcat
-      'identity
-      (-map (lambda (c) (char-to-string (weiss-subscriptify-char c))) (delete-and-extract-region beg end))
-      ))
+    (if (= 2 (- end beg))
+        (weiss--subscriptify-region (1+ beg) end)        
+      (weiss--subscriptify-region beg end)        
+      )
     )
+  )
+
+(defun weiss--subscriptify-region (beg end)
+  "DOCSTRING"
+  (goto-char beg)
+  (insert
+   (mapconcat
+    'identity
+    (-map (lambda (c) (char-to-string (weiss-subscriptify-char c))) (delete-and-extract-region beg end))
+    ))  
   )
 
 (defun weiss-subscriptify-char (c)
   "Converts a number or letter to its subscript equivalent."
   (pcase c
-    (0 ?₀)
-    (1 ?₁)
-    (2 ?₂)
-    (3 ?₃)
-    (4 ?₄)
-    (5 ?₅)
-    (6 ?₆)
-    (7 ?₇)
-    (8 ?₈)
-    (9 ?₉)
+    (?0 ?₀)
+    (?1 ?₁)
+    (?2 ?₂)
+    (?3 ?₃)
+    (?4 ?₄)
+    (?5 ?₅)
+    (?6 ?₆)
+    (?7 ?₇)
+    (?8 ?₈)
+    (?9 ?₉)
     (?i ?ᵢ)
     (?j ?ⱼ)
     (?k ?ₖ)
     (?l ?ₗ)
+    (?n ?ₙ)
+    (?t ?ₜ)
+    (?m ?ₘ)
+    (?- ?₋)
     (_ c)))
 
 

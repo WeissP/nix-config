@@ -56,6 +56,7 @@
                              (dired-hide-details-mode 1)
                              (dired-utils-format-information-line-mode)
                              (dired-omit-mode)
+                             (auto-revert-mode)
                              (setq dired-auto-revert-buffer t)
                              ))
 

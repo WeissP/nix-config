@@ -96,6 +96,7 @@ in {
         packages = [ "org" "pdf-view" "eglot" ];
       };
       skipInstall = [
+        "tramp"
         "server"
         "wks"
         "global"

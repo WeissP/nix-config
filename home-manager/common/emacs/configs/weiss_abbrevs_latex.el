@@ -152,6 +152,7 @@
       ("os" "\\sqrt" weiss--ahf)
       ("osum" "\\sum_{▮} " weiss--ahf)
       ("ox" "\\times " weiss--ahf)
+      ("ol" "\\log " weiss--ahf)
 
 ;;;;; arrows
       ("ar" "\\Rightarrow " weiss--ahf)

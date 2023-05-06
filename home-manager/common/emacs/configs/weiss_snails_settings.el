@@ -53,6 +53,13 @@
                     snails-backend-org-roam-new
                     ))))
 
+  (defun snails-render-buffer-icon-with-nerd-fonts (buf)
+    "Render buffer icon."
+    (if (featurep 'nerd-icons)
+        (with-current-buffer buf        
+          (nerd-icons-icon-for-buffer))
+      ""))
+  (advice-add 'snails-render-buffer-icon :override #'snails-render-buffer-icon-with-nerd-fonts)
   )
 
 ;; parent: 

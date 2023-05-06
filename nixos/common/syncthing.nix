@@ -53,6 +53,11 @@ in (ifLinux {
           path = "${homeDir}/podcasts"; # Which folder to add to Syncthing
           devices = [ "Raspberrypi" ]; # Which devices to share the folder with
         };
+        "projects" = {
+          id = "eu6nz-2urtd";
+          path = "${homeDir}/projects"; # Which folder to add to Syncthing
+          devices = [ "Raspberrypi" ]; # Which devices to share the folder with
+        };
       })
     ];
   };

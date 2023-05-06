@@ -20,6 +20,7 @@ let
   Vimium = "dbepggeogbaibhgnhhndojpepiihcmeb";
   Wikiwand = "emffkefkbkpkgpdeeooapgaicgmcbolj";
   GitZip = "ffabmkklhbepgcgfonabamgnfafbdlkn";
+  infyScroll = "gdnpnkfophbmbpcjdlbiajpkgdndlino";
 in (myEnv.ifLinux {
   programs.chromium = rec {
     inherit package;
@@ -42,6 +43,7 @@ in (myEnv.ifLinux {
       Vimium
       Wikiwand
       GitZip
+      infyScroll
     ];
   };
 })
