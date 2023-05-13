@@ -86,6 +86,7 @@
               noto-fonts
               noto-fonts-cjk
               noto-fonts-emoji
+              stix-two
               liberation_ttf
               fira-code
               fira-code-symbols

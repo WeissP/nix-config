@@ -24,6 +24,7 @@
   (set-fontset-font t 'symbol (with-font "Noto Sans Math") nil 'prepend)
   (set-fontset-font t 'symbol (with-font "Noto Color Emoji") nil 'prepend)
   (set-fontset-font t 'symbol (with-font "Apple Color Emoji") nil 'prepend)
+  (set-fontset-font t ?𝒪 (with-font "STIX Two Math") nil nil)
 
   ;; Specify font for Chinese characters
   (cl-loop for font in '("WenQuanYi Micro Hei" "Microsoft Yahei" "LXGW WenKai")

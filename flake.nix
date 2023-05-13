@@ -122,6 +122,24 @@
             ./home-manager
           ];
         };
+
+        vultr-miami = nixpkgs.lib.nixosSystem {
+          system = "x86_64-linux";
+          specialArgs = {
+            inherit inputs outputs secrets myLib;
+            myEnv = myLib.genEnv {
+              arch = "linux";
+              usage = "server";
+              username = "weiss";
+            };
+            configSession = "vultr-miami";
+          };
+          modules = [
+            ./nixos/vultr-miami/configuration.nix
+            ./nixos/vultr-miami/hardware-configuration.nix
+            ./home-manager
+          ];
+        };
       };
 
       darwinConfigurations = let myEnv = darwinEnv;

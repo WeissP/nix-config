@@ -91,8 +91,15 @@
    ("RET" . weiss-temp-insert-exit-and-keep-content)
    ))
 
+(with-eval-after-load 'org
+  (define-key weiss-temp-insert-mode-map
+              [remap org-return] #'weiss-temp-insert-exit-and-keep-content)
+  (define-key weiss-temp-insert-mode-map
+              [remap weiss-org-return] #'weiss-temp-insert-exit-and-keep-content)
+  )
+
 (define-key weiss-temp-insert-mode-map
-  [remap wks-vanilla-mode-disable] #'weiss-temp-insert-exit-and-remove-content)
+            [remap wks-vanilla-mode-disable] #'weiss-temp-insert-exit-and-remove-content)
 
 ;;;###autoload
 (define-minor-mode weiss-temp-insert-mode

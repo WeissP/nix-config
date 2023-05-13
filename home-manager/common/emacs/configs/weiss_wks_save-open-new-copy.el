@@ -194,7 +194,7 @@ Version 2015-10-14"
             (dotimes (i times)
               ;; (next-line)
               (insert line))
-            (indent-region current-point (point))))
+            ))
       (if (use-region-p)
           (progn
             (copy-region-as-kill (region-beginning) (region-end)))
