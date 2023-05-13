@@ -52,12 +52,11 @@
   (advice-add 'dired-omit-expunge :override #'my-dired-omit-expunge)
   )
 
-(add-hook 'dired-mode-hook (lambda () (interactive)
+(add-hook 'dired-mode-hook (lambda () 
                              (dired-hide-details-mode 1)
                              (dired-utils-format-information-line-mode)
                              (dired-omit-mode)
                              (auto-revert-mode)
-                             (setq dired-auto-revert-buffer t)
                              ))
 
 (defun weiss-show-icons-in-dired-p ()
@@ -79,6 +78,7 @@
    dired-omit-files "\\`[.]?#\\|\\`[.][.]?\\'|\\|.*aria2$\\|.*agdai$\\|^.*frag-master.*$\\|^my_tmp$\\|^\\."
    dired-listing-switches "-altGh"
    dired-mouse-drag-files t
+   dired-auto-revert-buffer t
    )
 
   

@@ -96,6 +96,7 @@ in {
         packages = [ "org" "pdf-view" "eglot" ];
       };
       skipInstall = [
+        "python"
         "tramp"
         "server"
         "wks"
@@ -146,7 +147,7 @@ in {
         lang = [
           [ "elixir-mode" "flymake-elixir" "inf-elixir" "ob-elixir" ]
           "cider"
-          "python"
+          [ "python" "live-py-mode" ]
           "php-mode"
           "rustic"
           [ "web-mode" "rjsx-mode" "mhtml-mode" [ "http" "auto-rename-tag" ] ]

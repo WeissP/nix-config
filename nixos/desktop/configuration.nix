@@ -21,6 +21,9 @@ with myEnv; {
     myPostgresql.databases = [ "webman" "recentf" "digivine" ];
   };
 
+  environment.systemPackages = [ pkgs.wireguard-tools ];
+  networking.firewall.checkReversePath = false;
+
   virtualisation.docker.enable = true;
   security.sudo.extraRules = [
     # Allow execution of any command by all users in group sudo,

@@ -31,7 +31,7 @@ with myEnv; {
       StandardErrorPath = "${homeDir}/.config/mbsync/mbsync.err.log";
       StandardOutPath = "${homeDir}/.config/mbsync/mbsync.out.log";
       StartCalendarInterval =
-        map (min: { Minute = min; }) (myLib.interval.minutes 3);
+        map (min: { Minute = min; }) (myLib.interval.minutes 10);
     };
   };
 

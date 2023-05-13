@@ -15,7 +15,7 @@
      ("l" . (weiss-org-babel-insert-latex (weiss-insert-pair "#+begin_src latex" "#+end_src" t)))
      ("p" . (weiss-org-babel-insert-python (weiss-insert-pair "#+begin_src python" "#+end_src" t)))
      ("q" . (weiss-org-babel-insert-sql (weiss-insert-pair "#+begin_src sql" "#+end_src" t)))
-     ("r" . (weiss-org-babel-insert-rust (weiss-insert-pair "#+begin_src rust" "#+end_src" t)))
+     ("r" . (weiss-org-babel-insert-rust (weiss-insert-pair "#+begin_src rustic" "#+end_src" t)))
      ("s" . (weiss-org-babel-insert-sh (weiss-insert-pair "#+begin_src sh" "#+end_src" t)))
      ;; ("m" . (weiss-org-babel-insert-mustache (weiss-insert-pair "#+begin_src mustache" "#+end_src" t)))
      ("m" . (weiss-org-babel-insert-maxima (weiss-insert-pair "#+begin_src maxima" "#+end_src" t)))

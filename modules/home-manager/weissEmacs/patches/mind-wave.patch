@@ -1,0 +1,25 @@
+diff --git a/mind-wave.el b/mind-wave.el
+index 0968fd3..a989dcf 100644
+--- a/mind-wave.el
++++ b/mind-wave.el
+@@ -377,9 +377,6 @@ Then Mind-Wave will start by gdb, please send new issue with `*mind-wave*' buffe
+   "Mind Wave Chat Keymap")
+ 
+ (define-derived-mode mind-wave-chat-mode gfm-mode "Mind-Wave"
+-  (setq-local markdown-hide-markup markdown-hide-markup-in-view-modes)
+-  (setq-local markdown-fontify-code-blocks-natively t)
+-  (add-to-invisibility-spec 'markdown-markup)
+   (when mind-wave-auto-update-old-chats
+     (mind-wave--update-chat-buffer-to-new-version)))
+ 
+diff --git a/mind_wave.py b/mind_wave.py
+index 65245c9..5c5fb02 100755
+--- a/mind_wave.py
++++ b/mind_wave.py
+@@ -1,4 +1,5 @@
+-#!/usr/bin/env python3
++#! /usr/bin/env nix-shell
++#! nix-shell -i python3 -p python3Packages.openai python3Packages.epc python3Packages.sexpdata python3Packages.six
+ # -*- coding: utf-8 -*-
+ 
+ # Copyright (C) 2023 Andy Stewart

@@ -104,8 +104,7 @@
           (goto-char (+ 1 $p2 (length @left-bracket)))
           (when @new-line
             (insert "\n")
-            (indent-region $p1 $p2)
-            (indent-according-to-mode))
+            )
           (goto-char $p1)))
     (progn ; no text selection
       (let ($p1 $p2)
@@ -1022,12 +1021,15 @@ Version 2017-08-19"
     (?9 ?₉)
     (?i ?ᵢ)
     (?j ?ⱼ)
+    (?p ?ₚ)
     (?k ?ₖ)
     (?l ?ₗ)
     (?n ?ₙ)
-    (?t ?ₜ)
     (?m ?ₘ)
+    (?t ?ₜ)
+    (?x ?ₓ)
     (?- ?₋)
+    (?+ ?₊)
     (_ c)))
 
 

@@ -9,6 +9,7 @@
 ;;;;; symbols
       ("pc" "*＋* ▮\n*－* cons ")    
       ("norm" "∥ ▮ ∥")    
+      ("o" "𝒪(▮)")    
 
 ;;;;; roam
       ("ro" "#+roam_▮: ")
@@ -35,8 +36,6 @@
       ("req" "\\begin{equation} \\label{eq:▮}\n\n\\end{equation}" weiss--ahf)
       ("rhd" ":PROPERTIES:\n:CUSTOM_ID: sec:▮\n:END:" weiss--ahf)
 ;;;;; emoji
-      ("zrl" ":relaxed:" weiss--ahf)
-      ("zj" ":joy:" weiss--ahf)
       ("ej" "😂" weiss--ahf)
 ;;;;; for English language
       ("intr" "introduction" weiss--ahf)    

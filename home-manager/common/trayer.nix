@@ -4,7 +4,7 @@
   services.trayer = {
     enable = true;
     settings = {
-      monitor = 0;
+      monitor = 1;
       edge = "top";
       distancefrom = "top";
       SetDockType = false;

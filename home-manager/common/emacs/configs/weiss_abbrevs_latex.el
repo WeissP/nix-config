@@ -195,6 +195,7 @@
       ("fnz" "\\mathbb{N}_0" weiss--ahf)
       ("fn" "\\mathbb{N}" weiss--ahf)
       ("fo" "\\mathcal{O}(▮)" weiss--ahf)
+      ("fot" "\\mathcal{\\widetilde{O}}(▮)" weiss--ahf)
       ("fwlog" "w.l.o.g.\\ " weiss--ahf)
       ("fwrt" "with respect to " weiss--ahf)
       ("fmin" "_{min} " weiss--ahf)

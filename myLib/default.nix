@@ -30,7 +30,7 @@ with lib; rec {
         }));
     };
   mergeAttrList = lists.foldr (elem: res: trivial.mergeAttrs elem res) { };
-  interval = { minutes = m: filter (t: trivial.mod t m == 0) (range 1 60); };
+  interval = { minutes = m: filter (t: trivial.mod t m == 0) (range 1 59); };
   service = {
     startup = { cmds, description ? "STARTUP"
       , wantedBy ? [ "graphical-session.target" ] }: {

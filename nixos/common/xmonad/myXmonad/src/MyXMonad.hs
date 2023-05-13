@@ -105,7 +105,7 @@ myLayout =
       smartBorders $
         mouseResize $
           windowArrange $
-            ifWider 1500 (myMulCol ||| myTall) (Mirror myTall ||| myStackTile)
+            ifWider 1500 (myMulCol ||| myTall ||| Full) (Mirror myTall ||| myStackTile ||| Full)
   where
     myMulCol = multiCol [1, 1] 0 0.01 (-0.5)
     twoPane = TwoPane delta ratio
@@ -229,8 +229,8 @@ myManageHook =
           -- , [className =? "Chromium" --> doShift (getWorkspace 2)]
           -- , [className =? "Google-chrome" --> doShift (getWorkspace 3)]
           -- [className =? "Thunderbird" --> doShift "邮H"],
-          [className =? "Cider" --> doShift "音-"],
-          [className =? "Spotify" --> doShift "音-"],
+          [className =? "Cider" --> doShift "音"],
+          [className =? "Spotify" --> doShift "音"],
           [className =? x --> doIgnore | x <- myIgnoreClass],
           [className =? x --> doHideIgnore | x <- myHideIgnoreClass],
           [className =? x --> doCenterFloat | x <- myCenterFloatClass],

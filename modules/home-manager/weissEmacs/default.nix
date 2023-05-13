@@ -229,10 +229,14 @@ in {
             localPackages."mind-wave" = pkgs.fetchFromGitHub {
               owner = "manateelazycat";
               repo = "mind-wave";
-              rev = "075e5b0c11c8a3f670d2c8ef8dc4e66c6084b958";
-              sha256 = "sha256-avwFsfrbOPWcT/ZLdRVhf8fK3/yUX1S36d4QPqq6meA=";
+              rev = "5109162b74872091c5090a28389bef8f7020274c";
+              sha256 = "sha256-ovRW1cwXQd6ai/WtM0j/gkZJY8kzXipkFYl+v/WAaB4=";
               postFetch = ''
-                sed -i -e '1s:^#!/usr/bin/env python3:#! /usr/bin/env nix-shell:' -e '1a #! nix-shell -i python3 -p python3Packages.openai python3Packages.epc python3Packages.sexpdata python3Packages.six' "$out/mind_wave.py"
+                pushd $out 
+                ${pkgs.git.outPath}/bin/git apply ${
+                  ./patches + "/mind-wave.patch"
+                }
+                popd
               '';
             };
           };
@@ -252,6 +256,10 @@ in {
             rev = "5abd8f6d9f395f91d3e67afadbea6c638dee7e6e";
             hash = "sha256-FBuzk7k5VFek4ZIiUWgDzXmle8n+EV+KI+RcxZ8hcvE=";
           };
+        };
+        citre = {
+          externalPackages = [ pkgs.universal-ctags ];
+          emacsPackages = [ "citre" ];
         };
       };
       type = types.attrsOf recipe;

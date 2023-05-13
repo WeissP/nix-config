@@ -21,6 +21,8 @@
                              (yaml . t)
                              (agda2 . t)
                              (conf-toml . t)
+                             (elixir . t)
+                             (maxima . t)
                              (nix . t)))
   )
 

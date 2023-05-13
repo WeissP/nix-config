@@ -30,9 +30,6 @@
             packages = with pkgs; [
               nodejs
               zenith
-              elixir
-              elixir-ls
-              erlang
               nil
               docker-compose
               dua
@@ -41,7 +38,7 @@
                 inherit (texlive)
                   scheme-small collection-langkorean algorithms cm-super pgf
                   dvipng dvisvgm enumitem graphics wrapfig amsmath ulem hyperref
-                  capt-of framed multirow vmargin comment minted;
+                  capt-of framed multirow vmargin comment minted doublestroke;
                 pkgFilter = pkg:
                   pkg.tlType == "run" || pkg.tlType == "bin" || pkg.pname
                   == "cm-super";
@@ -60,6 +57,7 @@
               calibre
               dolphin
               libnotify
+              qq
             ];
             file = {
               ".xbindkeysrc".text = ''
