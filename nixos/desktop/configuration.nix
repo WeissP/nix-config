@@ -1,6 +1,6 @@
 { inputs, outputs, lib, config, myEnv, pkgs, secrets, configSession, ... }:
 with myEnv; {
-  imports = [ ../common/personal.nix ];
+  imports = [ ../common/personal.nix outputs.nixosModules.v2ray ];
   time.timeZone = "Europe/Berlin";
   networking.hostName = "${username}-${configSession}";
 
@@ -14,7 +14,7 @@ with myEnv; {
     openssh = {
       enable = true;
       settings = {
-        permitRootLogin = "yes";
+        PermitRootLogin = "yes";
         KbdInteractiveAuthentication = true;
       };
     };
@@ -41,6 +41,11 @@ with myEnv; {
       }];
     }
   ];
+
+  services.weissV2ray = {
+    enable = false;
+    configFile = "/home/weiss/nix-config/nixos/desktop/v2ray.json";
+  };
 
   system.stateVersion = "23.05";
 }

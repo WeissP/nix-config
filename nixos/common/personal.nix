@@ -2,7 +2,7 @@
 }:
 with lib;
 with myEnv; {
-  imports = [ ./minimum.nix ./xmonad ./psql.nix ];
+  imports = [ ./minimum.nix ./xmonad ./psql.nix ./syncthing.nix ./zsh.nix ];
 
   services = {
     xserver = {
@@ -10,7 +10,7 @@ with myEnv; {
       autorun = true;
       libinput.enable = true;
       layout = "de";
-      xkbVariant = "nodeadkeys";
+      xkbVariant = ",nodeadkeys";
       autoRepeatDelay = 230;
       autoRepeatInterval = 30;
       # Enable automatic login for the user.
@@ -36,11 +36,12 @@ with myEnv; {
     };
   };
 
-  environment = {
-    systemPackages = with pkgs; [ pavucontrol xdotool ];
-    sessionVariables = {
+  programs = { zsh.enable = true; };
 
-    };
+  environment = {
+    shells = [ pkgs.zsh ];
+    pathsToLink = [ "/share/zsh" ];
+    systemPackages = with pkgs; [ pavucontrol xdotool wezterm babashka udisks ];
   };
 
   sound.enable = true;

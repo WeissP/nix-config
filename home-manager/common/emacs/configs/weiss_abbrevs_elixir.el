@@ -10,6 +10,9 @@
       ("case" "case ▮ do\n  _ ->\nend"  weiss--ahf)
       ("fn" "fn ▮ ->  end"  weiss--ahf)
       ("mod" "defmodule ▮ do\n\nend"  weiss--ahf)
+      ("gs" "GenServer"  weiss--ahf)
+      ("ins" "IO.inspect({\"▮\"})"  weiss--ahf)
+      ("puts" "IO.puts(\"#{▮}\")"  weiss--ahf)
       ))
   )
 

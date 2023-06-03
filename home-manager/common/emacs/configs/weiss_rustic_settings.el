@@ -2,7 +2,6 @@
   (setq rustic-format-on-save nil
         rustic-lsp-setup-p nil
         rustic-lsp-client nil
-        rustic-rustfmt-args "+nightly"
         )  
 
   (with-eval-after-load 'eglot
@@ -24,6 +23,9 @@
           rustic-lsp-client 'lsp-mode
           )
     )
+
+  (setf (cdr (assoc "\\.rs\\'" auto-mode-alist)) 'rustic-mode)
+  ;; (add-to-list 'auto-mode-alist '("\\.rs\\'" . rustic-mode))
   )
 
 

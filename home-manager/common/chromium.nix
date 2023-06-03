@@ -21,6 +21,7 @@ let
   Wikiwand = "emffkefkbkpkgpdeeooapgaicgmcbolj";
   GitZip = "ffabmkklhbepgcgfonabamgnfafbdlkn";
   infyScroll = "gdnpnkfophbmbpcjdlbiajpkgdndlino";
+  videoDownloadCocoCut = "gddbgllpilhpnjpkdbopahnpealaklle";
 in (myEnv.ifLinux {
   programs.chromium = rec {
     inherit package;
@@ -39,7 +40,7 @@ in (myEnv.ifLinux {
       SearchTheCurrentSite
       SmartUpGestures
       uBlockOrigin
-      VideoDownloadHelper
+      videoDownloadCocoCut
       Vimium
       Wikiwand
       GitZip

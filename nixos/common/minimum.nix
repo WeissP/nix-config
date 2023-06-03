@@ -1,6 +1,5 @@
 { pkgs, lib, myLib, myEnv, secrets, config, inputs, outputs, configSession, ...
 }: {
-  imports = [ ./syncthing.nix ];
   config = with lib;
     with myEnv;
     mkMerge [
@@ -19,7 +18,14 @@
             settings = mkMerge [
               {
                 experimental-features = "nix-command flakes";
-                auto-optimise-store = false;
+                auto-optimise-store = true;
+                substituters = [
+                  "https://nix-community.cachix.org"
+                  "https://cache.nixos.org/"
+                ];
+                trusted-public-keys = [
+                  "nix-community.cachix.org-1:mB9FSh9qf2dCimDSUo8Zy7bkq5CX+/rkCWyvRCYg3Fs="
+                ];
               }
               (ifLinux { trusted-users = [ "root" "${username}" ]; })
             ];
@@ -62,6 +68,7 @@
           { }
           (ifDarwin { nix-daemon.enable = true; })
           (ifLinux {
+            ntp.enable = true;
             printing.enable = true;
             dbus.packages = [ pkgs.gcr ];
             udisks2.enable = true;
@@ -72,11 +79,6 @@
           (ifDarwin { pam.enableSudoTouchIdAuth = true; })
           (ifLinux { rtkit.enable = true; })
         ];
-
-        programs = {
-          nix-index.enable = false;
-          zsh.enable = true;
-        };
 
         fonts = mkMerge [
           {
@@ -124,8 +126,6 @@
         ];
 
         environment = {
-          shells = [ pkgs.zsh ];
-          pathsToLink = [ "/share/zsh" ];
           variables = { LANG = "en_US.UTF-8"; };
           systemPackages = with pkgs; [
             git
@@ -136,8 +136,6 @@
             fd
             killall
             locale
-            wezterm
-            babashka
             unzip
             zip
           ];
@@ -146,8 +144,7 @@
         system = mkMerge [ (ifDarwin { stateVersion = 4; }) ];
       }
       (ifLinux {
-        users.defaultUserShell = pkgs.zsh;
-        environment.systemPackages = with pkgs; [ udisks util-linux ];
+        environment.systemPackages = with pkgs; [ util-linux ];
         networking.networkmanager.enable = true;
         i18n = {
           defaultLocale = "en_US.UTF-8";

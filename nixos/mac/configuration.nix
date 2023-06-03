@@ -1,6 +1,6 @@
 { inputs, outputs, lib, myLib, config, pkgs, secrets, myEnv, ... }:
 with myEnv; {
-  imports = [ ../common/minimum.nix ../common/psql.nix ];
+  imports = [ ../common/minimum.nix ../common/psql.nix ../common/zsh.nix ];
 
   networking.hostName = "Bozhous-Air";
 
@@ -36,8 +36,8 @@ with myEnv; {
   };
 
   homebrew = {
-    enable = false;
-    casks = [ ];
+    enable = true;
+    casks = [ "baidunetdisk" ];
   };
 }
 

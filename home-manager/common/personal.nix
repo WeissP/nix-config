@@ -1,6 +1,8 @@
 { inputs, outputs, myEnv, lib, config, pkgs, username, secrets, myLib, ... }: {
   imports = [
     ./minimum.nix
+    ./terminal/wezterm.nix
+    ./emacs
     ./email.nix
     ./pass.nix
     ./chromium.nix
@@ -8,6 +10,9 @@
     ./trayer.nix
     ./fusuma.nix
     ./flameshot.nix
+    ./webman.nix
+    ./shell.nix
+    ./aliases.nix
   ];
 
   config = with myEnv;
@@ -34,11 +39,17 @@
               docker-compose
               dua
               xmlstarlet
+              (rWrapper.override { packages = with rPackages; [ purrr ]; })
+              # for latex minted 
+              (python3.withPackages (ps: with ps; [ pygments ]))
               (texlive.combine {
                 inherit (texlive)
                   scheme-small collection-langkorean algorithms cm-super pgf
                   dvipng dvisvgm enumitem graphics wrapfig amsmath ulem hyperref
-                  capt-of framed multirow vmargin comment minted doublestroke;
+                  capt-of framed multirow vmargin comment minted doublestroke
+                  pgfplots titlesec subfigure adjustbox algorithm2e ifoddpage
+                  relsize qtree pict2e lipsum ifsym fontawesome changepage
+                  inconsolata xcolor cancel;
                 pkgFilter = pkg:
                   pkg.tlType == "run" || pkg.tlType == "bin" || pkg.pname
                   == "cm-super";
@@ -55,9 +66,10 @@
               xautomation
               cider
               calibre
-              dolphin
               libnotify
               qq
+              ocamlPackages.cpdf
+              poppler_utils
             ];
             file = {
               ".xbindkeysrc".text = ''

@@ -7,7 +7,7 @@
       ("ta" ":tangle ")
       ("wa" "WhatsApp")
 ;;;;; symbols
-      ("pc" "*＋* ▮\n*－* cons ")    
+      ("pc" "Pros & Cons for ▮:\n*＋* \n*－* cons ")    
       ("norm" "∥ ▮ ∥")    
       ("o" "𝒪(▮)")    
 

@@ -1,6 +1,6 @@
 (with-eval-after-load 'inf-elixir
   (wks-define-key
-   inf-elixir-mode-map
+   elixir-mode-map
    ""
    '(
      ("t t" . inf-elixir-send-line)

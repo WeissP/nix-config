@@ -21,7 +21,7 @@
                         )
            file
            (if subtitle-path
-               (format "-sub \"%s\"" subtitle-path)
+               (format "--sub-file=\"%s\"" subtitle-path)
              ""
              )
            )))

@@ -116,6 +116,11 @@
          ;; xref-find-definitions
          undo)))
   (weiss-select-add-advice-deactivate-mark cmds))
+
+(with-eval-after-load 'ess
+  (weiss-select-add-advice-deactivate-mark '(ess-eval-region-or-function-or-paragraph-and-step))
+  )
+
 (advice-add 'xref-find-definitions :before #'weiss-deactivate-mark-unless-in-select-mode-interactive)
 
 ;; (defun anzu-query-replace (arg)

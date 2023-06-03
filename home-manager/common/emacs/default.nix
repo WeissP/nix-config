@@ -8,11 +8,11 @@ in {
     ./weiss-light-theme.el;
   home.packages = with pkgs; [ clj-kondo nodePackages.jsonlint nixfmt ];
   programs.weissEmacs = lib.mkMerge [
-    # (ifDarwin { package = pkgs.emacsMacport; })
+    (ifDarwin { package = pkgs.emacs-unstable; })
+    (ifLinux { package = pkgs.emacs-unstable; })
     {
       inherit userEmacsDirectory;
       enable = true;
-      package = pkgs.emacsUnstable;
       emacsConfigPath = ./configs;
       chaseSymLink = {
         enable = true;
@@ -93,7 +93,7 @@ in {
       idleLoad = {
         enable = true;
         idleSeconds = 3;
-        packages = [ "org" "pdf-view" "eglot" ];
+        packages = [ "eglot" "org" "org-roam" "pdf-view" ];
       };
       skipInstall = [
         "python"
@@ -152,7 +152,10 @@ in {
           "rustic"
           [ "web-mode" "rjsx-mode" "mhtml-mode" [ "http" "auto-rename-tag" ] ]
           [ "go-mode" [ "go-gen-test" "gotest" "go-dlv" "go-impl" "go-eldoc" ] ]
-          [ "sql" "ejc-sql" "sql-indent" ]
+          [
+            "sql" # "ejc-sql"
+            "sql-indent"
+          ]
           [ "haskell-mode" "dante" ]
           "lua-mode"
           "nix-mode"
@@ -160,6 +163,7 @@ in {
           [ "csv-mode" "ledger-mode" "mustache-mode" "agda2-mode" ]
           "dockerfile-mode"
           "markdown-mode"
+          "ess"
         ];
         pdf = [ "pdf-tools" "pdf-view" "pdf-view-restore" ];
         tools = [
@@ -180,7 +184,7 @@ in {
           "citre"
           "tab-line"
           "mind-wave"
-          "maxima"
+          # "maxima"
           # [ "tree-sitter" "tree-sitter-langs" "weiss-tsc-mode" ]
         ];
         lint =

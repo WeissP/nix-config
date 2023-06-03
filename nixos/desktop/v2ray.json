@@ -1,0 +1,93 @@
+{
+  "log": {
+    "loglevel": "debug",
+    "access": "/home/weiss/v2ray_access.log",
+    "error": "/home/weiss/v2ray_error.log"
+  },
+  "inbounds": [
+    {
+      "port": 1080,
+      "listen": "127.0.0.1",
+      "protocol": "socks",
+      "sniffing": {
+        "enabled": true,
+        "destOverride": [
+          "http",
+          "tls"
+        ]
+      },
+      "settings": {
+        "auth": "noauth",
+        "udp": true
+      }
+    }
+  ],
+  "outbounds": [
+    {
+      "protocol": "vmess",
+      "settings": {
+        "vnext": [
+          {
+            "address": "damajiang.ga",
+            "port": 443,
+            "security": "aes-128-gcm",
+            "users": [
+              {
+                "id": "cb4805db-a015-4b1b-a2ea-ae6ffbcca1b0",
+                "alterId": 0
+              }
+            ]
+          }
+        ]
+      },
+      "streamSettings": {
+        "network": "ws",
+        "security": "tls",
+        "tlsSettings": {
+          "alpn": [
+            "HTTP/1.1"
+          ],
+          "serverName": "damajiang.ga"
+        },
+        "wsSettings": {
+          "headers": {
+            "Host": "damajiang.ga"
+          },
+          "path": "/66BNpdH"
+        },
+        "xtlsSettings": {
+          "alpn": [
+            "HTTP/1.1"
+          ],
+          "serverName": "damajiang.ga"
+        }
+      },
+      "tag": "wss"
+    },
+    {
+      "protocol": "freedom",
+      "settings": {},
+      "tag": "direct"
+    }
+  ],
+  "routing": {
+    "domainStrategy": "IPOnDemand",
+    "rules": [
+      {
+        "type": "field",
+        "outboundTag": "direct",
+        "domain": [
+          "geosite:cn"
+        ]
+      },
+      {
+        "type": "field",
+        "outboundTag": "direct",
+        "ip": [
+          "geoip:cn",
+          "geoip:private"
+        ]
+      }
+    ]
+  }
+}

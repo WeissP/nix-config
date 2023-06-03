@@ -203,35 +203,20 @@
       };
 
       deploy = {
-        sshUser = "root";
         user = "root";
+        sshUser = "root";
         sshOpts = [ "-p" "22" ];
 
         autoRollback = false;
         magicRollback = false;
 
         nodes = {
-          # "root" = {
-          #   hostname = "172.16.76.128";
-          #   profiles = {
-          #     system = {
-          #       path = deploy-rs.lib.x86_64-linux.activate.nixos
-          #         self.nixosConfigurations."vmware";
-          #     };
-          #     weiss = {
-          #       # sshUser = "weiss";
-          #       path = deploy-rs.lib.x86_64-linux.activate.home-manager
-          #         self.homeConfigurations."weiss@desktop";
-          #       user = "weiss";
-          #     };
-          #   };
-          # };
-          "desktop" = {
-            hostname = "192.168.8.30";
+          "vultr-miami" = {
+            hostname = secrets."vultr-miami".ip;
             profiles = {
               system = {
                 path = deploy-rs.lib.x86_64-linux.activate.nixos
-                  self.nixosConfigurations."desktop";
+                  self.nixosConfigurations."vultr-miami";
               };
             };
           };

@@ -3,6 +3,7 @@
         org-src-fontify-natively t
         org-src-tab-acts-natively t)
 
+  (require 'ob-R)
   (setq load-language-list '((emacs-lisp . t)
                              (shell . t)
                              (python . t)
@@ -18,12 +19,14 @@
                              (sass . t)
                              (C . t)
                              (plantuml . t)
+                             (R . t)
                              (yaml . t)
                              (agda2 . t)
                              (conf-toml . t)
                              (elixir . t)
                              (maxima . t)
                              (nix . t)))
+  
   )
 
 (provide 'weiss_org-babel)

@@ -1,7 +1,6 @@
 { pkgs, lib, myEnv, config, secrets, inputs, outputs, ... }:
 with myEnv; {
-  imports =
-    [ ./terminal/wezterm.nix ./shell.nix ./aliases.nix ./webman.nix ./emacs ];
+  imports = [ ];
 
   programs = {
     home-manager.enable = true;
@@ -22,15 +21,6 @@ with myEnv; {
     stateVersion = "23.05";
     username = username;
     homeDirectory = homeDir;
-    packages = with pkgs; [ yt-dlp lux ];
-  };
-
-  home.file = let configDir = config.xdg.configHome;
-  in {
-    "${configDir}/wezterm" = {
-      source = ./config_files/wezterm;
-      recursive = true;
-    };
   };
 
 }

@@ -4,6 +4,7 @@ let
   emacs = "Exec=GTK_IM_MODULE= QT_IM_MODULE= XMODIFIERS= emacs";
   shellAliases = {
     inherit emacs;
+    deploy = "nix run github:serokell/deploy-rs -- -s";
     switch = if (arch == "linux") then
       "sudo nixos-rebuild switch --flake ${homeDir}/nix-config#${configSession}"
     else
@@ -11,6 +12,7 @@ let
     suspend = "sudo systemctl suspend";
     ns = "nix-shell";
     ec = ''emacsclient --create-frame --alternate-editor="${emacs}"'';
+    cg = "cargo";
     emdbg = "${emacs} --debug-init &";
     pyav = "$SCRIPTS_DIR/getAvInfo.py";
     vpnon = "nmcli connection up wgtuk-Full-Desk";

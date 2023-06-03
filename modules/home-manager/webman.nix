@@ -1,4 +1,4 @@
-{ pkgs, lib, myLib, myEnv, config, ... }:
+{ pkgs, lib, myEnv, config, ... }:
 with lib;
 with myEnv;
 let
@@ -29,10 +29,22 @@ in {
               type = enum [ "error" "warn" "info" "debug" "trace" ];
               default = "info";
             };
-            logFile = mkOption { type = str; };
-            target = mkOption { type = str; };
-            tagsFile = mkOption { type = str; };
-            provider = mkOption { type = attrsOf anything; };
+            logFile = mkOption {
+              type = str;
+              default = "/var/log/webman/cli.log";
+            };
+            target = mkOption {
+              type = str;
+              default = "";
+            };
+            tagsFile = mkOption {
+              type = str;
+              default = "";
+            };
+            provider = mkOption {
+              type = attrsOf anything;
+              default = { };
+            };
             freq = mkOption { type = str; };
           };
         };
@@ -60,9 +72,16 @@ in {
               type = attrsOf str;
               default = { msgpack = "20 MiB"; };
             };
-            dbUrl = mkOption { type = str; };
-            secretKey = mkOption { type = str; };
+            dbUrl = mkOption {
+              type = str;
+              default = "";
+            };
+            secretKey = mkOption {
+              type = str;
+              default = "";
+            };
             sync = mkOption {
+              default = [ ];
               type = listOf (submodule {
                 options = {
                   name = mkOption { type = str; };
@@ -74,56 +93,70 @@ in {
         };
     };
   };
-  config = mkIf cfg.enable (lib.mkMerge [{
-    xdg = {
-      enable = true;
-      configFile."webman/${filename}".source = toToml {
-        Global = {
-          name = cfg.nodeName;
-          "api_key" = cfg.apiKey;
-          nodes = cfg.nodes;
-        };
-        cli = {
-          log_level = cfg.cli.logLevel;
-          log_file = cfg.cli.logFile;
-          target = cfg.cli.target;
-          tags_file = cfg.cli.tagsFile;
-          provider = cfg.cli.provider;
-        };
-        server = {
-          log_level = cfg.server.logLevel;
-          react_location = cfg.server.reactLocation;
-          limits = cfg.server.limits;
-          databases.webman.url = cfg.server.dbUrl;
-          secret_key = cfg.server.secretKey;
-          sync = cfg.server.sync;
-        };
-      };
-    };
-    systemd.user = {
-      services.webman-cli-provider = {
-        Unit.Description =
-          "provide local browser history to nodes via webman-cli";
-        Service = {
-          ExecStart =
-            "${pkgs.webman.webman-cli.outPath}/bin/webman-cli provide";
+  config = mkIf cfg.enable (lib.mkMerge [
+    {
+      xdg = {
+        enable = true;
+        configFile."webman/${filename}".source = toToml {
+          Global = {
+            name = cfg.nodeName;
+            "api_key" = cfg.apiKey;
+            nodes = cfg.nodes;
+          };
+          cli = {
+            log_level = cfg.cli.logLevel;
+            log_file = cfg.cli.logFile;
+            target = cfg.cli.target;
+            tags_file = cfg.cli.tagsFile;
+            provider = cfg.cli.provider;
+          };
+          server = {
+            log_level = cfg.server.logLevel;
+            react_location = cfg.server.reactLocation;
+            limits = cfg.server.limits;
+            databases.webman.url = cfg.server.dbUrl;
+            secret_key = cfg.server.secretKey;
+            sync = cfg.server.sync;
+          };
         };
       };
-      timers.webman-cli-provider = {
-        Unit.Description =
-          "provide local browser history to nodes via webman-cli";
+    }
+    (mkIf cfg.server.enable { home.packages = [ pkgs.webman.webman-server ]; })
+    (mkIf (cfg.server.enable && arch == "linux") {
+      systemd.user = {
+        services.webman-server = {
+          Unit.Description = "webman server";
+          Service = {
+            ExecStart =
+              "${pkgs.webman.webman-server.outPath}/bin/webman-server";
+          };
+        };
+      };
+    })
+    (mkIf cfg.cli.enable {
+      home.packages = [ pkgs.webman.webman-cli ];
+      systemd.user = {
+        services.webman-cli-provider = {
+          Unit.Description =
+            "provide local browser history to nodes via webman-cli";
+          Service = {
+            ExecStart =
+              "${pkgs.webman.webman-cli.outPath}/bin/webman-cli provide";
+          };
+        };
+        timers.webman-cli-provider = {
+          Unit.Description =
+            "provide local browser history to nodes via webman-cli";
 
-        Timer = {
-          OnBootSec = "5s";
-          OnUnitActiveSec = cfg.cli.freq;
-          Unit = "webman-cli-provider.service";
+          Timer = {
+            OnBootSec = "5s";
+            OnUnitActiveSec = cfg.cli.freq;
+            Unit = "webman-cli-provider.service";
+          };
+          Install = { WantedBy = [ "timers.target" ]; };
         };
-        Install = { WantedBy = [ "timers.target" ]; };
       };
-    };
-    home.packages = [ ]
-      ++ (optionalList cfg.server.enable [ pkgs.webman.webman-server ])
-      ++ (optionalList cfg.cli.enable [ pkgs.webman.webman-cli ]);
-  }]);
+    })
+  ]);
 }
 

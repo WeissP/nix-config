@@ -30,7 +30,7 @@
                         (first l))
       autotype (last l)
       cmds (parseAutotype autotype info-map)]
-  (try (shell "fcitx-remote" "-s" "fcitx-keyboard-de-nodeadkeys") (catch Exception e#))
+  (try (shell "fcitx5-remote" "-s" "fcitx-keyboard-de-nodeadkeys") (catch Exception e#))
   (doseq [cmd cmds]
     (apply shell cmd)
     (Thread/sleep 10)))

@@ -18,12 +18,20 @@
         (dolist (n line-nums) 
           (goto-line n)
           (goto-char (line-beginning-position))
-          (xah-fly-delete-spaces) 
+          (xah-fly-delete-spaces)
+          (while (member (weiss--string-at-point) '("•" "●" "" "–"))
+            (delete-char 1)
+            (xah-fly-delete-spaces)
+            )
           (insert "- ")
           )
         )
       ))
   )
+
+(defun weiss--string-at-point (&optional len)
+  "DOCSTRING"
+  (buffer-substring-no-properties (point) (+ (or len 1) (point))))
 
 (defun weiss-add-colon ()
   "DOCSTRING"
@@ -914,7 +922,7 @@ Version 2017-08-19"
   "Like xah delete backward char or bracket text, but ignore region"
   (interactive)
   (deactivate-mark)
-  (while (string= (char-to-string (char-before)) " ")
+  (while (and (char-before) (string= (char-to-string (char-before)) " "))
     (delete-char -1))
   (cond
    ((eq major-mode 'org-mode)

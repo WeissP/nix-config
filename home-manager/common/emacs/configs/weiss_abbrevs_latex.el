@@ -149,7 +149,7 @@
       ("on" "&= ▮ \\\\" weiss--ahf)
       ("op" "\\cdot " weiss--ahf)
       ("opm" "\\pm " weiss--ahf)
-      ("os" "\\sqrt" weiss--ahf)
+      ("os" "\\sqrt{▮}" weiss--ahf)
       ("osum" "\\sum_{▮} " weiss--ahf)
       ("ox" "\\times " weiss--ahf)
       ("ol" "\\log " weiss--ahf)
@@ -210,7 +210,7 @@
 
 ;;;;; algo2e(code)
       ("cn" "\\;\n" weiss--ahf)
-      ("cf" "\\For{\\(▮ \\leftarrow \\) \\KwTo \\(\\)}{\n\n}" weiss--ahf-indent)
+      ("cf" "\\For{\\(▮ \\leftarrow 1\\) \\KwTo \\(n\\)}{\n\n}" weiss--ahf-indent)
       ("cfun" "\\SetKwFunction{abbrev}{fun\\_name}\n\\SetKwProg{Fn}{Function}{:}{}\n\\Fn{\\abbrev{$arg1$}}{\n  \\KwRet 1  \\;\n}\n\\BlankLine" weiss--ahf-indent)
       ("cw" "\\While{\\(▮\\)}{\n\n}" weiss--ahf-indent)
       ("cfe" "\\ForEach{\\(▮ \\in \\)}{\n\n}" weiss--ahf-indent)

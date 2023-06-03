@@ -17,16 +17,32 @@
             tls = true;
           };
         };
-        cli = {
-          enable = true;
-          logFile = "${homeDir}/.config/webman/cli.log";
-          tagsFile = "${homeDir}/.config/webman/tags.yaml";
-        };
         server = {
           logLevel = "normal";
           secretKey = secrets.webman.secretKey;
         };
       }
+      (ifPersonal {
+        cli = {
+          enable = true;
+          logFile = "${homeDir}/.config/webman/cli.log";
+          tagsFile = "${homeDir}/.config/webman/tags.yaml";
+        };
+      })
+      (ifServer {
+        nodes.Self = {
+          host.ipv4 = "127.0.0.1";
+          port = 7777;
+          tls = false;
+        };
+        nodeName = "Self";
+        cli.enable = false;
+        server = {
+          enable = true;
+          dbUrl =
+            "postgres://${username}:${secrets.sql.localPassword}@localhost:5432/webman";
+        };
+      })
       (ifDarwin {
         nodes.MacBook = {
           host.ipv4 = "127.0.0.1";

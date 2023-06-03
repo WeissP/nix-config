@@ -10,7 +10,7 @@
        0
        t
        "add"
-       filename
+       (expand-file-name filename)
        ))  
   )
 
@@ -25,7 +25,7 @@
        0
        t
        "remove"
-       (car f)
+       (expand-file-name (car f))
        )))
   )
 

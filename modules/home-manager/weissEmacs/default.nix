@@ -179,6 +179,14 @@ in {
     recipes = mkOption {
       description = "recipes";
       default = {
+        ess = {
+          emacsPackages = [ "ess" ];
+          externalPackages = [ pkgs.R ];
+        };
+        lua-mode = {
+          emacsPackages = [ "lua-mode" ];
+          externalPackages = [ pkgs.stylua ];
+        };
         rime = if arch == "linux" then
           let pkg = pkgs.weissNur.emacs-rime;
           in {
