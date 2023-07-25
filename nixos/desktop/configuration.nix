@@ -20,15 +20,14 @@ with myEnv; {
     myPostgresql.databases = [ "webman" "recentf" "digivine" ];
   };
 
-  environment = {
-    systemPackages = [ pkgs.wireguard-tools ];
-    sessionVariables = { "Vodafone-A524" = secrets.wifi."Vodafone-A524"; };
-  };
+  environment = { systemPackages = [ pkgs.wireguard-tools ]; };
   networking = {
     firewall.checkReversePath = false;
     wireless = {
       enable = true;
-      networks."Vodafone-A524".psk = "@Vodafone-A524@";
+      environmentFile = "${myEnv.nixDir}/secrets/nix.env";
+      networks."${secrets.wifi.home.ssid}".psk =
+        "@${secrets.wifi.home.envName}@";
     };
     hostName = "${username}-${configSession}";
 
