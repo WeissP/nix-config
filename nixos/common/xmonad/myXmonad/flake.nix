@@ -44,10 +44,10 @@
               '';
               category = "Dev Tools";
             };
-            run = {
-              description = "Run the project with ghcid auto-recompile";
+            build = {
+              description = "build the project";
               exec = ''
-                ghcid -c "cabal repl exe:haskell-template" --warnings -T :main
+                cabal build
               '';
               category = "Primary";
             };

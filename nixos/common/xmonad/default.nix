@@ -35,6 +35,7 @@ in {
           import MyNamedScratchpad
           import MyPromptPass
           import MyWindowOperations
+          import MyWorkspace
           import MyXmobar
 
           main :: IO ()
