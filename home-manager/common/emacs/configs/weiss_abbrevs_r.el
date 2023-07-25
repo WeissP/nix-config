@@ -4,7 +4,8 @@
 
   (define-abbrev-table 'ess-r-mode-abbrev-table
     '(
-      ("fun" "▮ <- function(x) {}" weiss--ahf)
+      ("fun" "<- function(x) {▮}" weiss--ahf)
+      ("if" "if (▮) {\n\n}" weiss--ahf)
       ))
   )
 

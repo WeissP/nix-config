@@ -167,7 +167,8 @@
 
 ;;;;; decoration
       ("db" "\\bar{▮} " weiss--ahf)
-      ("dt" "\\stackrel{\\text{▮}}{=} " weiss--ahf)
+      ("de" "\\stackrel{\\text{▮}}{=} " weiss--ahf)
+      ("dt" "\\tilde{▮} " weiss--ahf)
       ("dr" "\\overrightarrow{▮} " weiss--ahf)
       ("dl" "\\overleftarrow{▮} " weiss--ahf)    
 
@@ -203,10 +204,18 @@
       ("fie" ", i.e.,  " weiss--ahf)
       ("falgo" "  \\begin{algorithm}\n    \\SetKw{bk}{break}\n    \\SetKw{ct}{continue}\n    \\SetKwFunction{len}{len} \n    \\SetKwFunction{max}{max}\n    \\SetKwInOut{INPUT}{Input}\n    \\SetKwInOut{OUTPUT}{Output}\n    \\INPUT{\\(A\\) \\(\\leftarrow \\) A\n        \\\\ \\(B\\) \\(\\leftarrow \\) B}\n    \\OUTPUT{\\(O\\) \\(\\leftarrow\\) O}\n    \\BlankLine\n    \\Return d\\;\n    \\caption{\\label{alg:label} Algorithm to ▮}\n  \\end{algorithm}    " weiss--ahf)
 
-;;;;; escape
-      ("b" "\\" weiss--ahf)
-      ("bb" "\\\\\n" weiss--ahf)
-      ("b-" "\\_ " weiss--ahf)
+;;;;; environment
+      ("epp" "\\begin{itemize}\n\\item[\\(\\Rightarrow\\)] ▮\n\n\\item[\\(\\Leftarrow\\)] \n\\end{itemize}" weiss--ahf)    
+      ("eeq" "\\begin{equation*}\n▮\n\\end{equation}" weiss--ahf-indent)    
+      ("eald" "\\begin{aligned}\n▮\n\\end{aligned}" weiss--ahf-indent)    
+      ("eal" "\\begin{align*}\n▮\n\\end{align*}" weiss--ahf-indent)    
+      ("eid" "\\setlength{\\itemindent}{.4in}\n" weiss--ahf-indent)    
+      ("eit" "\\begin{itemize}\n    \\item ▮\n    \\item \n\\end{itemize}" weiss--ahf-indent)    
+      ("eitem" "\\begin{itemize}\n    \\item ▮\n    \\item \n\\end{itemize}" weiss--ahf-indent)    
+      ("een" "\\begin{enumerate}[label=\\Roman*.]\n\\item ▮ \n\\item  \n\\end{enumerate}\n" weiss--ahf-indent)    
+      ("eenum" "\\begin{enumerate}[label=\\Roman*.]\n\\item ▮ \n\\item  \n\\end{enumerate}\n" weiss--ahf-indent)
+      ("ecase" "▮(v)=\n    \\begin{cases}\n      case1 & \\text{if }  v \\in S \\\\\n      else & \\text{else} \\\\\n    \\end{cases}" weiss--ahf-indent)
+      ("elst" "\\begin{lstlisting}[language=R]\n▮\n\\end{lstlisting}\n" weiss--ahf-indent)
 
 ;;;;; algo2e(code)
       ("cn" "\\;\n" weiss--ahf)
@@ -242,16 +251,6 @@
       ("mss" "\\smallskip" weiss--ahf)    
       ("mms" "\\medskip" weiss--ahf)    
       ("mbs" "\\bigskip" weiss--ahf)    
-      ("mpp" "\\begin{itemize}\n\\item[\\(\\Rightarrow\\)] ▮\n\n\\item[\\(\\Leftarrow\\)] \n\\end{itemize}" weiss--ahf)    
-      ("meq" "\\begin{equation*}\n▮\n\\end{equation}" weiss--ahf-indent)    
-      ("mald" "\\begin{aligned}\n▮\n\\end{aligned}" weiss--ahf-indent)    
-      ("mal" "\\begin{align*}\n▮\n\\end{align*}" weiss--ahf-indent)    
-      ("mid" "\\setlength{\\itemindent}{.4in}\n" weiss--ahf-indent)    
-      ("mit" "\\begin{itemize}\n    \\item ▮\n    \\item \n\\end{itemize}" weiss--ahf-indent)    
-      ("mitem" "\\begin{itemize}\n    \\item ▮\n    \\item \n\\end{itemize}" weiss--ahf-indent)    
-      ("men" "\\begin{enumerate}[label=\\Roman*.]\n\\item ▮ \n\\item  \n\\end{enumerate}\n" weiss--ahf-indent)    
-      ("menum" "\\begin{enumerate}[label=\\Roman*.]\n\\item ▮ \n\\item  \n\\end{enumerate}\n" weiss--ahf-indent)
-      ("mcase" "▮(v)=\n    \\begin{cases}\n      case1 & \\text{if }  v \\in S \\\\\n      else & \\text{else} \\\\\n    \\end{cases}" weiss--ahf-indent)
       ))
   )
 

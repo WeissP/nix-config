@@ -13,7 +13,7 @@ with myEnv; {
       {
         enable = true;
 
-        enableSyntaxHighlighting = true;
+        syntaxHighlighting.enable = true;
         enableCompletion = true;
         enableAutosuggestions = true;
         autocd = true;
@@ -44,7 +44,7 @@ with myEnv; {
         initExtra = ''
           sync_videos () {
               echo "Sync videos from Mac to Desktop"
-          rsync -PamAXvtu -e ssh ${homeDir}/Downloads/videos/rsync weiss@${secrets.nodes.Desktop.ip}:/home/weiss/Downloads/videos/ 
+          rsync -PamAXvtu -e ssh ${homeDir}/Downloads/videos/rsync weiss@${secrets.nodes.Desktop.localIp}:/home/weiss/Downloads/videos/ 
           }
         '';
       })

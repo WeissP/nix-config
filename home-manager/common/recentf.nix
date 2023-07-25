@@ -11,7 +11,12 @@
         enable = true;
         databaseUrl =
           "postgres://${username}:${secrets.sql.localPassword}@localhost/recentf";
-        tramps = toTramps [ "RaspberryPi" "Vultr" ];
+        # tramps = toTramps [ "RaspberryPi" "Vultr" ];
+        tramps = lib.attrsets.mapAttrs (node: info:
+          if (builtins.hasAttr "publicIp" info) then
+            info.publicIp
+          else
+            info.localIp) secrets.nodes;
         filters = [
           { name_prefix = "COMMIT_EDITMSG"; }
           {

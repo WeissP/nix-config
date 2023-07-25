@@ -28,15 +28,13 @@
   (set-fontset-font t ?－ (with-font "Noto Sans Mono CJK SC") nil nil)
   (set-fontset-font t ?＋ (with-font "Noto Sans Mono CJK SC") nil nil)
   (set-fontset-font t ?⚡ (with-font "Noto Sans symbols") nil nil)
+  (set-fontset-font t ?↔ (with-font "Noto Sans symbols") nil nil)
 
   ;; Specify font for Chinese characters
   (cl-loop for font in '("WenQuanYi Micro Hei" "Microsoft Yahei" "LXGW WenKai")
            when (font-installed-p font)
            return (set-fontset-font t '(#x4e00 . #x9fff) font))
   )
-
-(font-family-available-p "Jetbrain")
-
 
 (when (display-graphic-p)
   (patch-fonts)

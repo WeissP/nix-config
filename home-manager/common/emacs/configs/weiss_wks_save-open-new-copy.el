@@ -56,7 +56,8 @@ Version 2018-06-06"
           (rend (region-end)))
       (kill-append
        (format "%s%s" sep (buffer-substring-no-properties rbeg rend))
-       nil))))
+       nil))
+    (deactivate-mark)))
 
 (defun weiss-kill-append-with-space ()
   "DOCSTRING"
@@ -175,24 +176,23 @@ Version 2015-10-14"
                       (buffer-substring-no-properties
                        (region-beginning)
                        (region-end))
-                      "\n")
+                      )
                    (buffer-substring-no-properties
                     (line-beginning-position)
-                    (line-beginning-position 2))))
+                    (line-end-position))))
                 (times  current-prefix-arg))
             (when weiss-select-mode
               (goto-char (region-end))
               (forward-line)
               (beginning-of-line)
-              (open-line 1))
+              )
             (if (eq times 1)
                 (setq times 4)
               (ignore-errors (when (member 4 times) (setq times 1))))
             ;; (message "%s" times)
-            (beginning-of-line)
-            ;; (open-line 1)
             (dotimes (i times)
-              ;; (next-line)
+              (beginning-of-line)
+              (open-line 1)
               (insert line))
             ))
       (if (use-region-p)

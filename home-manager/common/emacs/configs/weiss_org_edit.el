@@ -37,8 +37,8 @@
     "DOCSTRING"
     (interactive)
     (cond
-     ((member (char-to-string (char-after)) '("<" ">"))  (delete-char -1))
-     ((member (char-to-string (char-before)) weiss-org-special-markers)
+     ((and (char-after) (member (char-to-string (char-after)) '("<" ">")))  (delete-char -1))
+     ((and (char-before) (member (char-to-string (char-before)) weiss-org-special-markers))
       (let ((before-point (point))
             (mark-point )
             (special-marker (char-to-string (char-before))))      

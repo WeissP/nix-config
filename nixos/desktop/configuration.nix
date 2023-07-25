@@ -2,7 +2,6 @@
 with myEnv; {
   imports = [ ../common/personal.nix outputs.nixosModules.v2ray ];
   time.timeZone = "Europe/Berlin";
-  networking.hostName = "${username}-${configSession}";
 
   # Use the systemd-boot EFI boot loader.
   boot.loader.systemd-boot.enable = true;
@@ -21,8 +20,19 @@ with myEnv; {
     myPostgresql.databases = [ "webman" "recentf" "digivine" ];
   };
 
-  environment.systemPackages = [ pkgs.wireguard-tools ];
-  networking.firewall.checkReversePath = false;
+  environment = {
+    systemPackages = [ pkgs.wireguard-tools ];
+    sessionVariables = { "Vodafone-A524" = secrets.wifi."Vodafone-A524"; };
+  };
+  networking = {
+    firewall.checkReversePath = false;
+    wireless = {
+      enable = true;
+      networks."Vodafone-A524".psk = "@Vodafone-A524@";
+    };
+    hostName = "${username}-${configSession}";
+
+  };
 
   virtualisation.docker.enable = true;
   security.sudo.extraRules = [
@@ -45,6 +55,67 @@ with myEnv; {
   services.weissV2ray = {
     enable = false;
     configFile = "/home/weiss/nix-config/nixos/desktop/v2ray.json";
+  };
+
+  services.btrbk.instances = let
+    preserve_hour_of_day = "4";
+    preserve_day_of_week = "sunday";
+    snapshot_dir_root = "/btrbk_snapshots";
+  in {
+    important_snapshots = {
+      onCalendar = "*:0/15"; # every 15 minutes
+      settings = {
+        inherit preserve_hour_of_day preserve_day_of_week;
+        snapshot_dir = snapshot_dir_root + "/important";
+        snapshot_preserve_min = "3h";
+        snapshot_preserve = "3h";
+        snapshot_create = "onchange";
+
+        subvolume = {
+          "/home/weiss/nix-config" = { };
+          "/home/weiss/Documents" = { };
+          "/home/weiss/projects" = { };
+        };
+      };
+    };
+    all_snampshots = {
+      onCalendar = "*-*-* 18:00:00"; # every day at 18:00
+      settings = {
+        inherit preserve_hour_of_day preserve_day_of_week;
+
+        snapshot_dir = snapshot_dir_root + "/all";
+        snapshot_preserve_min = "3d";
+        snapshot_create = "always";
+
+        subvolume = {
+          "/" = { };
+          "/home" = { };
+          "/home/weiss/nix-config" = { };
+          "/home/weiss/Documents" = { };
+          "/home/weiss/projects" = { };
+        };
+      };
+    };
+    local_backup = {
+      onCalendar = "*-*-* 18:30:00"; # every day at 18:30
+      settings = {
+        inherit preserve_hour_of_day preserve_day_of_week;
+
+        snapshot_dir = snapshot_dir_root + "/all";
+        snapshot_create = "no";
+
+        target = "/mnt/backup/btrbk";
+        target_preserve_min = "no";
+        target_preserve = "20d 10w *m";
+        subvolume = {
+          "/" = { };
+          "/home" = { };
+          "/home/weiss/nix-config" = { };
+          "/home/weiss/Documents" = { };
+          "/home/weiss/projects" = { };
+        };
+      };
+    };
   };
 
   system.stateVersion = "23.05";

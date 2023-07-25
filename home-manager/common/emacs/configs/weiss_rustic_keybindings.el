@@ -1,4 +1,5 @@
 (with-eval-after-load 'rustic
+  (wks-unset-key rustic-mode-map '("C-c C-p" "C-c C-f"))
   (wks-define-key
    rustic-mode-map ""
    '(

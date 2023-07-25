@@ -513,6 +513,10 @@ in {
           inherit (final) trivialBuild;
           inherit (pkgs) fetchFromGitHub;
         };
+        tla-tools = pkgs.callPackage ./packages/tla-tools.nix {
+          inherit (final) trivialBuild polymode;
+          inherit (pkgs) fetchFromGitHub;
+        };
         # mind-wave =           pkgs.callPackage ./packages/mind-wave { inherit (final) melpaBuild; };
       };
       extraPackages = epkg:

@@ -35,6 +35,8 @@
         (weiss-comment-dwim . weiss-comment-downward)
         (weiss-indent-paragraph . weiss-indent)
 
+        (weiss-add-dashs . org-ctrl-c-minus)
+
         (weiss-expand-region-by-sexp . wks-find-symbol-forward)
         (weiss-expand-region-by-word . wks-find-symbol-forward)
         (save-buffer . weiss-indent)

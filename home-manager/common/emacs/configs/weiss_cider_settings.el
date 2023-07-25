@@ -41,7 +41,13 @@
          (cider--check-existing-session)
          (plist-put :repl-init-function nil)
          (plist-put :session-name nil)
-         (plist-put :repl-type 'clj))))))
+         (plist-put :repl-type 'clj)))))
+
+  (with-eval-after-load 'org
+    (require 'ob-clojure)
+    (setq org-babel-clojure-backend 'cider)
+    )
+  )
 
 ;; parent: 
 (provide 'weiss_cider_settings)

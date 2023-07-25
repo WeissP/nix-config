@@ -22,9 +22,11 @@
                 substituters = [
                   "https://nix-community.cachix.org"
                   "https://cache.nixos.org/"
+                  "https://cache.iog.io"
                 ];
                 trusted-public-keys = [
                   "nix-community.cachix.org-1:mB9FSh9qf2dCimDSUo8Zy7bkq5CX+/rkCWyvRCYg3Fs="
+                  "hydra.iohk.io:f/Ea+s+dFdN+3Y/G+FDgSq+a5NEWhJGzdjvKNGv0/EQ=" # haskell
                 ];
               }
               (ifLinux { trusted-users = [ "root" "${username}" ]; })
@@ -52,7 +54,10 @@
             outputs.overlays.lts
             (import inputs.emacs-overlay)
           ];
-          config = { allowUnfree = true; };
+          config = {
+            allowUnfree = true;
+            permittedInsecurePackages = [ "openssl-1.1.1u" ];
+          };
         };
 
         users.users."${username}" = mkMerge [
@@ -60,7 +65,7 @@
           (ifLinux {
             isNormalUser = true;
             openssh.authorizedKeys.keys = [ secrets.ssh."163".public ];
-            extraGroups = [ "wheel" "networkmanager" "input" ];
+            extraGroups = [ "wheel" "networkmanager" "input" "storage" ];
           })
         ];
 
@@ -78,51 +83,6 @@
         security = mkMerge [
           (ifDarwin { pam.enableSudoTouchIdAuth = true; })
           (ifLinux { rtkit.enable = true; })
-        ];
-
-        fonts = mkMerge [
-          {
-            fontDir.enable = true;
-            fonts = with pkgs; [
-              route159
-              noto-fonts
-              noto-fonts-cjk
-              noto-fonts-emoji
-              stix-two
-              liberation_ttf
-              fira-code
-              fira-code-symbols
-              (nerdfonts.override { fonts = [ "FiraCode" ]; })
-              mplus-outline-fonts.githubRelease
-              dina-font
-              source-code-pro
-              source-han-sans
-              source-han-serif
-              lato
-              jetbrains-mono
-              cascadia-code
-              sarasa-gothic
-              emacs-all-the-icons-fonts
-              wqy_microhei
-              wqy_zenhei
-            ];
-          }
-          (ifLinux {
-            fontconfig = {
-              defaultFonts = {
-                emoji = [ "Noto Color Emoji" ];
-                monospace = [
-                  "Noto Sans Mono CJK SC"
-                  "Sarasa Mono SC"
-                  "DejaVu Sans Mono"
-                ];
-                sansSerif =
-                  [ "Noto Sans CJK SC" "Source Han Sans SC" "DejaVu Sans" ];
-                serif =
-                  [ "Noto Serif CJK SC" "Source Han Serif SC" "DejaVu Serif" ];
-              };
-            };
-          })
         ];
 
         environment = {
@@ -143,9 +103,10 @@
 
         system = mkMerge [ (ifDarwin { stateVersion = 4; }) ];
       }
+
       (ifLinux {
         environment.systemPackages = with pkgs; [ util-linux ];
-        networking.networkmanager.enable = true;
+        networking.networkmanager.enable = false;
         i18n = {
           defaultLocale = "en_US.UTF-8";
           extraLocaleSettings = {

@@ -127,12 +127,14 @@
         (`link
          (let* ((lineage (org-element-lineage context '(link) t))
                 (path (org-element-property :path lineage)))
-           (if (or (equal (org-element-property :type lineage) "img")
-                   (and path (image-type-from-file-name path)))
-               (+org--toggle-inline-images-in-subtree
-                (org-element-property :begin lineage)
-                (org-element-property :end lineage))
-             (org-open-at-point arg))))
+           (org-open-at-point arg)
+           ;; (if (or (equal (org-element-property :type lineage) "img")
+           ;;         (and path (image-type-from-file-name path)))
+           ;;     (+org--toggle-inline-images-in-subtree
+           ;;      (org-element-property :begin lineage)
+           ;;      (org-element-property :end lineage))
+           ;;   (org-open-at-point arg))
+           ))
 
         ((guard (org-element-property :checkbox (org-element-lineage context '(item) t)))
          (let ((match (and (org-at-item-checkbox-p) (match-string 1))))

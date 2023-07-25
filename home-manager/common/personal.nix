@@ -39,7 +39,14 @@
               docker-compose
               dua
               xmlstarlet
+              p7zip
+              lux
+              yt-dlp
+              pandoc
+              zoom-us
+              ripgrep-all
               (rWrapper.override { packages = with rPackages; [ purrr ]; })
+              sioyek
               # for latex minted 
               (python3.withPackages (ps: with ps; [ pygments ]))
               (texlive.combine {
@@ -49,7 +56,8 @@
                   capt-of framed multirow vmargin comment minted doublestroke
                   pgfplots titlesec subfigure adjustbox algorithm2e ifoddpage
                   relsize qtree pict2e lipsum ifsym fontawesome changepage
-                  inconsolata xcolor cancel;
+                  inconsolata xcolor cancel stmaryrd wasysym wasy makecell
+                  forest;
                 pkgFilter = pkg:
                   pkg.tlType == "run" || pkg.tlType == "bin" || pkg.pname
                   == "cm-super";
@@ -64,12 +72,18 @@
               simplescreenrecorder
               xbindkeys
               xautomation
-              cider
+              lsof
+              # cider
               calibre
               libnotify
               qq
               ocamlPackages.cpdf
               poppler_utils
+              wkhtmltopdf-bin
+              nodejs
+              tlaplus
+              tlaplusToolbox
+              graphviz
             ];
             file = {
               ".xbindkeysrc".text = ''

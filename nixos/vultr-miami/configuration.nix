@@ -23,8 +23,8 @@ with myEnv; {
     openssh = {
       enable = true;
       settings = {
-        permitRootLogin = "prohibit-password";
-        passwordAuthentication = false;
+        PermitRootLogin = "prohibit-password";
+        PasswordAuthentication = false;
         KbdInteractiveAuthentication = false;
       };
     };
@@ -37,64 +37,43 @@ with myEnv; {
       enable = true;
       recommendedProxySettings = true;
       recommendedTlsSettings = true;
-      virtualHosts."webman.damajiang.ga" = {
-        addSSL = true;
-        enableACME = true;
-        locations = {
-          "/".proxyPass = "http://127.0.0.1:7777";
-          # "/webman".proxyPass = "http://127.0.0.1:7777";
-          "${secrets.v2ray.path}" = {
-            proxyPass = "http://127.0.0.1:17586";
-            extraConfig = ''
-              proxy_redirect off;
-              proxy_http_version 1.1;
-              proxy_set_header Upgrade $http_upgrade;
-              proxy_set_header Connection "upgrade";
-              proxy_set_header Host $host;
-
-              sendfile on;
-              tcp_nopush on;
-              tcp_nodelay on;
-              keepalive_requests 10000;
-              keepalive_timeout 2h;
-              proxy_buffering off;
-            '';
-          };
+      virtualHosts = {
+        "webman.${builtins.elemAt secrets.nodes.Vultr.domains 0}" = {
+          addSSL = true;
+          enableACME = true;
+          locations = { "/".proxyPass = "http://127.0.0.1:7777"; };
         };
-      };
-      virtualHosts."cf.damajiang.ga" = {
-        addSSL = true;
-        enableACME = true;
-        locations = {
-          # "/".proxyPass = "http://127.0.0.1:7777";
-          # "/webman".proxyPass = "http://127.0.0.1:7777";
-          "/ray" = {
-            proxyPass = "http://127.0.0.1:17586";
-            extraConfig = ''
-              proxy_redirect off;
-              proxy_http_version 1.1;
-              proxy_set_header Upgrade $http_upgrade;
-              proxy_set_header Connection "upgrade";
-              proxy_set_header Host $host;
+        "${builtins.elemAt secrets.nodes.Vultr.domains 0}" = {
+          addSSL = false;
+          enableACME = false;
+          locations = {
+            # "/".proxyPass = "http://127.0.0.1:7777";
+            # "/webman".proxyPass = "http://127.0.0.1:7777";
+            "${secrets.v2ray.path}" = {
+              proxyPass = "http://127.0.0.1:17586";
+              extraConfig = ''
+                proxy_redirect off;
+                proxy_http_version 1.1;
+                proxy_set_header Upgrade $http_upgrade;
+                proxy_set_header Connection "upgrade";
+                proxy_set_header Host $host;
 
-              sendfile on;
-              tcp_nopush on;
-              tcp_nodelay on;
-              keepalive_requests 10000;
-              keepalive_timeout 2h;
-              proxy_buffering off;
-            '';
+                proxy_set_header X-Real-IP $remote_addr;
+                proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
+              '';
+            };
           };
         };
       };
     };
-    weissV2ray = {
+
+    v2ray = {
       enable = true;
       config = {
         log = {
           loglevel = "info";
-          access = "${homeDir}/v2ray_access.log";
-          error = "${homeDir}/v2ray_error.log";
+          # access = "${homeDir}/v2ray_access.log";
+          # error = "${homeDir}/v2ray_error.log";
         };
         inbounds = [{
           listen = "127.0.0.1";

@@ -20,7 +20,7 @@
      (:inherit (default) :width normal :height 120 :weight normal :slant normal))))
  '(variable-pitch
    ((t
-     (:family "Lato" :foundry "tyPL" :width normal :height 1.2 :weight normal :slant normal))))
+     (:family "Noto Serif" :width normal :height 1.2 :weight normal :slant normal))))
  '(escape-glyph ((t (:foreground "#0184bc"))))
  '(homoglyph
    ((((background dark))

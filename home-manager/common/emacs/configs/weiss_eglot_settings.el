@@ -9,7 +9,9 @@
    eglot-workspace-configuration
    '((:rust-analyzer . (:diagnostics
                         (:disabled ["unresolved-proc-macro" "type-mismatch"])
-                        :check (:overrideCommand ["cargo" "check" "--message-format=json" "--all-targets" "--all-features" "--tests"]);; :check (:command "clippy")
+                        :check (:overrideCommand ["cargo" "check" "--message-format=json" "--lib" "--workspace" "--all-targets" "--all-features" "--tests"])
+                        ;; :check (:overrideCommand ["cargo" "clippy" "--message-format=json" "--all-targets" "--all-features" "--tests"])
+                        ;; :checkOnSave (:command "clippy")
                         ))))
 
   )

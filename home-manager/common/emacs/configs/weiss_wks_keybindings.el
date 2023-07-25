@@ -7,6 +7,13 @@
    ;; ("<left>" . left-char)
    ))
 
+(with-eval-after-load 'yaml-mode
+  (wks-define-key
+   yaml-mode-map ""
+   '(("<tab>" . save-buffer)
+     ))
+  )
+
 (with-eval-after-load 'conf-mode
   (wks-define-key
    conf-mode-map ""
@@ -46,7 +53,7 @@
      ("<escape> ." . next-buffer))))
 
 (wks-unset-key help-mode-map '("h" "c" "s" "i"))
-
+(wks-unset-key special-mode-map '("h" "c" "s" "i"))
 (with-eval-after-load 'debug
   (wks-unset-key debugger-mode-map '("h" "j" "i" "l" "k")))
 (wks-unset-key messages-buffer-mode-map '("h"))

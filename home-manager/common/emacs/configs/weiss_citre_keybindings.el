@@ -4,6 +4,14 @@
  '(("C-c C-b" . citre-jump-back)
    ("C-c C-p" . citre-peek)))
 
+(with-eval-after-load 'rustic
+  (wks-define-key
+   rustic-mode-map
+   ""
+   '(("C-c C-b" . citre-jump-back)
+     ("C-c C-p" . citre-peek)))
+  )
+
 (with-eval-after-load 'citre
   (wks-define-key
    citre-peek-keymap

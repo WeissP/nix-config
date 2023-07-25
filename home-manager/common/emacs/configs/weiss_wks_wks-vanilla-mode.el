@@ -38,7 +38,7 @@
    ((derived-mode-p 'prog-mode)
     (if (and
          (ignore-errors (weiss-line-empty-p))
-         (not (member major-mode '(sql-mode))))
+         (not (member major-mode '(sql-mode haskell-mode))))
         (ignore-errors (indent-according-to-mode)))))
   (wks-vanilla-bind-keymap)
   (wks-vanilla-mode 1))

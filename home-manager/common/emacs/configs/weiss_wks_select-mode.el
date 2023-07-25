@@ -114,6 +114,7 @@
          citre-jump
          citre-peek
          ;; xref-find-definitions
+         python-shell-send-statement
          undo)))
   (weiss-select-add-advice-deactivate-mark cmds))
 
