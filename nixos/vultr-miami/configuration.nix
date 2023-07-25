@@ -35,20 +35,15 @@ with myEnv; {
     };
     nginx = {
       enable = true;
-      recommendedProxySettings = true;
-      recommendedTlsSettings = true;
+      recommendedProxySettings = false;
+      recommendedTlsSettings = false;
+      sslProtocols = "TLSv1 TLSv1.1 TLSv1.2";
       virtualHosts = {
         "webman.${builtins.elemAt secrets.nodes.Vultr.domains 0}" = {
           addSSL = true;
           enableACME = true;
-          locations = { "/".proxyPass = "http://127.0.0.1:7777"; };
-        };
-        "${builtins.elemAt secrets.nodes.Vultr.domains 0}" = {
-          addSSL = false;
-          enableACME = false;
           locations = {
-            # "/".proxyPass = "http://127.0.0.1:7777";
-            # "/webman".proxyPass = "http://127.0.0.1:7777";
+            "/".proxyPass = "http://127.0.0.1:7777";
             "${secrets.v2ray.path}" = {
               proxyPass = "http://127.0.0.1:17586";
               extraConfig = ''
