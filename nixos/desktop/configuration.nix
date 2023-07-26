@@ -23,12 +23,6 @@ with myEnv; {
   environment = { systemPackages = [ pkgs.wireguard-tools ]; };
   networking = {
     firewall.checkReversePath = false;
-    wireless = {
-      enable = true;
-      environmentFile = "${myEnv.nixDir}/secrets/nix.env";
-      networks."${secrets.wifi.home.ssid}".psk =
-        "@${secrets.wifi.home.envName}@";
-    };
     hostName = "${username}-${configSession}";
 
   };
