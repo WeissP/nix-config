@@ -1,6 +1,6 @@
 Config
   {
-    font = "xft:FiraCode Nerd Font Mono:weight=bold:pixelsize=16",
+    font = "xft:FiraCode Nerd Font Mono:weight=bold:pixelsize=17",
     additionalFonts = ["xft: symbola:weight=bold:pixelsize=24", "xft:FiraCode Nerd Font Mono:weight=bold:pixelsize=16" ,"xft: Source Han Sans CN:weight=bold:pixelsize=17"],
     bgColor = "#2e3440",
     fgColor = "#d0d0d0",
@@ -11,13 +11,12 @@ Config
     allDesktops = True,
     lowerOnStart = True,
     commands =
-      [
-        Run DynNetwork ["-t", "<fn=2>\xf0aa</fn> <tx>kb  <fn=2>\xf0ab</fn> <rx>kb"] 20,
+      [ Run DynNetwork ["-t", "<fn=2>\xf0aa</fn> <tx>kb  <fn=2>\xf0ab</fn> <rx>kb"] 20,
         Run Cpu ["-t", "CPU:<bar>", "-H", "50", "--high", "red"] 20,
         Run Memory ["-t", "MEM:<usedbar>(<used>M)"] 20,
         Run DiskU [("/", "USED:<used> FREE:<free>")] [] 60,
-        Run Date "<fc=#bd93f9> %H:%M </fc>" "date" 50
-        -- Run XPropertyLog "_XMONAD_LOG_Hori"
+        Run Date "<fc=#bd93f9> %H:%M </fc>" "date" 50,
+        Run XPropertyLog "_XMONAD_LOG_workspace"
       ],
     sepChar = "%",
     alignSep = "}{",
@@ -31,6 +30,6 @@ Config
       \ <fc=#666666>|</fc>\
       \ <fc=#98be65>%dynnetwork%</fc>\
       \ }{\
+      \ <fn=3>%_XMONAD_LOG_workspace% </fn> \
       \"
-      -- \ <fn=3>%_XMONAD_LOG_Hori%</fn> \
   }

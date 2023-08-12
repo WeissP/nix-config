@@ -29,37 +29,43 @@ in (ifLinux {
       true; # overrides any devices added or deleted through the WebUI
     overrideFolders =
       true; # overrides any folders added or deleted through the WebUI
-    devices = lib.mkMerge [
-      { }
-      (ifLinuxPersonal {
-        inherit (devices) Mac-Air iPad-mini Raspberrypi iPhone;
-      })
-    ];
-    folders = lib.mkMerge [
-      { }
-      (ifPersonal {
-        "Documents" = {
-          id = "ejsec-hhhop";
-          path = "${homeDir}/Documents"; # Which folder to add to Syncthing
-          devices = [ "Raspberrypi" ]; # Which devices to share the folder with
-        };
-        "nix-config" = {
-          id = "hwjvk-bhxn6";
-          path = "${homeDir}/nix-config"; # Which folder to add to Syncthing
-          devices = [ "Raspberrypi" ]; # Which devices to share the folder with
-        };
-        "podcasts" = {
-          id = "7gogk-utgtc";
-          path = "${homeDir}/podcasts"; # Which folder to add to Syncthing
-          devices = [ "Raspberrypi" ]; # Which devices to share the folder with
-        };
-        "projects" = {
-          id = "eu6nz-2urtd";
-          path = "${homeDir}/projects"; # Which folder to add to Syncthing
-          devices = [ "Raspberrypi" ]; # Which devices to share the folder with
-        };
-      })
-    ];
+    settings = {
+      devices = lib.mkMerge [
+        { }
+        (ifLinuxPersonal {
+          inherit (devices) Mac-Air iPad-mini Raspberrypi iPhone;
+        })
+      ];
+      folders = lib.mkMerge [
+        { }
+        (ifPersonal {
+          "Documents" = {
+            id = "ejsec-hhhop";
+            path = "${homeDir}/Documents"; # Which folder to add to Syncthing
+            devices =
+              [ "Raspberrypi" ]; # Which devices to share the folder with
+          };
+          "nix-config" = {
+            id = "hwjvk-bhxn6";
+            path = "${homeDir}/nix-config"; # Which folder to add to Syncthing
+            devices =
+              [ "Raspberrypi" ]; # Which devices to share the folder with
+          };
+          "podcasts" = {
+            id = "7gogk-utgtc";
+            path = "${homeDir}/podcasts"; # Which folder to add to Syncthing
+            devices =
+              [ "Raspberrypi" ]; # Which devices to share the folder with
+          };
+          "projects" = {
+            id = "eu6nz-2urtd";
+            path = "${homeDir}/projects"; # Which folder to add to Syncthing
+            devices =
+              [ "Raspberrypi" ]; # Which devices to share the folder with
+          };
+        })
+      ];
+    };
   };
 }
 

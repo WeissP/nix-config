@@ -53,7 +53,7 @@ with myEnv; {
   fonts = mkMerge [
     {
       fontDir.enable = true;
-      fonts = with pkgs; [
+      packages = with pkgs; [
         route159
         noto-fonts
         noto-fonts-cjk

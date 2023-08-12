@@ -38,8 +38,8 @@ with myEnv; {
       recommendedProxySettings = false;
       recommendedTlsSettings = false;
       sslProtocols = "TLSv1 TLSv1.1 TLSv1.2";
-      virtualHosts = {
-        "webman.${builtins.elemAt secrets.nodes.Vultr.domains 0}" = {
+      virtualHosts = lib.attrsets.genAttrs
+        (map (root: "webman." + root) secrets.nodes.Vultr.domains) (domain: {
           addSSL = true;
           enableACME = true;
           locations = {
@@ -58,8 +58,7 @@ with myEnv; {
               '';
             };
           };
-        };
-      };
+        });
     };
 
     v2ray = {

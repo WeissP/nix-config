@@ -16,8 +16,7 @@ Config
     -- commands = [Run StdinReader],
     -- template = "f%StdinReader%"
     commands =
-    [ Run XPropertyLog "_XMONAD_LOG_Vertical",
-      Run Date "%a %e.%m.%Y <fc=#bd93f9> %H:%M </fc> " "date" 50,
+    [ Run Date "%a %e.%m.%Y <fc=#bd93f9> %H:%M </fc> " "date" 50,
       Run Weather
           "EDFM"
           [ "--template",
@@ -35,8 +34,7 @@ Config
           ]
           36000
     ],
-    template = "%_XMONAD_LOG_Vertical%  \
-               \  <fc=#666666>|</fc>  \
+    template = "<fc=#666666>|</fc>  \
                \  <fc=#98be65>%date%</fc>  \
                \  <fc=#666666>|</fc>  \
                \  <fc=#51afef>%EDFM%</fc>"

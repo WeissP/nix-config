@@ -1,6 +1,8 @@
 (defvar weiss/cursor-color "#4078f2")
 (defvar weiss/cursor-type '(bar . 2))
 
+(setq disabled-command-function nil)
+
 (setq-default c-basic-offset   4
               tab-width        4
               indent-tabs-mode nil)
