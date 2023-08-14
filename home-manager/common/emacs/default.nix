@@ -241,6 +241,7 @@ in {
           "all-the-icons"
           "nerd-icons"
           "display-line-numbers"
+          "svg-tag-mode"
         ];
         email = [ "email" "notmuch" ];
         tramp = [ "tramp" "sudo-edit" ];

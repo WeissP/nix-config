@@ -51,7 +51,7 @@
               (python3.withPackages (ps: with ps; [ pygments ]))
               (texlive.combine {
                 inherit (texlive)
-                  scheme-small collection-langkorean algorithms cm-super pgf
+                  scheme-medium collection-langkorean algorithms cm-super pgf
                   dvipng dvisvgm enumitem graphics wrapfig amsmath ulem hyperref
                   capt-of framed multirow vmargin comment minted doublestroke
                   pgfplots titlesec subfigure adjustbox algorithm2e ifoddpage
@@ -74,6 +74,7 @@
               xautomation
               lsof
               # cider
+              imagemagick
               calibre
               libnotify
               qq
@@ -84,6 +85,7 @@
               tlaplus
               tlaplusToolbox
               graphviz
+              librsvg
             ];
             file = {
               ".xbindkeysrc".text = ''

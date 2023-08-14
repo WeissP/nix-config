@@ -52,21 +52,23 @@
       (y-or-n-p "delete old pictures?")))
     (let* ((pic-name
             (format "%s.png" (format-time-string "%Y-%m-%d_%H-%M-%S")))
-           (new-image-folder-path (or weiss-org-image-folder weiss/org-img-path))
+           (new-image-folder-path (expand-file-name (or weiss-org-image-folder weiss/org-img-path)))
            (new-path (concat new-image-folder-path pic-name))
            (prefix (weiss-get-parent-path new-path))
            )
       (while (not (file-exists-p old-path)) (sit-for 0.1))
       (when (file-exists-p new-path) (delete-file new-path))
-      (copy-file old-path new-path)
+      (if (and (executable-find "convert") (string= (file-name-extension old-path) "svg"))
+          (shell-command-to-string
+           (format "convert  -background none -density 1500 -resize 1500x \"%s\" \"%s\"" old-path new-path))
+        (copy-file old-path new-path)
+        )
       (when delete-old (delete-file old-path))
       (end-of-line)
       (insert "\n")
-      (when img-attr (insert "#+ATTR_org: :width 500\n#+ATTR_LATEX: :width 12cm\n"))
+      (when img-attr (insert "#+ATTR_ORG: :width 500\n#+ATTR_LATEX: :width 12cm\n"))
       (insert (format "[[file:%s/%s]]" prefix pic-name))
       (org-display-inline-images)))
-
-  
 
   (defvar weiss-pdf-candidates nil)
   (defun weiss-org-insert-pdf-link (pdf-path page)
