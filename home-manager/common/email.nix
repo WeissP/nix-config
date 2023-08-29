@@ -18,7 +18,6 @@ in lib.mkMerge [
         hooks = { postNew = "notmuch tag --batch --input=${tags_path}/tags"; };
       };
     };
-    home.packages = with pkgs; [ pass ];
     home.file."${tags_path}" = {
       source = ./config_files/notmuch_tags;
       recursive = true;

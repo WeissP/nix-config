@@ -13,6 +13,7 @@
     ./webman.nix
     ./shell.nix
     ./aliases.nix
+    ./hledger.nix
   ];
 
   config = with myEnv;
@@ -21,10 +22,7 @@
         home = let configDir = config.xdg.configHome;
         in lib.mkMerge [
           {
-            sessionVariables = {
-              SCRIPTS_DIR = myEnv.scriptsDir;
-              # LEDGER_FILE = "\${HOME}/finance/2021.journal";
-            };
+            sessionVariables = { SCRIPTS_DIR = myEnv.scriptsDir; };
             file = {
               "${homeDir}/scripts" = {
                 source = ./config_files/scripts;
@@ -45,6 +43,7 @@
               pandoc
               zoom-us
               ripgrep-all
+              imagemagick
               (rWrapper.override { packages = with rPackages; [ purrr ]; })
               sioyek
               # for latex minted 
@@ -74,13 +73,13 @@
               xautomation
               lsof
               # cider
-              imagemagick
               calibre
               libnotify
               qq
               ocamlPackages.cpdf
               poppler_utils
-              wkhtmltopdf-bin
+              # openssl problem
+              # wkhtmltopdf-bin 
               nodejs
               tlaplus
               tlaplusToolbox
@@ -156,6 +155,8 @@
             fcitx5-chinese-addons
           ];
         };
+
+        programs = { gpg = { enable = true; }; };
 
         services = {
           dunst.enable = true;

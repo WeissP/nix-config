@@ -18,6 +18,7 @@ with lib; rec {
         "/home/${username}";
       nixDir = "${homeDir}/nix-config";
       scriptsDir = "${homeDir}/scripts";
+      financeDir = "${homeDir}/finance";
       systemBin = binary:
         if arch == "linux" then
           "/run/current-system/sw/bin/${binary}"

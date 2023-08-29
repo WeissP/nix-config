@@ -12,6 +12,8 @@
   modifications = final: prev: {
     recentf = inputs.recentf.packages."${prev.system}".default;
     webman = inputs.webman.packages."${prev.system}";
+    ripgrep-all =
+      inputs.nixpkgs-lts.legacyPackages."${prev.system}".ripgrep-all;
     # tdlib = tdlib180.tdlib;
     # example = prev.example.overrideAttrs (oldAttrs: rec {
     # ...

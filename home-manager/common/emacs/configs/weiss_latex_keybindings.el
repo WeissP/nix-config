@@ -25,7 +25,7 @@
   (wks-define-key
    LaTeX-mode-map ""
    '(("<escape> <escape>" . wks-latex-quick-insert-keymap)
-     ("<tab>" . weiss-indent)
+     ("<tab>" . save-buffer)
      ("t" . weiss-latex-to-pdf)
      ("C-c C-M-x r" . reftex-reference)
      ("<RET>" . weiss-deactivate-mark-and-new-line)

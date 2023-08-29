@@ -66,7 +66,12 @@
       (when delete-old (delete-file old-path))
       (end-of-line)
       (insert "\n")
-      (when img-attr (insert "#+ATTR_ORG: :width 500\n#+ATTR_LATEX: :width 12cm\n"))
+      (when img-attr
+        (let ((size (if (string= (file-name-extension old-path) "svg") 800 500)))
+          (insert
+           (format "#+ATTR_ORG: :width %s\n#+ATTR_LATEX: :width 12cm\n" size))
+          )
+        )
       (insert (format "[[file:%s/%s]]" prefix pic-name))
       (org-display-inline-images)))
 

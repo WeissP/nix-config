@@ -2,9 +2,15 @@
 with myEnv;
 let dir = "${homeDir}/.password-store";
 in {
-  programs.password-store = {
-    enable = true;
-    settings = { PASSWORD_STORE_DIR = "${dir}"; };
+  home.packages = with pkgs; [ zbar xclip ];
+  programs = {
+    password-store = {
+      enable = true;
+      package = pkgs.pass.withExtensions (exts: [ exts.pass-otp ]);
+      settings = { PASSWORD_STORE_DIR = "${dir}"; };
+    };
+    zsh.shellAliases.otp =
+      "xclip -selection clipboard -t image/png -o | zbarimg --raw - | pass otp";
   };
 }
 
