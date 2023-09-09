@@ -38,27 +38,44 @@ with myEnv; {
       recommendedProxySettings = false;
       recommendedTlsSettings = false;
       sslProtocols = "TLSv1 TLSv1.1 TLSv1.2";
-      virtualHosts = lib.attrsets.genAttrs
-        (map (root: "webman." + root) secrets.nodes.Vultr.domains) (domain: {
-          addSSL = true;
-          enableACME = true;
+      virtualHosts = lib.attrsets.genAttrs secrets.nodes.Vultr.domains
+        (domain: {
+          # addSSL = true;
+          # enableACME = true;
           locations = {
-            "/".proxyPass = "http://127.0.0.1:7777";
-            "${secrets.v2ray.path}" = {
-              proxyPass = "http://127.0.0.1:17586";
-              extraConfig = ''
-                proxy_redirect off;
-                proxy_http_version 1.1;
-                proxy_set_header Upgrade $http_upgrade;
-                proxy_set_header Connection "upgrade";
-                proxy_set_header Host $host;
-
-                proxy_set_header X-Real-IP $remote_addr;
-                proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
-              '';
-            };
+            "/".root = "'${
+                pkgs.fetchFromGitHub {
+                  owner = "designmodo";
+                  repo = "html-website-templates";
+                  rev = "e4373e54cede46b6ff6469ae672e9e09d2f221b9";
+                  sha256 =
+                    "sha256-F8sR3VzDF3Du0KB12Iwx4/OtojFLmpJ2IcWxp+BGc7w=";
+                }
+              }/One Page Portfolio Website Template'";
           };
-        });
+        }) # //
+        # lib.attrsets.genAttrs
+        # (map (root: "webman." + root) secrets.nodes.Vultr.domains) (domain: {
+        #   addSSL = true;
+        #   enableACME = true;
+        #   locations = {
+        #     "/".proxyPass = "http://127.0.0.1:7777";
+        #     "${secrets.v2ray.path}" = {
+        #       proxyPass = "http://127.0.0.1:17586";
+        #       extraConfig = ''
+        #         proxy_redirect off;
+        #         proxy_http_version 1.1;
+        #         proxy_set_header Upgrade $http_upgrade;
+        #         proxy_set_header Connection "upgrade";
+        #         proxy_set_header Host $host;
+
+        #         proxy_set_header X-Real-IP $remote_addr;
+        #         proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
+        #       '';
+        #     };
+        #   };
+        # });
+      ;
     };
 
     v2ray = {

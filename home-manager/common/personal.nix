@@ -45,7 +45,6 @@
               ripgrep-all
               imagemagick
               (rWrapper.override { packages = with rPackages; [ purrr ]; })
-              sioyek
               # for latex minted 
               (python3.withPackages (ps: with ps; [ pygments ]))
               (texlive.combine {

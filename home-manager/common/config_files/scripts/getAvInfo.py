@@ -58,7 +58,7 @@ def getAvInfo(html):
 
 
 def avCodeTest(avCode):
-    url = 'http://www.javlibrary.com/cn/vl_searchbyid.php?keyword=%s' % avCode
+    url = 'https://www.javlibrary.com/cn/vl_searchbyid.php?keyword=%s' % avCode
     # print(url)
     html = getHtml(url)
     # print(html.text)
