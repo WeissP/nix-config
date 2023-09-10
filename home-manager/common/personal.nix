@@ -44,6 +44,7 @@
               zoom-us
               ripgrep-all
               imagemagick
+              v2ray
               (rWrapper.override { packages = with rPackages; [ purrr ]; })
               # for latex minted 
               (python3.withPackages (ps: with ps; [ pygments ]))

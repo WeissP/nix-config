@@ -134,7 +134,7 @@ in {
       ];
 
       emacsPkgs = let
-        libs = [ "s" "exec-path-from-shell" "hydra" "cl-lib" "mode-local" ];
+        libs = [ "s" "exec-path-from-shell" "hydra" "cl-lib" "mode-local" "f" ];
         core = [ "rotate-text" "global" "wks" ];
         edit = [ "puni" "apheleia" "abbrevs" ];
         completion = [
@@ -238,7 +238,7 @@ in {
           "web-beautify"
           "whitespace"
           "ligature"
-          "all-the-icons"
+          # "all-the-icons"
           "nerd-icons"
           "display-line-numbers"
           "svg-tag-mode"
