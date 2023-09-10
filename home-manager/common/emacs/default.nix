@@ -136,7 +136,7 @@ in {
       emacsPkgs = let
         libs = [ "s" "exec-path-from-shell" "hydra" "cl-lib" "mode-local" "f" ];
         core = [ "rotate-text" "global" "wks" ];
-        edit = [ "puni" "apheleia" "abbrevs" ];
+        edit = [ "puni" "apheleia" "abbrevs" "separedit" ];
         completion = [
           [ "snails" "snails-custom-backends" ]
           [ "vertico" "vertico-directory" ]

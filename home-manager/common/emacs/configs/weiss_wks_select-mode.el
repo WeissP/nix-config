@@ -122,6 +122,10 @@
   (weiss-select-add-advice-deactivate-mark '(ess-eval-region-or-function-or-paragraph-and-step))
   )
 
+(with-eval-after-load 'separedit
+  (weiss-select-add-advice-deactivate-mark '(separedit))
+  )
+
 (advice-add 'xref-find-definitions :before #'weiss-deactivate-mark-unless-in-select-mode-interactive)
 
 ;; (defun anzu-query-replace (arg)
