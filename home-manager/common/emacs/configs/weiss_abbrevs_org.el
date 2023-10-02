@@ -17,6 +17,7 @@
       ("attr" "#+ATTR_org: :")
       ("img" "#+ATTR_org: :width 600")
       ("cap" "#+CAPTION:▮\n#+NAME: fig:")
+      ("cmt" "COMMENT ")
       ("nexp" " :noexport:")
 ;;;;; latex
       ("ltxeq" "\\begin{equation*}\n▮\n\\end{equation*}" weiss--ahf-indent)    

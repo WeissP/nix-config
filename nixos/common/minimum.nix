@@ -20,6 +20,7 @@
                 experimental-features = "nix-command flakes";
                 auto-optimise-store = true;
                 substituters = [
+                  "https://mirror.sjtu.edu.cn/nix-channels/store"
                   "https://nix-community.cachix.org"
                   "https://cache.nixos.org/"
                   "https://cache.iog.io"
@@ -88,7 +89,6 @@
         environment = {
           variables = { LANG = "en_US.UTF-8"; };
           systemPackages = with pkgs; [
-            git
             git-crypt
             ripgrep
             vim
@@ -106,7 +106,7 @@
 
       (ifLinux {
         environment.systemPackages = with pkgs; [ util-linux ];
-        networking.networkmanager.enable = true;
+        networking = { networkmanager.enable = true; };
         i18n = {
           defaultLocale = "en_US.UTF-8";
           extraLocaleSettings = {

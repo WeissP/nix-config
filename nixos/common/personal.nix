@@ -36,7 +36,13 @@ with myEnv; {
     };
   };
 
-  programs = { zsh.enable = true; };
+  programs = {
+    zsh.enable = true;
+    git = {
+      enable = true;
+      core.filemode = false;
+    };
+  };
 
   environment = {
     shells = [ pkgs.zsh ];

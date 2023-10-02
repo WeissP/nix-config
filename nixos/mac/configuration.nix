@@ -2,7 +2,7 @@
 with myEnv; {
   imports = [ ../common/minimum.nix ../common/psql.nix ../common/zsh.nix ];
 
-  networking.hostName = "Bozhous-Air";
+  networking = { hostName = "Bozhous-Air"; };
 
   services.myPostgresql = {
     enable = true;
@@ -37,7 +37,7 @@ with myEnv; {
 
   homebrew = {
     enable = true;
-    casks = [ "baidunetdisk" ];
+    casks = [ "baidunetdisk" "calibre" ];
   };
 }
 

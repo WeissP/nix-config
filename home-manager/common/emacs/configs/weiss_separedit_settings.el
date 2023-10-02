@@ -1,3 +1,5 @@
+(require 'separedit)
+
 (with-eval-after-load 'separedit
   (setq separedit-default-mode 'markdown-mode)
 )

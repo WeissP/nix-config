@@ -103,6 +103,7 @@
       ("lb" "\\bot " weiss--ahf)
       ("lbca" "\\bigcap " weiss--ahf)
       ("lbcu" "\\bigcup " weiss--ahf)
+      ("lbo" "\\bigvee " weiss--ahf)
       ("lca" "\\cap " weiss--ahf)
       ("ldc" "\\mathop{\\dot{\\cup}} " weiss--ahf)
       ("lcu" "\\cup " weiss--ahf)

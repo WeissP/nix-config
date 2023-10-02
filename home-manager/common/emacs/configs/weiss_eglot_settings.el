@@ -2,6 +2,8 @@
   (add-to-list 'eglot-server-programs '(nix-mode . ("nil")))
   (add-to-list 'eglot-server-programs '(elixir-mode "elixir-ls"))
   (add-to-list 'eglot-server-programs '(java-mode "jdt-language-server"  "-configuration" "../config-linux" "-data" "../java-workspace"))
+  (add-to-list 'eglot-server-programs '(svelte-mode . ("svelteserver" "--stdio")))
+
   (add-to-list 'eglot-ignored-server-capabilities :documentHighlightProvider)
   (add-to-list 'eglot-ignored-server-capabilities :inlayHintProvider)
   ;; (setq eglot-ignored-server-capabilities nil)

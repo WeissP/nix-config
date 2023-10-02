@@ -14,6 +14,7 @@
     ./shell.nix
     ./aliases.nix
     ./hledger.nix
+    ./sioyek.nix
   ];
 
   config = with myEnv;
@@ -45,6 +46,7 @@
               ripgrep-all
               imagemagick
               v2ray
+              coreutils
               (rWrapper.override { packages = with rPackages; [ purrr ]; })
               # for latex minted 
               (python3.withPackages (ps: with ps; [ pygments ]))
@@ -56,7 +58,7 @@
                   pgfplots titlesec subfigure adjustbox algorithm2e ifoddpage
                   relsize qtree pict2e lipsum ifsym fontawesome changepage
                   inconsolata xcolor cancel stmaryrd wasysym wasy makecell
-                  forest;
+                  forest mnsymbol;
                 pkgFilter = pkg:
                   pkg.tlType == "run" || pkg.tlType == "bin" || pkg.pname
                   == "cm-super";
@@ -65,6 +67,7 @@
               })
             ];
           }
+          (ifDarwin { packages = with pkgs; [ ]; })
           (ifLinux {
             packages = with pkgs; [
               mattermost-desktop
@@ -130,6 +133,7 @@
           direnv = {
             enable = true;
             nix-direnv.enable = true;
+            enableZshIntegration = true;
           };
         };
       }

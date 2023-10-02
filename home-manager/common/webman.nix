@@ -58,7 +58,13 @@
         };
         nodeName = "MacBook";
         cli = {
-          provider.browsers.safari.browser = "Safari";
+          provider.browsers = {
+            safari = {
+              browser = "Safari";
+              # location = "${homeDir}/.config/webman/History.db";
+            };
+            chromium.browser = "Chromium";
+          };
           logLevel = "info";
           target = "MacBook";
         };

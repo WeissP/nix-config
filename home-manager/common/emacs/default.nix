@@ -39,6 +39,7 @@ in {
           (format "%.2f seconds"
                   (float-time
                    (time-subtract after-init-time before-init-time))) gcs-done)
+        (setq insert-directory-program "${pkgs.coreutils}/bin/ls")
         (setq gc-cons-threshold (* (expt 1024 3) 6)
               gc-cons-percentage 0.5
               garbage-collection-messages nil)
@@ -90,6 +91,7 @@ in {
         "diredfl"
         "nerd-icons-dired"
         "tla-tools"
+        "separedit"
       ];
       idleLoad = {
         enable = true;
@@ -152,7 +154,13 @@ in {
           "php-mode"
           [ "haskell-mode" ]
           "rustic"
-          [ "web-mode" "rjsx-mode" "mhtml-mode" [ "http" "auto-rename-tag" ] ]
+          [
+            "web-mode"
+            "rjsx-mode"
+            "mhtml-mode"
+            "svelte-mode"
+            [ "http" "auto-rename-tag" ]
+          ]
           [ "go-mode" [ "go-gen-test" "gotest" "go-dlv" "go-impl" "go-eldoc" ] ]
           [
             "sql" # "ejc-sql"
@@ -188,6 +196,7 @@ in {
           "mind-wave"
           "polymode"
           "tla-tools"
+          "use-proxy"
           # "maxima"
           # [ "tree-sitter" "tree-sitter-langs" "weiss-tsc-mode" ]
         ];
