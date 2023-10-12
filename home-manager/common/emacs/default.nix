@@ -162,10 +162,7 @@ in {
             [ "http" "auto-rename-tag" ]
           ]
           [ "go-mode" [ "go-gen-test" "gotest" "go-dlv" "go-impl" "go-eldoc" ] ]
-          [
-            "sql" # "ejc-sql"
-            "sql-indent"
-          ]
+          [ "sql" "ejc-sql" "sql-indent" "flymake-sqlfluff" ]
           [ "haskell-mode" "dante" ]
           "lua-mode"
           "nix-mode"
