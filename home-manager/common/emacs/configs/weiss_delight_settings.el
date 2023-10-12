@@ -31,6 +31,7 @@
      (python-mode nil :major)
      (org-mode nil :major)
      ))
+  (advice-add 'c-update-modeline :override #'ignore)
   )
 
 
