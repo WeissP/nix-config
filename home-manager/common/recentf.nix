@@ -10,7 +10,7 @@
       programs.recentf = {
         enable = true;
         databaseUrl =
-          "postgres://${username}:${secrets.sql.localPassword}@localhost/recentf";
+          "postgres://${username}:${secrets.sql.localPassword}@localhost:5432/recentf";
         # tramps = toTramps [ "RaspberryPi" "Vultr" ];
         tramps = lib.attrsets.mapAttrs (node: info:
           if (builtins.hasAttr "publicIp" info) then
