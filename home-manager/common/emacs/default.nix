@@ -5,11 +5,14 @@ in {
   imports = [ outputs.homeManagerModules.weissEmacs ../recentf.nix ];
 
   home.file."${userEmacsDirectory}/weiss-light-theme.el".source =
-    ./weiss-light-theme.el;
+    if (arch == "darwin") then
+      ./weiss-light-theme-mac.el
+    else
+      ./weiss-light-theme.el;
   home.packages = with pkgs; [ clj-kondo nodePackages.jsonlint nixfmt ];
   programs.weissEmacs = lib.mkMerge [
-    (ifDarwin { package = pkgs.emacs-unstable; })
-    (ifLinux { package = pkgs.emacs-unstable; })
+    (ifDarwin { package = pkgs.emacs29-pgtk; })
+    (ifLinux { package = pkgs.emacs29; })
     {
       inherit userEmacsDirectory;
       enable = true;
@@ -172,7 +175,8 @@ in {
           "markdown-mode"
           "ess"
         ];
-        pdf = [ "pdf-tools" "pdf-view" "pdf-view-restore" ];
+        pdf =
+          [ "pdf-tools" "pdf-view" "pdf-view-restore" "literate-calc-mode" ];
         tools = [
           "direnv"
           "project"
