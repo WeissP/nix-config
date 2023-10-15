@@ -15,7 +15,7 @@
     ./aliases.nix
     ./hledger.nix
     ./sioyek.nix
-  ];
+  ] ++ (if myEnv.arch == "linux" then [ ./aria.nix ] else [ ]);
 
   config = with myEnv;
     lib.mkMerge [
@@ -33,6 +33,7 @@
             };
             packages = with pkgs; [
               nodejs
+              unrar
               zenith
               nil
               docker-compose
@@ -88,6 +89,8 @@
               tlaplusToolbox
               graphviz
               librsvg
+              comic-mandown
+              aria2
             ];
             file = {
               ".xbindkeysrc".text = ''

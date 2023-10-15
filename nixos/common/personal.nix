@@ -38,10 +38,7 @@ with myEnv; {
 
   programs = {
     zsh.enable = true;
-    git = {
-      enable = true;
-      core.filemode = false;
-    };
+    git = { enable = true; };
   };
 
   environment = {

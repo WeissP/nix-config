@@ -120,6 +120,6 @@
 
   (with-eval-after-load 'dired-aux
     (add-to-list 'dired-compress-file-suffixes
-                 '("\\.rar\\'" "" "unrar e %i"))))
+                 '("\\.rar\\'" "" "unrar x %i"))))
 
 (provide 'weiss_dired_compress)
