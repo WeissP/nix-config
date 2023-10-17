@@ -89,8 +89,8 @@
               tlaplusToolbox
               graphviz
               librsvg
-              comic-mandown
               aria2
+              pasystray
             ];
             file = {
               ".xbindkeysrc".text = ''
