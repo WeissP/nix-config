@@ -183,6 +183,10 @@ in {
           emacsPackages = [ "flymake-sqlfluff" ];
           externalPackages = [ pkgs.sqlfluff ];
         };
+        ejc-sql = {
+          emacsPackages = [ "ejc-sql" ];
+          externalPackages = [ pkgs.leiningen ];
+        };
         ess = {
           emacsPackages = [ "ess" ];
           externalPackages = [ pkgs.R ];
