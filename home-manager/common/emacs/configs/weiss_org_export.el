@@ -13,6 +13,17 @@
    org-latex-caption-above nil
    )
 
+  (setq org-cite-export-processors
+'( (latex biblatex)                                   ; For humanities
+
+   (t . basic))
+        )
+(org-cite-export-processors
+ '((md . (csl "chicago-fullnote-bibliography.csl"))   ; Footnote reliant
+   (latex biblatex)                                   ; For humanities
+   (odt . (csl "chicago-fullnote-bibliography.csl"))  ; Footnote reliant
+   (t . (csl "modern-language-association.csl"))))      ; Fallback
+
   (defun weiss-org-export-to-pdf ()
     "DOCSTRING"
     (interactive)

@@ -59,7 +59,7 @@
                   pgfplots titlesec subfigure adjustbox algorithm2e ifoddpage
                   relsize qtree pict2e lipsum ifsym fontawesome changepage
                   inconsolata xcolor cancel stmaryrd wasysym wasy makecell
-                  forest mnsymbol;
+                  forest mnsymbol biblatex;
                 pkgFilter = pkg:
                   pkg.tlType == "run" || pkg.tlType == "bin" || pkg.pname
                   == "cm-super";
@@ -91,6 +91,8 @@
               librsvg
               aria2
               pasystray
+              vivaldi
+              pdfpc
             ];
             file = {
               ".xbindkeysrc".text = ''

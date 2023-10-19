@@ -42,9 +42,7 @@
      ("C-c C-M-x e" . weiss-org-export-to-pdf)
      ("C-c C-M-x f" . weiss-org-insert-image)
      ("C-c C-M-x u" . weiss-check-umlaut)
-     ("C-c C-M-x b" . (weiss-org-export-beamer
-                       (call-interactively 'save-buffer)
-                       (org-beamer-export-to-pdf)))
+     ("C-c C-SPC" . TeX-next-error)
      ("C-c C-o" . org-noter)
      ("y d" . weiss-org-download-img)
      ("y g" . org-goto)
