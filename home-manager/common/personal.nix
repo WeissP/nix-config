@@ -111,14 +111,6 @@
                 "xte 'keydown Control_L' 'key v' 'keyup Control_L'"
                 b:7
               '';
-              # "${homeDir}/.local/share/fcitx5/rime" = {
-              #   source = ./config_files/flypy;
-              #   recursive = true;
-              # };
-              # "${configDir}/fcitx5" = {
-              #   source = ./config_files/fcitx5;
-              #   recursive = true;
-              # };
               "${configDir}/xmobar" = {
                 source = ./config_files/xmobar;
                 recursive = true;
