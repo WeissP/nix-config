@@ -25,7 +25,7 @@ with myEnv; {
       file-allocation = "falloc";
       no-file-allocation-limit = "8M";
       console-log-level = "notice";
-      log-level = "warning";
+      log-level = "warn";
       log = "${ariaDir}/aria2.log";
       enable-rpc = true;
       rpc-allow-origin-all = true;
