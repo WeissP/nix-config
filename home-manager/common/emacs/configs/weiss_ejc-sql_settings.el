@@ -31,7 +31,7 @@
   (advice-add 'find-library-name :before-until #'find-library-name-overriding-ejc)
 
   (ejc-create-connection
-   "digivine"
+   "digivine-mac"
    :classpath "[/Users/bozhoubai/.m2/repository/postgresql/postgresql/9.3-1102.jdbc41/postgresql-9.3-1102.jdbc41.jar]"
    :password ""
    :user "bozhoubai"
@@ -41,7 +41,7 @@
    :dbtype "postgresql")
 
   (ejc-create-connection
-   "ms"
+   "ms-mac"
    :classpath "[/Users/bozhoubai/.m2/repository/postgresql/postgresql/9.3-1102.jdbc41/postgresql-9.3-1102.jdbc41.jar]"
    :password ""
    :user "bozhoubai"
@@ -49,6 +49,16 @@
    :host "localhost"
    :dbname "ms"
    :dbtype "postgresql")  
+
+  (ejc-create-connection
+   "ms-desktop"
+   :classpath "[/home/weiss/.m2/repository/postgresql/postgresql/9.3-1102.jdbc41/postgresql-9.3-1102.jdbc41.jar]"
+   :password ""
+   :user "weiss"
+   :port "7700"
+   :host "localhost"
+   :dbname "ms"
+   :dbtype "postgresql")
   )
 
 (provide 'weiss_ejc-sql_settings)
