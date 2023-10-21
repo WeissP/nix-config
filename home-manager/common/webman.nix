@@ -86,7 +86,10 @@
         };
         nodeName = "Desktop";
         cli = {
-          provider.browsers.daily.browser = "Chromium";
+          provider.browsers = {
+            vivaldi.browser = "Vivaldi";
+            chromium.browser = "Chromium";
+          };
           logLevel = "info";
           target = "RaspberryPi";
           freq = "1min";
