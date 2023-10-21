@@ -1,5 +1,3 @@
-;; apheleia-global-mode autoloads has something wrong with nix pkgs
-(require 'apheleia-core)
 (apheleia-global-mode)
 (with-eval-after-load 'apheleia
   (push '(zprint . ("zprint")) apheleia-formatters)    

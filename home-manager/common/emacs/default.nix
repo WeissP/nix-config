@@ -69,6 +69,7 @@ in {
         weiss-tsc-mode = [ "weiss-tsc-mode" ];
         org-edit-latex = [ "org-edit-latex-mode" ];
         eglot-java = [ "eglot-java-mode" ];
+        apheleia = [ "apheleia-global-mode" ];
       };
       eagerLoad = [
         "direnv"
