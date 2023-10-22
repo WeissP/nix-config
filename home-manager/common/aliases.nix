@@ -31,6 +31,8 @@ let
     mnt = "bb ${homeDir}/scripts/mount.clj";
     pre_beg = "dunstctl set-paused true && xscreensaver-command -exit &";
     pre_end = "dunstctl set-paused false && xscreensaver -no-splash &";
+    sf = "sqlfluff fix --config ${homeDir}/.config/sqlfluff/.sqlfluff ";
+    sl = "sqlfluff lint --config ${homeDir}/.config/sqlfluff/.sqlfluff ";
   };
 in {
   programs.bash = { inherit shellAliases; };

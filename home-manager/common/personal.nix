@@ -123,6 +123,10 @@
                 source = ./config_files/screenlayout;
                 recursive = true;
               };
+              "${homeDir}/.config/sqlfluff/.sqlfluff" = {
+                source = ./config_files/sqlfluff/sqlfluff.cfg;
+                recursive = false;
+              };
             };
           })
         ];
