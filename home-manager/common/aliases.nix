@@ -33,6 +33,8 @@ let
     pre_end = "dunstctl set-paused false && xscreensaver -no-splash &";
     sf = "sqlfluff fix --config ${homeDir}/.config/sqlfluff/.sqlfluff ";
     sl = "sqlfluff lint --config ${homeDir}/.config/sqlfluff/.sqlfluff ";
+    sfp = "sf --dialect postgres ";
+    slp = "sf --dialect postgres ";
   };
 in {
   programs.bash = { inherit shellAliases; };
