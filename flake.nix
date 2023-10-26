@@ -31,6 +31,7 @@
     };
 
     emacs-overlay.url = "github:nix-community/emacs-overlay";
+    nur.url = "github:nix-community/NUR";
   };
 
   outputs =
@@ -119,6 +120,7 @@
           modules = [
             ./nixos/desktop/configuration.nix
             ./nixos/desktop/hardware-configuration.nix
+            inputs.nur.nixosModules.nur
             ./home-manager
           ];
         };

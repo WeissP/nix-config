@@ -26,6 +26,7 @@ with myEnv; {
         vivaldi &
         xbindkeys &
         pasystray &
+        aria2c &
         sh $HOME/.screenlayout/horizontal.sh &
         sh ${myEnv.scriptsDir}/mouse_scroll.sh &
       '';
@@ -45,7 +46,14 @@ with myEnv; {
   environment = {
     shells = [ pkgs.zsh ];
     pathsToLink = [ "/share/zsh" ];
-    systemPackages = with pkgs; [ pavucontrol xdotool wezterm babashka udisks ];
+    systemPackages = with pkgs; [
+      pavucontrol
+      xdotool
+      wezterm
+      babashka
+      udisks
+      config.nur.repos.xddxdd.wechat-uos-bin
+    ];
   };
 
   sound.enable = true;
