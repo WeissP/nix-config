@@ -2,10 +2,8 @@
  (current-global-map)
  "SPC "
  '(("d f" .  org-roam-goto-file)
-   ("d =" .  org-roam-dailies-capture-tomorrow)
    ("d :" .  org-roam-dailies-capture-today)
    ("d /" .  org-roam-dailies-capture-date)
-   ("d DEL" .  org-roam-dailies-goto-tomorrow)
    ("d &" .  org-roam-dailies-goto-today)
    ("d -" .  org-roam-dailies-goto-yesterday)
    ("d ?" .  org-roam-dailies-goto-date)))
