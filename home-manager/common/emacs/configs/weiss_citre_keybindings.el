@@ -4,6 +4,15 @@
  '(("C-c C-b" . citre-jump-back)
    ("C-c C-p" . citre-peek)))
 
+;; for openapi spec
+(with-eval-after-load 'yaml-mode
+  (wks-define-key
+   yaml-mode-map
+   ""
+   '(("C-c C-b" . citre-jump-back)
+     ("C-c C-p" . citre-peek)))
+  )
+
 (with-eval-after-load 'rustic
   (wks-define-key
    rustic-mode-map
