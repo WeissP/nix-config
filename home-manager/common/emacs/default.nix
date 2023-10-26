@@ -202,8 +202,12 @@ in {
           # "maxima"
           # [ "tree-sitter" "tree-sitter-langs" "weiss-tsc-mode" ]
         ];
-        lint =
-          [ [ "flyspell" "wucuo" ] "flymake" "flymake-kondor" "flymake-json" ];
+        lint = [
+          [ "flyspell" "wucuo" "flyspell-correct" ]
+          "flymake"
+          "flymake-kondor"
+          "flymake-json"
+        ];
         org = [
           "org"
           "weiss-org-sp"

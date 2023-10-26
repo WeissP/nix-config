@@ -179,6 +179,10 @@ in {
     recipes = mkOption {
       description = "recipes";
       default = {
+        flyspell = {
+          emacsPackages = [ "flymake" ];
+          externalPackages = with pkgs; [ aspell aspellDicts.en ];
+        };
         flymake-sqlfluff = {
           emacsPackages = [ "flymake-sqlfluff" ];
           externalPackages = [ pkgs.sqlfluff ];
