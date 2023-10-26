@@ -30,35 +30,31 @@
     (when (string= lib-name "ejc-sql") (format "%s/ejc-sql.el" ejc-repl-dir)))
   (advice-add 'find-library-name :before-until #'find-library-name-overriding-ejc)
 
-  (ejc-create-connection
-   "digivine-mac"
-   :classpath "[/Users/bozhoubai/.m2/repository/postgresql/postgresql/9.3-1102.jdbc41/postgresql-9.3-1102.jdbc41.jar]"
-   :password ""
-   :user "bozhoubai"
-   :port "5555"
-   :host "localhost"
-   :dbname "digivine"
-   :dbtype "postgresql")
+  (let* ((user user-login-name)
+         (classpath (format
+                     "[%s]"
+                     (expand-file-name "~/.m2/repository/postgresql/postgresql/9.3-1102.jdbc41/postgresql-9.3-1102.jdbc41.jar")))
+         )
+    (ejc-create-connection
+     "digivine"
+     :classpath classpath
+     :password ""
+     :user user
+     :port "5555"
+     :host "localhost"
+     :dbname "digivine"
+     :dbtype "postgresql") 
 
-  (ejc-create-connection
-   "ms-mac"
-   :classpath "[/Users/bozhoubai/.m2/repository/postgresql/postgresql/9.3-1102.jdbc41/postgresql-9.3-1102.jdbc41.jar]"
-   :password ""
-   :user "bozhoubai"
-   :port "7700"
-   :host "localhost"
-   :dbname "ms"
-   :dbtype "postgresql")  
-
-  (ejc-create-connection
-   "ms-desktop"
-   :classpath "[/home/weiss/.m2/repository/postgresql/postgresql/9.3-1102.jdbc41/postgresql-9.3-1102.jdbc41.jar]"
-   :password ""
-   :user "weiss"
-   :port "7700"
-   :host "localhost"
-   :dbname "ms"
-   :dbtype "postgresql")
+    (ejc-create-connection
+     "ms"
+     :classpath classpath
+     :password ""
+     :user user
+     :port "7700"
+     :host "localhost"
+     :dbname "ms"
+     :dbtype "postgresql")
+    )
   )
 
 (provide 'weiss_ejc-sql_settings)
