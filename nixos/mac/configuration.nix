@@ -4,9 +4,12 @@ with myEnv; {
 
   networking = { hostName = "Bozhous-Air"; };
 
-  services.myPostgresql = {
-    enable = true;
-    package = pkgs.lts.postgresql_15;
+  services = {
+    myPostgresql = {
+      enable = true;
+      package = pkgs.lts.postgresql_15;
+    };
+    karabiner-elements.enable = false; # no multitouch support
   };
 
   launchd.user.agents = {
@@ -37,7 +40,27 @@ with myEnv; {
 
   homebrew = {
     enable = true;
-    casks = [ "baidunetdisk" "calibre" ];
+    casks = [
+      "vivaldi"
+      "apptivate"
+      "font-cascadia-mono-pl"
+      "font-fira-code"
+      "qq"
+      "baidunetdisk"
+      "font-jetbrains-mono"
+      "font-lato"
+      "font-liberation"
+      "squirrel"
+      "font-sarasa-gothic"
+      "font-source-code-pro"
+      "syncthing"
+      "font-cascadia-code"
+      "font-cascadia-code-pl"
+      "font-cascadia-mono"
+      "raycast"
+      # "karabiner-elements"
+    ];
+
   };
 }
 

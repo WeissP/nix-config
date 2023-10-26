@@ -68,7 +68,7 @@
               })
             ];
           }
-          (ifDarwin { packages = with pkgs; [ ]; })
+          (ifDarwin { packages = with pkgs; [ iterm2 ]; })
           (ifLinux {
             packages = with pkgs; [
               mattermost-desktop
