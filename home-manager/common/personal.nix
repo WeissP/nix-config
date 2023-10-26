@@ -48,18 +48,20 @@
               imagemagick
               v2ray
               coreutils
+              # calibre
+              dbeaver
               (rWrapper.override { packages = with rPackages; [ purrr ]; })
               # for latex minted 
               (python3.withPackages (ps: with ps; [ pygments ]))
               (texlive.combine {
                 inherit (texlive)
-                  scheme-medium collection-langkorean algorithms cm-super pgf
+                  scheme-tetex collection-langkorean algorithms cm-super pgf
                   dvipng dvisvgm enumitem graphics wrapfig amsmath ulem hyperref
                   capt-of framed multirow vmargin comment minted doublestroke
                   pgfplots titlesec subfigure adjustbox algorithm2e ifoddpage
                   relsize qtree pict2e lipsum ifsym fontawesome changepage
                   inconsolata xcolor cancel stmaryrd wasysym wasy makecell
-                  forest mnsymbol biblatex;
+                  forest mnsymbol biblatex fontawesome5 pbox;
                 pkgFilter = pkg:
                   pkg.tlType == "run" || pkg.tlType == "bin" || pkg.pname
                   == "cm-super";
@@ -77,7 +79,6 @@
               xautomation
               lsof
               # cider
-              calibre
               libnotify
               qq
               ocamlPackages.cpdf
@@ -93,6 +94,7 @@
               pasystray
               vivaldi
               pdfpc
+              pdfminer
             ];
             file = {
               ".xbindkeysrc".text = ''
