@@ -46,10 +46,11 @@
               zoom-us
               ripgrep-all
               imagemagick
-              v2ray
+              # v2ray
               coreutils
               # calibre
               dbeaver
+              pdfminer
               (rWrapper.override { packages = with rPackages; [ purrr ]; })
               # for latex minted 
               (python3.withPackages (ps: with ps; [ pygments ]))
@@ -94,7 +95,6 @@
               pasystray
               vivaldi
               pdfpc
-              pdfminer
             ];
             file = {
               ".xbindkeysrc".text = ''
