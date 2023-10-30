@@ -6,7 +6,7 @@ with myEnv; {
       ariaDir = "${homeDir}/.aria2";
       sess = "${ariaDir}/aria2.sess";
     in {
-      dir = "${homeDir}/Downloads/";
+      dir = "${homeDir}/Downloads/aria2";
       input-file = sess;
       save-session = sess;
       save-session-interval = 60;
