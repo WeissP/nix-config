@@ -33,6 +33,21 @@ local module = {
 			action = act.QuickSelect,
 		},
 		{
+			key = "a",
+			mods = "LEADER",
+			action = act.SplitPane({
+				direction = "Right",
+				size = { Percent = 50 },
+			}),
+		},
+		{
+			key = "w",
+			mods = "LEADER",
+			action = act.CloseCurrentPane({
+				confirm = false,
+			}),
+		},
+		{
 			key = "t",
 			mods = "CTRL",
 			action = { SpawnTab = "CurrentPaneDomain" },
