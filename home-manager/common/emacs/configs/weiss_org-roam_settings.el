@@ -14,6 +14,9 @@
 (with-eval-after-load 'org-roam
   (org-roam-setup)
   (require 'org-roam-protocol)
+
+  ;; super-save doesn't work for some reason
+  (advice-add 'org-id-get-create :after #'save-buffer)
   )
 
 

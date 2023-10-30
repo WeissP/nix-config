@@ -4,7 +4,6 @@
   (add-to-list 'super-save-triggers 'other-frame)
   (add-to-list 'super-save-triggers 'select-frame-set-input-focus)
   (add-to-list 'super-save-triggers 'dired-jump)
-  (add-to-list 'super-save-triggers 'org-id-get-create)
   (super-save-mode +1)
   )
 

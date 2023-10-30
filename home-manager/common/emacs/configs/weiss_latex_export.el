@@ -28,7 +28,7 @@
   ;; \\setlength\\parindent{0pt}
   ;; \usepackage{xcolor}
   ;; \definecolor{code}{HTML}{986801}
-  ;; (add-to-list 'org-latex-packages-alist '("chapter" "minted" t))
+  (add-to-list 'org-latex-packages-alist '("chapter" "minted" t))
 
   ;; (add-to-list 'org-latex-packages-alist '("" "tikz" t))
   ;; ;; \\usepackage{arev}

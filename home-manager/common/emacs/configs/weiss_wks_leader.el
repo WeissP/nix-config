@@ -188,7 +188,7 @@
    ("w n" .  weiss-new-frame)
    ("w t" .  weiss-test)
    ("w l" .  xref-pop-marker-stack)
-   ("w y" .  winner-undo)                  ;windows setting
+   ("w u" .  winner-undo)                  ;windows setting
    ("w r" .  winner-redo)
    ("w o" .  org-babel-tangle-jump-to-org)
 
