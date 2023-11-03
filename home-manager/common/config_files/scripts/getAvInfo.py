@@ -6,7 +6,7 @@ import requests
 import os
 import re
 import time
-import cfscrape
+# import cfscrape
 import cloudscraper
 
 backupPath = "/home/weiss/backup/avList.txt"
