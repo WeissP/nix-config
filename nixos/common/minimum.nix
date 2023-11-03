@@ -37,18 +37,24 @@
               keep-outputs = true
               keep-derivations = true
             '';
-            gc = {
-              automatic = true;
-              dates = "weekly";
-              options = "--delete-older-than 7d";
-            };
+            gc = { automatic = true; };
           }
           (ifDarwin {
+            gc = {
+              interval = { Hour = 24; };
+              options = "--delete-older-than 1d";
+            };
             extraOptions = ''
               extra-platforms = aarch64-darwin x86_64-darwin
               keep-outputs = true
               keep-derivations = true
             '';
+          })
+          (ifLinux {
+            gc = {
+              dates = "weekly";
+              options = "--delete-older-than 7d";
+            };
           })
         ];
 
@@ -71,7 +77,8 @@
           (ifLinux {
             isNormalUser = true;
             openssh.authorizedKeys.keys = [ secrets.ssh."163".public ];
-            extraGroups = [ "wheel" "networkmanager" "input" "storage" ];
+            extraGroups =
+              [ "wheel" "networkmanager" "input" "storage" "docker" ];
           })
         ];
 
