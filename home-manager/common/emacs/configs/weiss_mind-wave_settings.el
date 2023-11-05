@@ -30,7 +30,7 @@
                           "text-mode"
                           (mind-wave--encode-string (nth 2 (mind-wave-get-region-or-buffer)))
                           mind-wave-summary-role
-                          "Please rephrase the following paragraph:" 
+                          "Please rephrase the following paragraph to make it more fluently:" 
                           (concat "rephrase" (format-time-string "%S-[%H-%M]-{%0d.%m.%Y}"))
                           "ChatGPT rephrasing..."
                           "ChatGPT finished rephrasing."))
@@ -48,6 +48,20 @@
                           "ChatGPT converting..."
                           "ChatGPT finished converting."))
   )
+
+
+
+(defun weiss-mind-wave-show-chat-window (buffername mode)
+  "split window dwim"
+  (setq mind-wave-window-configuration-before-split (current-window-configuration))
+  (delete-other-windows)
+  (weiss-split-window-dwim)
+  (other-window 1)
+  (get-buffer-create buffername)
+  (switch-to-buffer buffername)
+  (funcall (intern mode))
+  (read-only-mode -1))
+(advice-add 'mind-wave-show-chat-window :override #'weiss-mind-wave-show-chat-window)
 
 (provide 'weiss_mind-wave_settings)
 

@@ -156,6 +156,10 @@
       ("ol" "\\log " weiss--ahf)
 
 ;;;;; arrows
+      ("au" "\\Uparrow " weiss--ahf)
+      ("asu" "\\uparrow " weiss--ahf)
+      ("ad" "\\Downarrow " weiss--ahf)
+      ("asd" "\\downarrow " weiss--ahf)
       ("ar" "\\Rightarrow " weiss--ahf)
       ("asr" "\\rightarrow " weiss--ahf)
       ("al" "\\Leftarrow " weiss--ahf)
