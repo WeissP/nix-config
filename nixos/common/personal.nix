@@ -81,12 +81,6 @@ with myEnv; {
         fira-code-symbols
         (nerdfonts.override { fonts = [ "FiraCode" ]; })
         mplus-outline-fonts.githubRelease
-
-        virtualisation.docker = {
-          enable = true;
-          storageDriver = "btrfs";
-        };
-
         dina-font
         source-code-pro
         source-han-sans
