@@ -100,7 +100,7 @@ in {
       idleLoad = {
         enable = true;
         idleSeconds = 3;
-        packages = [ "eglot" "org" "org-roam" "pdf-view" ];
+        packages = [ "flyspell-correct" "eglot" "org" "org-roam" "pdf-view" ];
       };
       skipInstall = [
         "python"
