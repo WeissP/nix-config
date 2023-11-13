@@ -71,8 +71,8 @@
       ("gS" "\\Sigma" weiss--ahf)
 
       ("gt" "\\tau" weiss--ahf)
-      ("ggt" "\\Tau" weiss--ahf)
-      ("gT" "\\Tau" weiss--ahf)
+      ("ggt" "\\mathcal{T}" weiss--ahf)
+      ("gT" "\\mathcal{T}" weiss--ahf)
 
       ("gu" "\\upsilon" weiss--ahf)
       ("ggu" "\\Upsilon" weiss--ahf)
@@ -131,7 +131,7 @@
 
 ;;;;; equal symbols
       ("es" "\\stackrel{IV}{=} " weiss--ahf)
-      ("el" "\\leq " weiss--ahf)
+      ("el" "\\leq" weiss--ahf)
       ("eg" "\\ge " weiss--ahf)
       ("en" "\\neq " weiss--ahf)
       ("ea" "\\approx " weiss--ahf)
@@ -144,16 +144,18 @@
       ("och" "\\choose " weiss--ahf)
       ("od" "\\div " weiss--ahf)
       ("odm" "\\mathop{\\dot{-}} " weiss--ahf)
+      ("oe" "\\exp " weiss--ahf)
       ("of" "\\frac{▮}" weiss--ahf)
       ("ofl" "\\lfloor ▮ \\rfloor" weiss--ahf)
       ("om" "\\begin{bmatrix} \n▮ & b \\\\ \nc & d\n\\end{bmatrix}" weiss--ahf)
-      ("on" "&= ▮ \\\\" weiss--ahf)
       ("op" "\\cdot " weiss--ahf)
       ("opm" "\\pm " weiss--ahf)
       ("os" "\\sqrt{▮}" weiss--ahf)
       ("osum" "\\sum_{▮} " weiss--ahf)
       ("ox" "\\times " weiss--ahf)
       ("ol" "\\log " weiss--ahf)
+      ("oln" "\\ln " weiss--ahf)
+      ("olim" "\\lim_{n \\to \\infty}" weiss--ahf)
 
 ;;;;; arrows
       ("au" "\\Uparrow " weiss--ahf)
@@ -187,7 +189,6 @@
       ("slt" "\\  \\ \\Lightning" weiss--ahf)
       ("sbs" "\\verb|\\|" weiss--ahf)
       ("sqed" "\\(\\hfill\\blacksquare\\)" weiss--ahf)
-      ("sl" "\\lim_{n \\to \\infty}" weiss--ahf)
       ("sm" "\\mid " weiss--ahf)
       ("sn" "\\nabla " weiss--ahf)
       ("sh" "\\hat{▮} " weiss--ahf)
@@ -195,11 +196,13 @@
 
 ;;;;; Fast input
       ("frp" "\\mathbb{R}^+" weiss--ahf)
+      ("ff" "Figure \\ref{fig:▮}" weiss--ahf)
       ("fr" "\\mathbb{R}" weiss--ahf)
       ("fzp" "\\mathbb{Z}^+" weiss--ahf)
       ("fz" "\\mathbb{Z}" weiss--ahf)
       ("fnz" "\\mathbb{N}_0" weiss--ahf)
       ("fn" "\\mathbb{N}" weiss--ahf)
+      ("fe" "&= ▮ \\\\" weiss--ahf)
       ("fo" "\\mathcal{O}(▮)" weiss--ahf)
       ("fot" "\\mathcal{\\widetilde{O}}(▮)" weiss--ahf)
       ("fwlog" "w.l.o.g.\\ " weiss--ahf)

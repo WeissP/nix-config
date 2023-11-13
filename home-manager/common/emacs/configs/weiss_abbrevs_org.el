@@ -10,6 +10,7 @@
       ("pc" "Pros & Cons for ▮:\n*＋* \n*－* cons ")    
       ("norm" "∥ ▮ ∥")    
       ("o" "𝒪(▮)")    
+      ("nd" "𝒩(0,σ²_▮)")    
 
 ;;;;; roam
       ("ro" "#+roam_▮: ")
@@ -22,6 +23,7 @@
 ;;;;; latex
       ("ltxeq" "\\begin{equation*}\n▮\n\\end{equation*}" weiss--ahf-indent)    
       ("ltxal" "\\begin{align*}\n▮\n\\end{align*}" weiss--ahf-indent)    
+      ("qed" "\\(\\hfill\\blacksquare\\)" weiss--ahf)    
       ("ltxeqal" "\\begin{equation}\n\\begin{aligned}\n▮\n\\end{aligned}\n\\end{equation}" weiss--ahf-indent)    
       ("ltxtb" "#+ATTR_LaTeX: :align |r|r|r|r|r|" weiss--ahf-indent)    
       ("ltxmg" "#+ATTR_Latex: :options [leftmargin=▮8ex]" weiss--ahf-indent)    
@@ -47,6 +49,7 @@
       ("joda" "JODA " weiss--ahf)    
       ("algo" "algorithm" weiss--ahf)
       ("prop" "properties" weiss--ahf)
+      ("lhd" "likelihood " weiss--ahf)
 ;;;;; for Germany language
       ("ht" "heute" weiss--ahf)
       ("ad" "außerdem" weiss--ahf)
