@@ -6,7 +6,7 @@
 (wks-define-key
  wks-vanilla-mode-map
  ""
- '(("<end>" . wks-vanilla-mode-disable)
+ '(("<escape>" . wks-vanilla-mode-disable)
    ("ß" . self-insert-command)
    ("`" . self-insert-command)
    ;; ("<dead-circumflex>" . self-insert-command)

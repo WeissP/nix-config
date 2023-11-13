@@ -42,6 +42,7 @@
      ("C-c C-M-x e" . weiss-org-export-to-pdf)
      ("C-c C-M-x f" . weiss-org-insert-image)
      ("C-c C-M-x u" . weiss-check-umlaut)
+     ("C-c C-M-x t" . org-babel-tangle)
      ("C-c C-SPC" . TeX-next-error)
      ("C-c C-o" . org-noter)
      ("y d" . weiss-org-download-img)
@@ -55,7 +56,7 @@
      ("y j s" . weiss-org-copy-heading-link)
      ;; ("<f5>" . org-beamer-export-to-pdf)
 
-     ("<escape> <escape>" . wks-org-quick-insert-keymap)))
+     ("<end> <escape>" . wks-org-quick-insert-keymap)))
   )
 
 (with-eval-after-load 'org-agenda

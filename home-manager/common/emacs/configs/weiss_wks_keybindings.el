@@ -20,6 +20,12 @@
    '(("<RET>" . weiss-deactivate-mark-and-new-line)))
   )
 
+(with-eval-after-load 'emoji
+  (wks-unset-key emoji-list-mode-map '("g"))
+  )
+
+
+
 (wks-define-key
  text-mode-map ""
  '(("<RET>" . weiss-deactivate-mark-and-new-line)))
@@ -40,17 +46,16 @@
    ;; ("<down>" . scroll-up)
    ("<right>" . scroll-down)
    ;; ("<up>" . scroll-down)
-   ("<escape> <up>" . text-scale-increase)
-   ("<escape> <down>" . text-scale-decrease)))
+   ))
 
 (global-unset-key (kbd "<escape>"))
 (with-eval-after-load 'weiss_wks_quick-insert
   (wks-define-key
    (current-global-map)
    ""
-   '(("<escape>" . wks-global-quick-insert-keymap)
-     ("<escape> ," . previous-buffer)
-     ("<escape> ." . next-buffer))))
+   '(("<end>" . wks-global-quick-insert-keymap)
+     ("<end> ," . previous-buffer)
+     ("<end> ." . next-buffer))))
 
 (wks-unset-key help-mode-map '("h" "c" "s" "i"))
 (wks-unset-key special-mode-map '("h" "c" "s" "i"))
@@ -86,31 +91,30 @@
 
 
 
-
 (global-unset-key (kbd "y"))
 (wks-define-key
  (current-global-map)
  ""
  `(("S-<dead-grave>" . weiss-open-line-and-indent)
-   ("_" . weiss-indent)
    ("ß" . save-buffer)
    (";" . weiss-expand-region-by-word)
    ("|" . weiss-puni-backward-sexp)
    ("$" . weiss-delete-other-window)
+   ("^" . weiss-delete-other-window)
    ("4" . weiss-delete-other-window)
    ;; ("?" . grammatical-edit-match-paren)
 
    ("," . xah-backward-left-bracket)
    ("-" . mark-defun)
-   ("=" . xah-shrink-whitespaces)
+   ("&" . xah-shrink-whitespaces)
    ("0" . xah-shrink-whitespaces)
    ("." . xah-forward-right-bracket)
    ("1" . weiss-exchange-point-or-beginning-of-line)
    (":" . weiss-exchange-point-or-beginning-of-line)
    ("/" . rotate-text)
    ("3" . rotate-text)
-   ("@" . weiss-mark-brackets)
-
+   ("#" . weiss-mark-brackets)
+   
    ("a" . weiss-split-or-switch-window)
    ("b" . weiss-toggle-letters)
    ("c" . xah-copy-line-or-region)
@@ -146,9 +150,18 @@
    ("x" . weiss-comment-dwim)
    ("t" . weiss-delete-or-add-parent-sexp)
    ("z" . split-window-below)
-   ("<end>" . weiss-simulate-c-g)
+   ("<escape>" . weiss-simulate-c-g)
    ("SPC" . wks-leader-keymap)
    ("<deletechar>" . wks-leader-keymap)
+   ("C-*" . toggle-input-method)
+
+   ("(" . weiss-insert-paren)
+   ("[" . weiss-insert-bracket)
+   ("_" . weiss-insert-underline)
+   ("{" . weiss-insert-brace)
+   ("<" . weiss-insert-angle-bracket)
+   ("\"" . weiss-insert-double-quotes)
+   ("'" . weiss-insert-single-quote)
 
    ("C-M-S-s-j" . weiss-switch-buffer-or-otherside-frame-without-top)
    ("C-M-S-s-k" . weiss-switch-to-same-side-frame)

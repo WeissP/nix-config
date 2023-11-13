@@ -1,10 +1,7 @@
 (with-eval-after-load 'dired
   (advice-add 'dired-query :before #'disable-wks-vanilla-mode)
   
-  (wks-unset-key
-   dired-mode-map
-   (mapcar 'number-to-string (number-sequence 0 9))
-   )
+  (wks-unset-key dired-mode-map '("^") :numbers)
   (wks-unset-key
    dired-mode-map
    '("SPC" "g" "n" "=" "!" "a" "$" "y")
@@ -46,7 +43,7 @@
      ("RET" . dired-find-file)
      ("," . beginning-of-buffer)
      ("." . end-of-buffer)
-     (";" . dired-maybe-insert-subdir)
+     ("\"" . dired-maybe-insert-subdir)
      ("-" . revert-buffer)
      ("8" .  dired-hide-details-mode)
      ("=" .  dired-sort-toggle-or-edit)

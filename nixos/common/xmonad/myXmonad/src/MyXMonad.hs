@@ -126,6 +126,7 @@ myKeys =
     , ("M-<Up>", sendMessage Shrink)
     , ("M-<Down>", sendMessage Expand)
     , ("M-k", spawn "wezterm")
+    , ("M-4", spawnHereNamedScratchpadAction myScratchPads "pavu")
     ,
         ( "M-p"
         , spawn "rofi -m -4 -no-lazy-grab -run-command \"zsh -i -c '{cmd}'\" -show run"
@@ -135,12 +136,12 @@ myKeys =
         -- , ("M-4"          , moveFloat $ namedScratchpadAction myScratchPads "tmux")
     ]
         ++ workspaceKeys
-        ++ [ ("M-4 " ++ key, fun)
-           | (key, fun) <-
-                [ ("v", spawnHereNamedScratchpadAction myScratchPads "pavu")
-                , ("t", windows (`skipFloating` W.focusDown))
-                ]
-           ]
+        -- ++ [ ("M-4 " ++ key, fun)
+        --    | (key, fun) <-
+        --         [ ("v", spawnHereNamedScratchpadAction myScratchPads "pavu")
+        --         , ("t", windows (`skipFloating` W.focusDown))
+        --         ]
+        --    ]
         ++ [ ("<XF86Launch7> " ++ key, fun)
            | (key, fun) <-
                 [ ("t", sendMessage NextLayout)
@@ -164,7 +165,7 @@ myKeys =
            ]
 
 -- Query: starts with
-(^=?) :: Eq a => Query [a] -> [a] -> Query Bool
+(^=?) :: (Eq a) => Query [a] -> [a] -> Query Bool
 q ^=? x = isPrefixOf x <$> q
 
 myScratchPads :: [NamedScratchpad]
@@ -218,6 +219,7 @@ myManageHook =
               -- [className =? "Thunderbird" --> doShift "邮H"],
               [className =? "Cider" --> doShift "音"]
             , [className =? "Spotify" --> doShift "音"]
+            , [className =? "Mattermost" --> doShift "聊"]
             , [className =? x --> doIgnore | x <- myIgnoreClass]
             , [className =? x --> doHideIgnore | x <- myHideIgnoreClass]
             , [className =? x --> doCenterFloat | x <- myCenterFloatClass]
@@ -227,7 +229,7 @@ myManageHook =
             ]
         )
   where
-    (*=?) :: Functor f => f String -> String -> f Bool
+    (*=?) :: (Functor f) => f String -> String -> f Bool
     q *=? x =
         let matchReg = \a b -> isJust $ matchRegex (mkRegex a) b
          in fmap (matchReg x) q
