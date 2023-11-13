@@ -16,6 +16,11 @@ local module = {
 	scrollback_lines = 3500,
 	enable_scroll_bar = true,
 	leader = { key = "End", timeout_milliseconds = 1000 },
+	config = {
+		quick_select_patterns = {
+			"nix log ([^']+)",
+		},
+	},
 	keys = {
 		{
 			key = "v",
