@@ -182,6 +182,7 @@ in {
         flyspell = {
           emacsPackages = [ "flymake" ];
           externalPackages = with pkgs; [ aspell aspellDicts.en ];
+          # files.".aspell.conf".text = "data-dir ${pkgs.aspell}/lib/aspell";
         };
         flymake-sqlfluff = {
           emacsPackages = [ "flymake-sqlfluff" ];
@@ -273,8 +274,8 @@ in {
           localPackages."nerd-icons-dired" = pkgs.fetchFromGitHub {
             owner = "rainstormstudio";
             repo = "nerd-icons-dired";
-            rev = "5abd8f6d9f395f91d3e67afadbea6c638dee7e6e";
-            hash = "sha256-FBuzk7k5VFek4ZIiUWgDzXmle8n+EV+KI+RcxZ8hcvE=";
+            rev = "4a068884bf86647d242c3adc8320cd603e15dac3";
+            hash = "sha256-TkdEQDkwQDzkIIBUX7If+PYg78zwfNUB/RpYuIHqydo=";
           };
         };
         citre = {

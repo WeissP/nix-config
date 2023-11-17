@@ -162,6 +162,7 @@
    ("<" . weiss-insert-angle-bracket)
    ("\"" . weiss-insert-double-quotes)
    ("'" . weiss-insert-single-quote)
+   ("`" . weiss-insert-backquote)
 
    ("C-M-S-s-j" . weiss-switch-buffer-or-otherside-frame-without-top)
    ("C-M-S-s-k" . weiss-switch-to-same-side-frame)

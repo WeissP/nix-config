@@ -38,6 +38,7 @@
         ("and" . ("7"))
         ("angle-bracket" . ("m" "<"))
         ("backslash" . ("<deletechar>"))
+        ("norm" . ("n"))
         ))
 
 (setq weiss--escape-pair-alist

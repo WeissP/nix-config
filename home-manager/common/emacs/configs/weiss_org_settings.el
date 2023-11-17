@@ -17,6 +17,7 @@
    org-catch-invisible-edits 'smart
    org-latex-prefer-user-labels t
    org-goto-interface 'outline-path-completion
+   org-M-RET-may-split-line nil
    )
   )
 

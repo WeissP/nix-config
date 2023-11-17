@@ -184,6 +184,7 @@
 (weiss-insert-pair-macro "dollar" "$" "$")
 (weiss-insert-pair-macro "and" "&" "&")
 (weiss-insert-pair-macro "backslash" "\\" "\\")
+(weiss-insert-pair-macro "norm" "∥" "∥")
 
 
 (defun xah-reformat-whitespaces-to-one-space (@begin @end)

@@ -25,7 +25,9 @@
 
   (setq snails-prefix-backends
         '(("_" '(snails-backend-buffer))
+          ("=" '(snails-backend-buffer))
           ("\\" '(snails-backend-file-group snails-backend-tab-group))
+          ("?" '(snails-backend-file-group snails-backend-tab-group))
           (":" '(snails-backend-search-pdf))))
 
   (setq snails-default-backends

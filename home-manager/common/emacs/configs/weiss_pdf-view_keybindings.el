@@ -27,6 +27,7 @@
      ;; ("a"  weiss-direct-annot-and-insert-note)
      ("c" .  pdf-view-kill-ring-save)
      ;; ("d"  weiss-direct-insert-note)
+     ("e" .  weiss-mind-wave-pdf-to-text)
      ("h" .  pdf-view-fit-height-to-window)
      ("u" .  pdf-view-deactivate-region)
      ("i" .  image-backward-hscroll)
