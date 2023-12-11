@@ -1,7 +1,7 @@
 (wks-define-key
  prog-mode-map ""
  '(("<tab>" . save-buffer)
-   ("2" . save-buffer)
+   ;; ("2" . save-buffer)
    ("<RET>" . weiss-deactivate-mark-and-new-line)
    ;; ("<right>" . right-char)
    ;; ("<left>" . left-char)
@@ -163,6 +163,7 @@
    ("\"" . weiss-insert-double-quotes)
    ("'" . weiss-insert-single-quote)
    ("`" . weiss-insert-backquote)
+   ("=" . weiss-insert-equals)
 
    ("C-M-S-s-j" . weiss-switch-buffer-or-otherside-frame-without-top)
    ("C-M-S-s-k" . weiss-switch-to-same-side-frame)

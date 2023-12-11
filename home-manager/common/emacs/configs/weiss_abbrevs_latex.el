@@ -135,7 +135,9 @@
       ("eg" "\\ge " weiss--ahf)
       ("en" "\\neq " weiss--ahf)
       ("ea" "\\approx " weiss--ahf)
-      ("ep" "\\prec " weiss--ahf)
+      ("epr" "\\prec " weiss--ahf)
+      ("ep" "\\mathrel{+}= " weiss--ahf)
+      ("em" "\\mathrel{*}= " weiss--ahf)
       ("et" "\\equiv " weiss--ahf)
 
 ;;;;; operation symbols
@@ -196,6 +198,7 @@
 
 ;;;;; Fast input
       ("frp" "\\mathbb{R}^+" weiss--ahf)
+      ("fseq" "x_1, x_2, \\dots, x_n" weiss--ahf)
       ("ff" "Figure \\ref{fig:▮}" weiss--ahf)
       ("fr" "\\mathbb{R}" weiss--ahf)
       ("fzp" "\\mathbb{Z}^+" weiss--ahf)
@@ -207,8 +210,8 @@
       ("fot" "\\mathcal{\\widetilde{O}}(▮)" weiss--ahf)
       ("fwlog" "w.l.o.g.\\ " weiss--ahf)
       ("fwrt" "with respect to " weiss--ahf)
-      ("fmin" "_{min} " weiss--ahf)
-      ("fmax" "_{max} " weiss--ahf)
+      ("fmin" "\\texttt{min}" weiss--ahf)
+      ("fmax" "\\texttt{max}" weiss--ahf)
       ("fie" ", i.e.,  " weiss--ahf)
       ("falgo" "  \\begin{algorithm}\n    \\SetKw{bk}{break}\n    \\SetKw{ct}{continue}\n    \\SetKwFunction{len}{len} \n    \\SetKwFunction{max}{max}\n    \\SetKwInOut{INPUT}{Input}\n    \\SetKwInOut{OUTPUT}{Output}\n    \\INPUT{\\(A\\) \\(\\leftarrow \\) A\n        \\\\ \\(B\\) \\(\\leftarrow \\) B}\n    \\OUTPUT{\\(O\\) \\(\\leftarrow\\) O}\n    \\BlankLine\n    \\Return d\\;\n    \\caption{\\label{alg:label} Algorithm to ▮}\n  \\end{algorithm}    " weiss--ahf)
 

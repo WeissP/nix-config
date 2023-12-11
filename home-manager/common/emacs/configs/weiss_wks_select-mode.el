@@ -130,6 +130,10 @@
   (weiss-select-add-advice-deactivate-mark '(separedit))
   )
 
+(with-eval-after-load 'weiss_denote_consult
+  (weiss-select-add-advice-deactivate-mark '(weiss-denote-consult))
+  )
+
 (advice-add 'xref-find-definitions :before #'weiss-deactivate-mark-unless-in-select-mode-interactive)
 
 ;; (defun anzu-query-replace (arg)

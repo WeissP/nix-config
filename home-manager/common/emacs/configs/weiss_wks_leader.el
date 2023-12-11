@@ -44,7 +44,7 @@
    ("c b" . weiss-copy-whole-buffer)
    ("c e" . weiss-exchange-region-kill-ring-car)
    ("c f" . (weiss-copy-file-name (kill-new (buffer-file-name))))
-   ("c k" . save-buffers-kill-terminal)
+   ("c k" . save-buffers-kill-emacs)
    ("c p" . xah-copy-file-path)
    ("c h" . xah-show-kill-ring)
    ("c SPC" . weiss-kill-append-with-space)
@@ -61,7 +61,6 @@
    ("d m" .  magit-status)
    ("d n" .  weiss-new-temp-file)
    ("d o" .  xah-open-file-at-cursor)
-
    ("d w" .  xah-open-in-external-app)
 
    ("e b" .  org-babel-tangle)

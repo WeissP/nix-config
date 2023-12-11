@@ -1,7 +1,5 @@
 (setq pdf-view-restore-filename "~/.emacs.d/.pdf-view-restore")
 
-(add-hook 'pdf-view-mode-hook 'pdf-view-restore-mode)
-
 (with-eval-after-load 'pdf-view-restore
   (defun weiss-pdf-view-restore ()
     "Restore page only if page is valid."
@@ -12,6 +10,8 @@
           (pdf-view-goto-page page)))))
 
   (advice-add 'pdf-view-restore :override #'weiss-pdf-view-restore)
+
+  (add-hook 'pdf-view-mode-hook 'pdf-view-restore-mode)
   )
 
 

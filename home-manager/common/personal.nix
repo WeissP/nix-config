@@ -34,7 +34,7 @@
             packages = with pkgs; [
               nodejs
               unrar
-              zenith
+              # zenith
               nil
               docker-compose
               dua
@@ -52,8 +52,47 @@
               dbeaver
               pdfminer
               (rWrapper.override { packages = with rPackages; [ purrr ]; })
-              # for latex minted 
-              (python3.withPackages (ps: with ps; [ pygments ]))
+              additions.ammonite.ammonite_3_2
+              ghostscript
+              (python3.withPackages (ps:
+                with ps; [
+                  pip
+                  pygments # for latex minted
+                  # (buildPythonPackage rec {
+                  #   pname = "nougat";
+                  #   version = "0.1.17";
+                  #   src = fetchFromGitHub {
+                  #     owner = "facebookresearch";
+                  #     repo = pname;
+                  #     rev = "47c77d70727558b4a2025005491ecb26ee97f523";
+                  #     sha256 =
+                  #       "sha256-Uc6DTJLPeVIUTDZRfaRPxblBY56uK8wcsfC41M4/Lz8=";
+                  #   };
+                  #   # src = fetchPypi {
+                  #   #   inherit pname version;
+                  #   #   sha256 =
+                  #   #     "sha256-0aozmQ4Eb5zL4rtNHSFjEynfObUkYlid1PgMDVmRkws=";
+                  #   # };
+                  #   doCheck = false;
+                  #   propagatedBuildInputs = with pkgs.python3Packages; [
+                  #     transformers
+                  #     timm
+                  #     orjson
+                  #     # opencv-python-headless
+                  #     lightning
+                  #     nltk
+                  #     python-Levenshtein
+                  #     sentencepiece
+                  #     # sconf
+                  #     albumentations
+                  #     # pypdfium2
+                  #     torch
+                  #     tqdm
+                  #     pypdf
+                  #     cv2
+                  #   ];
+                  # })
+                ]))
               (texlive.combine {
                 inherit (texlive)
                   scheme-tetex collection-langkorean algorithms cm-super pgf
@@ -71,7 +110,7 @@
               })
             ];
           }
-          (ifDarwin { packages = with pkgs; [ iterm2 ]; })
+          (ifDarwin { packages = with pkgs; [ iterm2 ocamlPackages.cpdf ]; })
           (ifLinux {
             packages = with pkgs; [
               mattermost-desktop
@@ -95,6 +134,7 @@
               pasystray
               vivaldi
               pdfpc
+              # pinnedUnstables."2023-09-27".webkitgtk
             ];
             file = {
               ".xbindkeysrc".text = ''

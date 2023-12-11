@@ -6,6 +6,7 @@
    wks-org-quick-insert-keymap ""
    '(
      ("=" . (weiss-org-babel-insert-c++ (weiss-insert-pair "#+begin_src c++" "#+end_src" t)))
+     ("a" . (weiss-org-babel-insert-amm (weiss-insert-pair "#+begin_src amm :results org" "#+end_src" t)))
      ("C" . (weiss-org-babel-insert-conf (weiss-insert-pair "#+begin_src c" "#+end_src" t)))
      ("c" . (weiss-org-babel-insert-conf (weiss-insert-pair "#+begin_src clojure :results values" "#+end_src" t)))
      ("e" . (weiss-org-babel-insert-elisp (weiss-insert-pair "#+begin_src elisp" "#+end_src" t)))

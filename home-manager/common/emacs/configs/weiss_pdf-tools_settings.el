@@ -11,6 +11,15 @@
   ;; `pdf-virtual-global-minor-mode'.
   (pdf-tools-install-noverify)
 
+  (defun weiss-extract-text-from-current-pdf-page ()
+    "DOCSTRING"
+    (interactive)
+    (let ((pdf (buffer-file-name))
+          (page (pdf-view-current-page))
+          )
+      (weiss-extract-text-from-pdf pdf page)
+      ))
+
   (defun weiss-pdf-view-previous-page-quickly ()
     (interactive)
     (pdf-view-previous-page-command 5))

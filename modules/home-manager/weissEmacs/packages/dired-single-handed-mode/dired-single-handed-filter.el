@@ -380,6 +380,7 @@ _v_: ?v? at point    ^                 ^    ^           ^ _z_: ?q? 朱音ゆい
     ("z" dired-filter-by-zhuyin "")
     ("v" weiss-filter-video-by-actress-at-point "")
     ("C-g" nil)
+    ("<end>" nil "quit" :column nil)
     ("<escape>" nil))
 
   (defhydra hydra-dired-filter-tag (:hint nil :color pink)
@@ -405,6 +406,7 @@ _v_: ?v? at point    ^                 ^    ^           ^ _z_: ?q? 朱音ゆい
     ("w" dired-filter-by-uncensored "uncensored")
     ("W" dired-filter-by-wafuku     "wafuku")
     ("C-g" nil "quit" :column nil)
+    ("<end>" nil "quit" :column nil)
     ("<escape>" nil "quit" :column nil))
 
   (defhydra hydra-dired-add-tag (:hint nil :color pink)
@@ -425,6 +427,7 @@ _v_: ?v? at point    ^                 ^    ^           ^ _z_: ?q? 朱音ゆい
     ("w" weiss-dired-add-tag-uncensored "uncensored")
     ("W" weiss-dired-add-tag-wafuku     "wafuku")
     ("^" weiss-dired-delete-tag "delete tag" :column nil)
+    ("<end>" nil "quit" :column nil)
     ("C-g" nil "quit" :column nil)
     ("<escape>" nil "quit" :column nil))
   )

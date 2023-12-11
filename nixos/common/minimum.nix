@@ -64,6 +64,7 @@
             outputs.overlays.modifications
             outputs.overlays.weissNur
             outputs.overlays.lts
+            outputs.overlays.pinnedUnstables
             (import inputs.emacs-overlay)
           ];
           config = {

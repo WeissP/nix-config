@@ -4,21 +4,6 @@
   (shell-command-to-string (format "pdf2txt.py '%s' --page-numbers %s" pdf page))
   )
 
-(defun weiss-extract-text-from-current-pdf-page ()
-  "DOCSTRING"
-  (interactive)
-  (let ((pdf (buffer-file-name))
-        (page (pdf-view-restore-get-page))
-        )
-    (weiss-extract-text-from-pdf pdf page)
-    ))
-
-(defun weiss-test ()
-  "DOCSTRING"
-  (interactive)
-  (weiss-extract-text-from-current-pdf-page)
-  )
-
 (defun weiss-extract-bangou (s)
   "DOCSTRING"
   (string-match "[a-zA-Z]\\{3,5\\}-?[0-9]\\{3\\}" s)

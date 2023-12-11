@@ -69,7 +69,7 @@
 (file-name-shadow-mode 1)
 (minibuffer-depth-indicate-mode 1)
 (minibuffer-electric-default-mode 1)
-(electric-pair-mode 1)
+
 
 ;;; Minibuffer history
 (require 'savehist)

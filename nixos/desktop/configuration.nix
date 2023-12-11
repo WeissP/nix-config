@@ -99,7 +99,25 @@ with myEnv; {
 
         target = "/mnt/backup/btrbk";
         target_preserve_min = "no";
-        target_preserve = "20d 10w *m";
+        target_preserve = "20d";
+        subvolume = {
+          "/home/weiss/nix-config" = { };
+          "/home/weiss/Documents" = { };
+          "/home/weiss/projects" = { };
+        };
+      };
+    };
+    external_backup = {
+      onCalendar = "*-*-* 18:30:00"; # every day at 18:30
+      settings = {
+        inherit preserve_hour_of_day preserve_day_of_week;
+
+        snapshot_dir = snapshot_dir_root + "/all";
+        snapshot_create = "no";
+
+        target = "/run/media/weiss/Seagate_Backup/btrbk";
+        target_preserve_min = "no";
+        target_preserve = "10d 10w *m";
         subvolume = {
           "/" = { };
           "/home" = { };

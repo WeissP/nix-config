@@ -1,5 +1,5 @@
 (with-eval-after-load 'nov
-  (wks-unset-key nov-mode-map '("SPC" "l" "<end>" "i" "a"))
+  (wks-unset-key nov-mode-map '("SPC" "l" "<end>" "i" "a" "n") :numbers)
   (wks-unset-key nov-button-map '("SPC" "l" "<end>" "i"))
 
   (defun nov-scroll-lines ()

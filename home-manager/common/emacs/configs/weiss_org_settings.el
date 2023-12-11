@@ -17,9 +17,15 @@
    org-catch-invisible-edits 'smart
    org-latex-prefer-user-labels t
    org-goto-interface 'outline-path-completion
-   org-M-RET-may-split-line nil
+   org-M-RET-may-split-line t
    )
   )
 
-;; parent: 
+;; (add-hook 'org-mode-hook (lambda ()
+;;                            (setq-local electric-pair-inhibit-predicate
+;;                                        `(lambda (c)
+;;                                           (if (char-equal c ?<) t (,electric-pair-inhibit-predicate c))))))
+
+;; setq-mode-local
+
 (provide 'weiss_org_settings)

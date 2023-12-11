@@ -1,9 +1,10 @@
 { pkgs, myEnv, configSession, ... }:
 with myEnv;
 let
-  emacs = "Exec=GTK_IM_MODULE= QT_IM_MODULE= XMODIFIERS= emacs";
+  em = "Exec=GTK_IM_MODULE= QT_IM_MODULE= XMODIFIERS= emacs";
   shellAliases = {
-    inherit emacs;
+    inherit em;
+    emacs = em;
     deploy = "nix run github:serokell/deploy-rs -- -s";
     switch = if (arch == "linux") then
       "sudo nixos-rebuild switch --flake ${homeDir}/nix-config#${configSession}"
@@ -11,9 +12,9 @@ let
       "darwin-rebuild switch --flake ${homeDir}/nix-config#${configSession}";
     suspend = "sudo systemctl suspend";
     ns = "nix-shell";
-    ec = ''emacsclient --create-frame --alternate-editor="${emacs}"'';
+    ec = ''emacsclient --create-frame --alternate-editor="${em}"'';
     cg = "cargo";
-    emdbg = "${emacs} --debug-init &";
+    emdbg = "${em} --debug-init &";
     pyav = "$SCRIPTS_DIR/getAvInfo.py";
     vpnon = "nmcli connection up wgtuk-Full-Desk";
     vpnoff = "nmcli connection down wgtuk-Full-Desk";

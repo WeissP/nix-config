@@ -25,7 +25,7 @@
   "DOCSTRING"
   (interactive)
   (if (weiss-one-window-p)
-      (call-interactively 'split-window-below)
+      (call-interactively 'weiss-split-window-dwim)
     (other-window 1))
   )
 

@@ -11,7 +11,9 @@ in {
       ./weiss-light-theme.el;
   home.packages = with pkgs; [ clj-kondo nodePackages.jsonlint nixfmt ];
   programs.weissEmacs = lib.mkMerge [
-    (ifDarwin { package = pkgs.emacs29-pgtk; })
+    (ifDarwin {
+      package = pkgs.emacs29-pgtk.override { withXwidgets = false; };
+    })
     (ifLinux { package = pkgs.emacs29; })
     {
       inherit userEmacsDirectory;
@@ -60,7 +62,7 @@ in {
         dir = ./local-packages;
       };
       autoload = {
-        s = [ "s-replace" ];
+        s = [ "s-replace" "s-chop-left" "s-starts-with?" ];
         dired-quick-sort = [ "hydra-dired-quick-sort/body" ];
         puni = [ "puni-strict-forward-sexp" "puni-strict-backward-sexp" ];
         pdf-view = [ "pdf-view-mode" ];
@@ -70,6 +72,7 @@ in {
         org-edit-latex = [ "org-edit-latex-mode" ];
         eglot-java = [ "eglot-java-mode" ];
         apheleia = [ "apheleia-global-mode" ];
+        consult = [ "consult--multi" ];
       };
       eagerLoad = [
         "direnv"
@@ -96,11 +99,20 @@ in {
         "nerd-icons-dired"
         "tla-tools"
         "separedit"
+        "denote"
+        "consult-notes"
       ];
       idleLoad = {
         enable = true;
         idleSeconds = 3;
-        packages = [ "flyspell-correct" "eglot" "org" "org-roam" "pdf-view" ];
+        packages = [
+          "flyspell-correct"
+          "eglot"
+          "org"
+          "org-roam"
+          "pdf-view"
+          "pdf-view-restore"
+        ];
       };
       skipInstall = [
         "python"
@@ -123,6 +135,7 @@ in {
         "sql"
         "pdf-view"
         "gud"
+        "elec-pair"
         "aweshell"
         "tab-line"
         "snails-roam"
@@ -142,16 +155,17 @@ in {
       emacsPkgs = let
         libs = [ "s" "exec-path-from-shell" "hydra" "cl-lib" "mode-local" "f" ];
         core = [ "rotate-text" "global" "wks" ];
-        edit = [ "puni" "apheleia" "abbrevs" "separedit" ];
+        edit = [ "puni" "apheleia" "abbrevs" "separedit" "elec-pair" ];
         completion = [
           [ "snails" "snails-custom-backends" ]
           [ "vertico" "vertico-directory" ]
           "orderless"
           "marginalia"
-          "consult"
+          [ "consult" ]
           [ "company" "company-box" ]
         ];
         lang = [
+          [ "scala-mode" "sbt-mode" "ammonite-term-repl" "ob-ammonite" ]
           [ "elixir-mode" "flymake-elixir" "inf-elixir" "ob-elixir" ]
           "cider"
           [ "python" "live-py-mode" ]
@@ -199,6 +213,7 @@ in {
           "polymode"
           "tla-tools"
           "use-proxy"
+          "denote"
           # "maxima"
           # [ "tree-sitter" "tree-sitter-langs" "weiss-tsc-mode" ]
         ];
@@ -212,6 +227,7 @@ in {
           "org"
           "weiss-org-sp"
           [ "ob-go" "ob-sql-mode" ]
+          "org-pdftools"
           "org-noter"
           [ "org-roam" "snails-roam" ]
           [ "org-fancy-priorities" "org-appear" ]

@@ -20,6 +20,20 @@
     # });
   };
 
+  pinnedUnstables = final: prev: {
+    pinnedUnstables = {
+      "2023-09-27" = import (final.fetchFromGitHub {
+        owner = "NixOS";
+        repo = "nixpkgs";
+        rev = "4ab8a3de296914f3b631121e9ce3884f1d34e1e5";
+        sha256 = "sha256-mQUik6XZea6ZcCkMpUieq1oxlEDE0vqTTRU9RStgtSQ=";
+      }) {
+        system = final.system;
+        config.allowUnfree = true;
+      };
+    };
+  };
+
   # When applied, the unstable nixpkgs set (declared in the flake inputs) will
   # be accessible through 'pkgs.unstable'
   lts = final: _prev: {

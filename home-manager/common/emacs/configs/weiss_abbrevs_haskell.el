@@ -4,7 +4,7 @@
   (define-abbrev-table 'haskell-mode-abbrev-table
     '(
       ("do" "do\n  ▮" weiss--ahf)
-      ("rt" "return ▮" weiss--ahf)
+      ("rt" "return $ ▮" weiss--ahf)
       ("case" "case ▮ of\n  _ -> error \"todo\"" weiss--ahf)
       ("data" "data ▮ deriving stock (Show)" weiss--ahf)
       ("class" "class ▮ a where\n  method :: a -> a" weiss--ahf)

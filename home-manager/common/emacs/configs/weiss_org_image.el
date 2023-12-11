@@ -54,7 +54,8 @@
             (format "%s.png" (format-time-string "%Y-%m-%d_%H-%M-%S")))
            (new-image-folder-path (expand-file-name (or weiss-org-image-folder weiss/org-img-path)))
            (new-path (concat new-image-folder-path pic-name))
-           (prefix (weiss-get-parent-path new-path))
+           (relative-path (file-relative-name new-path default-directory))
+           ;; (prefix (weiss-get-parent-path new-path))
            )
       (while (not (file-exists-p old-path)) (sit-for 0.1))
       (when (file-exists-p new-path) (delete-file new-path))
@@ -72,7 +73,7 @@
            (format "#+ATTR_ORG: :width %s\n#+ATTR_LATEX: :width 12cm\n" size))
           )
         )
-      (insert (format "[[file:%s/%s]]" prefix pic-name))
+      (insert (format "[[file:%s]]" relative-path))
       (org-display-inline-images)))
 
   (defvar weiss-pdf-candidates nil)

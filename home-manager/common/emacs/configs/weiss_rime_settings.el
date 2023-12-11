@@ -17,6 +17,11 @@
       )
     )
 
+  (defun weiss-enable-rime ()
+    "DOCSTRING"
+    (interactive)
+    (set-input-method "rime"))
+
   ;; (setq rime-emacs-module-header-root "/opt/homebrew/include/")
   ;; (setq rime-share-data-dir "/Users/bozhoubai/Library/Rime/")  
 

@@ -4,6 +4,8 @@
         org-src-tab-acts-natively t)
 
   (require 'ob-R)
+  (require 'ob-ammonite)
+  (require 'ob-shell)
   (setq load-language-list '((emacs-lisp . t)
                              (shell . t)
                              (python . t)
@@ -14,6 +16,7 @@
                              (ob-rust . t)
                              (ob-java . t)
                              (ob-sql-mode . t)
+                             (ob-ammonite . t)
                              (js . t)
                              (css . t)
                              (sass . t)

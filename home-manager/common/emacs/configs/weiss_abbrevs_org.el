@@ -15,6 +15,9 @@
       ("el" "≼")    
       ("seq" "x₁,x₂, ⋯ , xₙ")
       ("d" "_▮_ ← ")
+      ("pr" "Pr(▮)")
+      ("sum" "∑ {i = 1→m} ▮ᵢ")
+      ("rm" "ℝ{n×n}")
       
 ;;;;; roam
       ("ro" "#+roam_▮: ")
@@ -33,7 +36,7 @@
       ("ltxmg" "#+ATTR_Latex: :options [leftmargin=▮8ex]" weiss--ahf-indent)    
       ("ltximg" "#+ATTR_LATEX:  :width 0.9\\textwidth :center nil" weiss--ahf-indent)    
       ("ltxmt" "#+ATTR_LATEX: :options xleftmargin=8ex" weiss--ahf-indent)    
-      ("ltxalg" "#+CAPTION:▮\n#+NAME: alg:\n\\begin{algorithm}\n\\SetKw{bk}{break}\n\\SetKwFunction{len}{len} \n\\SetKwInOut{INPUT}{Input}\n\\SetKwInOut{OUTPUT}{Output}\n\\INPUT{}\n\\OUTPUT{}\n\\BlankLine\n\\end{algorithm}\n" weiss--ahf-indent)    
+      ("ltxalg" "#+CAPTION:▮\n#+NAME: alg:\n\\begin{algorithm}\n\\SetKw{bk}{break}\n\\SetKw{ct}{continue}\n\\SetKwFunction{len}{len} \n\\SetKwInOut{INPUT}{Input}\n\\SetKwInOut{OUTPUT}{Output}\n\\INPUT{}\n\\OUTPUT{}\n\\BlankLine\n\\end{algorithm}\n" weiss--ahf-indent)    
       ("orgimg" "#+ATTR_ORG: :width 600" weiss--ahf-indent)    
       ("cc" "$\\color{code}\\texttt{▮}$" weiss--ahf-indent)    
 ;;;;; ref
@@ -54,6 +57,7 @@
       ("algo" "algorithm" weiss--ahf)
       ("prop" "properties" weiss--ahf)
       ("lhd" "likelihood " weiss--ahf)
+      ("wlog" "w.l.o.g. " weiss--ahf)
 ;;;;; for Germany language
       ("ht" "heute" weiss--ahf)
       ("ad" "außerdem" weiss--ahf)

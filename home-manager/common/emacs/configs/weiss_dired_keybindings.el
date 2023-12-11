@@ -29,6 +29,7 @@
      ("a" . (weiss-dired-find-audio-todos (find-file "~/Downloads/my_tmp/todos/")))
      ("d" . (weiss-dired-find-downloads (find-file "~/Downloads")))
      ("v" . (weiss-dired-find-Vorlesungen (find-file "~/Documents/Vorlesungen")))
+     ("l" . (weiss-dired-find-lectures (find-file "~/Documents/notes/lectures/")))
      ("m" . (weiss-dired-find-media (if (eq system-type 'darwin) (find-file "/volumes/KINGSTON") (find-file "/run/media/weiss"))))
      ("p" . (weiss-dired-find-backup (find-file "/run/media/weiss/Seagate_Backup/videos/porn/")))
      ("h" . (weiss-dired-find-home (find-file "~/")))

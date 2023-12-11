@@ -9,6 +9,7 @@
       (make-directory dir t)
       (find-file (concat dir prefix date ext))))
   
+  (setq mind-wave-async-text-model "gpt-4")
   (defun weiss-mind-wave-correct-grammatical-mistakes ()
     (interactive)
     (message "Checking...")
@@ -43,15 +44,18 @@
                           "text-mode"
                           (mind-wave--encode-string (weiss-extract-text-from-current-pdf-page))
                           mind-wave-summary-role
-                          "1. Ensure that the paragraphs I gave you later have proper unicode display, such that x1 should be displayed as x₁, xi as xᵢ, xk as xₖ, and so on.
-2. Replace common expressions with logic operations:
-   - Expressions that mean 'there is a xxx' should be replaced with ∃ xxx.
-   - Expressions that mean 'for all xxx' should be replaced with ∀ xxx.
+                          "Process the following paragraphs in three steps and only output the final result. Be sure to follow these guidelines:
+
+1. Ensure that the paragraphs have proper unicode display, such that x₁ should be displayed as x₁, xi as xᵢ, xk as xₖ, xn as xₙ, Nd as Nᵈ, and so on.
+2. Make item lists (if they exist) more consistent:
+   - For unordered lists (such as lists starting with ▶), use only a hyphen (-) as the item symbol.
+   - For ordered lists, use 1., 2., 3. as the item symbols.
+   - If there are nested lists, use four spaces as indentation.
 3. Maintain correct line breaks by concatenating lines/symbols together when necessary.
 
 The paragraphs:
 " 
-                          (format "pdf-to-text-[%s]-[%s]" (buffer-name) (pdf-view-restore-get-page))
+                          (format "pdf-to-text-[%s]-[%s]" (buffer-name) (pdf-view-current-page))
                           "ChatGPT converting..."
                           "ChatGPT finished converting."))
 

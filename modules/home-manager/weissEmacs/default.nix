@@ -530,7 +530,12 @@ in {
           inherit (final) trivialBuild polymode;
           inherit (pkgs) fetchFromGitHub;
         };
-        # mind-wave =           pkgs.callPackage ./packages/mind-wave { inherit (final) melpaBuild; };
+        ammonite-term-repl = pkgs.callPackage ./packages/ammonite-term-repl {
+          inherit (final) trivialBuild scala-mode s;
+        };
+        ob-ammonite = pkgs.callPackage ./packages/ob-ammonite {
+          inherit (final) trivialBuild s scala-mode xterm-color;
+        };
       };
       extraPackages = epkg:
         map (pkgName: lib.attrsets.getAttrFromPath [ pkgName ] epkg)
