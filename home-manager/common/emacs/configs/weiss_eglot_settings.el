@@ -7,6 +7,7 @@
   (add-to-list 'eglot-ignored-server-capabilities :documentHighlightProvider)
   (add-to-list 'eglot-ignored-server-capabilities :inlayHintProvider)
   ;; (setq eglot-ignored-server-capabilities nil)
+  
   (setq-default
    eglot-workspace-configuration
    '((:rust-analyzer . (:diagnostics

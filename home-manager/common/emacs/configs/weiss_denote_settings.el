@@ -44,56 +44,49 @@
       (save-buffer)
       ))
 
-  (defun weiss-denote-org-extract-subtree ()
-    "based on denote manual
-Create new Denote note using current Org subtree.
-Make the new note use the Org file type, regardless of the value
-of `denote-file-type'.
-
-Use the subtree title as the note's title.  If available, use the
-tags of the heading are used as note keywords.
-
-Delete the original subtree."
+  (defun weiss-denote-extract-summary (beginning-of-contents)
+    "DOCSTRING"
+    (delete-region
+     (1+ (re-search-forward "^$" nil :no-error 1))
+     beginning-of-contents)
+    (when (re-search-forward "^\\*+ " nil :no-error 1)      
+      (delete-region (pos-bol) (point-max))
+      )
+    (delete-blank-lines)
+    )
+  
+  (defun weiss-denote-org-dblock--get-file-contents (file &optional no-front-matter add-links)
+    "DOCSTRING"
     (interactive)
-    (if-let ((heading (org-get-heading :no-tags :no-todo :no-priority :no-comment)))
-        (let ((element (org-element-at-point))
-              (tags (org-get-tags))
-              )
-          (kill-new "")
-          (call-interactively 'org-copy-subtree)
-          (delete-other-windows)
-          (weiss-split-window-dwim)
-          (other-window 1)
-          (denote heading
-                  (--> tags
-                       (-remove (lambda (tag) (member tag '("note" "uni" "Machine" "Learning" "math"))) it)
-                       (-concat it '("ml"))
-                       (-distinct it)
-                       )
-                  'org
-                  "~/Documents/notes/lectures/machine_learning2/notes/"
-                  (or
-                   ;; Check PROPERTIES drawer for :created: or :date:
-                   (org-element-property :CREATED element)
-                   (org-element-property :DATE element)
-                   ;; Check the subtree for CLOSED
-                   (org-element-property :raw-value
-                                         (org-element-property :closed element))))          
-          (org-paste-subtree)
-          (goto-char (point-min))
-          (org-delete-property-globally "NOTER_PAGE")
-          (org-delete-property-globally "ID")
-          (search-forward "* " nil t)                
-          (delete-line)
-          (goto-char (point-min))
-          (while (search-forward "** " nil t)
-            (replace-match "* ")
-            )
-          (goto-char (point-min))
-          (save-buffer)
-          )      
-      (user-error "No subtree to extract; aborting")))
-
+    (when (denote-file-is-note-p file)
+      (with-temp-buffer
+        (when add-links
+          (insert
+           (format "- %s\n\n"
+                   (denote-format-link
+                    file
+                    (if (eq add-links 'id-only)
+                        denote-id-only-link-format
+                      denote-org-link-format)
+                    (let ((type (denote-filetype-heuristics file)))
+                      (if (denote-file-has-signature-p file)
+                          (denote--link-get-description-with-signature file type)
+                        (denote--link-get-description file type)))))))
+        (let ((beginning-of-contents (point)))
+          (insert-file-contents file)
+          (if no-front-matter
+              (delete-region
+               (if (natnump no-front-matter)
+                   (progn (forward-line no-front-matter) (line-beginning-position))
+                 (1+ (re-search-forward "^$" nil :no-error 1)))
+               beginning-of-contents)              
+            (weiss-denote-extract-summary beginning-of-contents)
+            )          
+          (when add-links
+            (indent-region beginning-of-contents (point-max) 2)))
+        (buffer-string))))
+  (advice-add 'denote-org-dblock--get-file-contents :override #'weiss-denote-org-dblock--get-file-contents)
+  
   (add-hook 'denote-journal-extras-hook #'weiss-enable-rime)
   (add-hook 'denote-journal-extras-hook #'wks-vanilla-mode-enable)
   )

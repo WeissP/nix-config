@@ -106,6 +106,9 @@ in {
         enable = true;
         idleSeconds = 3;
         packages = [
+          "corfu"
+          "cape"
+          "kind-icon"
           "flyspell-correct"
           "eglot"
           "org"
@@ -157,12 +160,13 @@ in {
         core = [ "rotate-text" "global" "wks" ];
         edit = [ "puni" "apheleia" "abbrevs" "separedit" "elec-pair" ];
         completion = [
+          # [ "company" "company-box" ]
           [ "snails" "snails-custom-backends" ]
           [ "vertico" "vertico-directory" ]
           "orderless"
           "marginalia"
           [ "consult" ]
-          [ "company" "company-box" ]
+          [ "corfu" "kind-icon" "cape" ]
         ];
         lang = [
           [ "scala-mode" "sbt-mode" "ammonite-term-repl" "ob-ammonite" ]

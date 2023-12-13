@@ -41,6 +41,42 @@
         (denote (string-trim f-name-base) keywords file-type subdirectory date template))
       ))
 
+  (defun weiss-denote-org-extract-subtree ()
+    "based on denote manual
+Create new Denote note using current Org subtree.
+Make the new note use the Org file type, regardless of the value
+of `denote-file-type'.
+
+Use the subtree title as the note's title.  If available, use the
+tags of the heading are used as note keywords.
+
+Delete the original subtree."
+    (interactive)
+    (if-let ((heading (org-get-heading :no-tags :no-todo :no-priority :no-comment)))
+        (let ((element (org-element-at-point))
+              (tags (org-get-tags))
+              )
+          (kill-new "")
+          (call-interactively 'org-copy-subtree)
+          (delete-other-windows)
+          (weiss-split-window-dwim)
+          (other-window 1)
+          (weiss-denote-consult--prompt-new-note-info heading)          
+          (org-paste-subtree)
+          (goto-char (point-min))
+          (org-delete-property-globally "NOTER_PAGE")
+          (org-delete-property-globally "ID")
+          (search-forward "* " nil t)                
+          (delete-line)
+          (goto-char (point-min))
+          (while (search-forward "** " nil t)
+            (replace-match "* ")
+            )
+          (goto-char (point-min))
+          (save-buffer)
+          )      
+      (user-error "No subtree to extract; aborting")))
+
   (defun weiss-denote-consult--find-notes-generator (config)
     "Generate config for finding notes via consult"
     (let ((name (plist-get config :name))
