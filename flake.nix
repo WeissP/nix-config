@@ -32,6 +32,7 @@
 
     emacs-overlay.url = "github:nix-community/emacs-overlay";
     nur.url = "github:nix-community/NUR";
+    myNixRepo.url = "github:WeissP/nix-config";
   };
 
   outputs =
@@ -49,6 +50,7 @@
       myLib = import ./myLib {
         lib = nixpkgs.lib;
         pkgs = nixpkgs;
+        myNixRepo = inputs.myNixRepo;
       };
       darwinEnv = myLib.genEnv {
         arch = "darwin";

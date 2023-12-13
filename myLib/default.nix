@@ -1,4 +1,4 @@
-{ lib, pkgs, ... }:
+{ lib, pkgs, myNixRepo, ... }:
 with lib; rec {
   genEnv = env:
     with env; rec {
@@ -31,13 +31,7 @@ with lib; rec {
           description = "ensure PostgreSQL database ${dbName}";
         };
     };
-  resource = path:
-    (pkgs.fetchFromGitHub {
-      owner = "WeissP";
-      repo = "nix-config";
-      rev = "8ab0d81860e4bdb7331d163462a010d667da9c9f";
-      sha256 = "sha256-B7roCHlKeZmMFIRKeAQMNvjclpnmk1sPSQdBz8YB0yA=";
-    }) + "/resources/" + path;
+  resource = path: myNixRepo + "/resources/" + path;
 
   mergeAttrList = lists.foldr (elem: res: trivial.mergeAttrs elem res) { };
   interval = { minutes = m: filter (t: trivial.mod t m == 0) (range 1 59); };

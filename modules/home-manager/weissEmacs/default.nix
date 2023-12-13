@@ -181,14 +181,7 @@ in {
       default = {
         cape = {
           emacsPackages = [ "cape" ];
-          cmds = let
-            wordSrc = pkgs.fetchFromGitHub {
-              owner = "dwyl";
-              repo = "english-words";
-              rev = "a77cb15f4f5beb59c15b945f2415328a6b33c3b0";
-              sha256 = "sha256-0q3Mkde6TT4kNehsYbJWN26dwJcn3g+8ZIj8o5VPsoo=";
-            };
-            wordList = wordSrc + "/words_alpha.txt";
+          cmds = let wordList = myLib.resource "filtered_word_list.txt";
           in ''
             (setq cape-dict-file "${wordList}")
           '';
