@@ -15,6 +15,7 @@
     ./aliases.nix
     ./hledger.nix
     ./sioyek.nix
+    ./xscreensaver.nix
   ] ++ (if myEnv.arch == "linux" then [ ./aria.nix ] else [ ]);
 
   config = with myEnv;
@@ -34,7 +35,7 @@
             packages = with pkgs; [
               nodejs
               unrar
-              # zenith
+              zenith
               nil
               docker-compose
               dua
@@ -51,7 +52,9 @@
               # calibre
               dbeaver
               pdfminer
-              (rWrapper.override { packages = with rPackages; [ purrr ]; })
+              (rWrapper.override {
+                packages = with rPackages; [ purrr ggplot2 ];
+              })
               additions.ammonite.ammonite_3_2
               ghostscript
               (python3.withPackages (ps:
@@ -134,6 +137,8 @@
               pasystray
               vivaldi
               pdfpc
+              p3x-onenote
+              mathpix-snipping-tool
               # pinnedUnstables."2023-09-27".webkitgtk
             ];
             file = {
@@ -213,7 +218,6 @@
             enable = true;
             extraOptions = [ "exclude-root" "ignore-scrolling" ];
           };
-          xscreensaver.enable = true;
           gpg-agent = {
             enable = true;
             maxCacheTtl = 86400; # 24 hours

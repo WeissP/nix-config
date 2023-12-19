@@ -8,6 +8,9 @@
   (add-to-list 'eglot-ignored-server-capabilities :inlayHintProvider)
   ;; (setq eglot-ignored-server-capabilities nil)
   
+  (setq eglot-stay-out-of '(yasnippet))
+  (fset #'eglot--snippet-expansion-fn #'ignore)
+
   (setq-default
    eglot-workspace-configuration
    '((:rust-analyzer . (:diagnostics

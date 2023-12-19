@@ -9,13 +9,15 @@
   (setq reftex-ref-macro-prompt nil)
   (add-hook 'LaTeX-mode-hook #'reftex-mode)
   
-  (setq-mode-local
-   latex-mode
-   company-backends
-   '(company-bbdb company-semantic company-cmake company-clang company-files
-                  (company-dabbrev-code company-gtags company-etags company-keywords)
-                  company-oddmuse company-dabbrev))
-  (add-hook 'LaTeX-mode-hook #'company-mode)
+  (with-eval-after-load 'company
+    (setq-mode-local
+     latex-mode
+     company-backends
+     '(company-bbdb company-semantic company-cmake company-clang company-files
+                    (company-dabbrev-code company-gtags company-etags company-keywords)
+                    company-oddmuse company-dabbrev))
+    (add-hook 'LaTeX-mode-hook #'company-mode)
+    )
 
   (defun weiss-latex-preview()
     (interactive)

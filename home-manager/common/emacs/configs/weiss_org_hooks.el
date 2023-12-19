@@ -7,8 +7,6 @@
 
 (add-hook 'org-mode-hook
           (lambda ()
-            (make-local-variable 'company-minimum-prefix-length)
-            (setq company-minimum-prefix-length 4)
             (visual-line-mode)
             (eldoc-mode -1)
             ))

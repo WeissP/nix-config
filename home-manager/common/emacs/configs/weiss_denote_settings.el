@@ -87,8 +87,13 @@
         (buffer-string))))
   (advice-add 'denote-org-dblock--get-file-contents :override #'weiss-denote-org-dblock--get-file-contents)
   
-  (add-hook 'denote-journal-extras-hook #'weiss-enable-rime)
-  (add-hook 'denote-journal-extras-hook #'wks-vanilla-mode-enable)
+  (defun weiss-denote-journal-setup ()
+    (interactive)
+    (call-interactively 'weiss-enable-rime)
+    (wks-vanilla-mode-enable)
+    )
+''  
+  (add-hook 'denote-journal-extras-hook #'weiss-denote-journal-setup)
   )
 
 

@@ -83,7 +83,7 @@
       ("ggV" "\\Varepsilon" weiss--ahf)
 
       ("gw" "\\xi" weiss--ahf)
-      ("gw" "\\Xi" weiss--ahf)
+      ("gW" "\\Xi" weiss--ahf)
       ("ggW" "\\Xi" weiss--ahf)
 
       ("gx" "\\chi" weiss--ahf)
@@ -147,17 +147,20 @@
       ("od" "\\div " weiss--ahf)
       ("odm" "\\mathop{\\dot{-}} " weiss--ahf)
       ("oe" "\\exp " weiss--ahf)
+      ("oex" "\\mathbb{E}[▮]" weiss--ahf)
       ("of" "\\frac{▮}" weiss--ahf)
       ("ofl" "\\lfloor ▮ \\rfloor" weiss--ahf)
+      ("oi" "\\int_▮" weiss--ahf)
+      ("ol" "\\log " weiss--ahf)
+      ("olim" "\\lim_{n \\to \\infty}" weiss--ahf)
+      ("oln" "\\ln " weiss--ahf)
       ("om" "\\begin{bmatrix} \n▮ & b \\\\ \nc & d\n\\end{bmatrix}" weiss--ahf)
+      ("on" "\\lVert ▮ \\rVert" weiss--ahf)
       ("op" "\\cdot " weiss--ahf)
       ("opm" "\\pm " weiss--ahf)
       ("os" "\\sqrt{▮}" weiss--ahf)
       ("osum" "\\sum_{▮} " weiss--ahf)
       ("ox" "\\times " weiss--ahf)
-      ("ol" "\\log " weiss--ahf)
-      ("oln" "\\ln " weiss--ahf)
-      ("olim" "\\lim_{n \\to \\infty}" weiss--ahf)
 
 ;;;;; arrows
       ("au" "\\Uparrow " weiss--ahf)

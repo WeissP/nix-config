@@ -191,6 +191,12 @@ in {
           externalPackages = with pkgs; [ (aspellWithDicts (d: [ d.en ])) ];
           # files.".aspell.conf".text = "data-dir ${pkgs.aspell}/lib/aspell";
         };
+        jinx = let myAspell = pkgs.aspellWithDicts (d: [ d.en d.de ]);
+        in {
+          emacsPackages = [ "jinx" ];
+          externalPackages = with pkgs; [ myAspell ];
+          files.".aspell.conf".text = "dict-dir ${myAspell}/lib/aspell";
+        };
         flymake-sqlfluff = {
           emacsPackages = [ "flymake-sqlfluff" ];
           externalPackages = [ pkgs.sqlfluff ];
@@ -257,8 +263,8 @@ in {
             localPackages."mind-wave" = pkgs.fetchFromGitHub {
               owner = "manateelazycat";
               repo = "mind-wave";
-              rev = "5109162b74872091c5090a28389bef8f7020274c";
-              sha256 = "sha256-ovRW1cwXQd6ai/WtM0j/gkZJY8kzXipkFYl+v/WAaB4=";
+              rev = "b787803ff745dde28727c10833b397d846fc1f7f";
+              sha256 = "sha256-sqMeMdLZyU26BSrDrHw+leM9aD6a9jqtzwPcWQ4RYF8=";
               postFetch = ''
                 pushd $out 
                 ${pkgs.git.outPath}/bin/git apply ${
@@ -432,7 +438,7 @@ in {
     idleLoadCmds = [
       "(require 'idle-require)"
       "(setq idle-require-idle-delay ${toString cfg.idleLoad.idleSeconds})"
-      (map (pkg: "(idle-require '${pkg})") cfg.idleLoad.packages)
+      (map (pkg: "(idle-require '${pkg})") (filterPkg cfg.idleLoad.packages))
       "(idle-require-mode 1)"
     ];
     localPkgCfg = cfg.localPkg.extraConfig ''

@@ -7,7 +7,6 @@
 
 (with-eval-after-load 'org
   (setq
-   ;; org-stored-links t
    org-imenu-depth 10
    org-startup-with-inline-images nil
    org-src-preserve-indentation t
@@ -18,14 +17,17 @@
    org-latex-prefer-user-labels t
    org-goto-interface 'outline-path-completion
    org-M-RET-may-split-line t
+   org-id-link-to-org-use-id 'create-if-interactive
+   org-outline-path-complete-in-steps nil
    )
   )
 
-;; (add-hook 'org-mode-hook (lambda ()
-;;                            (setq-local electric-pair-inhibit-predicate
-;;                                        `(lambda (c)
-;;                                           (if (char-equal c ?<) t (,electric-pair-inhibit-predicate c))))))
+(defun weiss-org-id-complete-link (&optional arg)
+  "From Stackoverflow. Create an id: link using completion"
+  (concat "id:" (org-id-get-with-outline-path-completion)))
 
-;; setq-mode-local
+(org-link-set-parameters "id" :complete 'weiss-org-id-complete-link)
+(org-link-set-parameters "id" :insert-description "above")
+
 
 (provide 'weiss_org_settings)

@@ -3,12 +3,15 @@
         ejc-sql-separator ";"
         ) 
 
-  (require 'ejc-company)
+  (with-eval-after-load 'company
+    (require 'ejc-company)
+    (setq-mode-local
+     sql-mode
+     company-backends
+     '(ejc-company-backend))
+    )
   (setq ejc-complete-on-dot nil)  
-  (setq-mode-local
-   sql-mode
-   company-backends
-   '(ejc-company-backend))
+
 
   (add-hook 'ejc-sql-minor-mode-hook
             (lambda ()

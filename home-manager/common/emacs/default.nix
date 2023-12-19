@@ -101,6 +101,7 @@ in {
         "separedit"
         "denote"
         "consult-notes"
+        "jinx"
       ];
       idleLoad = {
         enable = true;
@@ -222,7 +223,8 @@ in {
           # [ "tree-sitter" "tree-sitter-langs" "weiss-tsc-mode" ]
         ];
         lint = [
-          [ "flyspell" "wucuo" "flyspell-correct" ]
+          # [ "flyspell" "wucuo" "flyspell-correct" ]
+          "jinx"
           "flymake"
           "flymake-kondor"
           "flymake-json"
@@ -259,6 +261,7 @@ in {
         ];
         ui = [
           "ui"
+          "valign"
           [ "modeline" "delight" ]
           "popwin"
           "rainbow-mode"
