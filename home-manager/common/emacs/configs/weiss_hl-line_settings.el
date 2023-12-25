@@ -1,10 +1,11 @@
 (with-eval-after-load 'hl-line
-  (set-face-attribute 'hl-line nil :inherit nil :box nil :background "#ffe8e8" :extend nil)
+  ;; (set-face-attribute 'hl-line nil :inherit nil :box nil :background "#ffe8e8" :extend nil)
   (defface box-hl-line
     '((t (:inherit nil :extend nil :box (:line-width (-1 . -2) :color "#ededed" :style nil))))
     "highlight the current line with box"
     )
   ;; (set (make-local-variable 'hl-line-face) 'box-hl-line)
+  
 
   (defface normal-hl-line
     '((t :box nil :extend nil :background "#ffe8e8"))

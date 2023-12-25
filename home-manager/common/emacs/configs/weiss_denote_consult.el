@@ -137,8 +137,15 @@ Delete the original subtree."
                       )
                      )
              :action ,(lambda (arg)
-                        (let ((file (expand-file-name arg dir)))
-                          (denote-link file 'org (denote--retrieve-title-or-filename file 'org))
+                        (let* (
+                               (file (expand-file-name arg dir))
+                               (title (denote--retrieve-title-or-filename file 'org))
+                               (sig (denote-retrieve-filename-signature file))
+                               )
+                          (denote-link
+                           file 'org
+                           (concat title sig)
+                           )
                           ))
              :items ,(lambda () (weiss-denote--list-notes dir))
              ))
@@ -224,12 +231,6 @@ Delete the original subtree."
                     :prompt "Link Notes: "
                     :history 'consult-denotes-history
                     :add-history (seq-some #'thing-at-point '(region symbol))))
-
-  (defun weiss-test ()
-    "DOCSTRING"
-    (interactive)
-    (message "%s" (weiss-denote-consult--generate-source-by-config weiss-denote-consult-link-notes-config))  )
-
 
   (defun my-consult--multi-lookup (sources selected candidates _input narrow &rest _)
     "Lookup SELECTED in CANDIDATES given SOURCES, with potential NARROW."

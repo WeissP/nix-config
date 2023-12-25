@@ -5,7 +5,7 @@
     (when selected-p
       (setf face `(:inherit (tab-line-tab-special ,face))))
     face)
-  (add-to-list 'tab-line-tab-face-functions 'weiss-tab-highlight-selected-tab)
+  ;; (add-to-list 'tab-line-tab-face-functions 'weiss-tab-highlight-selected-tab)
   )
 
 (provide 'weiss_tab-line_face)

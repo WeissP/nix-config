@@ -50,6 +50,7 @@
      ("C-c C-s" . org-id-get-create)
      ("C-c C-t" . org-todo)
      ("C-c C-b" . org-mark-ring-goto)
+     ("C-c C-p" . weiss-org-mathpix)
      ;; ("y <tab>" . org-table-create-with-table\.el)
      ("y <tab>" . org-table-toggle-column-width)
      ("y j s" . weiss-org-copy-heading-link)

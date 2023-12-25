@@ -56,6 +56,8 @@
                 packages = with rPackages; [ purrr ggplot2 ];
               })
               additions.ammonite.ammonite_3_2
+              scala-cli
+              jdk17
               ghostscript
               (python3.withPackages (ps:
                 with ps; [
@@ -138,7 +140,7 @@
               vivaldi
               pdfpc
               p3x-onenote
-              mathpix-snipping-tool
+              # mathpix-snipping-tool
               # pinnedUnstables."2023-09-27".webkitgtk
             ];
             file = {

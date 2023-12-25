@@ -549,6 +549,10 @@ in {
         ob-ammonite = pkgs.callPackage ./packages/ob-ammonite {
           inherit (final) trivialBuild s scala-mode xterm-color;
         };
+        scala-cli-repl = pkgs.callPackage ./packages/scala-cli-repl.nix {
+          inherit (final) trivialBuild scala-mode s xterm-color;
+          inherit (pkgs) fetchFromGitHub;
+        };
       };
       extraPackages = epkg:
         map (pkgName: lib.attrsets.getAttrFromPath [ pkgName ] epkg)

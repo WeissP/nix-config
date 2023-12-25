@@ -70,29 +70,32 @@ with myEnv; {
   fonts = mkMerge [
     {
       fontDir.enable = true;
-      packages = with pkgs; [
-        route159
-        noto-fonts
-        noto-fonts-cjk
-        noto-fonts-emoji
-        stix-two
-        liberation_ttf
-        fira-code
-        fira-code-symbols
-        (nerdfonts.override { fonts = [ "FiraCode" ]; })
-        mplus-outline-fonts.githubRelease
-        dina-font
-        source-code-pro
-        source-han-sans
-        source-han-serif
-        lato
-        jetbrains-mono
-        cascadia-code
-        sarasa-gothic
-        emacs-all-the-icons-fonts
-        wqy_microhei
-        wqy_zenhei
-      ];
+      packages = with pkgs;
+        let mkFont = callPackage myLib.mkFont { };
+        in [
+          (mkFont "monolisa" "monolisa.zip")
+          route159
+          noto-fonts
+          noto-fonts-cjk
+          noto-fonts-emoji
+          stix-two
+          liberation_ttf
+          fira-code
+          fira-code-symbols
+          (nerdfonts.override { fonts = [ "FiraCode" ]; })
+          mplus-outline-fonts.githubRelease
+          dina-font
+          source-code-pro
+          source-han-sans
+          source-han-serif
+          lato
+          jetbrains-mono
+          cascadia-code
+          sarasa-gothic
+          emacs-all-the-icons-fonts
+          wqy_microhei
+          wqy_zenhei
+        ];
     }
     (ifLinux {
       fontconfig = {

@@ -5,6 +5,18 @@
 
   ;; ignore all unicodes
   (add-to-list 'jinx-exclude-regexps '(org-mode "[a-zA-Z]*[^[:ascii:]äßöüÄÖÜ]+[a-zA-Z]*"))
+
+  (with-eval-after-load 'org
+    (defun weiss-jinx--exclude-p (start)
+      "DOCSTRING"
+      (and
+       (eq major-mode 'org-mode)
+       (member
+        (org-element-type (org-element-context (org-element-at-point start)))
+        '(latex-fragment latex-environment))
+       ))
+    (add-to-list 'jinx--predicates #'weiss-jinx--exclude-p)
+    )
   )
 
 ;;; the following is just for debug

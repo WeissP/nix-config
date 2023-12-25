@@ -1,4 +1,6 @@
 (with-eval-after-load 'mind-wave
+  (wks-unset-key mind-wave-chat-mode-map '("`"))
+
   (wks-define-key
    (current-global-map)
    "SPC "

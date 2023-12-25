@@ -53,6 +53,8 @@ in {
         (setq mac-right-option-modifier nil)
         (setq vanilla-global-map (current-global-map))
         (setq recentf-executable "${pkgs.recentf.outPath}/bin/recentf")
+        (setq mathpix-api-id "${secrets.mathpix.apiID}")
+        (setq mathpix-api-key "${secrets.mathpix.apiKey}")
 
         ${oldCfg}
       '';
@@ -102,6 +104,9 @@ in {
         "denote"
         "consult-notes"
         "jinx"
+        "eldoc-box"
+        "modus-themes"
+        "circadian"
       ];
       idleLoad = {
         enable = true;
@@ -163,6 +168,7 @@ in {
         completion = [
           # [ "company" "company-box" ]
           [ "snails" "snails-custom-backends" ]
+          "yasnippet"
           [ "vertico" "vertico-directory" ]
           "orderless"
           "marginalia"
@@ -170,7 +176,13 @@ in {
           [ "corfu" "kind-icon" "cape" ]
         ];
         lang = [
-          [ "scala-mode" "sbt-mode" "ammonite-term-repl" "ob-ammonite" ]
+          [
+            "scala-mode"
+            "sbt-mode"
+            "ammonite-term-repl"
+            "ob-ammonite"
+            "scala-cli-repl"
+          ]
           [ "elixir-mode" "flymake-elixir" "inf-elixir" "ob-elixir" ]
           "cider"
           [ "python" "live-py-mode" ]
@@ -262,8 +274,11 @@ in {
         ui = [
           "ui"
           "valign"
+          # "eldoc-box"
+          # [ "sideline" ]
           [ "modeline" "delight" ]
           "popwin"
+          [ "modus-themes" "circadian" ]
           "rainbow-mode"
           "highlight-indent-guides"
           "highlight-defined"

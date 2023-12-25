@@ -33,6 +33,22 @@ with lib; rec {
     };
   resource = path: myNixRepo + "/resources/" + path;
 
+  mkFont = { stdenv, unzip }:
+    fontName: path:
+    stdenv.mkDerivation {
+      nativeBuildInputs = [ unzip ];
+
+      name = fontName;
+      src = resource path;
+      sourceRoot = ".";
+
+      installPhase = ''
+        DEST="$out/share/fonts/${fontName}"
+        mkdir -p "$DEST"
+        find . \( -name '*.ttf' -o -name '*.otf' \) -print0 | xargs -0 cp -t "$DEST"
+      '';
+    };
+
   mergeAttrList = lists.foldr (elem: res: trivial.mergeAttrs elem res) { };
   interval = { minutes = m: filter (t: trivial.mod t m == 0) (range 1 59); };
   service = {

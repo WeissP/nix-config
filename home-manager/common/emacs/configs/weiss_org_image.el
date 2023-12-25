@@ -1,3 +1,5 @@
+;; -*- lexical-binding: t -*-
+
 (with-eval-after-load 'org
   (add-to-list 'image-file-name-extensions "pdf")
   (defun weiss-mac-org-insert-screenshot ()
@@ -22,6 +24,49 @@
       (when (ignore-errors org-xournal-mode)
         (org-xournal-show-current-link))))
 
+  (defun mathpix-get-b64-image (file)
+    "From mathpix.el.
+          Return the base-64 image string from FILE."
+    (with-temp-buffer
+      (insert-file-contents file)
+      (base64-encode-string (buffer-string) t)))
+
+  (defun mathpix-insert-result (file)
+    "From mathpix.el.
+          Sends FILE to Mathpix API."
+    (request
+      "https://api.mathpix.com/v3/text"
+      :type "POST"
+      :headers `(("app_id" . ,mathpix-api-id)
+                 ("app_key" . ,mathpix-api-key)
+                 ("Content-type" . "application/json"))
+      :data (json-encode-alist
+             `(("src" . ,(format "data:image/%s;base64,%s"
+                                 (file-name-extension file)
+                                 (mathpix-get-b64-image file)))
+               ("formats" . ,(list "latex_styled"))
+               ("format_options" .
+                ,`(("math_delims" . '("\\(" "\\)"))
+                   ("displaymath_delims" . '("\\[" "\\]"))))))
+      :parser 'json-read
+      :sync t
+      :complete (cl-function
+                 (lambda (&key response &allow-other-keys)
+                   (insert
+                    (alist-get 'latex_styled (request-response-data response)))))))
+
+
+  (defun weiss-org-mathpix ()
+    "DOCSTRING"
+    (interactive)
+    (shell-command-to-string "flameshot gui -p /tmp/")
+    (let* ((img-path "/tmp/flameshot-capture.png"))
+      (while (not (file-exists-p img-path)) (sit-for 0.1))      
+      (mathpix-insert-result img-path)
+      (call-interactively 'org-latex-preview)
+      (delete-file img-path)
+      ))
+
   (defun weiss-org-screenshot ()
     "call flameshot to capture screen shot"
     (interactive)
@@ -42,6 +87,20 @@
                                  (or x-select-request-type 'UTF8_STRING))))
      t))
   
+  (defun weiss-org-insert-parsered-latex ()
+    "DOCSTRING"
+    (interactive)
+    (shell-command-to-string "flameshot gui -p /tmp/")
+    (let* ((img-path "/tmp/flameshot-capture.png"))
+      (while (not (file-exists-p img-path)) (sit-for 0.1))      
+      (weiss-org--parse-latex-image-and-insert
+       img-path
+       (lambda (data)
+         (delete-file img-path)
+         (insert (s-with data (s-replace "\\\\" "\\") (s-replace "\"" "")))
+         (call-interactively 'org-latex-preview)))
+      ))
+
   (defvar weiss-org-image-folder nil)
   (defun weiss-org-insert-image(old-path &optional img-attr delete-old)
     "DOCSTRING"

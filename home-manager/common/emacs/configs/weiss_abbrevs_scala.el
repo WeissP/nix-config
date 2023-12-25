@@ -8,6 +8,8 @@
       ("pr" "private " weiss--ahf)
       ("for" "for {\n_ <- ▮\n} yield ()" weiss--ahf)
       ("op" "Option[▮]" weiss--ahf)
+      ("v" "val _ = ▮" weiss--ahf)
+      ("vx" "val x = ▮" weiss--ahf)
       )
     )
   )

@@ -92,7 +92,7 @@
     (call-interactively 'weiss-enable-rime)
     (wks-vanilla-mode-enable)
     )
-''  
+
   (add-hook 'denote-journal-extras-hook #'weiss-denote-journal-setup)
   )
 

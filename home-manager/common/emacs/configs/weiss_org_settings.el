@@ -5,6 +5,7 @@
   (interactive)
   (concat weiss/org-file-path path))
 
+
 (with-eval-after-load 'org
   (setq
    org-imenu-depth 10
@@ -20,14 +21,19 @@
    org-id-link-to-org-use-id 'create-if-interactive
    org-outline-path-complete-in-steps nil
    )
+
+  (defun weiss-org--latex-env-p ()
+    "DOCSTRING"
+    
+    )
+
+  (defun weiss-org-id-complete-link (&optional arg)
+    "From Stackoverflow. Create an id: link using completion"
+    (concat "id:" (org-id-get-with-outline-path-completion)))
+  (org-link-set-parameters "id" :complete 'weiss-org-id-complete-link)
+  (org-link-set-parameters "id" :insert-description "above")
   )
 
-(defun weiss-org-id-complete-link (&optional arg)
-  "From Stackoverflow. Create an id: link using completion"
-  (concat "id:" (org-id-get-with-outline-path-completion)))
-
-(org-link-set-parameters "id" :complete 'weiss-org-id-complete-link)
-(org-link-set-parameters "id" :insert-description "above")
 
 
 (provide 'weiss_org_settings)
