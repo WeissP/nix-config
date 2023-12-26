@@ -1,13 +1,17 @@
+(setq modus-themes-headings
+      '((1 . ( variable-pitch 1.2))
+        (t . 1.1)))
+
+(setq modus-themes-completions '((matches . (heavy))
+                                 (selection . (semibold))
+                                 ))
+
 (with-eval-after-load 'modus-themes
   (setopt
    modus-themes-mixed-fonts t
    modus-themes-italic-constructs nil
    modus-themes-bold-constructs t   
    )
-
-  (setq modus-themes-completions '((matches . (heavy))
-                                   (selection . (semibold))
-                                   ))
 
   (setopt modus-themes-common-palette-overrides
           '((border-mode-line-active unspecified)
@@ -21,6 +25,7 @@
             (fringe unspecified)
             (bg-paren-match bg-magenta-intense)
             (comment fg-dim)
+            (fg-heading-1 fg-alt)
             ))
   
   (setopt modus-operandi-tinted-palette-overrides
@@ -70,8 +75,18 @@
        `(underline
          ((t
            (:weight normal :underline t :foreground ,underline-link))))
+       `(org-document-info-keyword
+         ((t
+           (:slant italic :height 0.8 :inherit variable-pitch))))
+       `(org-meta-line
+         ((t
+           (:slant oblique :height 0.7 :inherit variable-pitch))))
        `(org-verbatim
-         ((t (:inherit (default) :height 0.9 :underline nil :background ,bg-dim))))
+         ((t (:height 0.9 :background ,bg-dim))))
+       `(tab-line-tab-current
+         ((t (:weight semibold :box (:style released-button)))))
+       `(tab-line-tab-inactive
+         ((t (:weight normal))))
        )
       )
     )
