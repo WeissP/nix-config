@@ -132,8 +132,12 @@ Delete the original subtree."
              :hidden nil
              :new ,(lambda (cand)
                      (denote--link-after-creating-subr
-                      (lambda () (interactive) (denote cand keywords nil (concat dir "/notes") nil nil))
-                      #'denote--retrieve-title-or-filename 
+                      (lambda () (interactive)
+                        (denote
+                         (or weiss-denote-consult--region-text cand)
+                         keywords nil (concat dir "/notes") nil nil))
+                      (lambda (&rest args)
+                        (or weiss-denote-consult--region-text cand))
                       )
                      )
              :action ,(lambda (arg)
@@ -144,7 +148,8 @@ Delete the original subtree."
                                )
                           (denote-link
                            file 'org
-                           (concat title sig)
+                           (or weiss-denote-consult--region-text
+                               (concat title sig))                           
                            )
                           ))
              :items ,(lambda () (weiss-denote--list-notes dir))
@@ -198,6 +203,7 @@ Delete the original subtree."
       )
     )
 
+  (defvar weiss-denote-consult--region-text nil)
   (defun weiss-denote-consult ()
     "DOCSTRING"
     (interactive)
@@ -223,41 +229,18 @@ Delete the original subtree."
   (defun weiss-denote-consult-link-notes ()
     "DOCSTRING"
     (interactive)
-    (consult--multi (weiss-denote-consult--generate-source-by-config weiss-denote-consult-link-notes-config)
-                    :initial (when (weiss-region-p)
-                               (s-downcase (delete-and-extract-region (region-beginning) (region-end)))) 
-                    :require-match
-                    (confirm-nonexistent-file-or-buffer)
-                    :prompt "Link Notes: "
-                    :history 'consult-denotes-history
-                    :add-history (seq-some #'thing-at-point '(region symbol))))
-
-  (defun my-consult--multi-lookup (sources selected candidates _input narrow &rest _)
-    "Lookup SELECTED in CANDIDATES given SOURCES, with potential NARROW."
-    (if (or (string-blank-p selected)
-            (not (consult--tofu-p (aref selected (1- (length selected))))))
-        ;; Non-existing candidate without Tofu or default submitted (empty string)
-        (let* ((src (cond
-                     (narrow (seq-find (lambda (src)
-                                         (let ((n (plist-get src :narrow)))
-                                           (eq (or (car-safe n) n -1) narrow)))
-                                       sources))
-                     ((seq-find (lambda (src) (plist-get src :default)) sources))
-                     ((seq-find (lambda (src) (not (plist-get src :hidden))) sources))
-                     ((aref sources 0))))
-               (idx (seq-position sources src))
-               (def (and (string-blank-p selected) ;; default candidate
-                         (seq-find (lambda (cand) (eq idx (consult--tofu-get cand))) candidates))))
-          (if def
-              (cons (cdr (get-text-property 0 'multi-category def)) src)
-            `(,selected :match nil ,@src)))
-      (if-let (found (member selected candidates))
-          ;; Existing candidate submitted
-          (cons (cdr (get-text-property 0 'multi-category (car found)))
-                (consult--multi-source sources selected))
-        ;; Non-existing Tofu'ed candidate submitted, e.g., via Embark
-        `(,(substring selected 0 -1) :match nil ,@(consult--multi-source sources selected)))))
-  (advice-add 'consult--multi-lookup :override #'my-consult--multi-lookup)
+    (setq weiss-denote-consult--region-text
+          (when (weiss-region-p)
+            (delete-and-extract-region (region-beginning) (region-end))))
+    (consult--multi
+     (weiss-denote-consult--generate-source-by-config
+      weiss-denote-consult-link-notes-config)
+     :initial (when weiss-denote-consult--region-text
+                (s-downcase weiss-denote-consult--region-text)) 
+     :require-match (confirm-nonexistent-file-or-buffer)
+     :prompt "Link Notes: "
+     :history 'consult-denotes-history
+     :add-history (seq-some #'thing-at-point '(region symbol))))
   )
 
 (provide 'weiss_denote_consult)

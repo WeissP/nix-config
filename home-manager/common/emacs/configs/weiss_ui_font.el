@@ -18,8 +18,9 @@
 (defun patch-fonts ()
   "DOCSTRING"
   (interactive)
-  (set-face-attribute 'default nil :foundry "SAJA" :family "Cascadia Code PL" :height 120)
-  (set-face-attribute 'fixed-pitch nil :foundry "SAJA" :family "Cascadia Code PL")
+  (set-face-attribute 'default nil :family "Monolisa Nasy" :height 105 :weight 'medium)
+  (set-face-attribute 'bold nil :weight 'bold)
+  (set-face-attribute 'fixed-pitch nil :family "Monolisa Nasy")
   (set-face-attribute 'variable-pitch nil :family "Noto Serif" :height 1.2)
   (set-fontset-font t 'symbol (font-spec :family "Noto Sans" :weight 'normal :height 1.5) nil  nil)
   (set-fontset-font t 'symbol (with-font "Noto Sans symbols") nil 'prepend)

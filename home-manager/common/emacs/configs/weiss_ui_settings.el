@@ -1,4 +1,4 @@
-(load-theme 'weiss-light t)
+;; (load-theme 'weiss-light t)
 
 (setq inhibit-startup-screen t)
 (setq word-wrap-by-category t)

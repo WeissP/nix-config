@@ -4,11 +4,11 @@ let userEmacsDirectory = "${homeDir}/.emacs.d";
 in {
   imports = [ outputs.homeManagerModules.weissEmacs ../recentf.nix ];
 
-  home.file."${userEmacsDirectory}/weiss-light-theme.el".source =
-    if (arch == "darwin") then
-      ./weiss-light-theme-mac.el
-    else
-      ./weiss-light-theme.el;
+  # home.file."${userEmacsDirectory}/weiss-light-theme.el".source =
+  #   if (arch == "darwin") then
+  #     ./weiss-light-theme-mac.el
+  #   else
+  #     ./weiss-light-theme.el;
   home.packages = with pkgs; [ clj-kondo nodePackages.jsonlint nixfmt ];
   programs.weissEmacs = lib.mkMerge [
     (ifDarwin {

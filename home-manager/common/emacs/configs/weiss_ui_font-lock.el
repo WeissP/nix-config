@@ -2,9 +2,9 @@
 (setq xah-elisp-ampersand-words '( "&optional" "&rest" "t" "nil"))
 
 (font-lock-add-keywords
-   'emacs-lisp-mode
-   `(
-     (,(regexp-opt xah-elisp-ampersand-words 'symbols) . font-lock-builtin-face)
+ 'emacs-lisp-mode
+ `(
+   (,(regexp-opt xah-elisp-ampersand-words 'symbols) . font-lock-keyword-face)
    ))
 
 (provide 'weiss_ui_font-lock)

@@ -1,7 +1,7 @@
 (defvar weiss-select-mode-p nil "nil")
 
-(setq mark-select-mode-color "#ffcfe4")
-(setq mark-non-select-mode-color "#cfe4ff")
+(defvar mark-select-mode-color "#ffcfe4")
+(defvar mark-non-select-mode-color "#cfe4ff")
 
 (defun weiss-select-mode-check-region-color ()
   "if preview mode is on, change the cursor color"

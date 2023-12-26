@@ -5,6 +5,9 @@
 ;;                       'display '(raise -0.1)
 ;;                       'face `(:height 1.2 :family ,(all-the-icons-icon-family-for-buffer)))))
 
+(custom-set-faces
+ '(mode-line ((t :box (:style released-button)))))
+
 (setq-default mode-line-format
               `(
                 " "
