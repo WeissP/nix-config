@@ -1,8 +1,8 @@
 { pkgs, config, lib, myEnv, secrets, ... }:
 with myEnv;
 let
-  notmuchTargetPath = "${config.xdg.configHome}/notmuch";
-  notmuchTagPath = notmuchTargetPath + "/tags";
+  notmuchConfigPath = "${homeDir}/.config/notmuch";
+  notmuchTagPath = ./config_files/notmuch/tags;
   withPass = name: extract: "${userBin "pass"} ${name} 2>&1 | ${extract}";
   withGrep = prefix:
     "${systemBin "grep"} '^${prefix}' | ${systemBin "cut"} -c${
@@ -16,10 +16,21 @@ in lib.mkMerge [
       msmtp.enable = true;
       notmuch = {
         enable = true;
-        hooks = { postNew = "notmuch tag --batch --input=${notmuchTagPath}"; };
+        hooks = {
+          postNew = "notmuch tag --batch --input=${notmuchTagPath}";
+          # preNew = pkgs.fetchFromGitHub {
+          #   owner = "wkz";
+          #   repo = "notmuch-lore";
+          #   rev = "3e2a13b32b178a4d3296cee6f69ee3491eebdb9f";
+          #   sha256 = "sha256-aNb0uf7jCfP00bLMDY4aY26FRiBd2YL51O+cxSS4DAk=";
+          # } + "/pre-new";
+        };
       };
     };
-    home.file = { notmuchTagPath = { source = ./config_files/notmuch; }; };
+    # home.file = {
+    #   # = { source = ./config_files/notmuch; }
+    #   notmuchTagPath.text = "f";
+    # };
     accounts.email.accounts = let
       genAcc = { address, imap, primary, passwordCommand, smtp ? null }: {
         inherit address primary imap smtp passwordCommand;

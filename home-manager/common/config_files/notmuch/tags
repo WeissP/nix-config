@@ -4,6 +4,9 @@
 +RPTU_CS -- path:rptu_cs/**
 +gmail -- path:gmail/**
 
++denote -- to:"~protesilaos/denote@lists.sr.ht"
++mailing_list -- is:denote
+
 +from_self -- from:"WeissBai@web.de" or from:"bai@rhrk.uni-kl.de" or from:"bai@rptu.de" or from:"b_bai19@cs.uni-kl.de" or from:"kingbaiing@163.com"
 
 +gitlab -- from:gitlab
@@ -42,7 +45,7 @@
 +olat -- tag:RPTU and from:lms-admin@vcrp.de 
 +olat_notification -- is:olat and subject:"OpenOLAT-Neuigkeiten"
 +rptu_rundmail -- (is:RPTU and from:rundmail)
-+rptu_registration -- (is:RPTU and subject:registration)
++rptu_registration -- (is:RPTU and (subject:registration or subject:"Rückmeldezeitraum"))
 +rptu_unimportant -- (is:rptu_rundmail and not is:rptu_registration)
 +urm -- (is:RPTU and from:urm)
 
@@ -125,4 +128,4 @@
 
 -inbox -unread -- subject:"Mail delivery failed: returning message to sender" or subject:"Returned mail: see transcript for details"
 
-+unimportant -- (not is:inbox) or (is:shipment and not is:shipment_today) or is:dhl_unimportant or is:receipt or is:advertisement or is:rptu_unimportant or is:cs_rundmail or is:print_notification or is:vlu_reminder or (is:mattermost and is:DBIS) or is:olat_notification or is:klarmobil_unimportant or is:commerzbank_doc or is:newsletter or is:lte_volume or is:from_self or is:drawboard or is:inoreader or is:codepen or is:amazon_unimportant or is:youtube or is:paypal
++unimportant -- (not is:inbox) or (is:shipment and not is:shipment_today) or is:dhl_unimportant or is:receipt or is:advertisement or is:rptu_unimportant or is:cs_rundmail or is:print_notification or is:vlu_reminder or (is:mattermost and is:DBIS) or is:olat_notification or is:klarmobil_unimportant or is:commerzbank_doc or is:newsletter or is:lte_volume or is:from_self or is:drawboard or is:inoreader or is:codepen or is:amazon_unimportant or is:youtube or is:paypal or is:mailing_list

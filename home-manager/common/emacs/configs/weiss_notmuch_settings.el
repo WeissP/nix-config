@@ -14,8 +14,9 @@
   (setq notmuch-saved-searches
         `(
           (:name " " :query "tag:unread AND is:inbox AND NOT is:unimportant" :key ,(kbd "n") :search-type tree :sort-order oldest-first)
-          (:name " " :query "tag:unread AND is:inbox AND is:unimportant AND NOT is:newsletter" :key ,(kbd "u") :search-type tree :sort-order oldest-first)
-          (:name " " :query "is:newsletter" :key ,(kbd "r") :search-type tree :count-query "is:newsletter AND is:unread" :sort-order newest-first)
+          (:name " " :query "tag:unread AND is:inbox AND is:unimportant AND NOT (is:newsletter or is:mailing_list)" :key ,(kbd "u") :search-type tree :sort-order oldest-first)
+          ;; (:name " " :query "is:newsletter" :key ,(kbd "r") :search-type tree :count-query "is:newsletter AND is:unread" :sort-order newest-first)
+          (:name "  Denote" :query "is:unread AND is:denote" :key ,(kbd "r d") :search-type tree :sort-order newest-first)
           (:name " RPTU" :query "tag:RPTU AND is:inbox AND NOT is:unimportant" :key ,(kbd "i r") :search-type tree :sort-order newest-first)
           (:name " RPTU_CS" :query "tag:RPTU_CS AND is:inbox AND NOT is:unimportant" :key ,(kbd "i c") :search-type tree :sort-order newest-first)
           (:name " WebDE" :query "tag:WebDE AND is:inbox AND NOT is:unimportant" :key ,(kbd "i w") :search-type tree :sort-order newest-first)
