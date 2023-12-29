@@ -59,45 +59,7 @@
               scala-cli
               jdk17
               ghostscript
-              (python3.withPackages (ps:
-                with ps; [
-                  pip
-                  pygments # for latex minted
-                  # (buildPythonPackage rec {
-                  #   pname = "nougat";
-                  #   version = "0.1.17";
-                  #   src = fetchFromGitHub {
-                  #     owner = "facebookresearch";
-                  #     repo = pname;
-                  #     rev = "47c77d70727558b4a2025005491ecb26ee97f523";
-                  #     sha256 =
-                  #       "sha256-Uc6DTJLPeVIUTDZRfaRPxblBY56uK8wcsfC41M4/Lz8=";
-                  #   };
-                  #   # src = fetchPypi {
-                  #   #   inherit pname version;
-                  #   #   sha256 =
-                  #   #     "sha256-0aozmQ4Eb5zL4rtNHSFjEynfObUkYlid1PgMDVmRkws=";
-                  #   # };
-                  #   doCheck = false;
-                  #   propagatedBuildInputs = with pkgs.python3Packages; [
-                  #     transformers
-                  #     timm
-                  #     orjson
-                  #     # opencv-python-headless
-                  #     lightning
-                  #     nltk
-                  #     python-Levenshtein
-                  #     sentencepiece
-                  #     # sconf
-                  #     albumentations
-                  #     # pypdfium2
-                  #     torch
-                  #     tqdm
-                  #     pypdf
-                  #     cv2
-                  #   ];
-                  # })
-                ]))
+              (python3.withPackages (ps: with ps; [ pip pygments ]))
               (texlive.combine {
                 inherit (texlive)
                   scheme-tetex collection-langkorean algorithms cm-super pgf
@@ -106,7 +68,7 @@
                   pgfplots titlesec subfigure adjustbox algorithm2e ifoddpage
                   relsize qtree pict2e lipsum ifsym fontawesome changepage
                   inconsolata xcolor cancel stmaryrd wasysym wasy makecell
-                  forest mnsymbol biblatex fontawesome5 pbox;
+                  forest mnsymbol biblatex fontawesome5 pbox rsfso;
                 pkgFilter = pkg:
                   pkg.tlType == "run" || pkg.tlType == "bin" || pkg.pname
                   == "cm-super";

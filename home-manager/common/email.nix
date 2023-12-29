@@ -1,7 +1,8 @@
 { pkgs, config, lib, myEnv, secrets, ... }:
 with myEnv;
 let
-  tags_path = "${config.xdg.configHome}/notmuch_tags";
+  notmuchTargetPath = "${config.xdg.configHome}/notmuch";
+  notmuchTagPath = notmuchTargetPath + "/tags";
   withPass = name: extract: "${userBin "pass"} ${name} 2>&1 | ${extract}";
   withGrep = prefix:
     "${systemBin "grep"} '^${prefix}' | ${systemBin "cut"} -c${
@@ -15,13 +16,10 @@ in lib.mkMerge [
       msmtp.enable = true;
       notmuch = {
         enable = true;
-        hooks = { postNew = "notmuch tag --batch --input=${tags_path}/tags"; };
+        hooks = { postNew = "notmuch tag --batch --input=${notmuchTagPath}"; };
       };
     };
-    home.file."${tags_path}" = {
-      source = ./config_files/notmuch_tags;
-      recursive = true;
-    };
+    home.file = { notmuchTagPath = { source = ./config_files/notmuch; }; };
     accounts.email.accounts = let
       genAcc = { address, imap, primary, passwordCommand, smtp ? null }: {
         inherit address primary imap smtp passwordCommand;

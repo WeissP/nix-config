@@ -14,6 +14,10 @@
 
 (apply #'eldoc-add-command weiss--eldoc-commands)
 
+(setq
+ semantic-idle-truncate-long-summaries nil
+ eldoc-echo-area-use-multiline-p t)
+
 (defun weiss-show-eldoc (docs _interactive)
   "just the main part of eldoc-display-in-echo-area"
   (interactive)

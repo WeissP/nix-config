@@ -5,6 +5,7 @@
 
   ;; ignore all unicodes
   (add-to-list 'jinx-exclude-regexps '(org-mode "[a-zA-Z]*[^[:ascii:]äßöüÄÖÜ]+[a-zA-Z]*"))
+  (add-to-list 'jinx-exclude-faces '(tex-mode font-lock-type-face))
 
   (with-eval-after-load 'org
     (defun weiss-jinx--exclude-p (start)

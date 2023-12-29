@@ -1,3 +1,5 @@
+(setq default-input-method "Agda")
+
 (defun weiss-init-agda-input ()
   "DOCSTRING"
   (interactive)

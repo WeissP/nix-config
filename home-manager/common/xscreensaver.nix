@@ -4,10 +4,10 @@
     enable = false;
     settings = {
       fadeTicks = 20;
-      timeout = "0:02:00";
-      mode = "blank";
-      selected = "-1";
-      # programs = "pacman --root";
+      timeout = "0:15:00";
+      mode = "one";
+      selected = "0";
+      programs = "pacman --root";
     };
   };
 })

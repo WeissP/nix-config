@@ -14,13 +14,13 @@
    org-n-level-faces 15
    )
 
-   ;; controls the size of latex previews 
+  ;; controls the size of latex previews 
   (if (eq system-type 'darwin)
       (setq org-format-latex-options (plist-put org-format-latex-options :scale 1.2))
-    (setq org-format-latex-options (plist-put org-format-latex-options :scale 1.8))
+    (setq org-format-latex-options (plist-put org-format-latex-options :scale 1.6))
     )
 
-      
+  
 
   (add-hook 'org-mode-hook (lambda () (variable-pitch-mode)))
   (defun weiss-shrink-window-if-larger-than-buffer (&optional window min-window-size)

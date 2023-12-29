@@ -9,7 +9,8 @@
 (with-eval-after-load 'org
   (setq
    org-imenu-depth 10
-   org-startup-with-inline-images nil
+   org-startup-with-inline-images t
+   org-startup-with-latex-preview t
    org-src-preserve-indentation t
    org-directory weiss/org-file-path
    org-extend-today-until 4
@@ -22,16 +23,26 @@
    org-outline-path-complete-in-steps nil
    )
 
-  (defun weiss-org--latex-env-p ()
-    "DOCSTRING"
-    
-    )
-
   (defun weiss-org-id-complete-link (&optional arg)
     "From Stackoverflow. Create an id: link using completion"
     (concat "id:" (org-id-get-with-outline-path-completion)))
   (org-link-set-parameters "id" :complete 'weiss-org-id-complete-link)
   (org-link-set-parameters "id" :insert-description "above")
+
+  (defun weiss-org-preview-or-latex-quick-insert ()
+    "DOCSTRING"
+    (interactive)
+    (if (and
+         (not current-prefix-arg)
+         (weiss-region-p)
+         (or
+          (eq 'latex-fragment (org-element-type (org-element-context (org-element-at-point))))
+          (eq 'latex-environment (org-element-type (org-element-context (org-element-at-point))))
+          ))
+        (quick-insert-consult "latex environment")
+      (call-interactively 'weiss-org-preview-latex-and-image)
+      )
+    )
   )
 
 

@@ -1,24 +1,25 @@
 ;; -*- lexical-binding: t -*-
 
+(setq
+ denote-prompts '(subdirectory title signature keywords)
+ denote-rename-buffer-format "%t%s[%k]"
+ denote-backlinks-show-context t
+ denote-org-dblock-file-contents-separator "\n⠊⠊⠊⠊⠊⠊⠊⠊⠊⠊⠊⠊⠊⠊⠊⠊⠊⠊⠊⠊⠊⠊⠊⠊⠊⠊⠊⠊⠊⠊⠊⠊⠊⠊⠊⠊⠊⠊⠊⠊⠊⠊⠊⠊⠊⠊\n"
+ )
+
+(setq denote-file-name-letter-casing
+      '((title . downcase)
+        (signature . verbatim)
+        (keywords . verbatim)
+        (t . downcase)))
+
 (with-eval-after-load 'denote
   (with-eval-after-load 'org
     (require 'denote-org-dblock)
     (require 'denote-journal-extras)
     )
   
-  (setq denote-file-name-letter-casing
-        '((title . downcase)
-          (signature . verbatim)
-          (keywords . verbatim)
-          (t . downcase)))
-
-  (setq
-   denote-prompts '(subdirectory title signature keywords)
-   denote-rename-buffer-format "%t%s_%k"
-   denote-backlinks-show-context t
-   )
-  
-  (with-eval-after-load 'denote-rename-buffer-with-title
+  (with-eval-after-load 'denote-rename-buffer
     (denote-rename-buffer-mode 1)
     )
   

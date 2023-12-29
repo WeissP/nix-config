@@ -1,7 +1,10 @@
 (with-eval-after-load 'delight
   (delight
    '(
-     (apheleia-mode nil "apheleia")
+     (nerd-icons-dired-mode nil nerd-icons-dired)
+     (yas-minor-mode nil yasnippet)
+     (dired-omit-mode nil dired-x)
+     (auto-revert-mode nil autorevert)
      (company-mode " 🅰 " company)
      (company-box-mode nil company-box)
      (anzu-mode nil anzu)

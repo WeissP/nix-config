@@ -124,6 +124,7 @@ in {
         ];
       };
       skipInstall = [
+        "mathpix"
         "python"
         "tramp"
         "server"
@@ -210,6 +211,7 @@ in {
         pdf =
           [ "pdf-tools" "pdf-view" "pdf-view-restore" "literate-calc-mode" ];
         tools = [
+          "mathpix"
           "direnv"
           "project"
           "recentf-db"

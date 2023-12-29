@@ -1,6 +1,6 @@
 (setq modus-themes-headings
-      '((1 . ( variable-pitch 1.2))
-        (t . 1.1)))
+      '((1 . ( variable-pitch 1.3))
+        (t . 1.2)))
 
 (setq modus-themes-completions '((matches . (heavy))
                                  (selection . (semibold))
@@ -73,16 +73,21 @@
        `(font-lock-builtin-face
          ((t (:slant italic :foreground ,fg-dim))))
        `(underline
-         ((t
-           (:weight normal :underline t :foreground ,underline-link))))
+         ((t (:weight normal :underline t :foreground ,underline-link))))
        `(org-document-info-keyword
-         ((t
-           (:slant italic :height 0.8 :inherit variable-pitch))))
+         ((t (:slant italic :height 0.8 :inherit variable-pitch))))
        `(org-meta-line
-         ((t
-           (:slant oblique :height 0.7 :inherit variable-pitch))))
+         ((t (:slant oblique :height 0.7 :inherit variable-pitch))))
+       `(org-drawer
+         ((t (:inherit org-meta-line))))
+       `(org-property-value
+         ((t (:height 0.7))))
+       `(org-block-begin-line
+         ((t (:slant oblique :height 0.7))))
+       `(org-block
+         ((t (:height 1.0))))
        `(org-verbatim
-         ((t (:height 0.9 :background ,bg-dim))))
+         ((t (:height 1.0 :background ,bg-dim))))
        `(tab-line-tab-current
          ((t (:weight semibold :box (:style released-button)))))
        `(tab-line-tab-inactive
@@ -90,6 +95,8 @@
        )
       )
     )
+
+
 
   (add-hook 'modus-themes-after-load-theme-hook #'weiss-modus-patch-faces)
   (add-hook 'circadian-after-load-theme-hook #'weiss-modus-patch-faces)

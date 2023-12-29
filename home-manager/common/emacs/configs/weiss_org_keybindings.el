@@ -32,7 +32,7 @@
      ("d" . weiss-org-cut-line-or-delete-region)
      ("j" . (weiss-org-next-line (next-line) (deactivate-mark)))
      ("k" . (weiss-org-previous-line (previous-line) (deactivate-mark)))
-     ("t" . weiss-org-preview-latex-and-image)
+     ("t" . weiss-org-preview-or-latex-quick-insert)
      ("x" . weiss-org-exchange-point-or-switch-to-sp)
      ("X" . org-refile)
 
@@ -50,13 +50,12 @@
      ("C-c C-s" . org-id-get-create)
      ("C-c C-t" . org-todo)
      ("C-c C-b" . org-mark-ring-goto)
-     ("C-c C-p" . weiss-org-mathpix)
      ;; ("y <tab>" . org-table-create-with-table\.el)
      ("y <tab>" . org-table-toggle-column-width)
      ("y j s" . weiss-org-copy-heading-link)
      ;; ("<f5>" . org-beamer-export-to-pdf)
 
-     ("<end> <escape>" . wks-org-quick-insert-keymap)))
+     ("<end> <escape>" . (quick-insert-insert-org (quick-insert-consult "org source code")))))
   )
 
 (with-eval-after-load 'org-agenda

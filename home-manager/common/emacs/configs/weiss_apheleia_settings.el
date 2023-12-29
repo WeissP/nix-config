@@ -1,4 +1,5 @@
 (apheleia-global-mode)
+(setq apheleia-mode-lighter nil)
 (with-eval-after-load 'apheleia
   (push '(scalafmt . ("scalafmt"
                       (when-let* ((project (project-current))

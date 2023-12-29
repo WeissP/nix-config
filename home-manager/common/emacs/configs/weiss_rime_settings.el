@@ -1,4 +1,3 @@
-(setq default-input-method "rime")
 (with-eval-after-load 'rime
   (setq
    rime-show-candidate 'minibuffer

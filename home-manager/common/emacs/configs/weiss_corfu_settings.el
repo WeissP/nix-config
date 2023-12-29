@@ -30,6 +30,13 @@
      completion-at-point-functions '(pcomplete-completions-at-point cape-dict t))
     )
 
+  (with-eval-after-load 'latex
+    (setq-mode-local
+     latex-mode
+     completion-at-point-functions
+     '(TeX--completion-at-point LaTeX--arguments-completion-at-point cape-dict t))
+    )
+
   (with-eval-after-load 'mind-wave
     (setq-mode-local
      mind-wave-chat-mode

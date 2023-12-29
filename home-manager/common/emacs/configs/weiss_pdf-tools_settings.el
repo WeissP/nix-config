@@ -42,6 +42,7 @@
     (interactive)
     (setq-local cursor-type nil)
     (pdf-annot-minor-mode)
+    (pdf-view-themed-minor-mode)
     )
   (add-hook 'pdf-view-mode-hook 'weiss-pdf-mode-setup)
   )
