@@ -1,10 +1,7 @@
 (add-hook 'prog-mode-hook #'highlight-parentheses-mode)
 
 (with-eval-after-load 'highlight-parentheses
-  (setq
-   hl-paren-highlight-adjacent t
-   hl-paren-colors '("#E53E3E" "#383a42" "#383a42" "#383a42")
-   )
+  (setq hl-paren-highlight-adjacent t)
   )
 
 ;; parent: ui

@@ -19,9 +19,7 @@
             (bg-mode-line-active bg-sage)
             (bg-line-number-inactive unspecified)
             (bg-line-number-active bg-sage)
-            ;; (bg-tab-bar unspecified)
-            ;; (bg-tab-current bg-sage)
-            ;; (bg-tab-other bg-main)
+            (bg-hover unspecified)
             (fringe unspecified)
             (bg-paren-match bg-magenta-intense)
             (comment fg-dim)
@@ -44,6 +42,9 @@
       (setq mark-non-select-mode-color (modus-themes-get-color-value 'bg-sage))
       (weiss-select-mode-check-region-color)
       )
+    (when (featurep 'highlight-parentheses)
+      (modus-themes-with-colors
+        (setq hl-paren-colors (list rainbow-1 rainbow-2 rainbow-3 rainbow-4))))
     (when (featurep 'weiss_hl-line_settings)
       (modus-themes-with-colors
         (custom-set-faces

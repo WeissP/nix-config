@@ -191,6 +191,10 @@ in {
           externalPackages = with pkgs; [ (aspellWithDicts (d: [ d.en ])) ];
           # files.".aspell.conf".text = "data-dir ${pkgs.aspell}/lib/aspell";
         };
+        magit-delta = {
+          emacsPackages = [ "magit-delta" ];
+          externalPackages = [ pkgs.delta ];
+        };
         jinx = let myAspell = pkgs.aspellWithDicts (d: [ d.en d.de ]);
         in {
           emacsPackages = [ "jinx" ];
