@@ -1,3 +1,8 @@
+(defun weiss-inside-string-p ()
+  "DOCSTRING"
+  (interactive)
+  (nth 3 (syntax-ppss)))
+
 (defun weiss-extract-text-from-pdf (pdf page)
   "DOCSTRING"
   (interactive)
