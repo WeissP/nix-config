@@ -42,11 +42,15 @@
   :lighter " single-hand"
   :keymap weiss-dired-single-handed-mode-map
   :group 'weiss-dired-single-handed-mode
-  (if weiss-dired-single-handed-mode
-      (progn
-        (set-face-background 'hl-line "#ffb5ff")
-        (set-face-background 'normal-hl-line "#ffb5ff"))
-    (set-face-background 'hl-line "#ffe8e8")
-    (set-face-background 'normal-hl-line "#ffe8e8")))
+  (modus-themes-with-colors
+    (if weiss-dired-single-handed-mode
+        (progn
+          (set-face-background 'hl-line bg-hover-secondary)
+          (set-face-background 'normal-hl-line bg-hover-secondary))
+      (set-face-background 'hl-line bg-sage)
+      (set-face-background 'normal-hl-line bg-sage)
+      )
+    )
+  )
 
 (provide 'dired-single-handed-mode)

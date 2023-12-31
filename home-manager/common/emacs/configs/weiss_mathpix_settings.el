@@ -35,7 +35,9 @@
                   response
                   (request-response-data)
                   (alist-get 'latex_styled)
-                  (s-replace "*" " * ") ;preventing org rendering org-emphasis
+                  ;; preventing org rendering org-emphasis
+                  (s-replace "*" " * ") 
+                  (s-replace "=" " = ") 
                   (s-replace "^{\\top}" "^{T}") ; Transpose but not \top
                   ((lambda (text)
                      (if (s-contains? "\n" text)

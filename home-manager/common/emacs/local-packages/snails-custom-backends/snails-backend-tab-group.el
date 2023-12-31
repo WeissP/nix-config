@@ -27,7 +27,6 @@
 
  :candidate-do (lambda
                  (candidate)
-                 (require 'tab-line)
                  (pcase candidate
                    ("[unbind group]" (weiss-tab-unbind-group))
                    (_ (weiss-tab-bind-group candidate)))))
@@ -55,7 +54,6 @@
 
  :candidate-do (lambda
                  (candidate)
-                 (require 'tab-line)
                  (weiss-load-file-group-to-tab candidate)
                  (weiss-tab-bind-group candidate)))
 

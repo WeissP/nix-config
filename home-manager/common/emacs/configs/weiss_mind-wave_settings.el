@@ -36,6 +36,19 @@
                           "ChatGPT rephrasing..."
                           "ChatGPT finished rephrasing."))
 
+  (defun weiss-mind-wave-align-latex ()
+    (interactive)
+    (message "aligning...")
+    (mind-wave-call-async "action_code"
+                          (buffer-name)
+                          "text-mode"
+                          (mind-wave--encode-string (nth 2 (mind-wave-get-region-or-buffer)))
+                          mind-wave-summary-role
+                          "Please make the following latex code into align environment:" 
+                          (concat "align" (format-time-string "%S-[%H-%M]-{%0d.%m.%Y}"))
+                          "ChatGPT aligning..."
+                          "ChatGPT finished aligning."))
+
   (defun weiss-mind-wave-pdf-to-text ()
     (interactive)
     (message "converting...")

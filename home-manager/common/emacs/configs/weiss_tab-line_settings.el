@@ -1,3 +1,5 @@
+(setq tab-line-switch-cycling t)
+
 ;; (name . group)
 (defconst weiss-tab-groups-file "~/.emacs.d/tab-groups.el")
 (defvar weiss-tab-groups nil)
@@ -10,7 +12,6 @@
   "DOCSTRING"
   (interactive)
   (ignore-errors (load weiss-tab-groups-file)))
-
 
 (defun weiss-tab-bind-group (group-name)
   "DOCSTRING"
@@ -34,7 +35,8 @@
   "DOCSTRING"
   (interactive)
   ;; (message "unbind: %s" (selected-frame))
-  (assq-delete-all (selected-frame) weiss-tab-group-name-per-frame))
+  (assq-delete-all (selected-frame) weiss-tab-group-name-per-frame)
+  )
 
 (defun weiss-tab-to-file-groups (tab-groups)
   "DOCSTRING"
@@ -135,36 +137,35 @@
 (defun weiss-tab-next ()
   "DOCSTRING"
   (interactive)
-  (let* ((g (weiss-tab-get-current-group))
-         (first-elem (car g))
-         (last-elem (car (last g)))
-         (b (current-buffer)))
-    (cond
-     ((eq b last-elem)
-      (switch-to-buffer first-elem))
-     ((member (current-buffer) g)
-      (tab-line-switch-to-next-tab))
-     (t (switch-to-buffer first-elem)))))
+  (let ((g (weiss-tab-get-current-group)))
+    (if (and g (not (member (current-buffer) g)))
+        (switch-to-buffer (car g))
+      (tab-line-switch-to-next-tab)    
+      )
+    )
+  )
 
 (defun weiss-tab-prev ()
   "DOCSTRING"
   (interactive)
-  (let* ((g (weiss-tab-get-current-group))
-         (first-elem (car g))
-         (last-elem (car (last g)))
-         (b (current-buffer)))
-    (cond
-     ((eq b first-elem)
-      (switch-to-buffer last-elem))
-     ((member (current-buffer) g)
-      (tab-line-switch-to-prev-tab))
-     (t (switch-to-buffer last-elem)))))
+  (let ((g (weiss-tab-get-current-group)))
+    (if (and g (not (member (current-buffer) g)))
+        (switch-to-buffer (car (last g)))
+      (tab-line-switch-to-prev-tab)    
+      )
+    ))
 
 (defun weiss-tab-get-current-group ()
   "DOCSTRING"
   (interactive)
   (when-let ((name (weiss-tab-get-current-group-name)))
     (plist-get weiss-tab-groups (intern name))))
+
+(defun weiss-tab-group-or-buffer ()
+  "DOCSTRING"
+  (interactive)
+  (or (weiss-tab-get-current-group)
+      (tab-line-tabs-window-buffers)))
 
 (defun weiss-tab-line-tabs-function ()
   "DOCSTRING"
@@ -174,9 +175,10 @@
     '("no group")))
 
 (with-eval-after-load 'tab-line
-  (setq tab-line-tabs-function 'weiss-tab-get-current-group)
+  (setq tab-line-tabs-function 'weiss-tab-group-or-buffer)
   (global-tab-line-mode)
   )
+
 
 ;; parent: 
 (provide 'weiss_tab-line_settings)
