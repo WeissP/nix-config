@@ -4,7 +4,7 @@
 
 (with-eval-after-load 'cape
   (with-eval-after-load 'eglot
-    (advice-add 'eglot-completion-at-point :around #'cape-wrap-buster)
+    ;; (advice-add 'eglot-completion-at-point :around #'cape-wrap-buster)
     (advice-add 'eglot-completion-at-point :around #'cape-wrap-case-fold)
 
     (setq-mode-local

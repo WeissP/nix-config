@@ -72,7 +72,7 @@ The paragraphs:
                           "ChatGPT converting..."
                           "ChatGPT finished converting."))
 
-  (setq mind-wave-chat-model "gpt-3.5-turbo")
+  (setq mind-wave-chat-model "gpt-4")
 
   (defun weiss-mind-wave-show-chat-window (buffername mode)
     "split window dwim"

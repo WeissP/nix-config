@@ -73,8 +73,6 @@
          ((t (:weight heavy :slant italic))))
        `(font-lock-builtin-face
          ((t (:slant italic :foreground ,fg-dim))))
-       `(underline
-         ((t (:weight normal :underline t :foreground ,underline-link))))
        `(org-document-info-keyword
          ((t (:slant italic :height 0.8 :inherit variable-pitch))))
        `(org-meta-line
@@ -96,8 +94,6 @@
        )
       )
     )
-
-
 
   (add-hook 'modus-themes-after-load-theme-hook #'weiss-modus-patch-faces)
   (add-hook 'circadian-after-load-theme-hook #'weiss-modus-patch-faces)

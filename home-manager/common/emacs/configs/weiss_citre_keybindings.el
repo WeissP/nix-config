@@ -28,8 +28,8 @@
    '(
      ("<down>" . citre-peek-next-line)
      ("<up>" . citre-peek-prev-line)
-     ("<left>" . citre-peek-next-definition)
-     ("<right>" . citre-peek-prev-definition)
+     ("<right>" . citre-peek-next-definition)
+     ("<left>" . citre-peek-prev-definition)
      ("C-c C-p" . citre-peek-through)
      ("C-c C-j" . citre-peek-next-branch)
      ("C-c C-k" . citre-peek-prev-branch)
@@ -37,7 +37,6 @@
      ("C-c C-l" . citre-peek-chain-forward)
      ("C-c C-t" . citre-peek-jump)
      ))
-
   )
 
 ;; parent: 

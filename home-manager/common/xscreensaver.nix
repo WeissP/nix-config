@@ -1,10 +1,10 @@
 { config, myEnv, myLib, lib, pkgs, ... }:
 (myEnv.ifLinux {
   services.xscreensaver = {
-    enable = false;
+    enable = true;
     settings = {
       fadeTicks = 20;
-      timeout = "0:15:00";
+      timeout = "0:45:00";
       mode = "blank";
       selected = "-1";
 

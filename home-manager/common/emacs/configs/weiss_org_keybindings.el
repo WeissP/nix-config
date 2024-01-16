@@ -13,6 +13,7 @@
     (deactivate-mark)
     (call-interactively 'org-return))
 
+  (wks-unset-key org-mode-map '("C-c C-j"))
   (wks-define-key
    org-mode-map ""
    '(("M-i" . org-shiftmetaleft)
@@ -53,6 +54,8 @@
      ;; ("y <tab>" . org-table-create-with-table\.el)
      ("y <tab>" . org-table-toggle-column-width)
      ("y j s" . weiss-org-copy-heading-link)
+     ;; ("C-c C-j e" . (weiss-emoji-insert (emoji-insert) (wks-vanilla-mode-enable)))
+     ("C-c C-j e" . emoji-insert)
      ;; ("<f5>" . org-beamer-export-to-pdf)
 
      ("<end> <escape>" . (quick-insert-insert-org (quick-insert-consult "org source code")))))

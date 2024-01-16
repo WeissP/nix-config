@@ -59,7 +59,22 @@
               scala-cli
               jdk17
               ghostscript
-              (python3.withPackages (ps: with ps; [ pip pygments ]))
+              (python3.withPackages (ps:
+                with ps; [
+                  pip
+                  pygments
+                  numpy
+                  matplotlib
+                  # ↓↓↓ only for lsp-bridge
+                  # epc
+                  # orjson
+                  # sexpdata
+                  # six
+                  # setuptools
+                  # paramiko
+                  # rapidfuzz
+                  # ↑↑↑ only for lsp-bridge
+                ]))
               (texlive.combine {
                 inherit (texlive)
                   scheme-tetex collection-langkorean algorithms cm-super pgf
@@ -83,6 +98,7 @@
               mattermost-desktop
               simplescreenrecorder
               xbindkeys
+              xorg.setxkbmap
               xautomation
               lsof
               # cider
@@ -91,7 +107,7 @@
               ocamlPackages.cpdf
               poppler_utils
               # openssl problem
-              # wkhtmltopdf-bin 
+              wkhtmltopdf-bin
               nodejs
               tlaplus
               tlaplusToolbox
@@ -150,17 +166,37 @@
         };
       }
       (ifLinux {
-        systemd.user.services = with myLib.service; {
-          # cider = startup { cmds = "${pkgs.cider}/bin/cider"; };
-          init_dir = startup {
-            cmds = ''
-              pushd ~/
-              ! [[ -d .password-store.git ]] && git clone git@github.com:WeissP/.password-store.git 
-              popd
-            '';
+        systemd.user = {
+          services = with myLib.service; {
+            # cider = startup { cmds = "${pkgs.cider}/bin/cider"; };
+            init_dir = startup {
+              cmds = ''
+                pushd ~/
+                ! [[ -d .password-store.git ]] && git clone git@github.com:WeissP/.password-store.git 
+                popd
+              '';
+            };
+            # mouse_scroll =
+            #   startup { cmds = "${homeDir}/scripts/mouse_scroll.sh"; };
+            nodeadkeys = {
+              Unit.Description = "Set keyboard layout to nodeadkeys";
+              Service = {
+                ExecStart =
+                  "${pkgs.xorg.setxkbmap}/bin/setxkbmap -layout de -variant nodeadkeys";
+              };
+            };
           };
-          # mouse_scroll =
-          #   startup { cmds = "${homeDir}/scripts/mouse_scroll.sh"; };
+          timers = {
+            nodeadkeys = {
+              Unit.Description = "Run nodeadkeys every 10 seconds";
+              Timer = {
+                OnBootSec = "5s";
+                OnUnitActiveSec = "10sec";
+                Unit = "nodeadkeys.service";
+ĵ              };
+              Install = { WantedBy = [ "timers.target" ]; };
+            };
+          };
         };
 
         i18n.inputMethod = {

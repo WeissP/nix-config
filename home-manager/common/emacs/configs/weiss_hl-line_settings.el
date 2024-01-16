@@ -49,6 +49,8 @@
       )
     )
 
+  (add-hook 'dired-after-readin-hook #'weiss-enable-hl-line)
+  (add-hook 'wdired-mode-hook #'weiss-enable-hl-line)
   (add-hook 'window-state-change-functions #'weiss-enable-hl-line)
   )
 

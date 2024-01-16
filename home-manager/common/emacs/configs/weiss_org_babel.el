@@ -6,6 +6,7 @@
   (require 'ob-R)
   (require 'ob-ammonite)
   (require 'ob-shell)
+  (require 'ob-python)
   (setq load-language-list
         '((emacs-lisp . t)
           (shell . t)

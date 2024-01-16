@@ -141,15 +141,12 @@ Delete the original subtree."
                       )
                      )
              :action ,(lambda (arg)
-                        (let* (
-                               (file (expand-file-name arg dir))
+                        (let* ((file (expand-file-name arg dir))
                                (title (denote--retrieve-title-or-filename file 'org))
-                               (sig (denote-retrieve-filename-signature file))
                                )
                           (denote-link
                            file 'org
-                           (or weiss-denote-consult--region-text
-                               (concat title sig))                           
+                           (or weiss-denote-consult--region-text title)
                            )
                           ))
              :items ,(lambda () (weiss-denote--list-notes dir))

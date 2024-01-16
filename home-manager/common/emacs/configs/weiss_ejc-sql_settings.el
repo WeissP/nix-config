@@ -57,6 +57,16 @@
      :host "localhost"
      :dbname "ms"
      :dbtype "postgresql")
+
+    (ejc-create-connection
+     "subtube"
+     :classpath classpath
+     :password ""
+     :user "weiss"
+     :port "9091"
+     :host "localhost"
+     :dbname "st"
+     :dbtype "postgresql")
     )
   )
 

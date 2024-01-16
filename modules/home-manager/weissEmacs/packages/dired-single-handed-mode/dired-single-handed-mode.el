@@ -42,6 +42,7 @@
   :lighter " single-hand"
   :keymap weiss-dired-single-handed-mode-map
   :group 'weiss-dired-single-handed-mode
+  (require 'modus-themes)
   (modus-themes-with-colors
     (if weiss-dired-single-handed-mode
         (progn

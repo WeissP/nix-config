@@ -137,23 +137,26 @@
 (defun weiss-tab-next ()
   "DOCSTRING"
   (interactive)
-  (let ((g (weiss-tab-get-current-group)))
-    (if (and g (not (member (current-buffer) g)))
+  (if-let ((g (weiss-tab-get-current-group)))
+      (if (member (current-buffer) g)
+          (tab-line-switch-to-next-tab)    
         (switch-to-buffer (car g))
-      (tab-line-switch-to-next-tab)    
-      )
+        )  
+    (tab-line-switch-to-next-tab)
     )
   )
 
 (defun weiss-tab-prev ()
   "DOCSTRING"
   (interactive)
-  (let ((g (weiss-tab-get-current-group)))
-    (if (and g (not (member (current-buffer) g)))
+  (if-let ((g (weiss-tab-get-current-group)))
+      (if (member (current-buffer) g)
+          (tab-line-switch-to-prev-tab)    
         (switch-to-buffer (car (last g)))
-      (tab-line-switch-to-prev-tab)    
-      )
-    ))
+        )  
+    (tab-line-switch-to-prev-tab)
+    )
+  )
 
 (defun weiss-tab-get-current-group ()
   "DOCSTRING"
@@ -165,7 +168,9 @@
   "DOCSTRING"
   (interactive)
   (or (weiss-tab-get-current-group)
-      (tab-line-tabs-window-buffers)))
+      (tab-line-tabs-mode-buffers)
+      ;; (tab-line-tabs-window-buffers)
+      ))
 
 (defun weiss-tab-line-tabs-function ()
   "DOCSTRING"

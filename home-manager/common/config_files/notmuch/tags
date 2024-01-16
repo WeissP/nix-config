@@ -126,6 +126,8 @@
 
 +advertisement -- is:check24 or is:webde_info or is:heystudium or is:comdirect_news or from:"trysail" or from:前程无忧 or tag:"/.*advertisement.*/"
 
+-unread -- is:advertisement
+
 -inbox -unread -- subject:"Mail delivery failed: returning message to sender" or subject:"Returned mail: see transcript for details"
 
 +unimportant -- (not is:inbox) or (is:shipment and not is:shipment_today) or is:dhl_unimportant or is:receipt or is:advertisement or is:rptu_unimportant or is:cs_rundmail or is:print_notification or is:vlu_reminder or (is:mattermost and is:DBIS) or is:olat_notification or is:klarmobil_unimportant or is:commerzbank_doc or is:newsletter or is:lte_volume or is:from_self or is:drawboard or is:inoreader or is:codepen or is:amazon_unimportant or is:youtube or is:paypal or is:mailing_list

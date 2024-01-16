@@ -9,32 +9,42 @@
    ("org source code" .
     (
      :narrow ?s
-     :new-line t
      :pairs
      (
       (
        :name "Elisp"
        :pair ("#+BEGIN_SRC elisp" . "#+END_SRC")
+       :new-line t
        )
       (
        :name "R with session"
        :pair ("#+BEGIN_SRC R :session *R* :results output" . "#+END_SRC")
+       :new-line t
        )
       (
        :name "Shell"
        :pair ("#+BEGIN_SRC sh" . "#+END_SRC")
+       :new-line t
        )
       (
        :name "Haskell"
        :pair ("#+BEGIN_SRC haskell" . "#+END_SRC")
+       :new-line t
+       )
+      (
+       :name "R plot"
+       :pair ("#+BEGIN_SRC R :results output graphics file :file images/plot_.png " . "#+END_SRC")
+       :new-line t
        )
       (
        :name "Denote Single File"
-       :pair ("#+BEGIN: denote-files :regexp \"\" :no-front-matter nil :add-links t" . "#+END")
+       :pair ("#+BEGIN: denote-files :regexp \"" . "\" :no-front-matter nil :add-links t\n#+END")
+       :new-line nil
        )
       (
        :name "Denote Insert Files"
-       :pair ("#+BEGIN: denote-files :regexp \"\" :sort-by-component identifier :reverse-sort nil :no-front-matter nil :add-links t  :file-separator t" . "#+END")
+       :pair ("#+BEGIN: denote-files :regexp \"" . "\" :sort-by-component identifier :reverse-sort nil :no-front-matter nil :add-links t  :file-separator t\n#+END")
+       :new-line nil
        )
       )
      ))
@@ -44,12 +54,36 @@
      :pairs
      (
       (
+       :name "asymptotic big O notation"
+       :pair ("\\mathcal{O}(" . ")")
+       )
+      (
+       :name "red text color"
+       :pair ("\\textcolor{red}{" . "}")
+       )
+      (
        :name "mathbf"
        :pair ("\\mathbf{" . "}")
        )
       (
+       :name "reference"
+       :pair ("\ \\pmb{\\mathit{" . "}}")
+       )
+      (
+       :name "underset"
+       :pair ("\\underset{" . "}")
+       )
+      (
+       :name "Decoration with number"
+       :pair ("\\stackrel{\\pmb{\\mathit{1}}}{ " . "}")
+       )
+      (
        :name "texttt"
        :pair ("\\texttt{" . "}")
+       )
+      (
+       :name "text"
+       :pair ("\\text{ " . " }")
        )
       (
        :name "mathcal"
@@ -97,9 +131,11 @@
                            (--first (string= (plist-get it :name) cand) pairs)))
          (get-pair (lambda (pair-entry) (plist-get pair-entry :pair)))
          (is-new-line (lambda (pair-entry)
-                        (or (plist-get pair-entry :new-line)
-                            (plist-get pl :new-line)
-                            )))
+                        (if (plist-member pair-entry :new-line)
+                            (plist-get pair-entry :new-line)
+                          (plist-get pl :new-line)                          
+                          )
+                        ))
          )
     (list
      :name     name

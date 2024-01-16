@@ -10,7 +10,7 @@
   (setq
    org-imenu-depth 10
    org-startup-with-inline-images t
-   org-startup-with-latex-preview t
+   org-startup-with-latex-preview nil
    org-src-preserve-indentation t
    org-directory weiss/org-file-path
    org-extend-today-until 4

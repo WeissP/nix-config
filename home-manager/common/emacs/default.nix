@@ -4,11 +4,6 @@ let userEmacsDirectory = "${homeDir}/.emacs.d";
 in {
   imports = [ outputs.homeManagerModules.weissEmacs ../recentf.nix ];
 
-  # home.file."${userEmacsDirectory}/weiss-light-theme.el".source =
-  #   if (arch == "darwin") then
-  #     ./weiss-light-theme-mac.el
-  #   else
-  #     ./weiss-light-theme.el;
   home.packages = with pkgs; [ clj-kondo nodePackages.jsonlint nixfmt ];
   programs.weissEmacs = lib.mkMerge [
     (ifDarwin {
@@ -101,7 +96,6 @@ in {
         "nerd-icons-dired"
         "tla-tools"
         "separedit"
-        "denote"
         "consult-notes"
         "jinx"
         "eldoc-box"
@@ -112,11 +106,12 @@ in {
         enable = true;
         idleSeconds = 3;
         packages = [
+          "denote"
           "corfu"
           "cape"
           "kind-icon"
-          "flyspell-correct"
           "eglot"
+          "flyspell-correct"
           "org"
           "org-roam"
           "pdf-view"
@@ -173,7 +168,7 @@ in {
           [ "vertico" "vertico-directory" ]
           "orderless"
           "marginalia"
-          [ "consult" ]
+          [ "consult" "consult-tramp" ]
           [ "corfu" "kind-icon" "cape" ]
         ];
         lang = [
@@ -198,7 +193,11 @@ in {
             [ "http" "auto-rename-tag" ]
           ]
           [ "go-mode" [ "go-gen-test" "gotest" "go-dlv" "go-impl" "go-eldoc" ] ]
-          [ "sql" "ejc-sql" "sql-indent" "flymake-sqlfluff" ]
+          [
+            "sql" # "ejc-sql"
+            "sql-indent"
+            "flymake-sqlfluff"
+          ]
           [ "haskell-mode" "dante" ]
           "lua-mode"
           "nix-mode"
@@ -221,7 +220,11 @@ in {
           "command-log-mode"
           "gud"
           "quickrun"
-          [ "eglot" "eglot-java" ]
+          [
+            "eglot"
+            "eglot-java"
+          ]
+          # "lsp-bridge"
           "magit"
           "browse-at-remote"
           "aweshell"
@@ -264,10 +267,8 @@ in {
         dired = [
           "dired"
           "wdired"
-          [
-            "diredfl" # "all-the-icons-dired"
-            "nerd-icons-dired"
-          ]
+          [ "dired-rsync-transient" "dired-rsync" ]
+          [ "diredfl" "nerd-icons-dired" ]
           [ "dired-filter" "dired-avfs" "dired-collapse" "dired-quick-sort" ]
           "dired-hacks-utils"
           "peep-dired"
@@ -303,7 +304,19 @@ in {
         translate = [ "fanyi" ];
         apps = [ "pass" "nov" "telega" ];
         inputs = [ "agda-input" "rime" ];
+        test = [
+          "yasnippet"
+          "direnv"
+          "scala-mode"
+          "eglot"
+          "corfu"
+          "cape"
+          "orderless"
+          "global"
+          "wks"
+        ];
       in lib.lists.flatten [
+        # test
         "server"
         libs
         core

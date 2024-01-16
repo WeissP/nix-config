@@ -7,7 +7,7 @@
 
 (with-eval-after-load 'corfu
   (global-corfu-mode)
-
+  ;; (add-hook 'text-mode-hook #'corfu-mode)
   (add-to-list 'corfu-auto-commands 'backward-delete-char-untabify)
   (add-to-list 'corfu-auto-commands 'wks-vanilla-mode-enable)
   (add-to-list 'corfu-auto-commands 'delete-backward-char)

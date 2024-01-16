@@ -8,16 +8,29 @@
    org-export-with-section-numbers 5
    org-export-with-smart-quotes t
    org-export-with-toc nil
-   org-export-with-latex "imagemagick"
+   org-export-with-latex t
+   org-export-preserve-breaks t
    org-export-with-date nil
    org-latex-caption-above nil
    )
-
+  
   (setq org-cite-export-processors
         '( (latex biblatex)                                   
-           (t . basic))
+           (t basic))
         )
 
+  (setq org-html-mathjax-options
+        '((path "https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js")
+          (scale 1.0)
+          (align "left")
+          (font "mathjax-modern")
+          (overflow "overflow")
+          (tags "ams")
+          (indent "0em")
+          (multlinewidth "85%")
+          (tagindent ".8em")
+          (tagside "right"))
+        )
 
   (defun weiss-org-export-to-pdf ()
     "DOCSTRING"

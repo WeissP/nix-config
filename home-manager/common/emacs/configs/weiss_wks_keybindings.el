@@ -61,7 +61,7 @@
 (wks-unset-key special-mode-map '("h" "c" "s" "i"))
 (with-eval-after-load 'debug
   (wks-unset-key debugger-mode-map '("h" "j" "i" "l" "k")))
-(wks-unset-key messages-buffer-mode-map '("h"))
+(wks-unset-key messages-buffer-mode-map '("h") ':all-numbers)
 
 (with-eval-after-load 'message
   (wks-unset-key message-mode-map '("<tab>" "TAB"))

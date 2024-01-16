@@ -37,6 +37,9 @@
                   (alist-get 'latex_styled)
                   ;; preventing org rendering org-emphasis
                   (s-replace "*" " * ") 
+                  (s-replace "+" " + ") 
+                  (s-replace "~" " ~ ") 
+                  (s-replace "-" " - ") 
                   (s-replace "=" " = ") 
                   (s-replace "^{\\top}" "^{T}") ; Transpose but not \top
                   ((lambda (text)
@@ -63,7 +66,7 @@
     (mathpix-insert)
     (pcase major-mode
       ('org-mode (call-interactively 'org-latex-preview))
-      (t (ignore))    
+      (_ (ignore))    
       )
     )
   )

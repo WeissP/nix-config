@@ -36,7 +36,7 @@
   (when alphabet
     (mapc (lambda (x) (define-key map (kbd x) nil))
           (mapcar (lambda (x) (format "%c" x)) (append (number-sequence 65 90)
-                                                        (number-sequence 97 122)))))
+                                                       (number-sequence 97 122)))))
   )
 
 (defun wks-trans-keys (keys)
@@ -73,9 +73,9 @@
            (cmd (cdr cmd-key))
            )
        (define-key keymap (kbd key)
-         `(menu-item "" ,cmd
-                     :filter ,fun)
-         )
+                   `(menu-item "" ,cmd
+                               :filter ,fun)
+                   )
        )
      )
    key-cmd-list)

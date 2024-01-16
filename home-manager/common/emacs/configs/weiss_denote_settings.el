@@ -2,10 +2,13 @@
 
 (setq
  denote-prompts '(subdirectory title signature keywords)
- denote-rename-buffer-format "%t%s[%k]"
+ denote-rename-buffer-format "%t %s"
  denote-backlinks-show-context t
  denote-org-dblock-file-contents-separator "\n⠊⠊⠊⠊⠊⠊⠊⠊⠊⠊⠊⠊⠊⠊⠊⠊⠊⠊⠊⠊⠊⠊⠊⠊⠊⠊⠊⠊⠊⠊⠊⠊⠊⠊⠊⠊⠊⠊⠊⠊⠊⠊⠊⠊⠊⠊\n"
+ denote-excluded-directories-regexp "ltximg"
  )
+
+(add-hook 'emacs-startup-hook #'(lambda () (denote-rename-buffer-mode 1)))
 
 (setq denote-file-name-letter-casing
       '((title . downcase)
@@ -17,10 +20,6 @@
   (with-eval-after-load 'org
     (require 'denote-org-dblock)
     (require 'denote-journal-extras)
-    )
-  
-  (with-eval-after-load 'denote-rename-buffer
-    (denote-rename-buffer-mode 1)
     )
   
   (defun weiss-denote-pdf-note ()
@@ -40,6 +39,7 @@
       (weiss-split-window-dwim)
       (other-window 1)
       (denote title keywords nil weiss--denote-location nil nil pdf-page)
+      (previous-line)
       (call-interactively 'org-insert-last-stored-link)
       (ignore-errors (weiss-init-agda-input))
       (save-buffer)

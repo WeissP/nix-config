@@ -24,24 +24,24 @@
 	             (point))))
       (scala-cli-repl-send-region start end)))
 
+  (defvar weiss--scala-cli-repl-module "_")
 
   (defun weiss-scala-cli-repl-mill ()
     (interactive)
-    (unless (comint-check-proc scala-cli-repl-buffer-name)
-      (ignore-errors (kill-buffer scala-cli-repl-buffer-name))      
-      (find-file (concat (cdr (project-current)) "build.sc"))
-      (with-current-buffer
-          (apply 'term-ansi-make-term
-                 scala-cli-repl-buffer-name
-                 "mill"
-                 nil
-                 '("-i" "_.console"))
-        (term-char-mode)
-        (term-set-escape-char ?\C-x)
-        (setq-local term-prompt-regexp scala-cli-repl-prompt-regex)
-        (setq-local term-scroll-show-maximum-output t)
-        (setq-local term-scroll-to-bottom-on-output t)
-        (run-hooks 'scala-cli-repl-run-hook)))
+    (ignore-errors (kill-buffer scala-cli-repl-buffer-name))      
+    (find-file (concat (cdr (project-current)) "build.sc"))
+    (with-current-buffer
+        (apply 'term-ansi-make-term
+               scala-cli-repl-buffer-name
+               "mill"
+               nil
+               `("-i" ,(concat weiss--scala-cli-repl-module ".test.console") ))
+      (term-char-mode)
+      (term-set-escape-char ?\C-x)
+      (setq-local term-prompt-regexp scala-cli-repl-prompt-regex)
+      (setq-local term-scroll-show-maximum-output t)
+      (setq-local term-scroll-to-bottom-on-output t)
+      (run-hooks 'scala-cli-repl-run-hook))
     (switch-to-buffer scala-cli-repl-buffer-name))
 
   (require 'ob-scala-cli)

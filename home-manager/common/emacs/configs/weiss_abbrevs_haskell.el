@@ -14,6 +14,7 @@
       ("nt" "newtype ▮ = { from :: Int } deriving stock (Show)" weiss--ahf)
       ("wh" "where\n  ▮" weiss--ahf)
       ("td" "error \"todo\"" weiss--ahf)
+      ("vt" "t :: ▮\nt = error \"todo\"" weiss--ahf)
       )
     )
   )

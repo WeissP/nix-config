@@ -152,7 +152,7 @@
              (eq major-mode 'latex-mode))
     (setq TeX-master org-edit-latex-frag-master)
     (define-key (current-local-map) [remap preview-at-point]
-      'org-edit-latex-preview-at-point)))
+                'org-edit-latex-preview-at-point)))
 
 ;;;###autoload
 (defun org-edit-latex-preview-at-point ()
@@ -179,9 +179,9 @@ nil:           do not create master file.
         (org-edit-latex--create-master)
       (when (not master-exists-p)
         (cl-case org-edit-latex-create-master
-          ('ask (when (y-or-n-p "There is no TeX-master. Do you want to create one?")
-                  (org-edit-latex--create-master)))
-          ('nil nil)
+          (ask (when (y-or-n-p "There is no TeX-master. Do you want to create one?")
+                 (org-edit-latex--create-master)))
+          (nil nil)
           (t (org-edit-latex--create-master)))))))
 
 (defun org-edit-latex-create-auto-file ()

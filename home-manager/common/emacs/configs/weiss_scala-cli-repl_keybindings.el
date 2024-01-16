@@ -1,6 +1,6 @@
 (with-eval-after-load 'scala-cli-repl
   (wks-define-key
-   scala-mode-map
+   scala-cli-repl-minor-mode-map
    ""
    '(
      ("C-c C-r" . scala-cli-repl-send-region)
