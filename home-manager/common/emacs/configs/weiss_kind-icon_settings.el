@@ -5,4 +5,6 @@
     )
   )
 
+;; Inserts an icon for Emacs Lisp
+
 (provide 'weiss_kind-icon_settings)

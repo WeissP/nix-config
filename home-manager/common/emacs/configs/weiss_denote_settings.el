@@ -95,6 +95,11 @@
     )
 
   (add-hook 'denote-journal-extras-hook #'weiss-denote-journal-setup)
+
+  (defun weiss-denote--rename-buffer-service (&rest args)
+    (denote-rename-buffer-rename-function-or-fallback))
+
+  (advice-add 'denote--rename-buffer :after #'weiss-denote--rename-buffer-service)
   )
 
 

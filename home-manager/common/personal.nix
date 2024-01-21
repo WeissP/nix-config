@@ -193,7 +193,7 @@
                 OnBootSec = "5s";
                 OnUnitActiveSec = "10sec";
                 Unit = "nodeadkeys.service";
-ĵ              };
+              };
               Install = { WantedBy = [ "timers.target" ]; };
             };
           };

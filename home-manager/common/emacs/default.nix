@@ -110,6 +110,7 @@ in {
           "corfu"
           "cape"
           "kind-icon"
+          "nerd-icons-corfu"
           "eglot"
           "flyspell-correct"
           "org"
@@ -169,7 +170,11 @@ in {
           "orderless"
           "marginalia"
           [ "consult" "consult-tramp" ]
-          [ "corfu" "kind-icon" "cape" ]
+          [
+            "corfu" # "kind-icon"
+            "nerd-icons-corfu"
+            "cape"
+          ]
         ];
         lang = [
           [

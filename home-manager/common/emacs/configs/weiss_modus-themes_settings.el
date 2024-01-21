@@ -69,6 +69,8 @@
       )
     (modus-themes-with-colors 
       (custom-set-faces
+       '(underline
+         ((t (:underline t :weight normal))))       
        '(font-lock-keyword-face
          ((t (:weight heavy :slant italic))))
        `(font-lock-builtin-face
