@@ -3,7 +3,7 @@
 
   (wks-define-key
    LaTeX-mode-map ""
-   '(("<end> <escape>" . wks-latex-quick-insert-keymap)
+   '(("<end> <escape>" . quick-insert-insert-latex)
      ("t" . (quick-insert-insert-latex (quick-insert-consult "latex environment")))
      ("<tab>" . save-buffer)
      ("C-c C-M-x r" . reftex-reference)

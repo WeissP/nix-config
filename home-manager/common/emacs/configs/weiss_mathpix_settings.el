@@ -45,7 +45,7 @@
                   ((lambda (text)
                      (if (s-contains? "\n" text)
                          (insert text)
-                       (insert (format "\\[%s\\]" text))
+                       (insert (format "\\(%s\\)" text))
                        )))
                   )))))
 

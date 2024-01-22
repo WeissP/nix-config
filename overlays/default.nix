@@ -12,6 +12,7 @@
   modifications = final: prev: {
     recentf = inputs.recentf.packages."${prev.system}".default;
     webman = inputs.webman.packages."${prev.system}";
+    weissXmonad = inputs.weissXmonad.packages."${prev.system}".default;
     ripgrep-all =
       inputs.nixpkgs-lts.legacyPackages."${prev.system}".ripgrep-all;
     # tdlib = tdlib180.tdlib;

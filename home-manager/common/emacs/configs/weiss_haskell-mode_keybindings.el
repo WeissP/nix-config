@@ -8,6 +8,16 @@
      ))  
   )
 
+(with-eval-after-load 'haskell-cabal
+  (add-hook 'haskell-cabal-mode-hook #'display-line-numbers-mode)
+  (wks-define-key
+   haskell-cabal-mode-map
+   ""
+   '(
+     ("<tab>" . save-buffer)
+     ))  
+  )
+
 (with-eval-after-load 'haskell-indentation-mode
   (wks-unset-key haskell-indentation-mode-map '(";"))
   )

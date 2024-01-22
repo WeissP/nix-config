@@ -1,7 +1,7 @@
 (with-eval-after-load 'project
   (setq project-loaded-p t)
   (setq weiss-project-root-markers
-        '("build.sc" "build.sbt" "pom.xml" "mix.exs" "Cargo.toml" "compile_commands.json" "compile_flags.txt"
+        '("it_is_a_project" "build.sc" "build.sbt" "pom.xml" "mix.exs" "Cargo.toml" "compile_commands.json" "compile_flags.txt"
           "project.clj" ".git" "deps.edn" "shadow-cljs.edn")
         )
 

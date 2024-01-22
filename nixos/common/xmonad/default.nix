@@ -1,4 +1,4 @@
-{ config, myEnv, lib, pkgs, ... }:
+{ config, myEnv, lib, pkgs, inputs, ... }:
 
 let
   myXmonad = import ./myXmonad { pkgs = pkgs; };
@@ -25,24 +25,24 @@ in {
       windowManager.xmonad = {
         enable = true;
         enableContribAndExtras = false;
-        haskellPackages =
-          pkgs.haskellPackages.extend (self: super: { xmonad = myXmonad; });
+        haskellPackages = pkgs.haskellPackages.extend
+          (self: super: { xmonad = pkgs.weissXmonad; });
         config = ''
           module Main where
 
-          import MyXMonad 
-          import MyLogger
-          import MyNamedScratchpad
-          import MyPromptPass
-          import MyWindowOperations
-          import MyWorkspace
-          import MyXmobar
+          import WeissXMonad
+          import WeissLogger
+          import WeissNamedScratchpad
+          import WeissPromptPass
+          import WeissWindowOperations
+          import WeissWorkspaces
+          import WeissXmobar
 
           main :: IO ()
-          main = MyXMonad.runXmonad "${xmobarDir}"
+          main = WeissXMonad.runXmonad "${xmobarDir}"
         '';
       };
-      displayManager.sddm.enable = true;
+      displayManager.sddm.enable = false;
       desktopManager.plasma5.enable = lib.mkForce false;
       displayManager = { defaultSession = "none+xmonad"; };
     };
