@@ -11,12 +11,13 @@
      ("M-SPC" . acm-filter)
      ("C-c C-M-x <f5>" . lsp-bridge-restart-process)
      ("C-c C-M-x r" . lsp-bridge-rename)
-     ("C-c C-p" . lsp-bridge-peek)
+     ;; ("C-c C-p" . lsp-bridge-peek)
      ("C-c C-f" . lsp-bridge-diagnostic-list)
      ("y <up>" . lsp-bridge-diagnostic-jump-prev)
      ("y <down>" . lsp-bridge-diagnostic-jump-next)
      ))
   
+  (wks-unset-key acm-mode-map '("<tab>"))
   (defun weiss-show-acm (&rest args)
     "DOCSTRING"
     (interactive)

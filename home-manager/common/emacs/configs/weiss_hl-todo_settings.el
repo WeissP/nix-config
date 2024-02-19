@@ -1,3 +1,5 @@
+(add-hook 'emacs-startup-hook (lambda () (require 'hl-todo)))
+
 (setq hl-todo-keyword-faces
       '(("TODO"   . "#FF0000")
         ("FIXME"  . "#FF0000")

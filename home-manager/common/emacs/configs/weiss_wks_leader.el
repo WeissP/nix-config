@@ -40,7 +40,7 @@
                (yank)
                ) ))
 
-   ("c a" . weiss-kill-append)
+   ("c a" . weiss-kill-append-with-and)
    ("c b" . weiss-copy-whole-buffer)
    ("c e" . weiss-exchange-region-kill-ring-car)
    ("c f" . (weiss-copy-file-name (kill-new (buffer-file-name))))

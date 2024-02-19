@@ -22,9 +22,11 @@ with myEnv; {
 
   environment = { systemPackages = [ pkgs.wireguard-tools ]; };
   networking = {
-    firewall.checkReversePath = false;
+    firewall = {
+      enable = false;
+      checkReversePath = false;
+    };
     hostName = "${username}-${configSession}";
-
   };
 
   virtualisation.docker.enable = true;

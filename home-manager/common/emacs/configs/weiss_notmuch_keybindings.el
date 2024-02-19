@@ -37,7 +37,7 @@
      ("C-a" . notmuch-search-archive-thread)
      ))
 
-  (wks-unset-key notmuch-show-mode-map '("SPC" "$" "j" "k" "l" "a" "n" "h"))
+  (wks-unset-key notmuch-show-mode-map '("SPC" "$" "j" "k" "l" "a" "n" "h" "."))
   (wks-define-key
    notmuch-show-mode-map
    ""

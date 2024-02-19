@@ -146,6 +146,18 @@
     )
   )
 
+(defun weiss-test ()
+  "DOCSTRING"
+  (interactive)
+  (weiss-new-frame)
+  (weiss-tab-bind-group "nix")
+  (shell-command "wmctrl -r :ACTIVE: -t \"7.6\"")
+  ;; (weiss-new-frame)
+  ;; (weiss-tab-bind-group "emacs")
+  ;; (shell-command "wmctrl -r :ACTIVE: -t '7.5'")
+  )
+
+
 (defun weiss-tab-prev ()
   "DOCSTRING"
   (interactive)

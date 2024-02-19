@@ -20,6 +20,12 @@
    '(("<RET>" . weiss-deactivate-mark-and-new-line)))
   )
 
+(with-eval-after-load 'nxml-mode
+  (wks-define-key
+   nxml-mode-map ""
+   '(("<tab>" . save-buffer)))
+  )
+
 (with-eval-after-load 'emoji
   (wks-unset-key emoji-list-mode-map '("g"))
   )

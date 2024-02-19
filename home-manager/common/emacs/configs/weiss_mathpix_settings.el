@@ -13,41 +13,47 @@
 
 (defun mathpix-insert-result (file)
   "Sends FILE to Mathpix API."
-  (request
-    "https://api.mathpix.com/v3/text"
-    :type "POST"
-    :headers `(("app_id" . ,mathpix-api-id)
-               ("app_key" . ,mathpix-api-key)
-               ("Content-type" . "application/json"))
-    :data (json-encode-alist
-           `(("src" . ,(format "data:image/%s;base64,%s"
-                               (file-name-extension file)
-                               (mathpix-get-b64-image file)))
-             ("formats" . ,(list "latex_styled"))
-             ("format_options" .
-              ,`(("math_delims" . '("\\(" "\\)"))
-                 ("displaymath_delims" . '("\\[" "\\]"))))))
-    :parser 'json-read
-    :sync t
-    :complete (cl-function
-               (lambda (&key response &allow-other-keys)
-                 (->>
-                  response
-                  (request-response-data)
-                  (alist-get 'latex_styled)
-                  ;; preventing org rendering org-emphasis
-                  (s-replace "*" " * ") 
-                  (s-replace "+" " + ") 
-                  (s-replace "~" " ~ ") 
-                  (s-replace "-" " - ") 
-                  (s-replace "=" " = ") 
-                  (s-replace "^{\\top}" "^{T}") ; Transpose but not \top
-                  ((lambda (text)
-                     (if (s-contains? "\n" text)
-                         (insert text)
-                       (insert (format "\\(%s\\)" text))
-                       )))
-                  )))))
+  (let ((line-empty-p (weiss-line-empty-p))
+        )    
+    (request
+      "https://api.mathpix.com/v3/text"
+      :type "POST"
+      :headers `(("app_id" . ,mathpix-api-id)
+                 ("app_key" . ,mathpix-api-key)
+                 ("Content-type" . "application/json"))
+      :data (json-encode-alist
+             `(("src" . ,(format "data:image/%s;base64,%s"
+                                 (file-name-extension file)
+                                 (mathpix-get-b64-image file)))
+               ("formats" . ,(list "latex_styled"))
+               ("format_options" .
+                ,`(("math_delims" . '("\\(" "\\)"))
+                   ("displaymath_delims" . '("\\[" "\\]"))))))
+      :parser 'json-read
+      :sync t
+      :complete (cl-function
+                 (lambda (&key response &allow-other-keys)
+                   (->>
+                    response
+                    (request-response-data)
+                    ;; ((lambda (data) (message "data: %s" data) data))
+                    (alist-get 'latex_styled)
+                    ;; preventing org rendering org-emphasis
+                    (s-replace "*" " * ") 
+                    (s-replace "+" " + ") 
+                    (s-replace "~" " ~ ") 
+                    (s-replace "-" " - ") 
+                    (s-replace "=" " = ") 
+                    (s-replace "^{\\top}" "^{T}") ; Transpose but not \top
+                    ((lambda (text)
+                       (insert (cond
+                                ((s-contains? "\n" text) text)
+                                (line-empty-p (format "\\[%s\\]" text))
+                                (t (format "\\(%s\\)" text))
+                                ))
+                       ))
+                    ))))
+    ))
 
 
 (defun mathpix-insert ()

@@ -9,8 +9,8 @@
         (seq-filter
          (lambda (file) (and (denote-file-has-identifier-p file)
                              (denote-file-has-signature-p file)
-                             (member (number-to-string page)
-                                     (s-split "=" (denote-retrieve-filename-signature file)) )
+                             (member page
+                                     (-map #'string-to-number (s-split "=" (denote-retrieve-filename-signature file))) )
                              ))
          (directory-files dir t directory-files-no-dot-files-regexp))
         ))
@@ -38,7 +38,7 @@
       (when-let ((files (weiss-denote-pdf--find-all-notes-in-page
                          (pdf-view-current-page)
                          )))
-        (weiss-denote-pdf--open-files files))    
+        (weiss-denote-pdf--open-files (-take 4 files)))    
       )  
 
     (defun weiss-denote-pdf-mode-enable ()

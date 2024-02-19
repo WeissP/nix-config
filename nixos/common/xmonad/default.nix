@@ -13,6 +13,7 @@ in {
       dmenu
       picom
       rofi
+      # haskellPackages.status-notifier-item
     ];
   };
 
@@ -35,16 +36,17 @@ in {
           import WeissNamedScratchpad
           import WeissPromptPass
           import WeissWindowOperations
-          import WeissWorkspaces
           import WeissXmobar
 
           main :: IO ()
           main = WeissXMonad.runXmonad "${xmobarDir}"
         '';
       };
-      displayManager.sddm.enable = false;
       desktopManager.plasma5.enable = lib.mkForce false;
-      displayManager = { defaultSession = "none+xmonad"; };
+      displayManager = {
+        sddm.enable = false;
+        defaultSession = "none+xmonad";
+      };
     };
   };
 }

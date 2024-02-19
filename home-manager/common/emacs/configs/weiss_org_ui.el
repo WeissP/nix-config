@@ -15,10 +15,7 @@
    )
 
   ;; controls the size of latex previews 
-  (if (eq system-type 'darwin)
-      (setq org-format-latex-options (plist-put org-format-latex-options :scale 1.2))
-    (setq org-format-latex-options (plist-put org-format-latex-options :scale 1.6))
-    )
+  (setq org-format-latex-options (plist-put org-format-latex-options :scale 1.4))
 
   
 

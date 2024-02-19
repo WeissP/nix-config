@@ -106,11 +106,12 @@ in {
         enable = true;
         idleSeconds = 3;
         packages = [
-          "denote"
           "corfu"
           "cape"
           "kind-icon"
           "nerd-icons-corfu"
+          "substitute"
+          "denote"
           "eglot"
           "flyspell-correct"
           "org"
@@ -225,12 +226,9 @@ in {
           "command-log-mode"
           "gud"
           "quickrun"
-          [
-            "eglot"
-            "eglot-java"
-          ]
-          # "lsp-bridge"
-          "magit"
+          "eglot"
+          "lsp-bridge"
+          [ "magit" "forge" ]
           "browse-at-remote"
           "aweshell"
           "gcmh"
@@ -241,6 +239,7 @@ in {
           "tla-tools"
           "use-proxy"
           "denote"
+          "substitute"
           # "maxima"
           # [ "tree-sitter" "tree-sitter-langs" "weiss-tsc-mode" ]
         ];

@@ -8,6 +8,7 @@ with myEnv; {
       enable = true;
       userEmail = secrets.email."163";
       userName = "weiss";
+      extraConfig = { github = { user = "WeissP"; }; };
     };
     htop.enable = true;
   };

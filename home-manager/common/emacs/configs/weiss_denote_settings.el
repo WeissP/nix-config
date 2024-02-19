@@ -4,11 +4,15 @@
  denote-prompts '(subdirectory title signature keywords)
  denote-rename-buffer-format "%t %s"
  denote-backlinks-show-context t
- denote-org-dblock-file-contents-separator "\n⠊⠊⠊⠊⠊⠊⠊⠊⠊⠊⠊⠊⠊⠊⠊⠊⠊⠊⠊⠊⠊⠊⠊⠊⠊⠊⠊⠊⠊⠊⠊⠊⠊⠊⠊⠊⠊⠊⠊⠊⠊⠊⠊⠊⠊⠊\n"
+ denote-org-extras-dblock-file-contents-separator "\n⠊⠊⠊⠊⠊⠊⠊⠊⠊⠊⠊⠊⠊⠊⠊⠊⠊⠊⠊⠊⠊⠊⠊⠊⠊⠊⠊⠊⠊⠊⠊⠊⠊⠊⠊⠊⠊⠊⠊⠊⠊⠊⠊⠊⠊⠊\n"
  denote-excluded-directories-regexp "ltximg"
+ denote-rename-no-confirm t
  )
 
-(add-hook 'emacs-startup-hook #'(lambda () (denote-rename-buffer-mode 1)))
+(add-hook 'emacs-startup-hook
+          #'(lambda ()
+              (require 'denote-rename-buffer)
+              (denote-rename-buffer-mode 1)))
 
 (setq denote-file-name-letter-casing
       '((title . downcase)
@@ -18,7 +22,7 @@
 
 (with-eval-after-load 'denote
   (with-eval-after-load 'org
-    (require 'denote-org-dblock)
+    (require 'denote-org-extras)
     (require 'denote-journal-extras)
     )
   
@@ -26,14 +30,13 @@
     "DOCSTRING"
     (interactive)
     (call-interactively 'org-store-link)
-    (let ((keywords (-concat weiss--denote-keywords '("pdf" "draft")))
+    (let ((keywords weiss--denote-keywords)
           (title (if (pdf-view-active-region-p)
                      (replace-regexp-in-string
                       "\n" " "
                       (mapconcat 'identity (pdf-view-active-region-text) ? ))
                    "slides"))
           (pdf-page (number-to-string (pdf-view-current-page)))
-          (text (weiss-extract-text-from-current-pdf-page))
           )
       (delete-other-windows)
       (weiss-split-window-dwim)
@@ -58,7 +61,6 @@
   
   (defun weiss-denote-org-dblock--get-file-contents (file &optional no-front-matter add-links)
     "DOCSTRING"
-    (interactive)
     (when (denote-file-is-note-p file)
       (with-temp-buffer
         (when add-links
@@ -66,13 +68,9 @@
            (format "- %s\n\n"
                    (denote-format-link
                     file
-                    (if (eq add-links 'id-only)
-                        denote-id-only-link-format
-                      denote-org-link-format)
-                    (let ((type (denote-filetype-heuristics file)))
-                      (if (denote-file-has-signature-p file)
-                          (denote--link-get-description-with-signature file type)
-                        (denote--link-get-description file type)))))))
+                    (denote--link-get-description file)
+                    'org
+                    (eq add-links 'id-only)))))
         (let ((beginning-of-contents (point)))
           (insert-file-contents file)
           (if no-front-matter
@@ -86,7 +84,7 @@
           (when add-links
             (indent-region beginning-of-contents (point-max) 2)))
         (buffer-string))))
-  (advice-add 'denote-org-dblock--get-file-contents :override #'weiss-denote-org-dblock--get-file-contents)
+  (advice-add 'denote-org-extras-dblock--get-file-contents :override #'weiss-denote-org-dblock--get-file-contents)
   
   (defun weiss-denote-journal-setup ()
     (interactive)

@@ -37,7 +37,7 @@
 
   (setq telega-open-file-function 'org-open-file)
   ;; (setq telega-server-libs-prefix "/usr/lib")
-  (telega-notifications-mode 1)
+  ;; (telega-notifications-mode 1)
   )
 
 ;; parent: 

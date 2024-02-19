@@ -12,8 +12,23 @@
      :pairs
      (
       (
+       :name "scala with session"
+       :pair ("#+BEGIN_SRC scala :session *scala-cli*" . "#+END_SRC")
+       :new-line t
+       )
+      (
+       :name "scala"
+       :pair ("#+BEGIN_SRC scala" . "#+END_SRC")
+       :new-line t
+       )
+      (
        :name "Elisp"
        :pair ("#+BEGIN_SRC elisp" . "#+END_SRC")
+       :new-line t
+       )
+      (
+       :name "Markdown"
+       :pair ("#+BEGIN_SRC markdown" . "#+END_SRC")
        :new-line t
        )
       (
@@ -43,7 +58,7 @@
        )
       (
        :name "Denote Insert Files"
-       :pair ("#+BEGIN: denote-files :regexp \"" . "\" :sort-by-component identifier :reverse-sort nil :no-front-matter nil :add-links t  :file-separator t\n#+END")
+       :pair ("#+BEGIN: denote-files :regexp \"" . "\" :sort-by-component signature :reverse-sort nil :no-front-matter nil :add-links t  :file-separator t\n#+END")
        :new-line nil
        )
       )
@@ -53,6 +68,14 @@
      :narrow ?l
      :pairs
      (
+      (
+       :name "⌈ ceil ⌉"
+       :pair ("\\lceil " . " \\rceil")
+       )
+      (
+       :name "⌊ floor ⌋"
+       :pair ("\\lfloor " . " \\rfloor")
+       )
       (
        :name "asymptotic big O notation"
        :pair ("\\mathcal{O}(" . ")")
@@ -92,6 +115,10 @@
       (
        :name "hat"
        :pair ("\\hat{" . "}")
+       )
+      (
+       :name "bar"
+       :pair ("\\bar{" . "}")
        )
       (
        :name "underline"

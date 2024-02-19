@@ -55,9 +55,14 @@ Version 2018-06-06"
     (let ((rbeg (region-beginning))
           (rend (region-end)))
       (kill-append
-       (format "%s%s" sep (buffer-substring-no-properties rbeg rend))
+       (format "%s%s" (or sep "") (buffer-substring-no-properties rbeg rend))
        nil))
     (deactivate-mark)))
+
+(defun weiss-kill-append-with-and ()
+  "DOCSTRING"
+  (interactive)
+  (weiss-kill-append " and "))
 
 (defun weiss-kill-append-with-space ()
   "DOCSTRING"

@@ -554,6 +554,10 @@ in {
         # };
         # lsp-bridge = pkgs.callPackage ./packages/lsp-bridge {
         # };
+        denote = pkgs.callPackage ./packages/denote-git.nix {
+          inherit (final) trivialBuild;
+          inherit (pkgs) fetchFromGitHub;
+        };
         consult-tramp = pkgs.callPackage ./packages/consult-tramp.nix {
           inherit (final) trivialBuild consult;
           inherit (pkgs) fetchFromGitHub;
@@ -564,7 +568,7 @@ in {
           };
         dired-single-handed-mode =
           pkgs.callPackage ./packages/dired-single-handed-mode {
-            inherit (final) trivialBuild dired-filter hydra;
+            inherit (final) trivialBuild dired-filter hydra modus-themes;
           };
         weiss-org-sp = pkgs.callPackage ./packages/weiss-org-sp {
           inherit (final) trivialBuild;

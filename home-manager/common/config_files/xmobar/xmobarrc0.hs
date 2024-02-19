@@ -14,7 +14,7 @@ Config
       [ Run DynNetwork ["-t", "<fn=2>\xf0aa</fn> <tx>kb  <fn=2>\xf0ab</fn> <rx>kb"] 20,
         Run Cpu ["-t", "CPU:<bar>", "-H", "50", "--high", "red"] 20,
         Run Memory ["-t", "MEM:<usedbar>(<used>M)"] 20,
-        Run DiskU [("/", "USED:<used> FREE:<free>")] [] 60,
+        -- Run DiskU [("/", "USED:<used> FREE:<free>")] [] 60,
         Run Date "<fc=#bd93f9> %H:%M </fc>" "date" 50,
         Run XPropertyLog "_XMONAD_LOG_workspace"
       ],

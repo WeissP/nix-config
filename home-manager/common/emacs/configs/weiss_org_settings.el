@@ -21,6 +21,7 @@
    org-M-RET-may-split-line t
    org-id-link-to-org-use-id 'create-if-interactive
    org-outline-path-complete-in-steps nil
+   org-preview-latex-default-process 'dvisvgm
    )
 
   (defun weiss-org-id-complete-link (&optional arg)

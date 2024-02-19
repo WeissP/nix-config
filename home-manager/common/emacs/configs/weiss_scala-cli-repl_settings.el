@@ -26,7 +26,7 @@
 
   (defvar weiss--scala-cli-repl-module "_")
 
-  (defun weiss-scala-cli-repl-mill ()
+  (defun weiss-scala-cli-repl--mill (module-suffix)
     (interactive)
     (ignore-errors (kill-buffer scala-cli-repl-buffer-name))      
     (find-file (concat (cdr (project-current)) "build.sc"))
@@ -35,7 +35,7 @@
                scala-cli-repl-buffer-name
                "mill"
                nil
-               `("-i" ,(concat weiss--scala-cli-repl-module ".test.console") ))
+               `("-i" ,(concat weiss--scala-cli-repl-module module-suffix) ))
       (term-char-mode)
       (term-set-escape-char ?\C-x)
       (setq-local term-prompt-regexp scala-cli-repl-prompt-regex)
@@ -43,6 +43,18 @@
       (setq-local term-scroll-to-bottom-on-output t)
       (run-hooks 'scala-cli-repl-run-hook))
     (switch-to-buffer scala-cli-repl-buffer-name))
+
+  (defun weiss-scala-cli-repl-mill ()
+    "DOCSTRING"
+    (interactive)
+    (weiss-scala-cli-repl--mill ".console")
+    )
+
+  (defun weiss-scala-cli-repl-mill-test ()
+    "DOCSTRING"
+    (interactive)
+    (weiss-scala-cli-repl--mill ".test.console")
+    )
 
   (require 'ob-scala-cli)
   (let ((with-circe

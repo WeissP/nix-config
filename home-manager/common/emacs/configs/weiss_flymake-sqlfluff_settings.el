@@ -1,7 +1,7 @@
 (require 'flymake-sqlfluff)
 (with-eval-after-load 'flymake-sqlfluff
-  (add-hook 'sql-mode-hook #'flymake-mode)
-  (add-hook 'sql-mode-hook #'flymake-sqlfluff-load)
+  ;; (add-hook 'sql-mode-hook #'flymake-mode)
+  ;; (add-hook 'sql-mode-hook #'flymake-sqlfluff-load)
 
   (defun my-flymake-sqlfluff--get-raw-report ()
     "add general config"

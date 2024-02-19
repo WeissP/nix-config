@@ -34,7 +34,7 @@
   (with-eval-after-load 'org
     (wks-define-key
      org-mode-map "C-c "
-     '(("C-i" . weiss-denote-consult-link-notes)
+     '(("C-i" . weiss-denote-consult-link)
        ("C-j t" . denote-keywords-add)
        ("C-r" . weiss-denote-org-extract-subtree)
        ))

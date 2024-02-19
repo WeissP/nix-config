@@ -5,6 +5,10 @@
   (setq orderless-component-separator 'orderless-escapable-split-on-space)
   (setq completion-styles '(orderless basic)
         completion-category-overrides '((file (styles basic partial-completion))))
+
+  (setq orderless-matching-styles '(orderless-literal))
+  (setq orderless-affix-dispatch-alist
+        `((?! . ,#'orderless-without-literal)))
   )
 
 ;; parent: 

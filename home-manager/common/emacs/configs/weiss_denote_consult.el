@@ -1,9 +1,10 @@
 ;; -*- lexical-binding: t -*-
 
 (with-eval-after-load 'denote
+  (defvar weiss-denote--files-matching-regexp nil)
   (defun weiss-denote--list-notes (dir)
     "DOCSTRING"    
-    (-map (lambda (s) (s-chop-left (length dir) s))
+    (-map (lambda (s) (s-chop-left (length denote-directory) s))
           (-filter
            #'denote-file-has-identifier-p
            (directory-files-recursively
@@ -16,6 +17,8 @@
                ((string-match-p "/\\." f) nil)
                ((denote--exclude-directory-regexp-p f) nil)
                ((file-readable-p f))
+               (files-matching-regexp
+                (string-match-p weiss-denote--files-matching-regexp f))
                (t)))
             :follow-symlinks)))
     )
@@ -82,40 +85,7 @@ Delete the original subtree."
     (let ((name (plist-get config :name))
           (char (plist-get config :char))
           (dir (expand-file-name (plist-get config :dir)))
-          (keywords (plist-get config :keywords))
-          (ask-subdir (plist-get config :ask-subdir))
-          )
-      (-> config
-          (-copy)
-          (plist-put :dir dir)
-          (plist-put
-           :source 
-           `(
-             :name     ,name
-             :narrow   ,char
-             :category note
-             :face     consult-file
-             :hidden nil
-             :new ,(lambda (cand) (denote cand keywords nil (concat dir "/notes") nil nil)) 
-             :action ,(lambda (arg) (find-file (expand-file-name arg dir)))
-             :items ,(lambda () (weiss-denote--list-notes dir))
-             :state ,(lambda ()
-                       (let ((open (consult--temporary-files))
-                             (state (consult--file-state)))
-                         (lambda (action cand)
-                           (unless cand
-                             (funcall open))
-                           (funcall state action
-                                    (and cand (expand-file-name cand dir))))))                
-             ))
-          )      
-      ))
-
-  (defun weiss-denote-consult--link-notes-generator (config)
-    "Generate config for linking notes via consult"
-    (let ((name (plist-get config :name))
-          (char (plist-get config :char))
-          (dir (expand-file-name (plist-get config :dir)))
+          (extra-dirs (-map #'expand-file-name (plist-get config :extra-dirs)))
           (keywords (plist-get config :keywords))
           (ask-subdir (plist-get config :ask-subdir))
           )
@@ -131,17 +101,65 @@ Delete the original subtree."
              :face     consult-file
              :hidden nil
              :new ,(lambda (cand)
-                     (denote--link-after-creating-subr
-                      (lambda () (interactive)
-                        (denote
-                         (or weiss-denote-consult--region-text cand)
-                         keywords nil (concat dir "/notes") nil nil))
-                      (lambda (&rest args)
-                        (or weiss-denote-consult--region-text cand))
-                      )
+                     (denote cand keywords nil
+                             (if (eq dir denote-directory)
+                                 (denote--dir "misc" "notes")
+                               (concat dir "/notes"))
+                             nil nil
+                             )) 
+             :action ,(lambda (arg) (find-file (expand-file-name arg denote-directory)))
+             :items ,(lambda () (-flatten (-map #'weiss-denote--list-notes (cons dir extra-dirs)) ))
+             :state ,(lambda ()
+                       (let ((open (consult--temporary-files))
+                             (state (consult--file-state)))
+                         (lambda (action cand)
+                           (unless cand
+                             (funcall open))
+                           (funcall state action
+                                    (and cand (expand-file-name cand denote-directory))))))                
+             ))
+          )      
+      ))
+  
+  (defun weiss-test ()
+    "DOCSTRING"
+    (interactive)
+    (denote-link-or-create "asdf"))
+
+  (defun weiss-denote-consult--link-notes-generator (config)
+    "Generate config for linking notes via consult"
+    (let ((name (plist-get config :name))
+          (char (plist-get config :char))
+          (dir (expand-file-name (plist-get config :dir)))
+          (extra-dirs (-map #'expand-file-name (plist-get config :extra-dirs)))
+          (keywords (plist-get config :keywords))
+          (ask-subdir (plist-get config :ask-subdir))
+          )
+      (-> config
+          (-copy)
+          (plist-put :dir dir)
+          (plist-put
+           :source 
+           `(
+             :name     ,name
+             :narrow   ,char
+             :category note
+             :face     consult-file
+             :hidden nil
+             :new ,(lambda (cand)
+                     (unless (denote-filename-is-note-p (buffer-file-name))
+                       (user-error "The current file is not a note"))
+                     (let* ((command (lambda () (interactive)
+                                       (denote
+                                        (or weiss-denote-consult--region-text cand)
+                                        keywords nil (concat dir "/notes") nil nil)))
+                            (type (denote-filetype-heuristics (buffer-file-name)))
+                            (path (denote--command-with-features command nil nil :save :in-background))
+                            (description (or weiss-denote-consult--region-text cand)))
+                       (denote-link path type description))
                      )
              :action ,(lambda (arg)
-                        (let* ((file (expand-file-name arg dir))
+                        (let* ((file (expand-file-name arg denote-directory))
                                (title (denote--retrieve-title-or-filename file 'org))
                                )
                           (denote-link
@@ -149,20 +167,74 @@ Delete the original subtree."
                            (or weiss-denote-consult--region-text title)
                            )
                           ))
-             :items ,(lambda () (weiss-denote--list-notes dir))
+             :items ,(lambda () (-flatten (-map #'weiss-denote--list-notes (cons dir extra-dirs)) ))
              ))
           )      
       ))
 
-  (setq weiss-denote-consult-source-config
-	    '(
-          (:name "misc" :char ?d :dir "~/Documents/notes/misc/")
-          (:name "scala" :char ?s :dir "~/Documents/notes/scala/" :keywords ("scala"))
-          (:name "ProbAlgo"  :char ?p :dir "~/Documents/notes/lectures/Probability_and_Algorithms/" :keywords ("ProbAlgo" "draft"))
-          (:name "ConcurrencyTheory" :char ?c :dir "~/Documents/notes/lectures/concurrency_theory/" :keywords ("ConcurrencyTheory" "draft"))
-          (:name "ml2" :char ?m :dir "~/Documents/notes/lectures/machine_learning2/" :keywords ("ml2" "draft"))
+  (defun weiss-denote-consult--files-generator (config)
+    "Generate config for denote files via consult"
+    (let ((name (plist-get config :name))
+          (char (plist-get config :char))
+          (dir (expand-file-name (plist-get config :dir)))
+          (extra-dirs (-map #'expand-file-name (plist-get config :extra-dirs)))
+          (keywords (plist-get config :keywords))
+          (ask-subdir (plist-get config :ask-subdir))
           )
+      (-> config
+          (-copy)
+          (plist-put :dir dir)
+          (plist-put
+           :source 
+           `(
+             :name     ,name
+             :narrow   ,char
+             :category note
+             :face     consult-file
+             :hidden nil
+             :sort nil
+             :items ,(lambda () (-flatten (-map #'weiss-denote--list-notes (cons dir extra-dirs)) ))
+             ))
+          )      
+      ))
+
+  (defun denote--dir (&rest segs)
+    "DOCSTRING"
+    (interactive)
+    (apply #'concat (-map #'file-name-as-directory (cons denote-directory segs)))
+    )
+  
+  (let ((scala-dir (denote--dir "scala"))
+        (pa-dir (denote--dir "lectures" "Probability_and_Algorithms"))
+        (ct-dir (denote--dir "lectures" "concurrency_theory"))
+        (ml-dir (denote--dir "lectures" "machine_learning2"))
+        (math-dir (denote--dir "math"))
         )
+    (setq weiss-denote-consult-source-config
+	      `(
+            (:name "scala" :char ?s :dir ,scala-dir :keywords ("scala"))
+            (:name "ProbAlgo"
+                   :char ?p
+                   :dir ,pa-dir
+                   :extra-dirs ,(list ml-dir math-dir)
+                   :keywords ("ProbAlgo" "draft"))
+            (:name "ConcurrencyTheory"
+                   :char ?c
+                   :dir ,ct-dir
+                   :keywords ("ConcurrencyTheory" "draft"))
+            (:name "ml2"
+                   :char ?l
+                   :dir ,ml-dir
+                   :extra-dirs ,(list pa-dir math-dir)
+                   :keywords ("ml2" "draft"))
+            (:name "math"
+                   :char ?m
+                   :dir ,math-dir
+                   :keywords ("math" "draft"))
+            (:name "all" :char ?a :dir ,denote-directory)
+            )
+          )
+    )
 
   (setq weiss-denote-consult-find-notes-config
         (-map
@@ -176,31 +248,37 @@ Delete the original subtree."
          weiss-denote-consult-source-config)        
         )
 
+  (setq weiss-denote-consult-files-config
+        (-map
+         #'weiss-denote-consult--files-generator
+         weiss-denote-consult-source-config)        
+        )
+
   (defun weiss-denote-consult--generate-source-by-config (configs)
     "DOCSTRING"
     (interactive)
-    (if-let* ((cur-dir (expand-file-name default-directory))
-              (idx (--find-index (s-starts-with? (plist-get it :dir) cur-dir) configs)))
-        (progn
-          (--map-indexed (if (eq idx it-index)
-                             (-> it
-                                 (plist-get :source)
-                                 (-copy)
-                                 (plist-put :hidden nil)
-                                 )
+    (let* ((cur-dir (expand-file-name default-directory))
+           (idx (or (--find-index (s-starts-with? (plist-get it :dir) cur-dir) configs)
+                    (- (length configs) 1))))
+      (progn
+        (--map-indexed (if (eq idx it-index)
                            (-> it
                                (plist-get :source)
                                (-copy)
-                               (plist-put :hidden t)
+                               (plist-put :hidden nil)
                                )
-                           )
-                         configs)
-          )      
-      (--map (plist-get it :source) configs)
+                         (-> it
+                             (plist-get :source)
+                             (-copy)
+                             (plist-put :hidden t)
+                             )
+                         )
+                       configs)
+        )      
       )
     )
 
-  (defvar weiss-denote-consult--region-text nil)
+  (defvar weiss-denote-consult--region-text nil)  
   (defun weiss-denote-consult ()
     "DOCSTRING"
     (interactive)
@@ -221,7 +299,7 @@ Delete the original subtree."
                       :history 'consult-denotes-history
                       :add-history (seq-some #'thing-at-point '(region symbol))) 
       )    
-    )  
+    )
   
   (defun weiss-denote-consult-link-notes ()
     "DOCSTRING"
@@ -238,6 +316,48 @@ Delete the original subtree."
      :prompt "Link Notes: "
      :history 'consult-denotes-history
      :add-history (seq-some #'thing-at-point '(region symbol))))
+
+
+  (defun weiss-denote-link-format-heading-description (file-text heading-text)
+    "Return description for FILE-TEXT with HEADING-TEXT at the end."
+    (format "%s" heading-text))
+  (advice-add 'denote-link-format-heading-description :override #'weiss-denote-link-format-heading-description)
+
+  (defun weiss-denote-consult-link ()
+    "DOCSTRING"
+    (interactive)
+    (if current-prefix-arg
+        (call-interactively 'denote-org-extras-link-to-heading)
+      (call-interactively 'weiss-denote-consult-link-notes)
+      )
+    )
+
+  (defun weiss-test ()
+    "DOCSTRING"
+    (interactive)
+    (message "%s" (denote-file-prompt)))
+
+  (defun weiss-test ()
+    "DOCSTRING"
+    (interactive)
+    (message "%s" (weiss-denote-file-prompt))
+    )
+
+  (defun weiss-denote-file-prompt (&optional files-matching-regexp)
+    "DOCSTRING"
+    (interactive)
+    (let ((weiss-denote--files-matching-regexp files-matching-regexp)
+          (returned (consult--multi
+                     (weiss-denote-consult--generate-source-by-config
+                      weiss-denote-consult-files-config)
+                     :require-match t
+                     :prompt "Denote files: "
+                     :history 'consult-denotes-history
+                     :add-history (seq-some #'thing-at-point '(region symbol)))))
+      (expand-file-name (car returned) denote-directory)      
+      )
+    )
+  (advice-add 'denote-file-prompt :override #'weiss-denote-file-prompt)
   )
 
 (provide 'weiss_denote_consult)

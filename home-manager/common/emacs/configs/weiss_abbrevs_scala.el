@@ -14,6 +14,8 @@
       ("v" "val _ = ▮" weiss--ahf)
       ("vx" "val x = ▮" weiss--ahf)
       ("vt" "val t: ▮ = ???" weiss--ahf)
+      ("l" "List" weiss--ahf)
+      ("list" "List" weiss--ahf)
       )
     )
   )

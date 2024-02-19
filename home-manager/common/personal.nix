@@ -66,13 +66,13 @@
                   numpy
                   matplotlib
                   # ↓↓↓ only for lsp-bridge
-                  # epc
-                  # orjson
-                  # sexpdata
-                  # six
-                  # setuptools
-                  # paramiko
-                  # rapidfuzz
+                  epc
+                  orjson
+                  sexpdata
+                  six
+                  setuptools
+                  paramiko
+                  rapidfuzz
                   # ↑↑↑ only for lsp-bridge
                 ]))
               (texlive.combine {
@@ -118,6 +118,7 @@
               vivaldi
               pdfpc
               p3x-onenote
+              wmctrl
               # mathpix-snipping-tool
               # pinnedUnstables."2023-09-27".webkitgtk
             ];

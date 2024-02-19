@@ -11,6 +11,12 @@
 		          open-target unthreaded parent-buffer t)
     )
 
+  (setq notmuch-fcc-dirs '((".*web\\.de" . "webde/Gesendet")
+                           (".*rptu\\.de" . "rptu/Sent")
+                           (".*cs\\.uni-kl\\.de" . "rptu_cs/Sent")
+                           (".*" . "sent")
+                           ))
+
   (setq notmuch-saved-searches
         `(
           (:name " " :query "tag:unread AND is:inbox AND NOT is:unimportant" :key ,(kbd "n") :search-type tree :sort-order oldest-first)
@@ -24,7 +30,8 @@
           (:name " Gmail" :query "tag:gmail AND is:inbox AND NOT is:unimportant" :key ,(kbd "i g") :search-type tree :sort-order newest-first)
           ))
 
-  (setq notmuch-show-empty-saved-searches t)
+  (setq notmuch-show-empty-saved-searches t
+        notmuch-show-logo nil)
 
   (defun weiss-notmuch-read ()
     "DOCSTRING"
