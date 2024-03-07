@@ -11,6 +11,18 @@
     (face-remap-add-relative 'region
                              `(:background ,mark-non-select-mode-color))))
 
+
+(defun weiss-select-mode-reset-all-buffers-region-colors ()
+  "DOCSTRING"
+  (interactive)
+  (save-current-buffer
+    (dolist (b (buffer-list)) 
+      (set-buffer b)
+      (weiss-select-mode-check-region-color)        
+      )
+    )
+  )
+
 (defun weiss-select-mode-turn-off (&rest args)
   "turn off weiss select mode"
   (interactive)

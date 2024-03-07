@@ -9,4 +9,13 @@
      ))
   )
 
+(let ((xx nil))
+  (pcase xx
+    (13 1)
+    ('a 2)
+    (functionp 3)
+    (_ 0)
+    )
+  )
+
 (provide 'weiss_magit_keybindings)

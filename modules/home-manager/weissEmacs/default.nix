@@ -179,31 +179,19 @@ in {
     recipes = mkOption {
       description = "recipes";
       default = {
-        lsp-bridge = {
-          files."${cfg.userEmacsDirectory}/lsp-bridge" = {
-            source = pkgs.fetchFromGitHub {
-              owner = "manateelazycat";
-              repo = "lsp-bridge";
-              rev = "a3f0c1d468b8485b09ac94e11279b8436ac6e415";
-              sha256 = "sha256-3SzxTa2DsXYFwoqqZQjgmxwM8WbmL48Fhm6QDrmmINU=";
-            };
-            # recursive = true;
-          };
-          # externalPackages = [
-          #   (pkgs.python3.withPackages (ps:
-          #     with ps; [
-          #       epc
-          #       orjson
-          #       sexpdata
-          #       six
-          #       setuptools
-          #       paramiko
-          #       rapidfuzz
-          #     ]))
-          # ];
-          cmds =
-            ''(add-to-list 'load-path "${cfg.userEmacsDirectory}/lsp-bridge")'';
-        };
+        # lsp-bridge = {
+        #   files."${cfg.userEmacsDirectory}/lsp-bridge" = {
+        #     source = pkgs.fetchFromGitHub {
+        #       owner = "manateelazycat";
+        #       repo = "lsp-bridge";
+        #       rev = "a3f0c1d468b8485b09ac94e11279b8436ac6e415";
+        #       sha256 = "sha256-3SzxTa2DsXYFwoqqZQjgmxwM8WbmL48Fhm6QDrmmINU=";
+        #     };
+        #     # recursive = true;
+        #   };
+        #   cmds =
+        #     ''(add-to-list 'load-path "${cfg.userEmacsDirectory}/lsp-bridge")'';
+        # };
         cape = {
           emacsPackages = [ "cape" ];
           cmds = let wordList = myLib.resource "filtered_word_list.txt";
@@ -550,10 +538,20 @@ in {
       enable = true;
       package = cfg.package;
       overrides = prev: final: {
-        # acm = pkgs.callPackage ./packages/acm {
-        # };
-        # lsp-bridge = pkgs.callPackage ./packages/lsp-bridge {
-        # };
+        lsp-bridge = pkgs.callPackage ./packages/lsp-bridge {
+          inherit (final) acm melpaBuild markdown-mode tempel;
+          inherit (pkgs)
+            lib python3 fetchFromGitHub substituteAll git go gopls pyright ruff
+            writeText unstableGitUpdater;
+        };
+        acm = pkgs.callPackage ./packages/acm {
+          inherit (final) yasnippet lsp-bridge melpaBuild;
+          inherit (pkgs) lib writeText;
+        };
+        flymake-bridge = pkgs.callPackage ./packages/flymake-bridge.nix {
+          inherit (final) trivialBuild lsp-bridge flymake;
+          inherit (pkgs) fetchFromGitHub;
+        };
         denote = pkgs.callPackage ./packages/denote-git.nix {
           inherit (final) trivialBuild;
           inherit (pkgs) fetchFromGitHub;

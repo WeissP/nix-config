@@ -40,7 +40,7 @@
     (when (featurep 'weiss_wks_select-mode)
       (setq mark-select-mode-color (modus-themes-get-color-value 'bg-hover-secondary))
       (setq mark-non-select-mode-color (modus-themes-get-color-value 'bg-sage))
-      (weiss-select-mode-check-region-color)
+      (weiss-select-mode-reset-all-buffers-region-colors)
       )
     (when (featurep 'highlight-parentheses)
       (modus-themes-with-colors

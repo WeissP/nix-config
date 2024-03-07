@@ -208,6 +208,7 @@ Delete the original subtree."
         (pa-dir (denote--dir "lectures" "Probability_and_Algorithms"))
         (ct-dir (denote--dir "lectures" "concurrency_theory"))
         (ml-dir (denote--dir "lectures" "machine_learning2"))
+        (misc-dir (denote--dir "misc"))
         (math-dir (denote--dir "math"))
         )
     (setq weiss-denote-consult-source-config
@@ -231,7 +232,7 @@ Delete the original subtree."
                    :char ?m
                    :dir ,math-dir
                    :keywords ("math" "draft"))
-            (:name "all" :char ?a :dir ,denote-directory)
+            (:name "all" :char ?a :dir ,misc-dir :extra-dirs ,(list denote-directory))
             )
           )
     )

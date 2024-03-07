@@ -59,22 +59,8 @@
               scala-cli
               jdk17
               ghostscript
-              (python3.withPackages (ps:
-                with ps; [
-                  pip
-                  pygments
-                  numpy
-                  matplotlib
-                  # ↓↓↓ only for lsp-bridge
-                  epc
-                  orjson
-                  sexpdata
-                  six
-                  setuptools
-                  paramiko
-                  rapidfuzz
-                  # ↑↑↑ only for lsp-bridge
-                ]))
+              (python3.withPackages
+                (ps: with ps; [ pip pygments numpy matplotlib ]))
               (texlive.combine {
                 inherit (texlive)
                   scheme-tetex collection-langkorean algorithms cm-super pgf
@@ -119,6 +105,7 @@
               pdfpc
               p3x-onenote
               wmctrl
+              microsoft-edge
               # mathpix-snipping-tool
               # pinnedUnstables."2023-09-27".webkitgtk
             ];

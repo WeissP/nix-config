@@ -9,8 +9,8 @@
     ;; (set-background-color "#eddd6e")
     ;; (set-background-color "#edd1b0")
     ;; (set-background-color "beige")
-    (face-remap-add-relative 'variable-pitch :height 140)
-    
+    (face-remap-add-relative 'variable-pitch :height 150)
+    (setq line-spacing 10)
     ;; (visual-line-mode -1)
     (visual-line-mode 1)
     (visual-fill-column-mode 1)

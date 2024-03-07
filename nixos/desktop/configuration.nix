@@ -47,11 +47,6 @@ with myEnv; {
     }
   ];
 
-  services.weissV2ray = {
-    enable = false;
-    configFile = "/home/weiss/nix-config/nixos/desktop/v2ray.json";
-  };
-
   services.btrbk.instances = let
     preserve_hour_of_day = "4";
     preserve_day_of_week = "sunday";

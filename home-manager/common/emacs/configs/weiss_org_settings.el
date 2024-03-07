@@ -22,6 +22,7 @@
    org-id-link-to-org-use-id 'create-if-interactive
    org-outline-path-complete-in-steps nil
    org-preview-latex-default-process 'dvisvgm
+   org-return-follows-link t
    )
 
   (defun weiss-org-id-complete-link (&optional arg)

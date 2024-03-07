@@ -47,6 +47,7 @@ with myEnv; {
     shells = [ pkgs.zsh ];
     pathsToLink = [ "/share/zsh" ];
     systemPackages = with pkgs; [
+      v2ray
       pavucontrol
       xdotool
       wezterm

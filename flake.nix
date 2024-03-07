@@ -146,6 +146,24 @@
             ./home-manager
           ];
         };
+
+        vultr = nixpkgs.lib.nixosSystem {
+          system = "x86_64-linux";
+          specialArgs = {
+            inherit inputs outputs secrets myLib;
+            myEnv = myLib.genEnv {
+              arch = "linux";
+              usage = "server";
+              username = "weiss";
+            };
+            configSession = "vultr";
+          };
+          modules = [
+            ./nixos/vultr/configuration.nix
+            ./nixos/vultr/hardware-configuration.nix
+            ./home-manager
+          ];
+        };
       };
 
       darwinConfigurations = let myEnv = darwinEnv;
@@ -217,12 +235,12 @@
         magicRollback = false;
 
         nodes = {
-          "vultr-miami" = {
-            hostname = secrets."vultr-miami".ip;
+          "vultr" = {
+            hostname = secrets."vultr".ip;
             profiles = {
               system = {
                 path = deploy-rs.lib.x86_64-linux.activate.nixos
-                  self.nixosConfigurations."vultr-miami";
+                  self.nixosConfigurations."vultr";
               };
             };
           };

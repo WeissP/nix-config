@@ -48,7 +48,7 @@
       (save-buffer)
       ))
 
-  (defun weiss-denote-extract-summary (beginning-of-contents)
+  (defun weiss-denote-only-summary (beginning-of-contents)
     "DOCSTRING"
     (delete-region
      (1+ (re-search-forward "^$" nil :no-error 1))
@@ -85,6 +85,8 @@
             (indent-region beginning-of-contents (point-max) 2)))
         (buffer-string))))
   (advice-add 'denote-org-extras-dblock--get-file-contents :override #'weiss-denote-org-dblock--get-file-contents)
+  ;; (advice-remove 'denote-org-extras-dblock--get-file-contents #'weiss-denote-org-dblock--get-file-contents)
+
   
   (defun weiss-denote-journal-setup ()
     (interactive)

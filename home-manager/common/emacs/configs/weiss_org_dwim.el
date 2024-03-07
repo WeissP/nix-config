@@ -125,16 +125,12 @@
          (org-latex-preview arg))
 
         (`link
-         (let* ((lineage (org-element-lineage context '(link) t))
-                (path (org-element-property :path lineage)))
-           (org-open-at-point arg)
-           ;; (if (or (equal (org-element-property :type lineage) "img")
-           ;;         (and path (image-type-from-file-name path)))
-           ;;     (+org--toggle-inline-images-in-subtree
-           ;;      (org-element-property :begin lineage)
-           ;;      (org-element-property :end lineage))
-           ;;   (org-open-at-point arg))
-           ))
+         (delete-other-windows)
+         (weiss-split-window-dwim)
+         (other-window 1)
+         (org-open-at-point)
+         (weiss-org-preview-latex-and-image)
+         (other-window 1))
 
         ((guard (org-element-property :checkbox (org-element-lineage context '(item) t)))
          (let ((match (and (org-at-item-checkbox-p) (match-string 1))))

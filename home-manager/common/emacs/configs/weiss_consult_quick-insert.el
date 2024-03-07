@@ -53,12 +53,17 @@
        )
       (
        :name "Denote Single File"
-       :pair ("#+BEGIN: denote-files :regexp \"" . "\" :no-front-matter nil :add-links t\n#+END")
+       :pair ("#+BEGIN: denote-files :regexp \"ol: " . "\" :no-front-matter nil :add-links t\n#+END")
        :new-line nil
        )
       (
        :name "Denote Insert Files"
-       :pair ("#+BEGIN: denote-files :regexp \"" . "\" :sort-by-component signature :reverse-sort nil :no-front-matter nil :add-links t  :file-separator t\n#+END")
+       :pair ("#+BEGIN: denote-files :regexp \"ol: " . "\" :sort-by-component signature :reverse-sort nil :no-front-matter nil :add-links t  :file-separator t\n#+END")
+       :new-line nil
+       )
+      (
+       :name "Denote Insert Links"
+       :pair ("#+BEGIN: denote-links :regexp \"ol: " . "\" :sort-by-component signature :reverse-sort nil :no-front-matter nil :add-links t  :file-separator t\n#+END")
        :new-line nil
        )
       )

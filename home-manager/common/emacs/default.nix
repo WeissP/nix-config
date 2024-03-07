@@ -70,6 +70,7 @@ in {
         eglot-java = [ "eglot-java-mode" ];
         apheleia = [ "apheleia-global-mode" ];
         consult = [ "consult--multi" ];
+        consult-tramp = [ "consult-tramp" ];
       };
       eagerLoad = [
         "direnv"
@@ -227,7 +228,7 @@ in {
           "gud"
           "quickrun"
           "eglot"
-          "lsp-bridge"
+          [ "lsp-bridge" "flymake-bridge" ]
           [ "magit" "forge" ]
           "browse-at-remote"
           "aweshell"
