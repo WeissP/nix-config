@@ -188,6 +188,7 @@ in {
           ]
           [ "elixir-mode" "flymake-elixir" "inf-elixir" "ob-elixir" ]
           "cider"
+          "typescript-mode"
           [ "python" "live-py-mode" ]
           "php-mode"
           [ "haskell-mode" ]

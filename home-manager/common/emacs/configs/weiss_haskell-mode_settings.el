@@ -10,6 +10,22 @@
   ;;             (interactive-haskell-mode t)
   ;;             (haskell-indentation-mode -1)))
   ;; (setq haskell-process-type 'stack-ghci)
+  (defun weiss-haskell-insert-module-template ()
+    "DOCSTRING"
+    (interactive)
+    (when (and (= (point-min)
+                  (point-max))
+               (buffer-file-name))
+      (insert
+       (format haskell-auto-insert-module-format-string (haskell-guess-module-name-from-file-name (buffer-file-name)))
+       "\n\nimport MyPrelude\n\n"
+       )
+      )
+    )
+
+  (add-hook 'haskell-mode-hook 'weiss-haskell-insert-module-template)
+
+
   (defun weiss-haskell-load-process-and-switch-buffer ()
     "DOCSTRING"
     (interactive)

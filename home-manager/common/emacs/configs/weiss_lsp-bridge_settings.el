@@ -16,6 +16,7 @@
         lsp-bridge-nix-lsp-server "nil"
         lsp-bridge-enable-log nil
         lsp-bridge-enable-inlay-hint nil
+        lsp-bridge-enable-signature-help nil
         )
   ;; (add-hook 'prog-mode-hook #'lsp-bridge-mode)
 

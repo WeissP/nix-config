@@ -16,6 +16,7 @@
       ("td" "error \"TODO\"" weiss--ahf)
       ("vt" "t :: ▮\nt = error \"TODO\"" weiss--ahf)
       ("m" "<&> " weiss--ahf)
+      ("j" "Just " weiss--ahf)
       )
     )
   )

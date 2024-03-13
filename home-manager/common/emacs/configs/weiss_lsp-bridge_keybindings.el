@@ -6,7 +6,7 @@
    '(
      ("C-c C-a" . lsp-bridge-code-action)
      ("C-c C-b" . lsp-bridge-find-def-return)
-     ("C-c C-d" . lsp-bridge-show-documentation)
+     ("C-c C-t" . lsp-bridge-show-documentation)
      ("<home>" . acm-filter)
      ("M-SPC" . acm-filter)
      ("C-c C-M-x <f5>" . lsp-bridge-restart-process)
