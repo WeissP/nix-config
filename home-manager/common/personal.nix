@@ -16,6 +16,7 @@
     ./hledger.nix
     ./sioyek.nix
     ./xscreensaver.nix
+    ./darkman.nix
   ] ++ (if myEnv.arch == "linux" then [ ./aria.nix ] else [ ]);
 
   config = with myEnv;
@@ -55,7 +56,7 @@
               (rWrapper.override {
                 packages = with rPackages; [ purrr ggplot2 ];
               })
-              additions.ammonite.ammonite_3_2
+              # additions.ammonite.ammonite_3_2
               scala-cli
               jdk17
               ghostscript
@@ -69,7 +70,7 @@
                   pgfplots titlesec subfigure adjustbox algorithm2e ifoddpage
                   relsize qtree pict2e lipsum ifsym fontawesome changepage
                   inconsolata xcolor cancel stmaryrd wasysym wasy makecell
-                  forest mnsymbol biblatex fontawesome5 pbox rsfso;
+                  forest mnsymbol biblatex fontawesome5 pbox rsfso upquote;
                 pkgFilter = pkg:
                   pkg.tlType == "run" || pkg.tlType == "bin" || pkg.pname
                   == "cm-super";
@@ -81,6 +82,7 @@
           (ifDarwin { packages = with pkgs; [ iterm2 ocamlPackages.cpdf ]; })
           (ifLinux {
             packages = with pkgs; [
+
               mattermost-desktop
               simplescreenrecorder
               xbindkeys
@@ -209,7 +211,7 @@
           gpg-agent = {
             enable = true;
             maxCacheTtl = 86400; # 24 hours
-            pinentryFlavor = "gnome3";
+            pinentryFlavor = "gnome2";
           };
         };
       })

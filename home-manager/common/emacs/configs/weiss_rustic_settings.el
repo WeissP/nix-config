@@ -7,7 +7,6 @@
   (with-eval-after-load 'eglot
     (setq rustic-lsp-format nil
           rustic-lsp-setup-p nil
-          rustic-lsp-client 'eglot
           )
     )
 

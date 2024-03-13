@@ -83,4 +83,6 @@
 
 (setq kill-ring-max 9999)
 
+(setq warning-suppress-types '((undo discard-info)))
+
 (provide 'weiss_global_user-settings)

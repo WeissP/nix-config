@@ -5,12 +5,15 @@ with myEnv; {
   imports = [ ./minimum.nix ./xmonad ./psql.nix ./syncthing.nix ./zsh.nix ];
 
   services = {
+    geoclue2.enable = true;
     xserver = {
       enable = true;
       autorun = true;
       libinput.enable = true;
-      layout = "de";
-      xkbVariant = ",nodeadkeys";
+      xkb = {
+        layout = "de";
+        variant = ",nodeadkeys";
+      };
       autoRepeatDelay = 230;
       autoRepeatInterval = 30;
       # Enable automatic login for the user.

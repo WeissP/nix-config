@@ -2,18 +2,18 @@
 , git, go, gopls, pyright, ruff, tempel, writeText, unstableGitUpdater }:
 
 let
-  rev = "7c703394448d9610a1048100e4fbbc926c977885";
+  rev = "d9c976c4cb7ac5af1f79ff570b7c9a689aa2bc39";
   python = python3.withPackages
     (ps: with ps; [ epc orjson paramiko rapidfuzz sexpdata six ]);
 in melpaBuild {
   pname = "lsp-bridge";
-  version = "20240307.1208";
+  version = "20240313.1600";
 
   src = fetchFromGitHub {
     owner = "manateelazycat";
     repo = "lsp-bridge";
     inherit rev;
-    hash = "sha256-7YQvhofHtinqGkFRUHanHEapmavvZ63gGecZQqbAuSA=";
+    hash = "sha256-0ZB6Wy7eFF04FCLivK6fYoiywOYa/3jNkS0WoqEbCIA=";
   };
 
   commit = rev;
