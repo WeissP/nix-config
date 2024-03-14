@@ -16,7 +16,7 @@
     ./hledger.nix
     ./sioyek.nix
     ./xscreensaver.nix
-    ./darkman.nix
+    # ./darkman.nix
   ] ++ (if myEnv.arch == "linux" then [ ./aria.nix ] else [ ]);
 
   config = with myEnv;
