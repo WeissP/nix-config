@@ -212,7 +212,7 @@
           gpg-agent = {
             enable = true;
             maxCacheTtl = 86400; # 24 hours
-            # pinentryPackage = pkgs.pinentry-gnome3;
+            pinentryPackage = pkgs.pinentry-gnome3;
           };
         };
       })

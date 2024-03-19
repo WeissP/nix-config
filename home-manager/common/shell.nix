@@ -15,7 +15,7 @@ with myEnv; {
 
         syntaxHighlighting.enable = true;
         enableCompletion = true;
-        # autosuggestion.enable = true;
+        autosuggestion.enable = true;
         autocd = true;
         historySubstringSearch.enable = true;
         history = {

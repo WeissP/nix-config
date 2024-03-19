@@ -26,9 +26,8 @@ in {
       windowManager.xmonad = {
         enable = true;
         enableContribAndExtras = false;
-        extraPackages = hpkgs: [ pkgs.weissXmonad ];
-        # haskellPackages = pkgs.haskellPackages.extend
-        # (self: super: { xmonad = pkgs.weissXmonad; });
+        haskellPackages = pkgs.haskell.packages.ghc948.extend
+          (self: super: { xmonad = pkgs.weissXmonad; });
         config = ''
           module Main where
 

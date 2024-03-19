@@ -205,6 +205,7 @@ Delete the original subtree."
     )
   
   (let ((scala-dir (denote--dir "scala"))
+        (haskell-dir (denote--dir "haskell"))
         (pa-dir (denote--dir "lectures" "Probability_and_Algorithms"))
         (ct-dir (denote--dir "lectures" "concurrency_theory"))
         (ml-dir (denote--dir "lectures" "machine_learning2"))
@@ -214,15 +215,16 @@ Delete the original subtree."
     (setq weiss-denote-consult-source-config
 	      `(
             (:name "scala" :char ?s :dir ,scala-dir :keywords ("scala"))
-            (:name "ProbAlgo"
-                   :char ?p
-                   :dir ,pa-dir
-                   :extra-dirs ,(list ml-dir math-dir)
-                   :keywords ("ProbAlgo" "draft"))
-            (:name "ConcurrencyTheory"
-                   :char ?c
-                   :dir ,ct-dir
-                   :keywords ("ConcurrencyTheory" "draft"))
+            (:name "haskell" :char ?h :dir ,haskell-dir :keywords ("haskell"))
+            ;; (:name "ProbAlgo"
+            ;;        :char ?p
+            ;;        :dir ,pa-dir
+            ;;        :extra-dirs ,(list ml-dir math-dir)
+            ;;        :keywords ("ProbAlgo" "draft"))
+            ;; (:name "ConcurrencyTheory"
+            ;;        :char ?c
+            ;;        :dir ,ct-dir
+            ;;        :keywords ("ConcurrencyTheory" "draft"))
             (:name "ml2"
                    :char ?l
                    :dir ,ml-dir

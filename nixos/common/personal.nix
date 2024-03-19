@@ -25,11 +25,11 @@ with myEnv; {
       };
       displayManager.sessionCommands = ''
         Exec=GTK_IM_MODULE= QT_IM_MODULE= XMODIFIERS= emacs &
-        mattermost-desktop &
         vivaldi &
         xbindkeys &
         pasystray &
         aria2c &
+        mattermost-desktop &
         sh $HOME/.screenlayout/horizontal.sh &
         sh ${myEnv.scriptsDir}/mouse_scroll.sh &
       '';
