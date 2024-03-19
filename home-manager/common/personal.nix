@@ -201,6 +201,7 @@
         programs = { gpg = { enable = true; }; };
 
         services = {
+          # dbus.packages = [ pkgs.gcr ]; # for pinentry-gnome3
           dunst.enable = true;
           blueman-applet.enable = true;
           mpris-proxy.enable = true; # let buttons of bluetooth devices work
@@ -211,7 +212,7 @@
           gpg-agent = {
             enable = true;
             maxCacheTtl = 86400; # 24 hours
-            pinentryFlavor = "gnome2";
+            # pinentryPackage = pkgs.pinentry-gnome3;
           };
         };
       })

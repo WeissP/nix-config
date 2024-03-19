@@ -1,7 +1,7 @@
 { config, myEnv, lib, pkgs, inputs, ... }:
 
 let
-  myXmonad = import ./myXmonad { pkgs = pkgs; };
+  # myXmonad = import ./myXmonad { pkgs = pkgs; };
   xmobarDir = "${myEnv.homeDir}" + "/.config/xmobar";
 in {
   environment = {
@@ -26,8 +26,9 @@ in {
       windowManager.xmonad = {
         enable = true;
         enableContribAndExtras = false;
-        haskellPackages = pkgs.haskellPackages.extend
-          (self: super: { xmonad = pkgs.weissXmonad; });
+        extraPackages = hpkgs: [ pkgs.weissXmonad ];
+        # haskellPackages = pkgs.haskellPackages.extend
+        # (self: super: { xmonad = pkgs.weissXmonad; });
         config = ''
           module Main where
 

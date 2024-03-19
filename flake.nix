@@ -33,8 +33,8 @@
     emacs-overlay.url = "github:nix-community/emacs-overlay";
     nur.url = "github:nix-community/NUR";
     myNixRepo.url = "github:WeissP/nix-config";
-    weissXmonad.url = "github:WeissP/weiss-xmonad";
-    # weissXmonad.url = "/home/weiss/projects/weissXmonad/";
+    # weissXmonad.url = "github:WeissP/weiss-xmonad";
+    weissXmonad.url = "/home/weiss/projects/weissXmonad/";
   };
 
   outputs =

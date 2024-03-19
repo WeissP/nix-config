@@ -6487,15 +6487,15 @@
       "locked": {
         "lastModified": 1710341901,
         "narHash": "sha256-9bpbq3lLs+gdWDmacI7l6JiUNlUmIQdmbA3WIW9hU+E=",
-        "owner": "WeissP",
-        "repo": "weiss-xmonad",
+        "ref": "refs/heads/main",
         "rev": "956044caffdf3b29c6b640d96378d91a737d34b9",
-        "type": "github"
+        "revCount": 23,
+        "type": "git",
+        "url": "file:///home/weiss/projects/weissXmonad"
       },
       "original": {
-        "owner": "WeissP",
-        "repo": "weiss-xmonad",
-        "type": "github"
+        "type": "git",
+        "url": "file:///home/weiss/projects/weissXmonad"
       }
     }
   },
