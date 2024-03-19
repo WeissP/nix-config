@@ -4,6 +4,7 @@
    haskell-mode-map
    ""
    '(
+     ("C-c C-s" . haskell-hoogle)
      ("-" . weiss-haskell-load-process-and-switch-buffer)
      ))  
   )

@@ -4,6 +4,8 @@
   (define-abbrev-table 'haskell-mode-abbrev-table
     '(
       ("do" "do\n  ▮" weiss--ahf)
+      ("u" "undefined" weiss--ahf)
+      ("m" "Maybe " weiss--ahf)
       ("rt" "return $ ▮" weiss--ahf)
       ("case" "case ▮ of\n  _ -> error \"TODO\"" weiss--ahf)
       ("data" "data ▮ deriving stock (Show)" weiss--ahf)
@@ -15,7 +17,7 @@
       ("wh" "where\n  ▮" weiss--ahf)
       ("td" "error \"TODO\"" weiss--ahf)
       ("vt" "t :: ▮\nt = error \"TODO\"" weiss--ahf)
-      ("m" "<&> " weiss--ahf)
+      ("mf" "<&> " weiss--ahf)
       ("j" "Just " weiss--ahf)
       )
     )
