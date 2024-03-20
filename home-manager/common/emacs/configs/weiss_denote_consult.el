@@ -323,7 +323,11 @@ Delete the original subtree."
 
   (defun weiss-denote-link-format-heading-description (file-text heading-text)
     "Return description for FILE-TEXT with HEADING-TEXT at the end."
-    (format "%s" heading-text))
+    (completing-read
+     "Choose link description format: "
+     (list heading-text (format "%s::%s" file-text heading-text) file-text)
+     )
+    )
   (advice-add 'denote-link-format-heading-description :override #'weiss-denote-link-format-heading-description)
 
   (defun weiss-denote-consult-link ()
