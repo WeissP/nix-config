@@ -155,6 +155,7 @@ in {
         "snails-custom-backends"
         "recentf-db"
         "latex"
+        "dabbrev"
         # "weiss-tsc-mode"
         # "weiss-dired-single-handed-mode"
         # "weiss-org-sp"
@@ -172,6 +173,7 @@ in {
           "orderless"
           "marginalia"
           [ "consult" "consult-tramp" ]
+          "dabbrev"
           [
             "corfu" # "kind-icon"
             "nerd-icons-corfu"
@@ -201,11 +203,7 @@ in {
             [ "http" "auto-rename-tag" ]
           ]
           [ "go-mode" [ "go-gen-test" "gotest" "go-dlv" "go-impl" "go-eldoc" ] ]
-          [
-            "sql" # "ejc-sql"
-            "sql-indent"
-            "flymake-sqlfluff"
-          ]
+          [ "sql" "ejc-sql" "sql-indent" "flymake-sqlfluff" ]
           [ "haskell-mode" "dante" ]
           "lua-mode"
           "nix-mode"

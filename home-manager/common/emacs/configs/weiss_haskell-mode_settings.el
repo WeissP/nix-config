@@ -10,6 +10,10 @@
   ;;             (interactive-haskell-mode t)
   ;;             (haskell-indentation-mode -1)))
   ;; (setq haskell-process-type 'stack-ghci)
+  (setq haskell-hoogle-command "hoogle"
+        haskell-process-type 'cabal-repl
+        )
+
   (defun weiss-haskell-insert-module-template ()
     "DOCSTRING"
     (interactive)
@@ -22,7 +26,6 @@
        )
       )
     )
-
   (add-hook 'haskell-mode-hook 'weiss-haskell-insert-module-template)
 
 

@@ -64,6 +64,11 @@ Version 2018-06-06"
   (interactive)
   (weiss-kill-append " and "))
 
+(defun weiss-kill-append-with-arrow ()
+  "DOCSTRING"
+  (interactive)
+  (weiss-kill-append " -> "))
+
 (defun weiss-kill-append-with-space ()
   "DOCSTRING"
   (interactive)

@@ -50,6 +50,7 @@
    ("c SPC" . weiss-kill-append-with-space)
    ("c RET" . weiss-kill-append-with-newline)
    ("c ," . weiss-kill-append-with-comma)
+   ("c ." . weiss-kill-append-with-arrow)
    ("c l" . weiss-kill-append-with-pipe)
    ("c r" . xah-copy-to-register-1)
    ("c v" . xah-paste-from-register-1)
@@ -74,7 +75,7 @@
    ("i d" .  weiss-insert-date)
    ("i e" .  find-file)
    ("i v" .  yank-pop)
-   ("i m s" .  all-the-icons-insert)
+   ("i m e" . emoji-insert)
    ("i i" .  imenu)
 
 

@@ -78,6 +78,10 @@
        :pair ("\\lceil " . " \\rceil")
        )
       (
+       :name "& newline in align Environment \\"
+       :pair ("& =" . " \\\\")
+       )
+      (
        :name "⌊ floor ⌋"
        :pair ("\\lfloor " . " \\rfloor")
        )
@@ -101,13 +105,21 @@
        :name "underset"
        :pair ("\\underset{" . "}")
        )
-      (
-       :name "Decoration with number"
-       :pair ("\\stackrel{\\pmb{\\mathit{1}}}{ " . "}")
-       )
+      ;; (
+      :name "Decoration with number"
+      :pair ("\\stackrel{\\pmb{\\mathit{1}}}{ " . " }")
+      ;; )
       (
        :name "texttt"
        :pair ("\\texttt{" . "}")
+       )
+      (
+       :name "bigg paren"
+       :pair ("\\bigg( " . "\\bigg)")
+       )
+      (
+       :name "Big paren"
+       :pair ("\\Big( " . "\\Big)")
        )
       (
        :name "text"

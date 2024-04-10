@@ -1,8 +1,12 @@
 (defun mathpix-screenshot ()
   "screenshot a image, return the path of the image"
   (interactive)
-  (shell-command-to-string "flameshot gui -p /tmp/")
-  "/tmp/flameshot-capture.png")
+  (let ((path "/tmp/flameshot-capture.png"))
+    (delete-file path)
+    (shell-command-to-string "flameshot gui -p /tmp/")
+    path 
+    )
+  )
 
 (defun mathpix-get-b64-image (file)
   "From mathpix.el.

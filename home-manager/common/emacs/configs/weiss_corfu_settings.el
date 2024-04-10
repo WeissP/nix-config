@@ -1,6 +1,7 @@
 (setq
  corfu-cycle t
  corfu-auto t
+ corfu-auto-prefix 2
  corfu-auto-delay 0.1
  corfu-preselect 'prompt
  )

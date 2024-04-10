@@ -8,7 +8,7 @@
   (lsp-bridge-mode 1)
   )
 
-(add-hook 'scala-mode-hook #'weiss-setup-lsp-bridge)
+;; (add-hook 'scala-mode-hook #'weiss-setup-lsp-bridge)
 
 (with-eval-after-load 'lsp-bridge
   (setq acm-enable-preview t

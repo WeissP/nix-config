@@ -11,7 +11,7 @@
   (push '(zprint . ("zprint")) apheleia-formatters)    
   (push '(xmlstarlet . ("xmlstarlet" "format" "--indent-tab")) apheleia-formatters)    
   (push '(rustfmt . ("rustfmt" "--quiet" "--emit" "stdout")) apheleia-formatters)
-  (push '(fourmolu . ("fourmolu" "--stdin-input-file" ".")) apheleia-formatters)
+  (push '(fourmolu . ("fourmolu" "--stdin-input-file" (or (buffer-file-name) (buffer-name)))) apheleia-formatters)
   (push '(cabal-fmt . ("cabal-fmt")) apheleia-formatters)
 
   (push '(scala-mode . scalafmt) apheleia-mode-alist)

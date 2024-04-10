@@ -525,6 +525,7 @@ in {
       enable = true;
       package = cfg.package;
       overrides = prev: final: rec {
+        ejc-sql = pkgs.lts.emacsPackages.ejc-sql;
         lsp-bridge = pkgs.callPackage ./packages/lsp-bridge {
           inherit (final) melpaBuild markdown-mode tempel;
           inherit (pkgs)

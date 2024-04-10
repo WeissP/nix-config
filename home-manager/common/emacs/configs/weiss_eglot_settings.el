@@ -3,6 +3,7 @@
   (add-to-list 'eglot-server-programs '(elixir-mode "elixir-ls"))
   (add-to-list 'eglot-server-programs '(java-mode "jdt-language-server"  "-configuration" "../config-linux" "-data" "../java-workspace"))
   (add-to-list 'eglot-server-programs '(svelte-mode . ("svelteserver" "--stdio")))
+  (add-to-list 'eglot-server-programs '(haskell-mode . ("haskell-language-server" "--lsp")))
 
   (add-to-list 'eglot-ignored-server-capabilities :documentHighlightProvider)
   (add-to-list 'eglot-ignored-server-capabilities :inlayHintProvider)
@@ -20,7 +21,9 @@
                         :check (:overrideCommand ["cargo" "check" "--message-format=json" "--lib" "--workspace" "--all-targets" "--all-features" "--tests"])
                         ;; :check (:overrideCommand ["cargo" "clippy" "--message-format=json" "--all-targets" "--all-features" "--tests"])
                         ;; :checkOnSave (:command "clippy")
-                        ))))
+                        ))
+     (haskell (maxCompletions . 200))
+     ))
 
   ;; (require 'eglot-tempel)
   )
