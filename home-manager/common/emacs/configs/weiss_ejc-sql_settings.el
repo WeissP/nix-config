@@ -1,3 +1,5 @@
+;; (require 'ejc-sql)
+
 (with-eval-after-load 'ejc-sql
   (setq clomacs-httpd-default-port 8090
         ejc-sql-separator ";"

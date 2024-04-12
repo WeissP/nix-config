@@ -1,8 +1,9 @@
-(with-eval-after-load 'clojure-mode
-  (add-hook 'clojure-mode-hook 'cider-mode)
-  (add-hook 'clojurescript-mode-hook 'cider-mode)
-  )
+;; (with-eval-after-load 'clojure-mode
+;;   (add-hook 'clojure-mode-hook 'cider-mode)
+;;   (add-hook 'clojurescript-mode-hook 'cider-mode)
+;;   )
 
+(require 'clojure-mode)
 (with-eval-after-load 'cider
   (defun weiss-cider-save-and-load ()
     "DOCSTRING"
@@ -43,10 +44,10 @@
          (plist-put :session-name nil)
          (plist-put :repl-type 'clj)))))
 
-  (with-eval-after-load 'org
-    (require 'ob-clojure)
-    (setq org-babel-clojure-backend 'cider)
-    )
+  ;; (with-eval-after-load 'org
+  ;;   (require 'ob-clojure)
+  ;;   (setq org-babel-clojure-backend 'cider)
+  ;;   )
   )
 
 ;; parent: 

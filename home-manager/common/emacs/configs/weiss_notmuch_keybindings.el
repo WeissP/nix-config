@@ -9,7 +9,7 @@
    ""
    '(
      ("n" . notmuch-jump-search)          
-     ("g" . notmuch-poll-and-refresh-this-buffer)          
+     ("g" . weiss-notmuch-first-refresh-then-retrive)          
      ))
   (wks-define-key
    notmuch-hello-mode-map
@@ -27,7 +27,7 @@
      ("k" . notmuch-search-previous-thread)
      ("n" . notmuch-jump-search)     
      ("p" . notmuch-tag-jump)     
-     ("g" . notmuch-poll-and-refresh-this-buffer)          
+     ("g" . weiss-notmuch-first-refresh-then-retrive)          
      ))
   (wks-define-key
    notmuch-search-mode-map
@@ -46,7 +46,7 @@
      ("c r" . xah-copy-line-or-region)     
      ("t" . notmuch-show-toggle-message)     
      ("RET" . goto-address-at-point)     
-     ("g" . notmuch-poll-and-refresh-this-buffer)          
+     ("g" . weiss-notmuch-first-refresh-then-retrive)          
      ))
 
   (wks-unset-key notmuch-tree-mode-map '("SPC" "$" "j" "k" "a" "n"))
@@ -60,7 +60,7 @@
      ("n" . notmuch-jump-search)     
      ("p" . notmuch-tag-jump)     
      ("." . weiss-notmuch-read)     
-     ("g" . notmuch-poll-and-refresh-this-buffer)          
+     ("g" . weiss-notmuch-first-refresh-then-retrive)          
      ))
   (wks-define-key
    notmuch-tree-mode-map

@@ -211,34 +211,22 @@ Delete the original subtree."
         (ml-dir (denote--dir "lectures" "machine_learning2"))
         (misc-dir (denote--dir "misc"))
         (math-dir (denote--dir "math"))
+        (academic-dir (denote--dir "academic"))
         )
     (setq weiss-denote-consult-source-config
 	      `(
             (:name "scala" :char ?s :dir ,scala-dir :keywords ("scala"))
             (:name "haskell" :char ?h :dir ,haskell-dir :keywords ("haskell"))
-            ;; (:name "ProbAlgo"
-            ;;        :char ?p
-            ;;        :dir ,pa-dir
-            ;;        :extra-dirs ,(list ml-dir math-dir)
-            ;;        :keywords ("ProbAlgo" "draft"))
-            ;; (:name "ConcurrencyTheory"
-            ;;        :char ?c
-            ;;        :dir ,ct-dir
-            ;;        :keywords ("ConcurrencyTheory" "draft"))
-            (:name "ml2"
-                   :char ?l
-                   :dir ,ml-dir
-                   :extra-dirs ,(list pa-dir math-dir)
-                   :keywords ("ml2" "draft"))
+            (:name "academic" :char ?a :dir ,academic-dir :keywords ("academic"))
             (:name "math"
                    :char ?m
                    :dir ,math-dir
                    :keywords ("math" "draft"))
-            (:name "all" :char ?a :dir ,misc-dir :extra-dirs ,(list denote-directory))
+            (:name "all" :char ?  :dir ,misc-dir :extra-dirs ,(list denote-directory))
             )
           )
     )
-
+  
   (setq weiss-denote-consult-find-notes-config
         (-map
          #'weiss-denote-consult--find-notes-generator

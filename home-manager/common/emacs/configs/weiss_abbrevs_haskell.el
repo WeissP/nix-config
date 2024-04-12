@@ -3,6 +3,7 @@
     (clear-abbrev-table haskell-mode-abbrev-table))
   (define-abbrev-table 'haskell-mode-abbrev-table
     '(
+      ("ap" "<*> " weiss--ahf)
       ("case" "case ▮ of\n  _ -> error \"TODO\"" weiss--ahf)
       ("class" "class ▮ a where\n  method :: a -> a" weiss--ahf)
       ("data" "data ▮ deriving stock (Show)" weiss--ahf)
@@ -11,10 +12,10 @@
       ("ins" "instance ▮ Bool where" weiss--ahf)
       ("j" "Just " weiss--ahf)
       ("m" "Maybe " weiss--ahf)
-      ("mf" "<&> " weiss--ahf)
       ("mb" "<$> " weiss--ahf)
-      ("ap" "<*> " weiss--ahf)
+      ("mf" "<&> " weiss--ahf)
       ("nt" "newtype ▮ = { from :: Int } deriving stock (Show)" weiss--ahf)
+      ("p" "pure " weiss--ahf)
       ("q" "qualified as " weiss--ahf)
       ("rt" "return $ ▮" weiss--ahf)
       ("td" "error \"TODO\"" weiss--ahf)

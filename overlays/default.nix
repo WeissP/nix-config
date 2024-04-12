@@ -32,6 +32,15 @@
         system = final.system;
         config.allowUnfree = true;
       };
+      "2024-01-05" = import (final.fetchFromGitHub {
+        owner = "NixOS";
+        repo = "nixpkgs";
+        rev = "c4bf72c17b886880de00ec809d215f26b4e1e3f3";
+        sha256 = "sha256-9gLeub0z77eLmAQkVdhNQuBzfOZ1jGLNZldO0ARWvK8=";
+      }) {
+        system = final.system;
+        config.allowUnfree = true;
+      };
     };
   };
 

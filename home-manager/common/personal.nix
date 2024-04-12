@@ -82,7 +82,7 @@
           (ifDarwin { packages = with pkgs; [ iterm2 ocamlPackages.cpdf ]; })
           (ifLinux {
             packages = with pkgs; [
-
+              libreoffice
               mattermost-desktop
               simplescreenrecorder
               xbindkeys

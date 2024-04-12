@@ -46,6 +46,38 @@
     )
   (advice-add 'weiss-notmuch-read :after #'weiss-notmuch-next)
 
+
+  (defvar weiss-email-retriving nil)
+  (defun weiss-email-retrived (process signal)
+    (when (memq (process-status process) '(exit signal))
+      (setq weiss-email-retriving nil)
+      (message "email retrived!" )
+      (shell-command-sentinel process signal)))
+
+  (defun weiss-email-retrive ()
+    "DOCSTRING"
+    (interactive)
+    (unless weiss-email-retriving
+      (let* ((output-buffer (generate-new-buffer "*Retriving email*"))
+             (proc (progn
+                     (message "retriving email..." )
+                     (setq weiss-email-retriving t)
+                     (async-shell-command "mbsync -a" output-buffer)
+                     (get-buffer-process output-buffer))))
+        (if (process-live-p proc)
+            (set-process-sentinel proc #'weiss-email-retrived)
+          (message "mbsync is not running")))
+      )
+    )
+  (add-to-list 'display-buffer-alist (cons "*Retriving email*" (cons #'display-buffer-no-window nil)))
+
+  (defun weiss-notmuch-first-refresh-then-retrive ()
+    "DOCSTRING"
+    (interactive)
+    (notmuch-poll-and-refresh-this-buffer)
+    (weiss-email-retrive)
+    )
   )
+
 
 (provide 'weiss_notmuch_settings)

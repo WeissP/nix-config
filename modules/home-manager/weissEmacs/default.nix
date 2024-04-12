@@ -525,7 +525,13 @@ in {
       enable = true;
       package = cfg.package;
       overrides = prev: final: rec {
-        ejc-sql = pkgs.lts.emacsPackages.ejc-sql;
+        # clojure-mode =
+        # pkgs.pinnedUnstables."2023-09-27".emacsPackages.clojure-mode;
+        # cider-mode = pkgs.pinnedUnstables."2023-09-27".emacsPackages.cider-mode;
+        # ejc-sql = pkgs.callPackage ./packages/ejc-sql.nix {
+        #   inherit (final) trivialBuild;
+        #   inherit (pkgs) fetchFromGitLab;
+        # };
         lsp-bridge = pkgs.callPackage ./packages/lsp-bridge {
           inherit (final) melpaBuild markdown-mode tempel;
           inherit (pkgs)
