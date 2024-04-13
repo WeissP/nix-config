@@ -435,7 +435,7 @@ in {
       (flatten (map getConfigs cfg.emacsPkgs));
     autoloadCmds = lib.attrsets.mapAttrsToList (pkg: funs:
       if builtins.elem pkg cfg.emacsPkgs then
-        (map (fn: ''(autoload '${fn} "${pkg}")'') funs)
+        (map (fn: ''(autoload '${fn} "${pkg}" nil t)'') funs)
       else
         [ ]) cfg.autoload;
     eagerLoadCmds = map (pkg: "(require '${pkg})") (filterPkg cfg.eagerLoad);

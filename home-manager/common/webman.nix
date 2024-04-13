@@ -17,92 +17,106 @@
           tls = true;
         } else
           { });
-  in with myEnv; {
-    programs.webman = lib.mkMerge [
-      {
-        enable = true;
+  in with myEnv;
+  lib.mkMerge [
+    (ifServer {
+      systemd.user.services."ensure-webman-db" = myEnv.ensurePsqlDb "webman";
+      home = {
+        sessionVariables = { SCRIPTS_DIR = myEnv.scriptsDir; };
+        file = {
+          "${homeDir}/scripts/ensure_psql_db.sh" = {
+            source = ../common/config_files/scripts/ensure_psql_db.sh;
+          };
+        };
+      };
+    })
+    {
+      programs.webman = lib.mkMerge [
+        {
+          enable = true;
 
-        apiKey = secrets.webman.apiKey;
-        nodes = toNode "RaspberryPi" "local" // toNode "Vultr" "public";
-        server = {
-          logLevel = "normal";
-          secretKey = secrets.webman.secretKey;
-        };
-      }
-      (ifPersonal {
-        cli = {
-          enable = true;
-          logFile = "${homeDir}/.config/webman/cli.log";
-          tagsFile = "${homeDir}/.config/webman/tags.yaml";
-        };
-      })
-      (ifServer {
-        nodes.Self = {
-          host.ipv4 = "127.0.0.1";
-          port = 7777;
-          tls = false;
-        };
-        nodeName = "Self";
-        cli.enable = false;
-        server = {
-          enable = true;
-          dbUrl =
-            "postgres://${username}:${secrets.sql.localPassword}@localhost:5432/webman";
-        };
-      })
-      (ifDarwin {
-        nodes.MacBook = {
-          host.ipv4 = "127.0.0.1";
-          port = 7777;
-          tls = false;
-        };
-        nodeName = "MacBook";
-        cli = {
-          provider.browsers = {
-            safari = {
-              browser = "Safari";
-              # location = "${homeDir}/.config/webman/History.db";
+          apiKey = secrets.webman.apiKey;
+          nodes = toNode "RaspberryPi" "local" // toNode "Vultr" "public";
+          server = {
+            logLevel = "normal";
+            secretKey = secrets.webman.secretKey;
+          };
+        }
+        (ifPersonal {
+          cli = {
+            enable = true;
+            logFile = "${homeDir}/.config/webman/cli.log";
+            tagsFile = "${homeDir}/.config/webman/tags.yaml";
+          };
+        })
+        (ifServer {
+          nodes.Self = {
+            host.ipv4 = "127.0.0.1";
+            port = 7777;
+            tls = false;
+          };
+          nodeName = "Self";
+          cli.enable = false;
+          server = {
+            enable = true;
+            dbUrl =
+              "postgres://${username}:${secrets.sql.localPassword}@localhost:5432/webman";
+          };
+        })
+        (ifDarwin {
+          nodes.MacBook = {
+            host.ipv4 = "127.0.0.1";
+            port = 7777;
+            tls = false;
+          };
+          nodeName = "MacBook";
+          cli = {
+            provider.browsers = {
+              safari = {
+                browser = "Safari";
+                # location = "${homeDir}/.config/webman/History.db";
+              };
+              chromium.browser = "Chromium";
             };
-            chromium.browser = "Chromium";
+            logLevel = "info";
+            target = "MacBook";
           };
-          logLevel = "info";
-          target = "MacBook";
-        };
-        server = {
-          enable = true;
-          dbUrl =
-            "postgres://${username}:${secrets.sql.localPassword}@localhost:5432/webman";
-          sync = [{
-            name = "Vultr";
-            interval = "5 hours";
-          }];
-        };
-      })
-      (ifLinuxPersonal {
-        nodes.Desktop = {
-          host.ipv4 = "127.0.0.1";
-          port = 7777;
-          tls = false;
-        };
-        nodeName = "Desktop";
-        cli = {
-          provider.browsers = {
-            vivaldi.browser = "Vivaldi";
-            chromium.browser = "Chromium";
+          server = {
+            enable = true;
+            dbUrl =
+              "postgres://${username}:${secrets.sql.localPassword}@localhost:5432/webman";
+            sync = [{
+              name = "Vultr";
+              interval = "5 hours";
+            }];
           };
-          logLevel = "info";
-          target = "RaspberryPi";
-          freq = "1min";
-        };
-        server = {
-          enable = false;
-          dbUrl = "postgres://postgres:postgres@localhost:7776/webman";
-          sync = [{
-            name = "RaspberryPi";
-            interval = "600 seconds";
-          }];
-        };
-      })
-    ];
-  };
+        })
+        (ifLinuxPersonal {
+          nodes.Desktop = {
+            host.ipv4 = "127.0.0.1";
+            port = 7777;
+            tls = false;
+          };
+          nodeName = "Desktop";
+          cli = {
+            provider.browsers = {
+              vivaldi.browser = "Vivaldi";
+              chromium.browser = "Chromium";
+            };
+            logLevel = "info";
+            target = "RaspberryPi";
+            freq = "1min";
+          };
+          server = {
+            enable = false;
+            dbUrl = "postgres://postgres:postgres@localhost:7776/webman";
+            sync = [{
+              name = "RaspberryPi";
+              interval = "600 seconds";
+            }];
+          };
+        })
+      ];
+    }
+  ];
 }

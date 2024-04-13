@@ -269,6 +269,12 @@ Delete the original subtree."
       )
     )
 
+  (defun weiss-denote-consult--get-dir-by-name (name)
+    "DOCSTRING"
+    (plist-get
+     (--find (string= (plist-get it :name) name) weiss-denote-consult-source-config)
+     :dir))
+  
   (defvar weiss-denote-consult--region-text nil)  
   (defun weiss-denote-consult ()
     "DOCSTRING"

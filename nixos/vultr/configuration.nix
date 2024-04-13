@@ -6,6 +6,9 @@ with myEnv; {
     ../common/zsh.nix
     outputs.nixosModules.v2ray
   ];
+
+  nix.gc = { options = lib.mkForce "--delete-older-than 1d"; };
+
   time.timeZone = "Japan";
   networking.hostName = "${username}-${configSession}";
 
@@ -31,7 +34,6 @@ with myEnv; {
     myPostgresql = {
       enable = true;
       package = pkgs.lts.postgresql_15;
-      databases = [ "webman" ];
     };
     nginx = {
       enable = true;

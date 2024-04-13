@@ -9,15 +9,4 @@ with myEnv; {
   ] else
     [ ../common/minimum.nix ];
 
-  config = (ifServer {
-    systemd.user.services."ensure-webman-db" = myEnv.ensurePsqlDb "webman";
-    home = {
-      sessionVariables = { SCRIPTS_DIR = myEnv.scriptsDir; };
-      file = {
-        "${homeDir}/scripts/ensure_psql_db.sh" = {
-          source = ../common/config_files/scripts/ensure_psql_db.sh;
-        };
-      };
-    };
-  });
 }

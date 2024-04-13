@@ -71,6 +71,7 @@ in {
         apheleia = [ "apheleia-global-mode" ];
         consult = [ "consult--multi" ];
         consult-tramp = [ "consult-tramp" ];
+        citar-denote = [ "citar-denote-open-note" ];
       };
       eagerLoad = [
         "direnv"
@@ -243,6 +244,7 @@ in {
           "tla-tools"
           "use-proxy"
           "denote"
+          [ "citar" "citar-denote" "biblio" ]
           "substitute"
           # "maxima"
           # [ "tree-sitter" "tree-sitter-langs" "weiss-tsc-mode" ]
@@ -260,6 +262,7 @@ in {
           [ "ob-go" "ob-sql-mode" ]
           "org-pdftools"
           "org-noter"
+
           [ "org-roam" "snails-roam" ]
           [ "org-fancy-priorities" "org-appear" ]
           "org-table-to-qmk-keymap"

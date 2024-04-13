@@ -22,6 +22,7 @@ with myEnv; {
     stateVersion = "23.05";
     username = username;
     homeDirectory = homeDir;
+    packages = [ pkgs.lsof ];
   };
 
 }
