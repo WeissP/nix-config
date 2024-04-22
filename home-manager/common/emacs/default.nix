@@ -117,7 +117,9 @@ in {
           "eglot"
           "flyspell-correct"
           "org"
-          "org-roam"
+          "citar"
+          "citar-denote"
+          # "org-roam"
           "pdf-view"
           "pdf-view-restore"
         ];
@@ -143,11 +145,12 @@ in {
         "vertico-directory"
         "sql"
         "pdf-view"
+        "org-cite"
         "gud"
         "elec-pair"
         "aweshell"
         "tab-line"
-        "snails-roam"
+        # "snails-roam"
         "wdired"
         "hl-line"
         "whitespace"
@@ -259,11 +262,11 @@ in {
         org = [
           "org"
           "weiss-org-sp"
+          "org-cite"
           [ "ob-go" "ob-sql-mode" ]
           "org-pdftools"
           "org-noter"
-
-          [ "org-roam" "snails-roam" ]
+          # [ "org-roam" "snails-roam" ]
           [ "org-fancy-priorities" "org-appear" ]
           "org-table-to-qmk-keymap"
           "org-edit-latex"

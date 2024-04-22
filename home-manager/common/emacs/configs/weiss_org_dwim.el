@@ -44,6 +44,7 @@
       (while (and context (memq type '(verbatim code bold italic underline strike-through subscript superscript)))
         (setq context (org-element-property :parent context)
               type (org-element-type context)))
+      (message "type: %s" type)
       (pcase type
         (`headline
          (cond ((memq (bound-and-true-p org-goto-map)
@@ -131,6 +132,10 @@
          (org-open-at-point)
          (weiss-org-preview-latex-and-image)
          (other-window 1))
+
+        ((or `citation-reference `citation)
+         (org-open-at-point)
+         )
 
         ((guard (org-element-property :checkbox (org-element-lineage context '(item) t)))
          (let ((match (and (org-at-item-checkbox-p) (match-string 1))))

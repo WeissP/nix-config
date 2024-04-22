@@ -1,3 +1,5 @@
+(wks-unset-key (current-global-map) '("C-<end>"))
+
 (wks-define-key
  prog-mode-map ""
  '(("<tab>" . save-buffer)

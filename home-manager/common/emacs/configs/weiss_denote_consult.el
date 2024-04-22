@@ -197,12 +197,6 @@ Delete the original subtree."
              ))
           )      
       ))
-
-  (defun denote--dir (&rest segs)
-    "DOCSTRING"
-    (interactive)
-    (apply #'concat (-map #'file-name-as-directory (cons denote-directory segs)))
-    )
   
   (let ((scala-dir (denote--dir "scala"))
         (haskell-dir (denote--dir "haskell"))

@@ -32,7 +32,7 @@ with lib; rec {
         };
     };
   resource = path: myNixRepo + "/resources/" + path;
-
+  withConfigDir = path: ../home-manager/common/config_files + path;
   mkFont = { stdenv, unzip }:
     fontName: path:
     stdenv.mkDerivation {

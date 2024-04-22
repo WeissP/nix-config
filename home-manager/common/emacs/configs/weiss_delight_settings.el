@@ -2,6 +2,7 @@
   (delight
    '(
      (nerd-icons-dired-mode nil nerd-icons-dired)
+     (citar-denote-mode nil citar-denote)
      (yas-minor-mode nil yasnippet)
      (dired-omit-mode nil dired-x)
      (auto-revert-mode nil autorevert)

@@ -82,6 +82,7 @@
           (ifDarwin { packages = with pkgs; [ iterm2 ocamlPackages.cpdf ]; })
           (ifLinux {
             packages = with pkgs; [
+              apfs-fuse
               libreoffice
               mattermost-desktop
               simplescreenrecorder
@@ -89,7 +90,7 @@
               xorg.setxkbmap
               xautomation
               lsof
-              # cider
+              cider
               libnotify
               qq
               ocamlPackages.cpdf
@@ -107,7 +108,7 @@
               pdfpc
               p3x-onenote
               wmctrl
-              microsoft-edge
+              # microsoft-edge
               # mathpix-snipping-tool
               # pinnedUnstables."2023-09-27".webkitgtk
             ];
@@ -201,7 +202,6 @@
         programs = { gpg = { enable = true; }; };
 
         services = {
-          # dbus.packages = [ pkgs.gcr ]; # for pinentry-gnome3
           dunst.enable = true;
           blueman-applet.enable = true;
           mpris-proxy.enable = true; # let buttons of bluetooth devices work

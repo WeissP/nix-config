@@ -19,6 +19,10 @@ in {
 
   services = {
     dbus.enable = true;
+    displayManager = {
+      sddm.enable = false;
+      defaultSession = "none+xmonad";
+    };
     xserver = {
       enable = true;
       autorun = true;
@@ -41,11 +45,6 @@ in {
           main :: IO ()
           main = WeissXMonad.runXmonad "${xmobarDir}"
         '';
-      };
-      desktopManager.plasma5.enable = lib.mkForce false;
-      displayManager = {
-        sddm.enable = false;
-        defaultSession = "none+xmonad";
       };
     };
   };

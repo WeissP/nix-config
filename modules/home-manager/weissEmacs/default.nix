@@ -209,6 +209,10 @@ in {
           emacsPackages = [ "ejc-sql" ];
           externalPackages = [ pkgs.leiningen ];
         };
+        cider = {
+          emacsPackages = [ "cider" ];
+          externalPackages = [ pkgs.leiningen ];
+        };
         ess = {
           emacsPackages = [ "ess" ];
           externalPackages = [ pkgs.R ];

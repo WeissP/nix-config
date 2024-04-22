@@ -31,6 +31,12 @@
      completion-at-point-functions '(pcomplete-completions-at-point cape-dict t))
     )
 
+  (with-eval-after-load 'markdown-mode
+    (setq-mode-local
+     markdown-mode
+     completion-at-point-functions '(pcomplete-completions-at-point cape-dict t))
+    )
+
   (with-eval-after-load 'latex
     (setq-mode-local
      latex-mode

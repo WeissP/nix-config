@@ -85,4 +85,13 @@
 
 (setq warning-suppress-types '((undo discard-info)))
 
+(setq
+ weiss/notes-dir (file-name-as-directory (expand-file-name "~/Documents/notes/"))
+ weiss/academic-dir (file-name-as-directory (concat weiss/notes-dir "academic"))
+ weiss/academic-documents (file-name-as-directory (concat weiss/academic-dir "documents"))
+ weiss/bibs (concat
+             weiss/academic-documents
+             "20240413T081114--bibliography__academic_db.bib")
+ )
+
 (provide 'weiss_global_user-settings)

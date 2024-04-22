@@ -1,7 +1,7 @@
 (with-eval-after-load 'LaTeX
   (with-eval-after-load 'org-mode
     (setq org-latex-create-formula-image-program 'dvipng)
-    (plist-put org-format-latex-options :scale 1.5)
+    (plist-put org-format-latex-options :scale 1.8)
     )
   
   (eval-after-load "preview"

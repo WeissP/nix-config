@@ -100,8 +100,11 @@
   (add-hook 'modus-themes-after-load-theme-hook #'weiss-modus-patch-faces)
   (add-hook 'circadian-after-load-theme-hook #'weiss-modus-patch-faces)
 
+  
   (with-eval-after-load 'circadian
-    (setq circadian-themes '(("8:00" . modus-operandi-tinted)
+    (setq calendar-latitude 49.4)
+    (setq calendar-longitude 7.7)
+    (setq circadian-themes '(("6:00" . modus-operandi-tinted)
                              ("20:00" . modus-vivendi-tinted)))
     (circadian-setup)
     )

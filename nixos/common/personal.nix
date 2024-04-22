@@ -6,6 +6,9 @@ with myEnv; {
 
   services = {
     geoclue2.enable = true;
+    # Enable automatic login for the user.
+    displayManager.autoLogin.enable = true;
+    displayManager.autoLogin.user = "${username}";
     xserver = {
       enable = true;
       autorun = true;
@@ -16,9 +19,6 @@ with myEnv; {
       };
       autoRepeatDelay = 230;
       autoRepeatInterval = 30;
-      # Enable automatic login for the user.
-      displayManager.autoLogin.enable = true;
-      displayManager.autoLogin.user = "${username}";
       libinput.touchpad = {
         naturalScrolling = true;
         accelSpeed = "0.5"; # float number between -1 and 1.

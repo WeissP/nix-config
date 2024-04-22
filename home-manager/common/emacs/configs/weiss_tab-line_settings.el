@@ -68,14 +68,26 @@
     (-map-indexed
      (lambda (idx elem)
        (if (eq (% idx 2) 0)
-           (format "%s" elem)
+           (format "\n  %s" elem)
          (if elem
              (format
               "(%s)"
-              (mapconcat (lambda (x) (format "\"%s\"" x)) elem " "))
+              (mapconcat (lambda (x) (format "\n      \"%s\"" x)) elem " "))
            "nil")))
      file-groups))
    nil weiss-tab-groups-file))
+
+(defun weiss-file-groups-delete (reg)
+  "DOCSTRING"
+  (interactive)
+  (weiss-load-file-groups)
+  (let* ((key-indices (--find-indices (and (symbolp it) (string-match reg (symbol-name it))) weiss-file-groups))
+         (indices (append key-indices (-map #'1+ key-indices)))
+         )    
+    (setq weiss-file-groups (-remove-at-indices indices weiss-file-groups))
+    (weiss-file-groups-to-file weiss-file-groups)
+    )
+  )
 
 (defun weiss-dump-tab-groups ()
   "DOCSTRING"

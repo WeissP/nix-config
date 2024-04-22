@@ -1,4 +1,4 @@
-{ pkgs, lib, myEnv, config, ... }:
+{ pkgs, lib, myLib, myEnv, config, ... }:
 with lib;
 with myEnv;
 let
@@ -123,13 +123,25 @@ in {
     }
     (mkIf cfg.server.enable { home.packages = [ pkgs.webman.webman-server ]; })
     (mkIf (cfg.server.enable && arch == "linux") {
+      home = {
+        sessionVariables = { SCRIPTS_DIR = myEnv.scriptsDir; };
+        file = {
+          "${homeDir}/scripts/ensure_psql_db.sh" = {
+            source = myLib.withConfigDir "/scripts/ensure_psql_db.sh";
+          };
+          "${homeDir}/scripts/start_webman_server.sh" = {
+            executable = true;
+            text =
+              "${pkgs.webman.webman-server.outPath}/bin/webman-server > ~/webman.log";
+          };
+        };
+      };
       systemd.user = {
+        services."ensure-webman-db" = myEnv.ensurePsqlDb "webman";
         services.webman-server = {
           Unit.Description = "webman server";
-          Service = {
-            ExecStart =
-              "${pkgs.webman.webman-server.outPath}/bin/webman-server";
-          };
+          Install.WantedBy = [ "initrd.target" ];
+          Service = { ExecStart = "${scriptsDir}/start_webman_server.sh"; };
         };
       };
     })

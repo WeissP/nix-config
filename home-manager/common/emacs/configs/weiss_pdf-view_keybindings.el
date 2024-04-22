@@ -12,8 +12,8 @@
   (wks-define-key
    pdf-view-mode-map ""
    '(
-     ("," . (weiss-pdf-scroll-down (image-previous-line 2)))
-     ("." . (weiss-pdf-scroll-up (image-next-line 2)))
+     ("<up>" . (weiss-pdf-scroll-down (image-previous-line 2)))
+     ("<down>" . (weiss-pdf-scroll-up (image-next-line 2)))
      ("=" .  split-window-below)
      ("-" .  pdf-view-shrink)
      ("C--" .  pdf-view-shrink)
@@ -31,7 +31,10 @@
      ("u" .  pdf-view-deactivate-region)
      ("i" .  image-backward-hscroll)
      ("j" .  (weiss-pdf-next-page (pdf-view-next-page-command) (image-set-window-vscroll 0)))
-     ("k" .  (weiss-pdf-previous-page (pdf-view-previous-page-command) (image-next-line 1000)))
+     ("k" .  (weiss-pdf-previous-page (pdf-view-previous-page-command)
+                                      (image-next-line 1000)
+                                      (image-previous-line 1)
+                                      ))
      ("l" .  image-forward-hscroll)
      ("n" .  isearch-forward)
      ("f" .  pdf-view-fit-page-to-window)

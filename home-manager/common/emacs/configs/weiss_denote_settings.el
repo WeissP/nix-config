@@ -1,13 +1,20 @@
 ;; -*- lexical-binding: t -*-
 
 (setq
+ denote-directory weiss/notes-dir
  denote-prompts '(subdirectory title signature keywords)
  denote-rename-buffer-format "%t %s"
  denote-backlinks-show-context t
  denote-org-extras-dblock-file-contents-separator "\n⠊⠊⠊⠊⠊⠊⠊⠊⠊⠊⠊⠊⠊⠊⠊⠊⠊⠊⠊⠊⠊⠊⠊⠊⠊⠊⠊⠊⠊⠊⠊⠊⠊⠊⠊⠊⠊⠊⠊⠊⠊⠊⠊⠊⠊⠊\n"
  denote-excluded-directories-regexp "ltximg"
- denote-rename-no-confirm t
+ denote-rename-no-confirm t 
  )
+
+(defun denote--dir (&rest segs)
+  "DOCSTRING"
+  (interactive)
+  (apply #'concat (-map #'file-name-as-directory (cons denote-directory segs)))
+  )
 
 (add-hook 'emacs-startup-hook
           #'(lambda ()
@@ -20,17 +27,19 @@
         (keywords . verbatim)
         (t . downcase)))
 
+
+
 (with-eval-after-load 'denote
   (with-eval-after-load 'org
     (require 'denote-org-extras)
     (require 'denote-journal-extras)
     )
   
-  (defun weiss-denote-pdf-note ()
+  (defun weiss-denote-pdf-note (&optional additional-keywords)
     "DOCSTRING"
     (interactive)
     (call-interactively 'org-store-link)
-    (let ((keywords weiss--denote-keywords)
+    (let ((keywords (append weiss--denote-keywords (list additional-keywords)))
           (title (if (pdf-view-active-region-p)
                      (replace-regexp-in-string
                       "\n" " "
