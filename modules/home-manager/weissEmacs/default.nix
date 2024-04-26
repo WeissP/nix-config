@@ -179,6 +179,14 @@ in {
     recipes = mkOption {
       description = "recipes";
       default = {
+        chatu-xournal = {
+          emacsPackages = [ "chatu-xournal" ];
+          externalPackages = [ pkgs.xournalpp ];
+          cmds = let tempPath = myLib.resource "xournal-template/plain.xopp";
+          in ''
+            (setq chatu-xournal-template-path "${tempPath}")
+          '';
+        };
         cape = {
           emacsPackages = [ "cape" ];
           cmds = let wordList = myLib.resource "filtered_word_list.txt";
@@ -536,6 +544,24 @@ in {
         #   inherit (final) trivialBuild;
         #   inherit (pkgs) fetchFromGitLab;
         # };
+        org-xournalpp = pkgs.callPackage ./packages/org-xournalpp.nix {
+          inherit (final) trivialBuild;
+          inherit (pkgs) fetchFromGitLab;
+          deps = with final; { inherit f s; };
+        };
+        chatu = pkgs.callPackage ./packages/chatu.nix {
+          inherit (final) trivialBuild;
+          inherit (pkgs) fetchFromGitHub;
+          deps = with final; { inherit plantuml-mode; };
+        };
+        chatu-xournal = pkgs.callPackage ./packages/chatu-xournal.nix {
+          inherit (final) trivialBuild;
+          inherit (pkgs) fetchFromGitHub;
+          deps = {
+            inherit (final) f;
+            inherit chatu;
+          };
+        };
         lsp-bridge = pkgs.callPackage ./packages/lsp-bridge {
           inherit (final) melpaBuild markdown-mode tempel;
           inherit (pkgs)

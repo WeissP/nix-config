@@ -72,6 +72,7 @@ in {
         consult = [ "consult--multi" ];
         consult-tramp = [ "consult-tramp" ];
         citar-denote = [ "citar-denote-open-note" ];
+        chatu = [ "chatu-mode" ];
       };
       eagerLoad = [
         "direnv"
@@ -224,6 +225,7 @@ in {
         pdf =
           [ "pdf-tools" "pdf-view" "pdf-view-restore" "literate-calc-mode" ];
         tools = [
+          [ "chatu" "chatu-xournal" ]
           "mathpix"
           "direnv"
           "project"
@@ -261,6 +263,7 @@ in {
         ];
         org = [
           "org"
+          # "org-xournalpp"
           "weiss-org-sp"
           "org-cite"
           [ "ob-go" "ob-sql-mode" ]

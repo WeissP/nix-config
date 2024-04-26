@@ -83,31 +83,31 @@
           (ifLinux {
             packages = with pkgs; [
               apfs-fuse
-              libreoffice
-              mattermost-desktop
-              simplescreenrecorder
-              xbindkeys
-              xorg.setxkbmap
-              xautomation
-              lsof
+              aria2
               cider
+              graphviz
               libnotify
-              qq
-              ocamlPackages.cpdf
-              poppler_utils
-              # openssl problem
-              wkhtmltopdf-bin
+              libreoffice
+              librsvg
+              lsof
+              mattermost-desktop
               nodejs
+              ocamlPackages.cpdf
+              p3x-onenote
+              pasystray
+              pdfpc
+              poppler_utils
+              qq
+              simplescreenrecorder
               tlaplus
               tlaplusToolbox
-              graphviz
-              librsvg
-              aria2
-              pasystray
               vivaldi
-              pdfpc
-              p3x-onenote
+              wkhtmltopdf-bin
               wmctrl
+              xautomation
+              xbindkeys
+              xorg.setxkbmap
+              xournalpp
               # microsoft-edge
               # mathpix-snipping-tool
               # pinnedUnstables."2023-09-27".webkitgtk
