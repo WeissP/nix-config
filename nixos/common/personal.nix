@@ -17,6 +17,7 @@ with myEnv; {
         layout = "de";
         variant = ",nodeadkeys";
       };
+      wacom.enable = true;
       autoRepeatDelay = 230;
       autoRepeatInterval = 30;
       libinput.touchpad = {
