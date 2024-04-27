@@ -33,6 +33,7 @@ with myEnv; {
         mattermost-desktop &
         sh $HOME/.screenlayout/horizontal.sh &
         sh ${myEnv.scriptsDir}/mouse_scroll.sh &
+        export PATH=$PATH:${scriptsDir}
       '';
     };
     blueman.enable = true;
