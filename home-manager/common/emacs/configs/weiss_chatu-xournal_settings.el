@@ -3,8 +3,8 @@
     "DOCSTRING"
     (interactive)
     (let ((name (read-string "xournal name: ")))
-      (insert (format "#+chatu: :xournal \"%s\" :page 1\n#+results:" name))      
-      (forward-line -1)
+      (insert (format "#+chatu: :xournal \"%s\" :page 1 :output-ext png\n#+results:\n#+ATTR_ORG: :width 500" name))      
+      (forward-line -2)
       (call-interactively 'chatu-open)
       ))
 
