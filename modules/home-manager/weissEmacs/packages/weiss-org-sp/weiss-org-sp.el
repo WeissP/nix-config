@@ -11,9 +11,9 @@
            (cmd (cdr cmd-key))
            )
        (define-key keymap (kbd key)
-         `(menu-item "" ,cmd
-                     :filter ,fun)
-         )
+                   `(menu-item "" ,cmd
+                               :filter ,fun)
+                   )
        )
      )
    key-cmd-list)

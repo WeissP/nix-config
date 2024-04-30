@@ -73,6 +73,7 @@
    ("h" . beginning-of-buffer)
 
    ("i d" .  weiss-insert-date)
+   ("i w" .  weiss-insert-week)
    ("i e" .  find-file)
    ("i v" .  yank-pop)
    ("i m e" . emoji-insert)
@@ -161,9 +162,6 @@
    ("o s" . weiss-start-kmacro)
    ("o l" . weiss-kmacro-insert-letter)
    ("o k" . weiss-deactivate-mark)
-   ("o p" .
-    (weiss-open-studien-plan
-     (find-file "~/Documents/Org-roam/ƦProject-studienplan_2021032320.org")))
    ("o e" . weiss-end-kmacro)
    ("o c" . kmacro-call-macro)
 

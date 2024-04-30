@@ -58,6 +58,7 @@ with myEnv; {
       "font-cascadia-code-pl"
       "font-cascadia-mono"
       "raycast"
+      "xournal-plus-plus"
       # "karabiner-elements"
     ];
 

@@ -1,3 +1,18 @@
+(defun weiss-week-number (month day year)
+  "DOCSTRING"
+  (interactive)
+  (let ((now (decode-time)))
+    (car (calendar-iso-from-absolute
+          (calendar-absolute-from-gregorian
+           (list (decoded-time-month now) (decoded-time-day now) (decoded-time-year now))))) 
+    ))
+
+(defun weiss-iso-week-to-time (year week day)
+  (pcase-let ((`(,m ,d ,y)
+               (calendar-gregorian-from-absolute
+                (calendar-iso-to-absolute (list week day year)))))
+    (encode-time 0 0 0 d m y)))
+
 (defun weiss-inside-string-p ()
   "DOCSTRING"
   (interactive)

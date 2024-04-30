@@ -749,6 +749,22 @@ Version 2017-08-19"
             (delete-char -1))))
       (message "white space cleaned"))))
 
+(defun weiss-insert-week ()
+  "DOCSTRING"
+  (interactive)
+  (let* ((now (decode-time))
+         (month (decoded-time-month now))
+         (day (decoded-time-day now))
+         (year (decoded-time-year now))
+         (week (weiss-week-number month day year))
+         (week-monday (weiss-iso-week-to-time year week 1))
+         (week-sunday (weiss-iso-week-to-time year week 0))
+         )
+    (insert
+     (format "Week %s (%s ~ %s)" week (format-time-string "%0d.%m.%Y" week-monday) (format-time-string "%0d.%m.%Y" week-sunday)))    
+    )
+  )
+
 (defun weiss-insert-date()
   "When the time now is 0-4 AM, insert yesterday's date"
   (interactive)
@@ -975,7 +991,15 @@ Version 2017-08-19"
     (weiss-delete-backward-bracket-and-mark-bracket-text-latex-mode))
    (t (xah-delete-backward-char-or-bracket-text))))
 
-(defun weiss-downcase-region ()
+(defun weiss-toggle-letters ()
+  "DOCSTRING"
+  (interactive)
+  (if current-prefix-arg
+      (call-interactively 'weiss-subscriptify-region)
+    (call-interactively 'xah-toggle-letter-case)
+    ))
+
+(defun weiss-with-region (f)
   "DOCSTRING"
   (interactive)
   (let ((deactivate-mark nil)
@@ -987,15 +1011,24 @@ Version 2017-08-19"
         (setq $p1 (point))
         (skip-chars-forward "0-9A-Za-z")
         (setq $p2 (point))))
-    (downcase-region $p1 $p2)))
+    (funcall f $p1 $p2)
+    ))
 
-(defun weiss-toggle-letters ()
+(defun weiss-upcase-region ()
   "DOCSTRING"
   (interactive)
-  (if current-prefix-arg
-      (call-interactively 'weiss-subscriptify-region)
-    (call-interactively 'xah-toggle-letter-case)
-    ))
+  (weiss-with-region #'upcase-region))
+
+(defun weiss-upcase-initials-region ()
+  "DOCSTRING"
+  (interactive)
+  (weiss-with-region #'upcase-initials-region))
+
+(defun weiss-downcase-region ()
+  "DOCSTRING"
+  (interactive)
+  (weiss-with-region #'downcase-region)
+  )
 
 (defun xah-toggle-letter-case ()
   "Toggle the letter case of current word or text selection.

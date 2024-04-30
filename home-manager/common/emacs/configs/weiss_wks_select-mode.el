@@ -134,6 +134,10 @@
   (weiss-select-add-advice-deactivate-mark '(ess-eval-region-or-function-or-paragraph-and-step))
   )
 
+(with-eval-after-load 'embark
+  (weiss-select-add-advice-deactivate-mark '(embark--targets))
+  )
+
 (with-eval-after-load 'weiss_org_keybindings
   (weiss-select-add-advice-deactivate-mark '(weiss-org-export-beamer))
   )

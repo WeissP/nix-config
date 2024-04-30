@@ -6,30 +6,24 @@
                                     ((no-other-window . t)
                                      (mode-line-format . none)))))
 
-  (defun resize-embark-collect-completions ()
-    (fit-window-to-buffer
-     (get-buffer-window)
-     (floor (* 0.4 (frame-height)))
-     1))
+  
+  (setq embark-indicators
+        '(embark-minimal-indicator  ; default is embark-mixed-indicator
+          embark-highlight-indicator
+          embark-isearch-highlight-indicator))
 
-  (defun toggle-between-minibuffer-and-embark-collect-completions ()
-    (interactive)
-    (let ((w
-           (if (eq (active-minibuffer-window) (selected-window))
-               (get-buffer-window "*Embark Collect Completions*")
-             (active-minibuffer-window))))
-      (message "w: %s" (get-buffer-window "*Embark Collect Completions*"))
-      (when (window-live-p w)
-        (select-window w t)
-        (select-frame-set-input-focus (selected-frame) t))))
+  (defun weiss-embark-copy-file-name (f)
+    "DOCSTRING"
+    (kill-new (f-filename f))
+    )
 
-  (add-hook 'minibuffer-setup-hook #'embark-collect-completions-after-input)
-  (add-hook 'embark-collect-post-revert-hook #'resize-embark-collect-completions)
+  (with-eval-after-load 'vertico
+    (require 'vertico-multiform)
+    (add-to-list 'vertico-multiform-categories '(embark-keybinding grid))
+    (vertico-multiform-mode)
+    )
 
-  (setq embark-collect-initial-view-alist
-        '((t . list))
-        embark-collect-live-initial-delay 0.15
-        embark-collect-live-update-delay 0.15))
+  (add-hook 'embark-collect-mode-hook #'consult-preview-at-point-mode)
+  )
 
-;; parent: 
 (provide 'weiss_embark_settings)

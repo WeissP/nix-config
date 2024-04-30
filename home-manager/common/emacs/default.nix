@@ -115,6 +115,7 @@ in {
           "nerd-icons-corfu"
           "substitute"
           "denote"
+          "embark"
           "eglot"
           "flyspell-correct"
           "org"
@@ -225,6 +226,7 @@ in {
         pdf =
           [ "pdf-tools" "pdf-view" "pdf-view-restore" "literate-calc-mode" ];
         tools = [
+          [ "embark" "embark-consult" ]
           [ "chatu" "chatu-xournal" ]
           "mathpix"
           "direnv"

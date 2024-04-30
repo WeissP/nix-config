@@ -181,7 +181,8 @@ in {
       default = {
         chatu-xournal = {
           emacsPackages = [ "chatu-xournal" ];
-          externalPackages = [ pkgs.xournalpp ];
+          # xournalpp can not be installed in MacOS via nix
+          # externalPackages = [ pkgs.xournalpp ];
           cmds = let tempPath = myLib.resource "xournal-template/plain.xopp";
           in ''
             (setq chatu-xournal-template-path "${tempPath}")
@@ -544,6 +545,7 @@ in {
         #   inherit (final) trivialBuild;
         #   inherit (pkgs) fetchFromGitLab;
         # };
+        # circadian = pkgs.pinnedUnstables."2024-01-05".emacsPackages.circadian;
         org-xournalpp = pkgs.callPackage ./packages/org-xournalpp.nix {
           inherit (final) trivialBuild;
           inherit (pkgs) fetchFromGitLab;
