@@ -6,9 +6,6 @@
     (wks-unset-key pdf-history-minor-mode-map '("l") nil)
     )
 
-
-  ;; (wks-unset-key pdf-view-mode-map )
-
   (wks-define-key
    pdf-view-mode-map ""
    '(
@@ -18,6 +15,7 @@
      ("-" .  pdf-view-shrink)
      ("C--" .  pdf-view-shrink)
      ("C-+" .  pdf-view-enlarge)
+     ("C-v" .  pdf-view-enlarge)
      (")" .  weiss-pdf-view-enlarge)
      ("(" .  weiss-pdf-view-shrink)
      ;; ("1" .  weiss-pdf-view-previous-page-quickly)
@@ -27,7 +25,7 @@
      ("c" .  pdf-view-kill-ring-save)
      ;; ("d"  weiss-direct-insert-note)
      ("e" .  weiss-mind-wave-pdf-to-text)
-     ("h" .  pdf-view-fit-height-to-window)
+     ("b" .  pdf-view-fit-height-to-window)
      ("u" .  pdf-view-deactivate-region)
      ("i" .  image-backward-hscroll)
      ("j" .  (weiss-pdf-next-page (pdf-view-next-page-command) (image-set-window-vscroll 0)))

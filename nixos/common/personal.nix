@@ -9,10 +9,17 @@ with myEnv; {
     # Enable automatic login for the user.
     displayManager.autoLogin.enable = true;
     displayManager.autoLogin.user = "${username}";
+    libinput = {
+      enable = true;
+      touchpad = {
+        naturalScrolling = true;
+        accelSpeed = "0.5"; # float number between -1 and 1.
+      };
+    };
     xserver = {
       enable = true;
       autorun = true;
-      libinput.enable = true;
+
       xkb = {
         layout = "de";
         variant = ",nodeadkeys";
@@ -20,10 +27,6 @@ with myEnv; {
       wacom.enable = true;
       autoRepeatDelay = 230;
       autoRepeatInterval = 30;
-      libinput.touchpad = {
-        naturalScrolling = true;
-        accelSpeed = "0.5"; # float number between -1 and 1.
-      };
       displayManager.sessionCommands = ''
         Exec=GTK_IM_MODULE= QT_IM_MODULE= XMODIFIERS= emacs &
         vivaldi &

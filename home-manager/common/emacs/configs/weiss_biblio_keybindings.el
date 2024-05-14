@@ -2,6 +2,7 @@
  wks-leader-keymap
  "<end>"
  '(
+   ("a" . arxiv-lookup)
    ("b" . crossref-lookup)
    ("d" . biblio-doi-insert-bibtex)
    ))

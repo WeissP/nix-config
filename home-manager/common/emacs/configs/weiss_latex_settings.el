@@ -38,6 +38,11 @@
     (interactive)
     (reftex-reference )
     )
+
+  (defun quick-insert-insert-latex ()
+    "DOCSTRING"
+    (interactive)
+    (quick-insert-consult "latex environment"))
   )
 
 ;; parent: 

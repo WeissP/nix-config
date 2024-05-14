@@ -93,7 +93,7 @@
 (defun weiss-deactivate-mark-unless-in-select-mode (&rest args)
   "deactivate mark unless in select mode"
   (interactive)
-  (unless weiss-select-mode (deactivate-mark)))
+  (unless (or weiss-select-mode (eq major-mode #'pdf-view-mode)) (deactivate-mark)))
 
 (defun weiss-deactivate-mark-unless-in-select-mode-interactive (&rest args)
   "deactivate mark unless in select mode"
@@ -129,6 +129,11 @@
          python-shell-send-statement
          undo)))
   (weiss-select-add-advice-deactivate-mark cmds))
+
+
+(with-eval-after-load 'weiss_org_dwim
+  (weiss-select-add-advice-deactivate-mark '(+org/dwim-at-point))
+  )
 
 (with-eval-after-load 'ess
   (weiss-select-add-advice-deactivate-mark '(ess-eval-region-or-function-or-paragraph-and-step))
@@ -190,8 +195,8 @@
   :lighter " select"
   :keymap (let
               ((keymap (make-sparse-keymap)))
-            ;; (define-key keymap (kbd ";") 'xah-beginning-of-line-or-block)
-            (define-key keymap (kbd "h") 'xah-end-of-line-or-block)
+            (define-key keymap [remap weiss-select-line-downward]
+                        'xah-end-of-line-or-block)
             (define-key keymap (kbd "i") 'backward-char)
             (define-key keymap (kbd "j") 'next-line)
             (define-key keymap (kbd "k") 'previous-line)

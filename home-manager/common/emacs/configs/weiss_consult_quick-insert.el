@@ -105,10 +105,10 @@
        :name "underset"
        :pair ("\\underset{" . "}")
        )
-      ;; (
-      :name "Decoration with number"
-      :pair ("\\stackrel{\\pmb{\\mathit{1}}}{ " . " }")
-      ;; )
+      (
+       :name "Decoration with number"
+       :pair ("\\stackrel{\\pmb{\\mathit{1}}}{ " . " }")
+       )
       (
        :name "texttt"
        :pair ("\\texttt{" . "}")
@@ -231,7 +231,8 @@
    :require-match t
    :prompt "Quick Insert: "
    :history 'consult-quick-insert-history
-   :add-history (seq-some #'thing-at-point '(region symbol)))
+   :add-history (seq-some #'thing-at-point '(region symbol))
+   )
   )
 
 (provide 'weiss_consult_quick-insert)

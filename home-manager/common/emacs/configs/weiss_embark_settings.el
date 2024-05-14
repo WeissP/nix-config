@@ -7,10 +7,29 @@
                                      (mode-line-format . none)))))
 
   
+  (add-hook 'embark-collect-post-revert-hook
+            (defun resize-embark-collect-window (&rest _)
+              (when (memq embark-collect--kind '(:live :completions))
+                (fit-window-to-buffer (get-buffer-window)
+                                      (floor (frame-height) 2) 1))))
+
   (setq embark-indicators
         '(embark-minimal-indicator  ; default is embark-mixed-indicator
           embark-highlight-indicator
           embark-isearch-highlight-indicator))
+
+  (defun embark-default-action-in-other-window ()
+    "Run the default embark action in another window."
+    (interactive))
+  (cl-defun run-default-action-in-other-window
+      (&rest rest &key run type &allow-other-keys)
+    (let ((default-action (embark--default-action type)))
+      (split-window-below) ; or your preferred way to split
+      (funcall run :action default-action :type type rest)))
+  (setf (alist-get 'embark-default-action-in-other-window
+                   embark-around-action-hooks)
+        '(run-default-action-in-other-window))
+  (define-key embark-general-map "-" #'embark-default-action-in-other-window) 
 
   (defun weiss-embark-copy-file-name (f)
     "DOCSTRING"

@@ -35,11 +35,18 @@
     (require 'denote-journal-extras)
     )
   
+  (denote-extract-keywords-from-path   "/home/weiss/nix-config/home-manager/common/emacs/configs/weiss_denote_settings.el")
+
   (defun weiss-denote-pdf-note (&optional additional-keywords)
     "DOCSTRING"
     (interactive)
     (call-interactively 'org-store-link)
-    (let ((keywords (append weiss--denote-keywords (list additional-keywords)))
+    (let ((keywords  (-distinct
+                      (-non-nil
+                       (append
+                        weiss--denote-keywords
+                        additional-keywords
+                        (denote-extract-keywords-from-path (buffer-file-name))))))
           (title (if (pdf-view-active-region-p)
                      (replace-regexp-in-string
                       "\n" " "

@@ -4,7 +4,7 @@
   (wks-define-key
    LaTeX-mode-map ""
    '(("<end> <escape>" . quick-insert-insert-latex)
-     ("t" . (quick-insert-insert-latex (quick-insert-consult "latex environment")))
+     ("t" . quick-insert-insert-latex)
      ("<tab>" . save-buffer)
      ("C-c C-M-x r" . reftex-reference)
      ("C-c C-M-x c" . weiss-latex-to-pdf)

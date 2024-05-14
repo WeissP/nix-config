@@ -179,6 +179,7 @@ in {
     recipes = mkOption {
       description = "recipes";
       default = {
+        embark = { emacsPackages = [ "embark" "vlf" "sudo-edit" ]; };
         chatu-xournal = {
           emacsPackages = [ "chatu-xournal" ];
           # xournalpp can not be installed in MacOS via nix

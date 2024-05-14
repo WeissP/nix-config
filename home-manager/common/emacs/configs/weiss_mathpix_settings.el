@@ -29,7 +29,9 @@
              `(("src" . ,(format "data:image/%s;base64,%s"
                                  (file-name-extension file)
                                  (mathpix-get-b64-image file)))
-               ("formats" . ,(list "latex_styled"))
+               ("idiomatic_eqn_arrays" . true)
+               ("idiomatic_braces" . true)
+               ("formats" . ("text"))
                ("format_options" .
                 ,`(("math_delims" . '("\\(" "\\)"))
                    ("displaymath_delims" . '("\\[" "\\]"))))))
@@ -37,26 +39,20 @@
       :sync t
       :complete (cl-function
                  (lambda (&key response &allow-other-keys)
-                   (->>
-                    response
-                    (request-response-data)
-                    ;; ((lambda (data) (message "data: %s" data) data))
-                    (alist-get 'latex_styled)
-                    ;; preventing org rendering org-emphasis
-                    (s-replace "*" " * ") 
-                    (s-replace "+" " + ") 
-                    (s-replace "~" " ~ ") 
-                    (s-replace "-" " - ") 
-                    (s-replace "=" " = ") 
-                    (s-replace "^{\\top}" "^{T}") ; Transpose but not \top
-                    ((lambda (text)
-                       (insert (cond
-                                ((s-contains? "\n" text) text)
-                                (line-empty-p (format "\\[%s\\]" text))
-                                (t (format "\\(%s\\)" text))
-                                ))
-                       ))
-                    ))))
+                   (-some->>
+                       response
+                     (request-response-data)
+                     ((lambda (data) (message "data: %s" data) data))
+                     (alist-get 'text)
+                     ;; preventing org rendering org-emphasis
+                     (s-replace "*" " * ") 
+                     (s-replace "+" " + ") 
+                     (s-replace "~" " ~ ") 
+                     (s-replace "-" " - ") 
+                     (s-replace "=" " = ") 
+                     (s-replace "^{\\top}" "^{T}") ; Transpose but not \top
+                     (insert)
+                     ))))
     ))
 
 

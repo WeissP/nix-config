@@ -19,7 +19,6 @@
             (bg-mode-line-active bg-sage)
             (bg-line-number-inactive unspecified)
             (bg-line-number-active bg-sage)
-            (bg-hover unspecified)
             (fringe unspecified)
             (bg-paren-match bg-magenta-intense)
             (comment fg-dim)
@@ -68,6 +67,10 @@
         )
       )
     (modus-themes-with-colors 
+      (custom-set-faces
+       '(embark-target
+         ((t (:underline t :weight normal)))))
+
       (custom-set-faces
        '(underline
          ((t (:underline t :weight normal))))       

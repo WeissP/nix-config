@@ -36,11 +36,6 @@ in {
           module Main where
 
           import WeissXMonad
-          import WeissLogger
-          import WeissNamedScratchpad
-          import WeissPromptPass
-          import WeissWindowOperations
-          import WeissXmobar
 
           main :: IO ()
           main = WeissXMonad.runXmonad "${xmobarDir}"

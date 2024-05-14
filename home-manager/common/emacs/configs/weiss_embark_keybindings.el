@@ -15,29 +15,104 @@
 (with-eval-after-load 'embark
   (setq embark-help-key "?")
   
+  (with-eval-after-load 'eglot
+    (define-key eglot-mode-map [remap display-local-help] #'eldoc))
+
+  (wks-define-key
+   embark-general-map
+   ""
+   '(
+     ("d" . fanyi-dwim)
+     ))
+
   (wks-define-key
    embark-file-map
    ""
    '(
+     ("d" . fanyi-dwim)
      ("n" . weiss-embark-copy-file-name)
+     ("s" . sudo-edit)
+     ("vlf" . vlf)
      ))
 
   (wks-define-key
    embark-symbol-map
    ""
    '(
+     ("d" . fanyi-dwim)
      ("l" . embark-toggle-highlight)
-     ("c" . weiss-upcase-initials-region)
+     ("c" . weiss-capitalize-region)
      ("<up>" . weiss-upcase-region)
      ("<down>" . weiss-downcase-region)
+     ))
+
+  (wks-define-key
+   embark-region-map
+   ""
+   '(
+     ("s" . weiss-subscriptify-region)
+     ("d" . fanyi-dwim)
+     ("-" . weiss-add-dashs)
+     ("_" . xah-cycle-hyphen-underscore-space)
+     ("l" . embark-toggle-highlight)
+     ("c" . weiss-capitalize-region)
+     ("f" . xah-fill-or-unfill)
+     ("<up>" . weiss-upcase-region)
+     ("<down>" . weiss-downcase-region)
+     ))
+
+  (wks-define-key
+   embark-paragraph-map
+   ""
+   '(
+     ("_" . xah-cycle-hyphen-underscore-space)
+     ("f" . xah-fill-or-unfill)
+     ))
+
+  (wks-define-key
+   embark-sentence-map
+   ""
+   '(
+     ("_" . xah-cycle-hyphen-underscore-space)
+     ("f" . xah-fill-or-unfill)
+     ))
+
+  (wks-define-key
+   embark-defun-map
+   ""
+   '(
+     ("<up>" . puni-slurp-forward)
+     ("<down>" . weiss-add-parent-sexp)
+     ("<" . weiss-delete-parent-sexp)
+     ))
+
+  (wks-define-key
+   embark-expression-map
+   ""
+   '(
+     ("<up>" . puni-slurp-forward)
+     ("<down>" . weiss-add-parent-sexp)
+     ("<" . weiss-delete-parent-sexp)
      ))
 
   (wks-define-key
    embark-command-map
    ""
    '(
+     ("d" . fanyi-dwim)
      ("l" . embark-toggle-highlight)
-     ("c" . weiss-upcase-initials-region)
+     ("c" . weiss-capitalize-region)
+     ("<up>" . weiss-upcase-region)
+     ("<down>" . weiss-downcase-region)
+     ))
+
+  (wks-define-key
+   embark-identifier-map
+   ""
+   '(
+     ("d" . fanyi-dwim)
+     ("l" . embark-toggle-highlight)
+     ("c" . weiss-capitalize-region)
      ("<up>" . weiss-upcase-region)
      ("<down>" . weiss-downcase-region)
      ))
@@ -46,8 +121,9 @@
    embark-variable-map
    ""
    '(
+     ("d" . fanyi-dwim)
      ("l" . embark-toggle-highlight)
-     ("c" . weiss-upcase-initials-region)
+     ("c" . weiss-capitalize-region)
      ("<up>" . weiss-upcase-region)
      ("<down>" . weiss-downcase-region)
      ))

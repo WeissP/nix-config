@@ -10,6 +10,7 @@
      ("j" . substitute-target-below-point)
      ("k" . substitute-target-above-point)
      ("a" . anzu-query-replace)
+     ("r" . anzu-query-replace-regexp)
      ))
   )
 

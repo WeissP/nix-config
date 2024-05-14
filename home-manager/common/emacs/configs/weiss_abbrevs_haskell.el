@@ -7,7 +7,7 @@
       ("case" "case ▮ of\n  _ -> error \"TODO\"" weiss--ahf)
       ("class" "class ▮ a where\n  method :: a -> a" weiss--ahf)
       ("data" "data ▮ deriving stock (Show)" weiss--ahf)
-      ("do" "do\n  ▮\n    return $ undefined" weiss--ahf)
+      ("do" "do\n  ▮\n  return $ undefined" weiss--ahf)
       ("im" "import " weiss--ahf)
       ("ins" "instance ▮ Bool where" weiss--ahf)
       ("j" "Just " weiss--ahf)

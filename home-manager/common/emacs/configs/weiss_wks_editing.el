@@ -1024,6 +1024,13 @@ Version 2017-08-19"
   (interactive)
   (weiss-with-region #'upcase-initials-region))
 
+(defun weiss-capitalize-region ()
+  "DOCSTRING"
+  (interactive)
+  (call-interactively 'weiss-downcase-region)
+  (call-interactively 'weiss-upcase-initials-region)
+  )
+
 (defun weiss-downcase-region ()
   "DOCSTRING"
   (interactive)

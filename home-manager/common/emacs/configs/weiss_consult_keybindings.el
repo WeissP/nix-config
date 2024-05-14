@@ -1,32 +1,51 @@
+(define-prefix-command 'wks-consult-multi-keymap)
+
 (wks-define-key
- (current-global-map)
+ wks-prompt-keymap
  ""
- '(("n" . consult-line)
+ '(
+   ("n" . weiss-denote-consult)
+   ("d" . consult-fd)
+   ("m" . wks-consult-multi-keymap)
+   ("r" . consult-ripgrep)
    ))
 
 (wks-define-key
- wks-leader-keymap  ""
+ (current-global-map)
+ ""
  '(
-   ("i f" .  consult-find)
-   ("i v" .  consult-yank-pop)
-   ("i i" .  consult-imenu)
-   ("i m i" .  consult-imenu-multi)
+   ("n" . consult-line)
+   ("s" . consult-buffer)
+   ))
 
-   ("k l" .  consult-goto-line)
+(with-eval-after-load 'dired
+  (wks-define-key
+   dired-mode-map
+   ""
+   '(
+     ("n" . consult-line)
+     ("s" . consult-buffer)
+     ))
+  )
+
+(wks-define-key
+ wks-consult-multi-keymap  ""
+ '(
+   ("i" .  consult-imenu-multi)
    )
  )
 
-;; not work in org-noter
+(define-key (current-global-map) [remap yank-pop] 'consult-yank-pop)
+(define-key (current-global-map) [remap imenu] 'consult-imenu)
+(define-key (current-global-map) [remap goto-line] 'consult-goto-line)
+
 (with-eval-after-load 'org
-  (define-key org-mode-map [remap consult-imenu] 'consult-org-heading)
-)
+  (define-key org-mode-map [remap imenu] 'consult-org-heading)
+  )
 
 (with-eval-after-load 'consult
   (setq consult-narrow-key "<f5>")
-)
-(defun weiss-test ()
-  "DOCSTRING"
-  (interactive)
-  (consult-buffer))
+  )
+
 
 (provide 'weiss_consult_keybindings)

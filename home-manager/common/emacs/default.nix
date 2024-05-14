@@ -160,6 +160,7 @@ in {
         "snails"
         "snails-custom-backends"
         "recentf-db"
+        "recentf"
         "latex"
         "dabbrev"
         # "weiss-tsc-mode"
@@ -173,7 +174,7 @@ in {
         edit = [ "puni" "apheleia" "abbrevs" "separedit" "elec-pair" ];
         completion = [
           # [ "company" "company-box" ]
-          [ "snails" "snails-custom-backends" ]
+          # [ "snails" "snails-custom-backends" ]
           "yasnippet"
           [ "vertico" "vertico-directory" ]
           "orderless"
@@ -228,10 +229,12 @@ in {
         tools = [
           [ "embark" "embark-consult" ]
           [ "chatu" "chatu-xournal" ]
+          "rfc-mode"
           "mathpix"
           "direnv"
           "project"
-          "recentf-db"
+          # "recentf-db"
+          "recentf"
           "rg"
           "which-key"
           "super-save"
@@ -324,15 +327,11 @@ in {
         apps = [ "pass" "nov" "telega" ];
         inputs = [ "agda-input" "rime" ];
         test = [
-          "yasnippet"
-          "direnv"
-          "scala-mode"
-          "eglot"
-          "corfu"
-          "cape"
-          "orderless"
-          "global"
-          "wks"
+          libs
+          core
+          "consult"
+          "vertico"
+          # completion
         ];
       in lib.lists.flatten [
         # test

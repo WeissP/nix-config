@@ -27,15 +27,6 @@
     (citar-denote--add-reference citekey citar-denote-file-type))
   (advice-add 'citar-denote--create-note :override #'weiss-citar-denote--create-note)
 
-
-  (defun weiss-test ()
-    "DOCSTRING"
-    (interactive)
-    (weiss-citar-denote--create-annotation-note))
-
-  (append nil '(1) '(1) (when nil 1))
-
-
   (defun weiss-citar-denote--pdf-note-keywords (&optional additional-keywords)
     "let notes created at academic dir"
     (interactive)

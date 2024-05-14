@@ -91,7 +91,7 @@
  weiss/academic-documents (file-name-as-directory (concat weiss/academic-dir "documents"))
  weiss/bibs (concat
              weiss/academic-documents
-             "20240413T081114--bibliography__academic_db.bib")
+             "20240413T081114--bibliography__academic.bib")
  )
 
 (provide 'weiss_global_user-settings)

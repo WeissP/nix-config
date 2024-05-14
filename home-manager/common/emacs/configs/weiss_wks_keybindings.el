@@ -45,6 +45,8 @@
    ("<backtab>" . weiss-indent)
    ("<S-delete>" . (weiss-insert-single-slash (insert "\\")))
    ("M-DEL" . (weiss-insert-single-vertical-bar (insert "|")))
+   ("M-j" . forward-paragraph)
+   ("M-k" . backward-paragraph)
    ("<f5>" . revert-buffer)
    ("<f12>" . dabbrev-expand)
    ("M-e" . eldoc)
@@ -98,6 +100,7 @@
 
 
 
+;; ? b \ g t
 
 (global-unset-key (kbd "y"))
 (wks-define-key
@@ -105,7 +108,7 @@
  ""
  `(("S-<dead-grave>" . weiss-open-line-and-indent)
    ("ß" . save-buffer)
-   (";" . weiss-expand-region-by-word)
+   (";" . weiss-insert-semicolon)
    ("|" . weiss-puni-backward-sexp)
    ("$" . weiss-delete-other-window)
    ("^" . weiss-delete-other-window)
@@ -124,14 +127,13 @@
    ("#" . weiss-mark-brackets)
    
    ("a" . weiss-split-or-switch-window)
-   ("b" . weiss-toggle-letters)
+   ;; ("b" . weiss-toggle-letters)
    ("c" . xah-copy-line-or-region)
-   ("C" . weiss-kill-append-with-comma)
    ("d" . weiss-puni-kill-line)
    ("e" . weiss-delete-backward-with-region)
    ("f" . wks-vanilla-mode-enable)
    ("g" . weiss-universal-argument)
-   ("h" . weiss-select-line-downward)
+   ("b" . weiss-select-line-downward)
    ("i" . weiss-left-key)
    ("j" . weiss-down-key)
    ("k" . weiss-up-key)
@@ -141,23 +143,14 @@
    ("o" . weiss-expand-region-by-sexp)
    ("O" . weiss-contract-region-by-word)
    ("p" . weiss-open-line-and-indent)
-   ("P" . weiss-contract-region-by-sexp)
    ("q" . weiss-temp-insert-mode)
    ("r" . weiss-delete-forward-with-region)
-   ;; ("s" . consult-buffer)
-   ("s" . snails)
-
-   ("y /" . puni-slurp-forward)
-   ("y <right>" . transpose-sexps)
-   ("y <left>" . move-sexp-left)
+   ;; ("s" . snails)
 
    ("u" . undo)
    ("v" . xah-paste-or-paste-previous)
-   ("V" .  weiss-paste-with-linebreak)
    ("w" . wks-repeat-command)
    ("x" . weiss-comment-dwim)
-   ("t" . weiss-delete-or-add-parent-sexp)
-   ("z" . split-window-below)
    ("<escape>" . weiss-simulate-c-g)
    ("SPC" . wks-leader-keymap)
    ("<deletechar>" . wks-leader-keymap)

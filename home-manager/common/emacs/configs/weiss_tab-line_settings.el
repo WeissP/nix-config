@@ -16,6 +16,7 @@
 (defun weiss-tab-bind-group (group-name)
   "DOCSTRING"
   (interactive "sGroup Name: ")
+  ;; (message "group-name: %s" group-name)
   (let ((elem `(,(selected-frame) . ,group-name))
         )
     (weiss-tab-unbind-group)
@@ -59,6 +60,12 @@
                (plist-put weiss-tab-groups (intern key))
                (setq weiss-tab-groups)))
 
+(defun weiss-load-tab-group (key)
+  "DOCSTRING"
+  (interactive)
+  (weiss-load-file-group-to-tab key)
+  (weiss-tab-bind-group key))
+
 (defun weiss-file-groups-to-file (file-groups)
   "DOCSTRING"
   (interactive)
@@ -77,7 +84,7 @@
      file-groups))
    nil weiss-tab-groups-file))
 
-(defun weiss-file-groups-delete (reg)
+(defun weiss-file-groups-delete-reg (reg)
   "DOCSTRING"
   (interactive)
   (weiss-load-file-groups)
@@ -87,6 +94,12 @@
     (setq weiss-file-groups (-remove-at-indices indices weiss-file-groups))
     (weiss-file-groups-to-file weiss-file-groups)
     )
+  )
+
+(defun weiss-file-groups-delete (name)
+  "DOCSTRING"
+  (interactive)
+  (weiss-file-groups-delete-reg (regexp-quote name))
   )
 
 (defun weiss-dump-tab-groups ()
@@ -158,18 +171,6 @@
     )
   )
 
-(defun weiss-test ()
-  "DOCSTRING"
-  (interactive)
-  (weiss-new-frame)
-  (weiss-tab-bind-group "nix")
-  (shell-command "wmctrl -r :ACTIVE: -t \"7.6\"")
-  ;; (weiss-new-frame)
-  ;; (weiss-tab-bind-group "emacs")
-  ;; (shell-command "wmctrl -r :ACTIVE: -t '7.5'")
-  )
-
-
 (defun weiss-tab-prev ()
   "DOCSTRING"
   (interactive)
@@ -188,6 +189,14 @@
   (when-let ((name (weiss-tab-get-current-group-name)))
     (plist-get weiss-tab-groups (intern name))))
 
+(defun weiss-tab-all-group-names ()
+  "DOCSTRING"
+  (interactive)
+  (mapcar 'symbol-name
+          (seq-filter
+           (lambda (x) (not (listp x)))
+           (append weiss-tab-groups weiss-file-groups))))
+
 (defun weiss-tab-group-or-buffer ()
   "DOCSTRING"
   (interactive)
@@ -204,6 +213,7 @@
     '("no group")))
 
 (with-eval-after-load 'tab-line
+  (weiss-load-file-groups)
   (setq tab-line-tabs-function 'weiss-tab-group-or-buffer)
   (global-tab-line-mode)
   )

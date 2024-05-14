@@ -122,7 +122,12 @@
   )
 
 (with-eval-after-load 'tab-line
-
+  (wks-define-key
+   wks-prompt-keymap
+   ""
+   '(
+     ("t" . weiss-tab-line-init-workspaces-prompt)
+     ))
   )
 
 

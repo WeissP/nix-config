@@ -16,8 +16,7 @@
    (". x" .  widen)
    (". r" .  narrow-to-region)
    (". d" .  narrow-to-defun)
-
-   ("-" . xah-cycle-hyphen-underscore-space)
+   
    ("_" . weiss-insert-underscore)
    (";" . save-buffer)
    ("`" . delete-window)
@@ -29,16 +28,13 @@
    ("a" . weiss-split-window-dwim)
 
    ("b a" . mark-whole-buffer)
+   ("b b" . weiss-save-current-content)
    ("b c" . weiss-copy-whole-buffer)
-   ("b k" . (weiss-kill-whole-buffer (kill-region (point-min) (point-max))))
-   ("b x" . (weiss-comment-whole-buffer (comment-or-uncomment-region
-                                         (point-min)  (point-max))))
    ("b d" . (weiss-delete-whole-buffer (delete-region (point-min) (point-max))))
-   ("b e" . (weiss-paste-whole-buffer
-             (progn
-               (weiss-delete-whole-buffer)
-               (yank)
-               ) ))
+   ("b e" . (weiss-paste-whole-buffer (progn (weiss-delete-whole-buffer) (yank))))
+   ("b k" . (weiss-kill-whole-buffer (kill-region (point-min) (point-max))))
+   ("b l" . list-buffers)
+   ("b x" . (weiss-comment-whole-buffer (comment-or-uncomment-region (point-min)  (point-max))))
 
    ("c a" . weiss-kill-append-with-and)
    ("c b" . weiss-copy-whole-buffer)
@@ -54,22 +50,12 @@
    ("c l" . weiss-kill-append-with-pipe)
    ("c r" . xah-copy-to-register-1)
    ("c v" . xah-paste-from-register-1)
-
-
-   ("d b" .  weiss-save-current-content)
-   ;; ("d d" .  weiss-switch-and-bookmarks-search)
-   ("d l" .  list-buffers)
+   
    ("d m" .  magit-status)
    ("d n" .  weiss-new-temp-file)
-   ("d o" .  xah-open-file-at-cursor)
-   ("d w" .  xah-open-in-external-app)
-
-   ("e b" .  org-babel-tangle)
-   ("e c" .  org-capture)
-   ("e -" .  weiss-add-dashs)
-
-   ("f" . execute-extended-command)
-   ("g" . kill-line)
+   
+   ;; ("f" . execute-extended-command)
+   ;; ("g" . kill-line)
    ("h" . beginning-of-buffer)
 
    ("i d" .  weiss-insert-date)
@@ -106,33 +92,14 @@
 
    ("TAB" . indent-rigidly)
 
-   ("k $" .  xah-copy-to-register-1)
-   ("k -" .  xah-cycle-hyphen-underscore-space)
-   ("k 0" .  sort-numeric-fields)
-   ("k 1" .  xah-append-to-register-1)
-   ("k 2" .  xah-clear-register-1)
-   ("k 3" .  xah-copy-to-register-1)
-   ("k 4" .  xah-paste-from-register-1)
-   ("k 7" .  xah-append-to-register-1)
-   ("k 8" .  xah-clear-register-1)
-   ("k DEL" .  xah-paste-from-register-1)
    ("k N" .  sort-numeric-fields)
    ("k S" .  reverse-region)
    ("k S" .  sort-fields)
    ("k TAB" . align-regexp)
-   ("k c" .  move-to-column)
    ("k d" .  delete-non-matching-lines)
-   ("k e" .  list-matching-lines)
    ("k f" .  delete-frame)
-   ("k i" .  weiss-indent)
-   ("k l" .  goto-line)
-   ("k m" .  xah-make-backup-and-save)
-   ("k n" .  repeat-complex-command)
-   ("k q" .  xah-reformat-lines)
-   ("k r" .  anzu-query-replace-regexp)
+   ("k c" .  move-to-column)
    ("k s" .  sort-lines)
-   ("k t" .  repeat)
-   ("k u" .  delete-matching-lines)
    ("k w" .  delete-window)
    ("k x" .  kill-current-buffer)
    ("k y" .  delete-duplicate-lines)
@@ -140,15 +107,12 @@
 
    ("l SPC" .  whitespace-mode)
    ("l ." . toggle-frame-fullscreen)
-   ("l 0" . shell-command-on-region)
    ("l C" .  toggle-case-fold-search)
    ("l b" .  toggle-debug-on-error)
    ("l c" .  dired-collapse-mode)
    ("l e" .  eshell)
    ("l h" .  weiss-toggle-hl-line)
    ("l t" .  toggle-truncate-lines)
-   ("l l" .  highlight-symbol)             ;wrap-line
-   ("l m" .  shell-command)
    ("l n" .  display-line-numbers-mode)
    ("l r" .  dired-toggle-read-only)
    ("l s" .  sudo-edit)
@@ -158,7 +122,6 @@
    ("n" . end-of-buffer)
 
    ("o t" .  telega)
-   ("o v" . yank-rectangle)
    ("o s" . weiss-start-kmacro)
    ("o l" . weiss-kmacro-insert-letter)
    ("o k" . weiss-deactivate-mark)
@@ -172,24 +135,20 @@
    ("q" . xah-fill-or-unfill)
    ("r" . anzu-query-replace)
 
-   ("s c" . flyspell-auto-correct-word)
-   ("s s" . weiss-flyspell-save-word)
+   ;; ("s c" . flyspell-auto-correct-word)
+   ;; ("s s" . weiss-flyspell-save-word)
    ;; ("s r" . weiss-wucuo-spell-check-visible-region)
-   ("s g" . wucuo-start)
+   ;; ("s g" . wucuo-start)
 
 
 
    ;; ("u" . isearch-forward)
-
-   ("w f" .  xref-find-definitions)
-   ;; ("w m" .  list-bookmarks)
+   
    ("w n" .  weiss-new-frame)
    ("w t" .  weiss-test)
-   ("w l" .  xref-pop-marker-stack)
    ("w u" .  winner-undo)                  ;windows setting
    ("w r" .  winner-redo)
-   ("w o" .  org-babel-tangle-jump-to-org)
-
+   
    ("x s" . weiss-save-all-buffers))
  )
 

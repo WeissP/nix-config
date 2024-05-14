@@ -22,6 +22,7 @@
    org-id-link-to-org-use-id 'create-if-interactive
    org-outline-path-complete-in-steps nil
    org-preview-latex-default-process 'dvisvgm
+   ;; org-preview-latex-default-process 'dvipng
    org-return-follows-link t
    )
 
@@ -41,7 +42,7 @@
           (eq 'latex-fragment (org-element-type (org-element-context (org-element-at-point))))
           (eq 'latex-environment (org-element-type (org-element-context (org-element-at-point))))
           ))
-        (quick-insert-consult "latex environment")
+        (call-interactively 'quick-insert-insert-latex)
       (call-interactively 'weiss-org-preview-latex-and-image)
       )
     )
