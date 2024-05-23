@@ -37,7 +37,7 @@
   
   (denote-extract-keywords-from-path   "/home/weiss/nix-config/home-manager/common/emacs/configs/weiss_denote_settings.el")
 
-  (defun weiss-denote-pdf-note (&optional additional-keywords)
+  (defun weiss-denote-pdf-note (&rest additional-keywords)
     "DOCSTRING"
     (interactive)
     (call-interactively 'org-store-link)

@@ -17,6 +17,11 @@
        :new-line t
        )
       (
+       :name "clojure"
+       :pair ("#+BEGIN_SRC clojure" . "#+END_SRC")
+       :new-line t
+       )
+      (
        :name "scala"
        :pair ("#+BEGIN_SRC scala" . "#+END_SRC")
        :new-line t

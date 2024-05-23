@@ -51,7 +51,7 @@
               # v2ray
               coreutils
               # calibre
-              dbeaver
+              dbeaver-bin
               pdfminer
               (rWrapper.override {
                 packages = with rPackages; [ purrr ggplot2 ];
