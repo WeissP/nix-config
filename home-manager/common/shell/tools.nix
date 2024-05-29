@@ -1,7 +1,7 @@
 { config, myEnv, secrets, lib, pkgs, ... }:
 with myEnv; {
   programs = {
-    bat.enable = true;
+    bat.enable = false;
     atuin = {
       enable = true;
       enableZshIntegration = true;
@@ -33,9 +33,9 @@ with myEnv; {
     };
     fzf.enable = true;
     jq.enable = true;
-    services.gpg-agent = {
-      enableNushellIntegration = true;
-      enableZshIntegration = true;
-    };
+  };
+  services.gpg-agent = {
+    enableNushellIntegration = true;
+    enableZshIntegration = true;
   };
 }

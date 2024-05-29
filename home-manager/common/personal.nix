@@ -11,8 +11,7 @@
     ./fusuma.nix
     ./flameshot.nix
     ./webman.nix
-    ./shell.nix
-    ./aliases.nix
+    ./shell
     ./hledger.nix
     ./sioyek.nix
     ./xscreensaver.nix
@@ -51,7 +50,6 @@
               # v2ray
               coreutils
               # calibre
-              dbeaver-bin
               pdfminer
               (rWrapper.override {
                 packages = with rPackages; [ purrr ggplot2 ];
@@ -100,6 +98,7 @@
               qq
               simplescreenrecorder
               tlaplus
+              dbeaver-bin
               tlaplusToolbox
               vivaldi
               wkhtmltopdf-bin
@@ -202,6 +201,7 @@
         programs = { gpg = { enable = true; }; };
 
         services = {
+          pueue = { enable = false; };
           dunst.enable = true;
           blueman-applet.enable = true;
           mpris-proxy.enable = true; # let buttons of bluetooth devices work

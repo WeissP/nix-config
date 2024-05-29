@@ -7,7 +7,7 @@
   (add-to-list 'jinx-exclude-regexps
                `(org-mode
                  ;; for logic string
-                 ,(rx word-start (repeat 1 5 (any "abuvwxyz")) word-end)
+                 ,(rx word-start (repeat 1 5 (any "abcuvwxyz")) word-end)
                  ;; for unicode
                  "[a-zA-Z']*[^[:ascii:]äßöüÄÖÜ]+[a-zA-Z']*"
                  ))

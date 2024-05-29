@@ -33,10 +33,6 @@
               (ifLinux { trusted-users = [ "root" "${username}" ]; })
             ];
 
-            extraOptions = ''
-              keep-outputs = true
-              keep-derivations = true
-            '';
             gc = { automatic = true; };
           }
           (ifDarwin {
@@ -46,11 +42,15 @@
             };
             extraOptions = ''
               extra-platforms = aarch64-darwin x86_64-darwin
-              keep-outputs = true
-              keep-derivations = true
+              keep-outputs = false
+              keep-derivations = false
             '';
           })
           (ifLinux {
+            extraOptions = ''
+              keep-outputs = true
+              keep-derivations = true
+            '';
             gc = {
               dates = "weekly";
               options = "--delete-older-than 7d";

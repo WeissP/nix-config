@@ -17,6 +17,11 @@
        :new-line t
        )
       (
+       :name "python with session"
+       :pair ("#+BEGIN_SRC python :session :results output" . "#+END_SRC")
+       :new-line t
+       )
+      (
        :name "clojure"
        :pair ("#+BEGIN_SRC clojure" . "#+END_SRC")
        :new-line t
@@ -101,6 +106,10 @@
       (
        :name "mathbf"
        :pair ("\\mathbf{" . "}")
+       )
+      (
+       :name "mathbb"
+       :pair ("\\mathbb{" . "}")
        )
       (
        :name "reference"

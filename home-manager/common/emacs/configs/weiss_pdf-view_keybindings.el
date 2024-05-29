@@ -2,6 +2,7 @@
   ;; (require 'pdf-outline)
   ;; (setq pdf-view-mode-map (wks-define-vanilla-keymap))
   (wks-unset-key pdf-view-mode-map '("SPC" "-" "s" "g" "u") t)
+
   (with-eval-after-load 'pdf-history
     (wks-unset-key pdf-history-minor-mode-map '("l") nil)
     )

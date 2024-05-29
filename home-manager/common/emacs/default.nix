@@ -195,6 +195,7 @@ in {
             "ob-ammonite"
             "scala-cli-repl"
           ]
+          "nushell-mode"
           [ "elixir-mode" "flymake-elixir" "inf-elixir" "ob-elixir" ]
           [ "clojure-mode" "cider" ]
           "typescript-mode"
@@ -242,7 +243,7 @@ in {
           "gud"
           "quickrun"
           "eglot"
-          [ "lsp-bridge" "flymake-bridge" ]
+          # [ "lsp-bridge" "flymake-bridge" ]
           [ "magit" "forge" ]
           "browse-at-remote"
           "aweshell"
@@ -268,6 +269,7 @@ in {
         ];
         org = [
           "org"
+          "org-clock-csv"
           # "org-xournalpp"
           "weiss-org-sp"
           "org-cite"

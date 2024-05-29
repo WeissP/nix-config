@@ -6,9 +6,16 @@ with myEnv; {
       settings = {
         add_newline = true;
         scan_timeout = 20;
+        shell = {
+          disabled = false;
+          zsh_indicator = "𝒛𝒔𝒉>>>";
+          nu_indicator = "𝒏𝒖>>>";
+          style = "cyan";
+        };
         character = {
-          success_symbol = "[λ](bold green) ";
-          error_symbol = "[λ](bold red) ";
+          # success_symbol = "[λ](bold green) ";
+          success_symbol = "";
+          error_symbol = "[](red) ";
         };
         git_status = {
           conflicted = "conflicted×\${count}(red) ";
