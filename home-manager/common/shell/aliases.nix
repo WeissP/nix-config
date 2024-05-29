@@ -40,5 +40,6 @@ let
 in {
   programs.bash = { inherit shellAliases; };
   programs.zsh = { inherit shellAliases; };
+  programs.nushell = { inherit shellAliases; };
 }
 
