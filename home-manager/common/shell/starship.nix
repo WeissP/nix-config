@@ -18,18 +18,13 @@ with myEnv; {
           error_symbol = "[](red) ";
         };
         git_status = {
-          conflicted = "conflicted×\${count}(red) ";
-          ahead = "ahead ×\${count}";
-          behind = "behind×\${count} ";
-          diverged = "🔱 🏎️ 💨 ×\${ahead_count} 🐢 ×\${behind_count} ";
-          untracked = "untracked×\${count} ";
-          stashed = "stashed ";
-          modified = "📝×\${count} ";
-          staged = "staged×\${count} ";
-          renamed = "renamed×\${count} ";
-          deleted = "deleted×\${count} ";
-          style = "bright-white ";
-          format = "$all_status$ahead_behind";
+          conflicted = "[🏳](red)";
+          ahead = "⇡\${count}";
+          diverged = "⇕⇡\${ahead_count}⇣\${behind_count}";
+          behind = "⇣\${count}";
+          modified = "📝×\${count}";
+          style = "purple";
+          format = "$conflicted [$modified]($style) [$ahead_behind]($style) ";
         };
         battery.display = [{
           threshold = 80;

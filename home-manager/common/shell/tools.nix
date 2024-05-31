@@ -6,6 +6,8 @@ with myEnv; {
       enable = true;
       enableZshIntegration = true;
       enableNushellIntegration = true;
+      flags = [ "--disable-up-arrow" ];
+      settings = { auto_sync = false; };
     };
     broot = {
       enable = true;

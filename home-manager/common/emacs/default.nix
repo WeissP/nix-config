@@ -230,6 +230,7 @@ in {
         tools = [
           [ "embark" "embark-consult" ]
           [ "chatu" "chatu-xournal" ]
+          "pueue"
           "rfc-mode"
           "mathpix"
           "direnv"

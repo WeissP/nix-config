@@ -201,7 +201,7 @@
         programs = { gpg = { enable = true; }; };
 
         services = {
-          pueue = { enable = false; };
+          pueue = { enable = true; };
           dunst.enable = true;
           blueman-applet.enable = true;
           mpris-proxy.enable = true; # let buttons of bluetooth devices work
