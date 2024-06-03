@@ -7,12 +7,14 @@
 
   (add-to-list 'eglot-ignored-server-capabilities :documentHighlightProvider)
   (add-to-list 'eglot-ignored-server-capabilities :inlayHintProvider)
+  
   ;; (add-to-list 'eglot-ignored-server-capabilities :hoverProvider)
   ;; (setq eglot-ignored-server-capabilities nil)
   
   ;; (setq eglot-stay-out-of '(yasnippet))
   ;; (fset #'eglot--snippet-expansion-fn #'ignore)
 
+  (add-hook 'eglot-mode-hook #')
   (setq eglot-events-buffer-config '(:size 0 :format full))
   (setq-default
    eglot-workspace-configuration

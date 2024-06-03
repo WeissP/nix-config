@@ -9,6 +9,11 @@ with myEnv; {
       flags = [ "--disable-up-arrow" ];
       settings = { auto_sync = false; };
     };
+    carapace = {
+      enable = true;
+      enableZshIntegration = true;
+      enableNushellIntegration = true;
+    };
     broot = {
       enable = true;
       enableZshIntegration = true;

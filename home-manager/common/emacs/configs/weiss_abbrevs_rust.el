@@ -27,6 +27,7 @@
         ("impl"  "impl ▮ for {\n\n}" weiss--ahf-indent)
         ("l"  "let" weiss--ahf)
         ("lm"  "let mut" weiss--ahf)
+        ("lbd"  "Fn(▮) -> ()" weiss--ahf)
         ("mut"  "mut ▮;" weiss--ahf)
         ("macro"  "macro_rules! ▮ {\n    ($e:expr) => {\n\n    };\n}\n" weiss--ahf)
         ("let"  "let ▮;" weiss--ahf)
