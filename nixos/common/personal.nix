@@ -33,6 +33,7 @@ with myEnv; {
         xbindkeys &
         pasystray &
         aria2c &
+        pueued &
         mattermost-desktop &
         sh $HOME/.screenlayout/horizontal.sh &
         sh ${myEnv.scriptsDir}/mouse_scroll.sh &

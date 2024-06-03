@@ -43,6 +43,7 @@
               p7zip
               lux
               yt-dlp
+              pueue
               pandoc
               zoom-us
               ripgrep-all
@@ -201,7 +202,6 @@
         programs = { gpg = { enable = true; }; };
 
         services = {
-          # pueue = { enable = true; };
           dunst.enable = true;
           blueman-applet.enable = true;
           mpris-proxy.enable = true; # let buttons of bluetooth devices work
