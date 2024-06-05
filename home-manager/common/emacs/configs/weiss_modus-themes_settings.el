@@ -75,7 +75,7 @@
        '(underline
          ((t (:underline t :weight normal))))       
        '(font-lock-keyword-face
-         ((t (:weight heavy :slant italic))))
+         ((t (:weight bold :slant italic))))
        `(font-lock-builtin-face
          ((t (:slant italic :foreground ,fg-dim))))
        `(org-document-info-keyword

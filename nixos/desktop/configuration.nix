@@ -18,6 +18,17 @@ with myEnv; {
       };
     };
     myPostgresql.databases = [ "webman" "recentf" "digivine" ];
+    xserver = {
+      dpi = 120;
+      # xrandrHeads = [
+      #   {
+      #     output = "DP-1";
+      #     primary = true;
+      #     monitorConfig = "DisplaySize 598 336";
+      #   }
+      #   "HDMI-1"
+      # ];
+    };
   };
 
   environment = { systemPackages = [ pkgs.wireguard-tools ]; };
