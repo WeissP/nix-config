@@ -7,7 +7,7 @@ with myEnv; {
       enableZshIntegration = true;
       enableNushellIntegration = true;
       flags = [ "--disable-up-arrow" ];
-      settings = { auto_sync = false; };
+      settings = { auto_sync = true; };
     };
     carapace = {
       enable = true;

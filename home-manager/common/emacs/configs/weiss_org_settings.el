@@ -5,11 +5,6 @@
   (interactive)
   (concat weiss/org-file-path path))
 
-
-(add-to-list 'org-babel-shell-names "nu")
-(org-babel-shell-initialize)
-;; (setq org-babel-shell-names )
-
 (with-eval-after-load 'org
   (setq
    org-imenu-depth 10

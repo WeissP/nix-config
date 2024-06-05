@@ -343,12 +343,13 @@ in {
         (setq rime-librime-root "${userEmacsDirectory}/librime/dist")
         (setq rime-share-data-dir "${homeDir}/Library/Rime/")
       '';
-      localPackages."emacs-rime" = pkgs.fetchFromGitHub {
-        owner = "DogLooksGood";
-        repo = "emacs-rime";
-        rev = version;
-        hash = "sha256-Z4hGsXwWDXZie/8IALhyoH/eOVfzhbL69OiJlLHmEXw=";
-      };
+      emacsPackages = [ "rime" ];
+      # localPackages."emacs-rime" = pkgs.fetchFromGitHub {
+      #   owner = "DogLooksGood";
+      #   repo = "emacs-rime";
+      #   rev = version;
+      #   hash = "sha256-Z4hGsXwWDXZie/8IALhyoH/eOVfzhbL69OiJlLHmEXw=";
+      # };
       files."${userEmacsDirectory}/librime" = {
         source = pkgs.fetchzip {
           url =

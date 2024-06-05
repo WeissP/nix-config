@@ -2,12 +2,16 @@
 
 {
   programs.wezterm.enable = true;
-  home.file = let configDir = config.xdg.configHome;
+  home.file = let
+    configDir = config.xdg.configHome;
+    linuxCfg = ''config.default_prog = { "${pkgs.nushell}/bin/nu" }'';
+    darwinCfg = "";
+    cfg = if (myEnv.arch == "darwin") then darwinCfg else linuxCfg;
   in {
     "${configDir}/wezterm/nixed.lua".text = ''
       local config = require("common")
 
-      config.default_prog = { "${pkgs.nushell}/bin/nu" }
+      ${cfg}
 
       return config
     '';

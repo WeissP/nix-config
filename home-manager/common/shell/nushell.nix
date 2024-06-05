@@ -13,28 +13,6 @@ with myEnv; {
             }
             ]
       })
-      def retry_until [
-          --max-retries: int = 10 # Maximum number of retries
-          --delay: duration = 10ms # Delay between retries
-          --cmd: string # Command to execute
-      ] {
-          let retries = 0
-
-          while ($retries < $max_retries) {
-              try {
-                  nu $cmd
-                  break
-              } catch {
-                  $retries = ($retries + 1)
-                  sleep $delay
-              }
-          }
-
-          if ($retries == $max_retries) {
-              print "Maximum retries reached. Operation failed."
-          }
-      }
-
       use task.nu
     '';
   }];

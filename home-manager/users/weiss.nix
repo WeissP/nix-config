@@ -9,4 +9,5 @@ with myEnv; {
   ] else
     [ ../common/minimum.nix ];
 
+  services.pueue.enable = true;
 }
