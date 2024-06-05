@@ -14,7 +14,6 @@
   ;; (setq eglot-stay-out-of '(yasnippet))
   ;; (fset #'eglot--snippet-expansion-fn #'ignore)
 
-  (add-hook 'eglot-mode-hook #')
   (setq eglot-events-buffer-config '(:size 0 :format full))
   (setq-default
    eglot-workspace-configuration
