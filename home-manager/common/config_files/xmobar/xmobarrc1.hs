@@ -17,7 +17,7 @@ Config
     -- commands = [Run StdinReader],
     -- template = "f%StdinReader%"
     commands =
-    [ Run Date "%a%e.%m.%Y <fc=#bd93f9>%H:%M</fc>" "date" 50,
+    [ Run Date "%a %e.%m.%Y <fc=#bd93f9>%H:%M</fc>" "date" 50,
       Run Weather
           "EDFM"
           [ "--template",

@@ -52,6 +52,11 @@
        :new-line t
        )
       (
+       :name "java"
+       :pair ("#+BEGIN_SRC java" . "#+END_SRC")
+       :new-line t
+       )
+      (
        :name "Haskell"
        :pair ("#+BEGIN_SRC haskell" . "#+END_SRC")
        :new-line t

@@ -1,5 +1,6 @@
 { config, myEnv, secrets, lib, pkgs, ... }:
 with myEnv; {
+  home.packages = [ pkgs.nufmt ];
   programs.nushell = lib.mkMerge [{
     enable = true;
     configFile.text = ''

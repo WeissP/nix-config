@@ -84,7 +84,7 @@
       (end-of-line)
       (insert "\n")
       (when img-attr
-        (let ((size (if (string= (file-name-extension old-path) "svg") 800 500)))
+        (let ((size (if (string= (file-name-extension old-path) "svg") 800 900)))
           (insert
            (format "#+ATTR_ORG: :width %s\n#+ATTR_LATEX: :width 12cm\n" size))
           )

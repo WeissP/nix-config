@@ -8,7 +8,8 @@
 
   (setq orderless-matching-styles '(orderless-literal))
   (setq orderless-affix-dispatch-alist
-        `((?! . ,#'orderless-without-literal)))
+        `((?! . ,#'orderless-without-literal)
+          (?& . ,#'orderless-annotation)))
   )
 
 ;; parent: 
