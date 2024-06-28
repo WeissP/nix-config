@@ -16,9 +16,18 @@ with myEnv; {
         accelSpeed = "0.5"; # float number between -1 and 1.
       };
     };
+    pipewire = {
+      enable = true;
+      alsa.enable = true;
+      alsa.support32Bit = true;
+      pulse.enable = true;
+      # If you want to use JACK applications, uncomment this
+      #jack.enable = true;
+    };
     xserver = {
       enable = true;
       autorun = true;
+      videoDrivers = [ "amdgpu" ];
 
       xkb = {
         layout = "de";
@@ -66,9 +75,8 @@ with myEnv; {
     ];
   };
 
-  sound.enable = true;
   hardware = {
-    pulseaudio.enable = true;
+    pulseaudio.enable = false;
     bluetooth.enable = true;
   };
 

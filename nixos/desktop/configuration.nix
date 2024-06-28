@@ -6,6 +6,7 @@ with myEnv; {
   # Use the systemd-boot EFI boot loader.
   boot.loader.systemd-boot.enable = true;
   boot.loader.efi.canTouchEfiVariables = true;
+  boot.initrd.kernelModules = [ "amdgpu" ];
 
   # This setups a SSH server. Very important if you're setting up a headless system.
   # Feel free to remove if you don't need it.
@@ -79,7 +80,7 @@ with myEnv; {
         };
       };
     };
-    all_snampshots = {
+    all_snapshots = {
       onCalendar = "*-*-* 18:00:00"; # every day at 18:00
       settings = {
         inherit preserve_hour_of_day preserve_day_of_week;
