@@ -15,7 +15,7 @@
   (push '(fourmolu . ("fourmolu" "--stdin-input-file" (or (buffer-file-name) (buffer-name)))) apheleia-formatters)
   (push '(cabal-fmt . ("cabal-fmt")) apheleia-formatters)
 
-  (push '(nushell-mode . nufmt) apheleia-mode-alist)
+  ;; (push '(nushell-mode . nufmt) apheleia-mode-alist)
   (push '(scala-mode . scalafmt) apheleia-mode-alist)
   (push '(haskell-cabal-mode . cabal-fmt) apheleia-mode-alist)
   (push '(haskell-mode . fourmolu) apheleia-mode-alist)
