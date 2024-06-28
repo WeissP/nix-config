@@ -33,6 +33,7 @@
               "${homeDir}/.ssh/id_rsa".text = secrets.ssh."163".private;
             };
             packages = with pkgs; [
+              lm_sensors
               nodejs
               unrar
               zenith
@@ -59,8 +60,19 @@
               scala-cli
               jdk17
               ghostscript
-              (python3.withPackages
-                (ps: with ps; [ pip pygments numpy matplotlib ]))
+              pyright
+              black
+              (python3.withPackages (ps:
+                with ps; [
+                  pip
+                  pygments
+                  pyarrow
+                  numpy
+                  matplotlib
+                  polars
+                  plotly
+                  pandas
+                ]))
               (texlive.combine {
                 inherit (texlive)
                   scheme-tetex collection-langkorean algorithms cm-super pgf
@@ -81,6 +93,11 @@
           (ifDarwin { packages = with pkgs; [ iterm2 ocamlPackages.cpdf ]; })
           (ifLinux {
             packages = with pkgs; [
+              amdgpu_top
+              lshw
+              anki-bin
+              jdk17
+              jetbrains.idea-community-bin
               apfs-fuse
               aria2
               cider

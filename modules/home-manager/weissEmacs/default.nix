@@ -179,6 +179,14 @@ in {
     recipes = mkOption {
       description = "recipes";
       default = {
+        eglot-booster = {
+          emacsPackages = [ "eglot-booster" ];
+          externalPackages = [ pkgs.emacs-lsp-booster ];
+        };
+        lspce = {
+          emacsPackages = [ "lspce" ];
+          externalPackages = [ pkgs.rust-analyzer ];
+        };
         embark = { emacsPackages = [ "embark" "vlf" "sudo-edit" ]; };
         chatu-xournal = {
           emacsPackages = [ "chatu-xournal" ];
@@ -548,6 +556,11 @@ in {
         #   inherit (pkgs) fetchFromGitLab;
         # };
         # circadian = pkgs.pinnedUnstables."2024-01-05".emacsPackages.circadian;
+        eglot-booster = pkgs.callPackage ./packages/eglot-booster.nix {
+          inherit (final) trivialBuild;
+          inherit (pkgs) fetchFromGitHub;
+          deps = with final; { inherit eglot jsonrpc; };
+        };
         org-xournalpp = pkgs.callPackage ./packages/org-xournalpp.nix {
           inherit (final) trivialBuild;
           inherit (pkgs) fetchFromGitLab;
@@ -566,22 +579,26 @@ in {
             inherit chatu;
           };
         };
-        lsp-bridge = pkgs.callPackage ./packages/lsp-bridge {
-          inherit (final) melpaBuild markdown-mode tempel;
-          inherit (pkgs)
-            lib python3 fetchFromGitHub substituteAll git go gopls pyright ruff
-            writeText unstableGitUpdater;
-          acm = acm;
+        lspce = pkgs.callPackage ./packages/lspce.nix {
+          inherit (final) trivialBuild f markdown-mode yasnippet;
+          inherit (pkgs) lib emacs fetchFromGitHub rustPlatform;
         };
-        acm = pkgs.callPackage ./packages/acm {
-          inherit (final) yasnippet melpaBuild;
-          inherit (pkgs) lib writeText;
-          lsp-bridge = lsp-bridge;
-        };
+        # lsp-bridge = pkgs.callPackage ./packages/lsp-bridge {
+        #   inherit (final) melpaBuild markdown-mode tempel;
+        #   inherit (pkgs)
+        #     lib python3 fetchFromGitHub substituteAll git go gopls pyright ruff
+        #     writeText unstableGitUpdater;
+        #   acm = acm;
+        # };
+        # acm = pkgs.callPackage ./packages/acm {
+        #   inherit (final) yasnippet melpaBuild;
+        #   inherit (pkgs) lib writeText;
+        #   lsp-bridge = lsp-bridge;
+        # };
         flymake-bridge = pkgs.callPackage ./packages/flymake-bridge.nix {
-          inherit (final) trivialBuild flymake;
+          inherit (final) trivialBuild flymake lsp-bridge;
           inherit (pkgs) fetchFromGitHub;
-          lsp-bridge = lsp-bridge;
+          # lsp-bridge = lsp-bridge;
         };
         denote = pkgs.callPackage ./packages/denote-git.nix {
           inherit (final) trivialBuild;

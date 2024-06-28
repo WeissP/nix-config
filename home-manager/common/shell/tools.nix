@@ -15,7 +15,7 @@ with myEnv; {
       enableNushellIntegration = true;
     };
     broot = {
-      enable = true;
+      enable = false;
       enableZshIntegration = true;
       enableNushellIntegration = true;
     };

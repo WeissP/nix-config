@@ -124,6 +124,7 @@ in {
           # "org-roam"
           "pdf-view"
           "pdf-view-restore"
+          "ledger-mode"
         ];
       };
       skipInstall = [
@@ -230,6 +231,7 @@ in {
         tools = [
           [ "embark" "embark-consult" ]
           [ "chatu" "chatu-xournal" ]
+          "ztree"
           "pueue"
           "rfc-mode"
           "mathpix"
@@ -243,7 +245,12 @@ in {
           "command-log-mode"
           "gud"
           "quickrun"
-          "eglot"
+          [
+            "eglot"
+            "eglot-booster"
+            # "eglot-signature-eldoc-talkative"
+          ]
+          # "lspce"
           # [ "lsp-bridge" "flymake-bridge" ]
           [ "magit" "forge" ]
           "browse-at-remote"

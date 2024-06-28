@@ -8,6 +8,8 @@
   (lsp-bridge-mode 1)
   )
 
+;; (add-hook 'rust-mode-hook #'weiss-setup-lsp-bridge)
+;; (add-hook 'rustic-mode-hook #'weiss-setup-lsp-bridge)
 ;; (add-hook 'scala-mode-hook #'weiss-setup-lsp-bridge)
 
 (with-eval-after-load 'lsp-bridge
