@@ -24,7 +24,11 @@
         home = let configDir = config.xdg.configHome;
         in lib.mkMerge [
           {
-            sessionVariables = { SCRIPTS_DIR = myEnv.scriptsDir; };
+            sessionVariables = {
+              SCRIPTS_DIR = myEnv.scriptsDir;
+              RASP_IP = secrets.nodes.RaspberryPi.localIp;
+              DESKTOP_IP = secrets.nodes.Desktop.localIp;
+            };
             file = {
               "${homeDir}/scripts" = {
                 source = ./config_files/scripts;

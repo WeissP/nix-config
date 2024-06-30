@@ -247,7 +247,7 @@ in {
           "quickrun"
           [
             "eglot"
-            "eglot-booster"
+            # "eglot-booster"
             # "eglot-signature-eldoc-talkative"
           ]
           # "lspce"

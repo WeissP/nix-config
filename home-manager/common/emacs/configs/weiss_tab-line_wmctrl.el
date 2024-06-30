@@ -30,14 +30,24 @@
   (weiss-wmctrl-send-active desk-map desk)
   )
 
+(defun weiss-tab-line--send-new-frame (desk-map desk job)
+  "DOCSTRING"
+  (interactive)
+  (select-frame (weiss-new-frame))
+  (funcall job)
+  (weiss-wmctrl-send-active desk-map desk))
+
 (setq weiss-tab-line-with-desk
       '(("[4] Digivine" .  (("4.1" . "dv-api")
                             ("4.1" . "dv-api")
                             ("4.2" . "dv-weather-lib")
                             ("4.2" . "dv-weather-lib")
                             ))
-        ("[1] Guided Research" .  (("1.1" . "gr-polars-src")
+        ("[1] Guided Research" .  (("1.1" . "gr-graph")
                                    ("1.1" . "gr-polars-src")
+                                   ("1.2" . ("/home/weiss/projects/guided-research/guided-research-rs/data/" "/home/weiss/projects/guided-research/guided-research-rs/analysis/individual/nursery/"))
+                                   ("1.3" . ("/home/weiss/projects/guided-research/guided-research-rs/util.py"))
+                                   ("1.4" . ("/home/weiss/Documents/notes/academic/notes/20240418T214915--guided-research__academic_db.org"))
                                    ("1.6" . "gr-polars-env")
                                    ))
         ("[5] Weather Data Manager WDM" .  (("5.1" . "wdm-field")
@@ -82,8 +92,7 @@
         ("[设3] glove80" .  (("设3" . "glove80")
                              ("设3" . "glove80")
                              ))        
-        ("[记] Documents" .  (("记" . nil)
-                              ??))
+        ("[记] Documents" .  (("记" . nil)))
         )
       )
 
@@ -116,7 +125,33 @@
   (interactive)
   (let ((m (weiss-parse-wmctrl-desktops)))
     (dolist (p pairs) 
-      (weiss-tab-line-new-frame-with-bind-group-to-desk m (car p) (cdr p))
+      (let* ((cdrp (cdr p)))
+        (pcase cdrp
+          ('nil (weiss-tab-line--send-new-frame m (car p) (lambda () (ignore))) )
+          ((pred stringp)
+           (weiss-tab-line--send-new-frame
+            m (car p) 
+            (lambda ()
+              (let ((group cdrp))
+                (unless weiss-file-groups 
+                  (weiss-load-file-groups))
+                (when group
+                  (weiss-load-file-group-to-tab group)
+                  (weiss-tab-bind-group group)
+                  (weiss-tab-next)    
+                  ) 
+                )
+              ))
+           )
+          ((pred listp)
+           (dolist (f cdrp) 
+             (weiss-tab-line--send-new-frame
+              m (car p) (lambda () (find-file f) ))             
+             )
+           )
+          (v (error "unmatched: %s" v)))
+
+        )
       )    
     )
   )

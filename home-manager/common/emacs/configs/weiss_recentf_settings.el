@@ -1,5 +1,6 @@
+(recentf-mode 1)
 (with-eval-after-load 'recentf
-  (recentf-mode 1)
+  ;; (recentf-mode 1)
   ;; (message "recentf loaded!")
   ;; (load (weiss--get-config-file-path "recentf"))
   ;; (setq recentf-save-file (weiss--get-config-file-path "recentf"))
@@ -10,19 +11,19 @@
       (if (fboundp 'shut-up)
           (shut-up (recentf-save-list))
         (recentf-save-list)))
-    (message ""))
+    )
   (defun snug/recentf-cleanup-silence ()
     (interactive)
     (let ((message-log-max nil))
       (if (fboundp 'shut-up)
           (shut-up (recentf-cleanup))
         (recentf-cleanup)))
-    (message ""))
-  (run-at-time nil (* 5 60) 'snug/recentf-save-list-silence)
-  (run-at-time nil (* 5 60) 'snug/recentf-cleanup-silence)
+    )
+  (run-at-time nil (* 5 60) 'recentf-save-list)
+  (run-at-time nil (* 5 60) 'recentf-cleanup)
   (setq
    recentf-max-menu-items 150
-   recentf-max-saved-items 300
+   recentf-max-saved-items 3000
    ;; recentf-auto-cleanup '60
    ;; Recentf blacklist
    recentf-exclude `(
