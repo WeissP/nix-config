@@ -97,6 +97,7 @@
           (ifDarwin { packages = with pkgs; [ iterm2 ocamlPackages.cpdf ]; })
           (ifLinux {
             packages = with pkgs; [
+              feh
               amdgpu_top
               lshw
               anki-bin
@@ -178,6 +179,7 @@
         };
       }
       (ifLinux {
+        xdg.mimeApps.defaultApplications = { "image/png" = [ "feh" ]; };
         systemd.user = {
           services = with myLib.service; {
             # cider = startup { cmds = "${pkgs.cider}/bin/cider"; };
