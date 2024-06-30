@@ -37,7 +37,7 @@
           }
           (ifDarwin {
             gc = {
-              interval = { Hour = 24; };
+              interval = { Hour = 23; };
               options = "--delete-older-than 1d";
             };
             extraOptions = ''

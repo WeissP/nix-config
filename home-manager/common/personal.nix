@@ -5,18 +5,21 @@
     ./emacs
     ./email.nix
     ./pass.nix
-    ./chromium.nix
     ./mpv.nix
-    ./trayer.nix
-    ./fusuma.nix
-    ./flameshot.nix
     ./webman.nix
     ./shell
     ./hledger.nix
+  ] ++ (if myEnv.arch == "linux" then [
+    ./aria.nix
+    ./chromium.nix
+    ./trayer.nix
+    ./fusuma.nix
+    ./flameshot.nix
     ./sioyek.nix
     ./xscreensaver.nix
     # ./darkman.nix
-  ] ++ (if myEnv.arch == "linux" then [ ./aria.nix ] else [ ]);
+  ] else
+    [ ]);
 
   config = with myEnv;
     lib.mkMerge [
@@ -37,32 +40,20 @@
               "${homeDir}/.ssh/id_rsa".text = secrets.ssh."163".private;
             };
             packages = with pkgs; [
-              lm_sensors
-              nodejs
               unrar
-              zenith
-              nil
-              docker-compose
-              dua
-              xmlstarlet
               p7zip
-              lux
               yt-dlp
               pueue
-              pandoc
               zoom-us
               ripgrep-all
               imagemagick
               # v2ray
-              coreutils
               # calibre
               pdfminer
               (rWrapper.override {
                 packages = with rPackages; [ purrr ggplot2 ];
               })
               # additions.ammonite.ammonite_3_2
-              scala-cli
-              jdk17
               ghostscript
               pyright
               black
@@ -97,6 +88,18 @@
           (ifDarwin { packages = with pkgs; [ iterm2 ocamlPackages.cpdf ]; })
           (ifLinux {
             packages = with pkgs; [
+              zenith
+              nil
+              docker-compose
+              dua
+              scala-cli
+              jdk17
+              coreutils
+              pandoc
+              lux
+              xmlstarlet
+              lm_sensors
+              nodejs
               feh
               amdgpu_top
               lshw
