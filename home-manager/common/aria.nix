@@ -10,7 +10,7 @@ with myEnv; {
       input-file = sess;
       save-session = sess;
       save-session-interval = 60;
-      max-concurrent-downloads = 5;
+      max-concurrent-downloads = 15;
       continue = true;
       max-overall-download-limit = 0;
       max-download-limit = 0;

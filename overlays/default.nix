@@ -15,6 +15,8 @@
     weissXmonad = inputs.weissXmonad.packages."${prev.system}".default;
     ripgrep-all =
       inputs.nixpkgs-lts.legacyPackages."${prev.system}".ripgrep-all;
+    hledger-importer =
+      inputs.hledger-importer.packages."${prev.system}".default;
     # tdlib = tdlib180.tdlib;
     # example = prev.example.overrideAttrs (oldAttrs: rec {
     # ...
@@ -23,6 +25,15 @@
 
   pinnedUnstables = final: prev: {
     pinnedUnstables = {
+      "2023-03-31" = import (final.fetchFromGitHub {
+        owner = "NixOS";
+        repo = "nixpkgs";
+        rev = "1b7a6a6e57661d7d4e0775658930059b77ce94a4";
+        sha256 = "sha256-TG6M7UlWem7g/CEYPoR3mOfNFxNeaSoAAFRi88H3YYo=";
+      }) {
+        system = final.system;
+        config.allowUnfree = true;
+      };
       "2023-09-27" = import (final.fetchFromGitHub {
         owner = "NixOS";
         repo = "nixpkgs";

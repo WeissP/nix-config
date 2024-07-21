@@ -30,7 +30,7 @@ with myEnv; {
       enableNushellIntegration = true;
     };
     thefuck = {
-      enable = true;
+      enable = false;
       enableZshIntegration = true;
       enableNushellIntegration = true;
     };

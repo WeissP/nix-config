@@ -4,6 +4,6 @@
    org-appear-autolinks t
    org-appear-trigger 'always
    )
-)
+  )
 
 (provide 'weiss_org-appear_settings)

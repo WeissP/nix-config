@@ -104,6 +104,7 @@ in {
         "eldoc-box"
         "modus-themes"
         "circadian"
+        "mustache-mode"
       ];
       idleLoad = {
         enable = true;
@@ -224,12 +225,13 @@ in {
           [ "csv-mode" "ledger-mode" "mustache-mode" "agda2-mode" ]
           "dockerfile-mode"
           "markdown-mode"
+          "mustache-mode"
           "ess"
         ];
         pdf =
           [ "pdf-tools" "pdf-view" "pdf-view-restore" "literate-calc-mode" ];
         tools = [
-          [ "embark" "embark-consult" ]
+          [ "embark" "embark-consult" "string-inflection" ]
           [ "chatu" "chatu-xournal" ]
           "ztree"
           "pueue"

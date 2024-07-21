@@ -64,7 +64,7 @@
       (save-buffer)
       ))
 
-  (defun weiss-denote-only-summary (beginning-of-contents)
+  (defun weiss-denote-extract-summary (beginning-of-contents)
     "DOCSTRING"
     (delete-region
      (1+ (re-search-forward "^$" nil :no-error 1))

@@ -27,6 +27,11 @@
        :new-line t
        )
       (
+       :name "rust"
+       :pair ("#+BEGIN_SRC rust" . "#+END_SRC")
+       :new-line t
+       )
+      (
        :name "scala"
        :pair ("#+BEGIN_SRC scala" . "#+END_SRC")
        :new-line t

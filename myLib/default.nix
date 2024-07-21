@@ -52,13 +52,14 @@ with lib; rec {
   mergeAttrList = lists.foldr (elem: res: trivial.mergeAttrs elem res) { };
   interval = { minutes = m: filter (t: trivial.mod t m == 0) (range 1 59); };
   service = {
-    startup =
-      { cmds, description ? "STARTUP", wantedBy ? [ "initrd.target" ] }: {
+    startup = { cmds, description ? "STARTUP", wantedBy ? [ "initrd.target" ]
+      , Environment ? "" }: {
         Unit.Description = description;
         Install.WantedBy = wantedBy;
         Service = {
           Type = "simple";
           ExecStart = cmds;
+          Environment = Environment;
         };
       };
   };

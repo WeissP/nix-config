@@ -5,11 +5,11 @@
     ./emacs
     ./email.nix
     ./pass.nix
-    ./mpv.nix
     ./webman.nix
     ./shell
-    ./hledger.nix
   ] ++ (if myEnv.arch == "linux" then [
+    ./hledger.nix
+    ./mpv.nix
     ./aria.nix
     ./chromium.nix
     ./trayer.nix
@@ -47,6 +47,8 @@
               zoom-us
               ripgrep-all
               imagemagick
+              gnumake
+              cmake
               # v2ray
               # calibre
               pdfminer
@@ -59,14 +61,15 @@
               black
               (python3.withPackages (ps:
                 with ps; [
-                  pip
-                  pygments
-                  pyarrow
-                  numpy
                   matplotlib
-                  polars
-                  plotly
+                  numpy
                   pandas
+                  plotly
+                  polars
+                  # scipy
+                  statsmodels
+                  pyarrow
+                  pygments
                 ]))
               (texlive.combine {
                 inherit (texlive)
@@ -88,6 +91,7 @@
           (ifDarwin { packages = with pkgs; [ iterm2 ocamlPackages.cpdf ]; })
           (ifLinux {
             packages = with pkgs; [
+              ssh-copy-id
               zenith
               nil
               docker-compose

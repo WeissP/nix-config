@@ -109,6 +109,7 @@
     (setq calendar-longitude 7.7)
     (setq circadian-themes '(("6:00" . modus-operandi-tinted)
                              ("20:00" . modus-vivendi-tinted)))
+    (setq circadian-verbose t)
     (circadian-setup)
     )
   )

@@ -125,6 +125,8 @@
 +stepstone -- from:stepstone
 +stepstone_advertisement -- from:"express@jobagent.stepstone.de"
 
++playasia -- from:"Playasia <customerservice@play-asia.com>"
+
 -inbox -unread -- (is:security_alert or is:shipment or is:order_status or is:paypal_transaction) and date:..three_days
 
 +newsletter -- is:medium_newsleter or is:bieleinianjian or is:stochastic_volatility
@@ -133,4 +135,4 @@
 
 -unread -- is:advertisement
 
-+unimportant -- (not is:inbox) or (is:shipment and not is:shipment_today) or is:dhl_unimportant or is:receipt or is:advertisement or is:rptu_unimportant or is:cs_rundmail or is:print_notification or is:vlu_reminder or (is:mattermost and is:DBIS) or is:olat_notification or is:klarmobil_unimportant or is:commerzbank_doc or is:newsletter or is:lte_volume or is:from_self or is:drawboard or is:inoreader or is:codepen or is:amazon_unimportant or is:youtube or is:paypal or is:mailing_list
++unimportant -- (not is:inbox) or (is:shipment and not is:shipment_today) or is:dhl_unimportant or is:receipt or is:advertisement or is:rptu_unimportant or is:cs_rundmail or is:print_notification or is:vlu_reminder or (is:mattermost and is:DBIS) or is:olat_notification or is:klarmobil_unimportant or is:commerzbank_doc or is:newsletter or is:lte_volume or is:from_self or is:drawboard or is:inoreader or is:codepen or is:amazon_unimportant or is:youtube or is:paypal or is:mailing_list or is:playasia

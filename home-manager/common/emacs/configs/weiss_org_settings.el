@@ -20,8 +20,8 @@
    org-M-RET-may-split-line t
    org-id-link-to-org-use-id 'create-if-interactive
    org-outline-path-complete-in-steps nil
-   org-preview-latex-default-process 'dvisvgm
-   ;; org-preview-latex-default-process 'dvipng
+   ;; org-preview-latex-default-process 'dvisvgm
+   org-preview-latex-default-process 'dvipng
    org-return-follows-link t
    )
 

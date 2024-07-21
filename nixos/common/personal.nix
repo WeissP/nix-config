@@ -38,6 +38,7 @@ with myEnv; {
       autoRepeatInterval = 30;
       displayManager.sessionCommands = ''
         Exec=GTK_IM_MODULE= QT_IM_MODULE= XMODIFIERS= emacs &
+        sh mapwacom.sh -d "Wacom One by Wacom M Pen stylus" -d "Wacom One by Wacom M Pen eraser" -s "DisplayPort-0"
         vivaldi &
         xbindkeys &
         pasystray &

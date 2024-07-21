@@ -307,20 +307,25 @@ Version 2015-10-14"
 (defun weiss-play-video (file &optional subtitle-path)
   "DOCSTRING"
   (interactive)
-  (start-process-shell-command
-   "mpv" nil
-   (format "mpv -title  \"%s\" -fs \"%s\" %s"
-           (thread-last file
-                        (file-name-nondirectory)
-                        (file-name-sans-extension)
-                        (s-replace "\"" "\"")
-                        )
-           file
-           (if subtitle-path
-               (format "-sub \"%s\"" subtitle-path)
-             ""
-             )
-           )))
+  (let ((cmd (format "mpv -title  \"%s\" -fs \"%s\" %s"
+                     (thread-last file
+                                  (file-name-nondirectory)
+                                  (file-name-sans-extension)
+                                  (s-replace "\"" "\"")
+                                  )
+                     file
+                     (if subtitle-path
+                         (format "-sub \"%s\"" subtitle-path)
+                       ""
+                       )
+                     ))
+        )
+    (if (executable-find "pueue")
+        (shell-command (format "pueue add -i '%s'" cmd))
+      (start-process-shell-command "mpv" nil cmd)
+      )
+    )
+  )
 
 (defun xah-open-in-external-app (&optional @fname)
   "Open the current file or dired marked files in external app.

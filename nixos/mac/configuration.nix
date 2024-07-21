@@ -59,6 +59,7 @@ with myEnv; {
       "font-cascadia-mono"
       "raycast"
       "xournal-plus-plus"
+      "macfuse"
       # "karabiner-elements"
     ];
 

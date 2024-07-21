@@ -3,6 +3,7 @@
 
   inputs = {
     nixpkgs.url = "github:nixos/nixpkgs/nixos-unstable";
+    # nixpkgs.url = "github:nixos/nixpkgs/nixos-23.11";
     nixpkgs-lts.url = "github:nixos/nixpkgs/nixos-23.11";
     darwin = {
       url = "github:lnl7/nix-darwin/master";
@@ -35,6 +36,7 @@
     myNixRepo.url = "github:WeissP/nix-config";
     weissXmonad.url = "github:WeissP/weiss-xmonad";
     # weissXmonad.url = "/home/weiss/projects/weissXmonad/";
+    hledger-importer.url = "github:WeissP/hledger-importer";
   };
 
   outputs =
