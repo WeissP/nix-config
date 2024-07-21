@@ -337,7 +337,7 @@ in {
         tramp = [ "tramp" "sudo-edit" ];
         translate = [ "fanyi" ];
         apps = [ "pass" "nov" "telega" ];
-        inputs = [ "agda-input" "rime" ];
+        inputs = [ "agda2-mode" "rime" ];
         test = [
           libs
           core
