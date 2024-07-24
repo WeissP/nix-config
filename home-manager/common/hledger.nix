@@ -25,7 +25,7 @@ in {
           Environment =
             "LEDGER_DIR=${LEDGER_DIR} LEDGER_FILE=${LEDGER_FILE} LEDGER_HELPER_RULE_PATH=${LEDGER_HELPER_RULE_PATH} PATH=${pkgs.pass}/bin";
           ExecStart =
-            "${pkgs.hledger-importer}/bin/hledger-importer --download --import -a Paypal Hand --import-to-journal";
+            "${pkgs.hledger-importer}/bin/hledger-importer --download --import -a Paypal -a Hand --import-to-journal";
         };
       };
     };
