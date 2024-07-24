@@ -1,6 +1,15 @@
-(apheleia-global-mode)
+;; (apheleia-global-mode)
 (setq apheleia-mode-lighter nil)
-(with-eval-after-load 'apheleia
+(with-eval-after-load 'apheleia  
+  (defun weiss-format-buffer-maybe (&rest args)
+    "DOCSTRING"
+    (interactive)
+    (when (called-interactively-p 'any)
+      (call-interactively 'apheleia-format-buffer))
+    )
+
+  (advice-add 'save-buffer :after #'weiss-format-buffer-maybe)
+
   (push '(scalafmt . ("scalafmt"
                       (when-let* ((project (project-current))
                                   (root (project-root project)))
