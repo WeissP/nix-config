@@ -252,7 +252,7 @@ in {
             # "eglot-booster"
             # "eglot-signature-eldoc-talkative"
           ]
-          # "lspce"
+          "lspce"
           # [ "lsp-bridge" "flymake-bridge" ]
           [ "magit" "forge" ]
           "browse-at-remote"

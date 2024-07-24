@@ -183,10 +183,6 @@ in {
           emacsPackages = [ "eglot-booster" ];
           externalPackages = [ pkgs.emacs-lsp-booster ];
         };
-        lspce = {
-          emacsPackages = [ "lspce" ];
-          externalPackages = [ pkgs.rust-analyzer ];
-        };
         embark = { emacsPackages = [ "embark" "vlf" "sudo-edit" ]; };
         chatu-xournal = {
           emacsPackages = [ "chatu-xournal" ];

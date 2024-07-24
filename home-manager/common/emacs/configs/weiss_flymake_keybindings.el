@@ -2,7 +2,7 @@
  (current-global-map)
  ""
  '(
-   ("C-c C-f" . weiss-flymake-dwim)
+   ("C-c C-f" . consult-flymake)
    ("y <down>" . flymake-goto-next-error)
    ("y <up>" . flymake-goto-prev-error)
    ))

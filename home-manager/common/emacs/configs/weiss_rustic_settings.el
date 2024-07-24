@@ -11,7 +11,11 @@
     )
 
   (with-eval-after-load 'lspce
-    (add-hook 'rustic-mode-hook #'lspce-mode)
+    (defun weiss-enable-lspce ()
+      "DOCSTRING"
+      (interactive)
+      (lspce-mode 1))
+    (add-hook 'rustic-mode-hook #'weiss-enable-lspce)
     )
 
   (with-eval-after-load 'lsp-mode
