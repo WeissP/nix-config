@@ -22,6 +22,12 @@ with myEnv; {
             ]
       })
       use task.nu
+
+      def create [p: string] {            
+          let full = $p | path expand
+          mkdir ($full | path dirname) 
+          touch $full
+      }
     '';
   }];
 }
