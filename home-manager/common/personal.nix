@@ -17,7 +17,7 @@
     ./flameshot.nix
     ./sioyek.nix
     ./xscreensaver.nix
-    # ./darkman.nix
+    ./darkman.nix
   ] else
     [ ]);
 
@@ -91,6 +91,8 @@
           (ifDarwin { packages = with pkgs; [ iterm2 ocamlPackages.cpdf ]; })
           (ifLinux {
             packages = with pkgs; [
+              xsettingsd
+              xfce.xfconf
               ssh-copy-id
               zenith
               nil

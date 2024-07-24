@@ -48,6 +48,7 @@ with myEnv; {
         pueued &
         mattermost-desktop &
         sh mapwacom.sh -d "Wacom One by Wacom M Pen stylus" -d "Wacom One by Wacom M Pen eraser" -s "DisplayPort-0" &
+        pueue add -i xsettingsd &
       '';
     };
     blueman.enable = true;

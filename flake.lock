@@ -12528,7 +12528,6 @@
         "nixpkgs-lts": "nixpkgs-lts_19",
         "nur": "nur_19",
         "recentf": "recentf_19",
-        "rust-overlay": "rust-overlay_47",
         "webman": "webman_19",
         "weissNur": "weissNur_19",
         "weissXmonad": "weissXmonad_14"
@@ -13556,26 +13555,6 @@
       }
     },
     "rust-overlay_47": {
-      "inputs": {
-        "nixpkgs": [
-          "nixpkgs"
-        ]
-      },
-      "locked": {
-        "lastModified": 1721614891,
-        "narHash": "sha256-1yGOh8w/yhWAZ2NJR9N/shQ1tx2n9fmGe0XrDE00i9U=",
-        "owner": "oxalica",
-        "repo": "rust-overlay",
-        "rev": "424a759557ed4c01cf9dbbf79a714150d64a90ad",
-        "type": "github"
-      },
-      "original": {
-        "owner": "oxalica",
-        "repo": "rust-overlay",
-        "type": "github"
-      }
-    },
-    "rust-overlay_48": {
       "inputs": {
         "flake-utils": "flake-utils_133",
         "nixpkgs": "nixpkgs_180"
@@ -16463,7 +16442,7 @@
         "devshell": "devshell_33",
         "flake-utils": "flake-utils_132",
         "nixpkgs": "nixpkgs_179",
-        "rust-overlay": "rust-overlay_48"
+        "rust-overlay": "rust-overlay_47"
       },
       "locked": {
         "lastModified": 1713772551,
