@@ -15,7 +15,7 @@
       "DOCSTRING"
       (interactive)
       (lspce-mode 1))
-    (add-hook 'rustic-mode-hook #'weiss-enable-lspce)
+    ;; (add-hook 'rustic-mode-hook #'weiss-enable-lspce)
     )
 
   (with-eval-after-load 'lsp-mode

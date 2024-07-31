@@ -102,6 +102,8 @@ in {
         "consult-notes"
         "jinx"
         "eldoc-box"
+        # "highlight-defined"
+        "darkman"
         "modus-themes"
         "circadian"
         "mustache-mode"
@@ -126,6 +128,8 @@ in {
           "pdf-view"
           "pdf-view-restore"
           "ledger-mode"
+          "apheleia"
+          "string-inflection"
         ];
       };
       skipInstall = [
@@ -216,7 +220,7 @@ in {
           [
             "sql" # "ejc-sql"
             "sql-indent"
-            "flymake-sqlfluff"
+
           ]
           [ "haskell-mode" "dante" ]
           "lua-mode"
@@ -310,12 +314,16 @@ in {
         ];
         ui = [
           "ui"
+          "highlight-defined"
           "valign"
           # "eldoc-box"
           # [ "sideline" ]
           [ "modeline" "delight" ]
           "popwin"
-          [ "modus-themes" "circadian" ]
+          [
+            "modus-themes"
+            "darkman" # "circadian"
+          ]
           "rainbow-mode"
           "highlight-indent-guides"
           "highlight-defined"
@@ -345,7 +353,7 @@ in {
           "vertico"
           # completion
         ];
-      in lib.lists.flatten [
+      in lib.lists.flatten ([
         # test
         "server"
         libs
@@ -365,7 +373,7 @@ in {
         translate
         apps
         inputs
-      ];
+      ] ++ (if (myEnv.arch == "linux") then [ "flymake-sqlfluff" ] else [ ]));
     }
   ];
 }

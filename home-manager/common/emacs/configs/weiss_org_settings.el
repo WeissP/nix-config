@@ -29,7 +29,7 @@
     "From Stackoverflow. Create an id: link using completion"
     (concat "id:" (org-id-get-with-outline-path-completion)))
   (org-link-set-parameters "id" :complete 'weiss-org-id-complete-link)
-  (org-link-set-parameters "id" :insert-description "above")
+  ;; (org-link-set-parameters "id" :insert-description "above")
 
   (defun weiss-org-preview-or-latex-quick-insert ()
     "DOCSTRING"

@@ -5,22 +5,15 @@
   ;; (load (weiss--get-config-file-path "recentf"))
   ;; (setq recentf-save-file (weiss--get-config-file-path "recentf"))
   
-  (defun snug/recentf-save-list-silence ()
+  (defun weiss-update-recentf ()
+    "DOCSTRING"
     (interactive)
     (let ((message-log-max nil))
-      (if (fboundp 'shut-up)
-          (shut-up (recentf-save-list))
-        (recentf-save-list)))
-    )
-  (defun snug/recentf-cleanup-silence ()
-    (interactive)
-    (let ((message-log-max nil))
-      (if (fboundp 'shut-up)
-          (shut-up (recentf-cleanup))
-        (recentf-cleanup)))
-    )
-  (run-at-time nil (* 5 60) 'recentf-save-list)
-  (run-at-time nil (* 5 60) 'recentf-cleanup)
+      (recentf-save-list)
+      (recentf-cleanup)
+      ))
+  (run-at-time nil 60 'recentf-save-list)
+  
   (setq
    recentf-max-menu-items 150
    recentf-max-saved-items 3000

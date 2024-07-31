@@ -1,22 +1,39 @@
 { pkgs, myEnv, myLib, lib, ... }:
-myEnv.ifLinux {
-  home.packages = [ pkgs.dconf ];
-  services.darkman = rec {
+let
+  xsettingsDir = "${myEnv.homeDir}/.config/xsettingsd";
+  xsettingsConf = "${xsettingsDir}/xsettingsd.conf";
+  xsettingsdBin = "${pkgs.xsettingsd}/bin/xsettingsd";
+  notifyBin = "${pkgs.libnotify}/bin/notify-send";
+  killallBin = "${pkgs.killall}/bin/killall";
+in myEnv.ifLinux {
+  home = { packages = with pkgs; [ materia-theme xsettingsd ]; };
+  services.darkman = {
     enable = true;
-    settings = { usegeoclue = true; };
+    settings = {
+      lat = 49.2;
+      lng = 7.4;
+    };
     darkModeScripts = {
-      xsettings = ''
-        ${pkgs.xfce.xfconf}/bin/xfconf-query --create --type string -c xsettings -p /Net/ThemeName -s "Adwaita-dark"
+      notification = ''
+        ${notifyBin} --app-name="darkman" --urgency=low --icon=weather-clear-night "switching to dark mode"
       '';
-      gtk-theme = ''
-        ${pkgs.dconf}/bin/dconf write /org/gnome/desktop/interface/color-scheme "'prefer-dark'"  '';
+      xsettings = ''
+        mkdir -p ${xsettingsDir}
+        echo 'Net/ThemeName "Materia-dark"' > ${xsettingsConf}
+        sleep 0.1s
+        ${killallBin} -HUP xsettingsd
+      '';
     };
     lightModeScripts = {
-      xsettings = ''
-        ${pkgs.xfce.xfconf}/bin/xfconf-query --create --type string -c xsettings -p /Net/ThemeName -s "Adwaita"
+      notification = ''
+        ${notifyBin} --app-name="darkman" --urgency=low --icon=weather-clear "switching to light mode"
       '';
-      gtk-theme = ''
-        ${pkgs.dconf}/bin/dconf write /org/gnome/desktop/interface/color-scheme "'prefer-light'"  '';
+      xsettings = ''
+        mkdir -p ${xsettingsDir}
+        echo 'Net/ThemeName "Materia"' > ${xsettingsConf}
+        sleep 0.1s
+        ${killallBin} -HUP xsettingsd
+      '';
     };
   };
 }

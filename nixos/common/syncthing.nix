@@ -63,6 +63,12 @@ in (ifLinux {
             devices =
               [ "Raspberrypi" ]; # Which devices to share the folder with
           };
+          "finance" = {
+            id = "ndnhp-9awzf";
+            path = "${homeDir}/finance"; # Which folder to add to Syncthing
+            devices =
+              [ "Raspberrypi" ]; # Which devices to share the folder with
+          };
         })
       ];
     };

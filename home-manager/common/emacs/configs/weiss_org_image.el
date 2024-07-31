@@ -59,7 +59,7 @@
       ))
 
   (defvar weiss-org-image-folder nil)
-  (defun weiss-org-insert-image(old-path &optional img-attr delete-old)
+  (defun weiss-org-insert-image (old-path &optional img-attr delete-old)
     "DOCSTRING"
     (interactive
      (list
@@ -83,12 +83,18 @@
       (when delete-old (delete-file old-path))
       (end-of-line)
       (insert "\n")
-      (when img-attr
+      (cond
+       ((stringp img-attr)
+        (insert img-attr)
+        (insert "\n")
+        )
+       (img-attr
         (let ((size (if (string= (file-name-extension old-path) "svg") 800 900)))
           (insert
            (format "#+ATTR_ORG: :width %s\n#+ATTR_LATEX: :width 12cm\n" size))
           )
         )
+       )
       (insert (format "[[file:%s]]" relative-path))
       (org-display-inline-images)))
 

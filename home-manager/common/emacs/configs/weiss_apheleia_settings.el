@@ -1,14 +1,30 @@
 ;; (apheleia-global-mode)
+
 (setq apheleia-mode-lighter nil)
 (with-eval-after-load 'apheleia  
   (defun weiss-format-buffer-maybe (&rest args)
     "DOCSTRING"
     (interactive)
-    (when (called-interactively-p 'any)
-      (call-interactively 'apheleia-format-buffer))
+    (when (called-interactively-p 'any)      
+      (when-let (formatters (apheleia--get-formatters))
+        (apheleia-format-buffer
+         formatters
+         (lambda ()
+           (save-buffer)
+           (when flymake-mode
+             (run-with-timer 1 nil #'flymake-start)
+             )                                             
+           ))
+        )
+      )
     )
 
   (advice-add 'save-buffer :after #'weiss-format-buffer-maybe)
+
+  ;; (setq flymake-mode-hook nil)
+  ;; (add-hook 'flymake-mode-hook
+  ;;           (lambda () (run-with-idle-timer flymake-no-changes-timeout t #'flymake-start)))
+
 
   (push '(scalafmt . ("scalafmt"
                       (when-let* ((project (project-current))

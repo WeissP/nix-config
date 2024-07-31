@@ -57,20 +57,6 @@
               })
               # additions.ammonite.ammonite_3_2
               ghostscript
-              pyright
-              black
-              (python3.withPackages (ps:
-                with ps; [
-                  matplotlib
-                  numpy
-                  pandas
-                  plotly
-                  polars
-                  # scipy
-                  statsmodels
-                  pyarrow
-                  pygments
-                ]))
               (texlive.combine {
                 inherit (texlive)
                   scheme-tetex collection-langkorean algorithms cm-super pgf
@@ -79,7 +65,8 @@
                   pgfplots titlesec subfigure adjustbox algorithm2e ifoddpage
                   relsize qtree pict2e lipsum ifsym fontawesome changepage
                   inconsolata xcolor cancel stmaryrd wasysym wasy makecell
-                  forest mnsymbol biblatex fontawesome5 pbox rsfso upquote;
+                  forest mnsymbol biblatex fontawesome5 pbox rsfso upquote
+                  acmart ieeetran;
                 pkgFilter = pkg:
                   pkg.tlType == "run" || pkg.tlType == "bin" || pkg.pname
                   == "cm-super";
@@ -91,7 +78,13 @@
           (ifDarwin { packages = with pkgs; [ iterm2 ocamlPackages.cpdf ]; })
           (ifLinux {
             packages = with pkgs; [
-              xsettingsd
+              black
+              (python3.withPackages (ps:
+                with ps; [
+                  # python-lsp-server
+                  pygments
+                ]))
+              tree
               xfce.xfconf
               ssh-copy-id
               zenith

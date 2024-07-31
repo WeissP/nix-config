@@ -101,16 +101,21 @@
     )
 
   (add-hook 'modus-themes-after-load-theme-hook #'weiss-modus-patch-faces)
-  (add-hook 'circadian-after-load-theme-hook #'weiss-modus-patch-faces)
 
-  
   (with-eval-after-load 'circadian
-    (setq calendar-latitude 49.4)
-    (setq calendar-longitude 7.7)
-    (setq circadian-themes '(("6:00" . modus-operandi-tinted)
-                             ("20:00" . modus-vivendi-tinted)))
+    (setq calendar-latitude 49.2)
+    (setq calendar-longitude 7.4)
+    (setq circadian-themes '((:sunrise . modus-operandi-tinted)
+                             (:sunset . modus-vivendi-tinted)))
     (setq circadian-verbose t)
+    (add-hook 'circadian-after-load-theme-hook #'weiss-modus-patch-faces)
     (circadian-setup)
+    )
+
+  (setq darkman-themes '(:light modus-operandi-tinted :dark modus-vivendi-tinted))
+  (with-eval-after-load 'darkman
+    (darkman-mode)
+    (weiss-modus-patch-faces)
     )
   )
 

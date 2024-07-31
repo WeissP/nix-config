@@ -2,13 +2,13 @@
 , yasnippet }:
 
 let
-  version = "fd320476df89cfd5d10f1b70303c891d3b1e3c81";
+  version = "44dad3df967fb7170ac639e0de36ccb375e429e9";
 
   src = fetchFromGitHub {
     owner = "zbelial";
     repo = "lspce";
     rev = version;
-    hash = "sha256-KnERYq/CvJhJIdQkpH/m82t9KFMapPl+CyZkYyujslU=";
+    hash = "sha256-lrjfvKsvXR+iiqW36yRivXPKZLLi/43a7wZtUu1RRFs=";
   };
 
   meta = {
@@ -23,7 +23,7 @@ let
     inherit version src meta;
     pname = "lspce-module";
 
-    cargoHash = "sha256-ndiamBlF7QnTGYkpZ3hWh57wAa7TYpkZ8Rf3o8N4CFM=";
+    cargoHash = "sha256-9fXU4zXJizdoVaweSvd4Y3ykpWhZLrAn354ZN2MqRKw=";
 
     checkFlags = [
       # flaky test
