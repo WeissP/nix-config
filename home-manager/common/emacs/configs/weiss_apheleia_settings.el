@@ -12,7 +12,9 @@
          (lambda ()
            (save-buffer)
            (when flymake-mode
-             (run-with-timer 1 nil #'flymake-start)
+             (flymake-start)
+             (run-with-timer 2 nil #'flymake-start)
+             (run-with-timer 3 nil #'flymake-start)
              )                                             
            ))
         )

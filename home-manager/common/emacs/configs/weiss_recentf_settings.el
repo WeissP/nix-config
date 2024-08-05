@@ -12,8 +12,8 @@
       (recentf-save-list)
       (recentf-cleanup)
       ))
-  (run-at-time nil 60 'recentf-save-list)
-  
+  (run-at-time nil 60 'weiss-update-recentf)
+    
   (setq
    recentf-max-menu-items 150
    recentf-max-saved-items 3000
@@ -21,6 +21,7 @@
    ;; Recentf blacklist
    recentf-exclude `(
                      ,(rx "*message*")
+                     ,(rx "weiss_" (+ (any alnum "-")) "_" (+ (any alnum "-")) ".el")
                      ".*autosave$"
                      ;; "/ssh:"
                      ;; "/sudo:"

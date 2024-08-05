@@ -57,6 +57,7 @@
      ("l" . embark-toggle-highlight)
      ("c" . weiss-capitalize-region)
      ("f" . xah-fill-or-unfill)
+     ("o" . occur)
      ("<up>" . weiss-upcase-region)
      ("<down>" . weiss-downcase-region)
      ))

@@ -111,11 +111,12 @@
     (add-hook 'circadian-after-load-theme-hook #'weiss-modus-patch-faces)
     (circadian-setup)
     )
-
-  (setq darkman-themes '(:light modus-operandi-tinted :dark modus-vivendi-tinted))
+  
   (with-eval-after-load 'darkman
+    (setq darkman-themes '(:light modus-operandi-tinted :dark modus-vivendi-tinted))
+    (add-hook 'darkman-mode-hook #'weiss-modus-patch-faces)
+    (add-hook 'darkman-after-mode-changed-hook #'weiss-modus-patch-faces)
     (darkman-mode)
-    (weiss-modus-patch-faces)
     )
   )
 

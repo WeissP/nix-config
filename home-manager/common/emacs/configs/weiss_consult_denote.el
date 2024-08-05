@@ -210,6 +210,54 @@ Delete the original subtree."
             )
       )
     
+    (defun weiss-consult--local-cfg ()
+      "DOCSTRING"
+      (interactive)
+      (when weiss--denote-location
+        `(
+          :name "local"
+          :char ?l
+          :dir ,weiss--denote-location
+          :keywords ,weiss--denote-keywords)
+        ))
+
+    (defun weiss-consult--generate-source-with-local-cfg (normal-cfgs generator)
+      "DOCSTRING"
+      (interactive)
+      (let* ((dyn-cfg (funcall generator (weiss-consult--local-cfg)))
+             (cfgs (cons dyn-cfg normal-cfgs))
+             )
+        (weiss-denote-consult--generate-source-by-config cfgs 0)
+        ))
+
+    (defun weiss-test ()
+      "DOCSTRING"
+      (interactive)
+      (weiss-consult--generate-source-with-local-cfg
+       weiss-denote-consult-files-config
+       'weiss-denote-consult--find-notes-generator)
+      ;; (let* ((dyn-cfg (weiss-denote-consult--find-notes-generator
+      ;;                  `(
+      ;;                    :name "local"
+      ;;                    :char ?l
+      ;;                    :dir ,weiss--denote-location
+      ;;                    :keywords ,weiss--denote-keywords)))
+      ;;        (cfgs (cons 
+      ;;               dyn-cfg
+      ;;               weiss-denote-consult-files-config
+      ;;               ))
+      ;;        )
+      ;;   ;; (message "cfg: %s" cfg)
+      ;;   (consult--multi
+      ;;    (weiss-denote-consult--generate-source-by-config cfgs 0)
+      ;;    :require-match t
+      ;;    :prompt "Denote files: "
+      ;;    :history 'consult-denotes-history
+      ;;    :add-history (seq-some #'thing-at-point '(region symbol)))
+      
+      ;;   )
+      )
+
     (setq weiss-denote-consult-find-notes-config
           (-map
            #'weiss-denote-consult--find-notes-generator
@@ -228,12 +276,15 @@ Delete the original subtree."
            weiss-denote-consult-source-config)        
           )
 
-    (defun weiss-denote-consult--generate-source-by-config (configs)
+    (defun weiss-denote-consult--generate-source-by-config (configs &optional show-idx)
       "DOCSTRING"
       (interactive)
-      (let* ((cur-dir (expand-file-name default-directory))
-             (idx (or (--find-index (s-starts-with? (plist-get it :dir) cur-dir) configs)
-                      (- (length configs) 1))))
+      (let* ((idx (or
+                   show-idx
+                   (--find-index (s-starts-with?
+                                  (plist-get it :dir)
+                                  (expand-file-name default-directory)) configs)
+                   (- (length configs) 1))))
         (progn
           (--map-indexed (if (eq idx it-index)
                              (-> it
@@ -271,13 +322,16 @@ Delete the original subtree."
           (weiss-split-window-dwim)
           (other-window 1)
           )
-        (consult--multi (weiss-denote-consult--generate-source-by-config weiss-denote-consult-find-notes-config)
-                        :initial initial 
-                        :require-match
-                        (confirm-nonexistent-file-or-buffer)
-                        :prompt "Notes: "
-                        :history 'consult-denotes-history
-                        :add-history (seq-some #'thing-at-point '(region symbol))) 
+        (consult--multi
+         (weiss-consult--generate-source-with-local-cfg
+          weiss-denote-consult-files-config
+          'weiss-denote-consult--find-notes-generator)
+         :initial initial 
+         :require-match
+         (confirm-nonexistent-file-or-buffer)
+         :prompt "Notes: "
+         :history 'consult-denotes-history
+         :add-history (seq-some #'thing-at-point '(region symbol))) 
         )    
       )
     
@@ -288,8 +342,9 @@ Delete the original subtree."
             (when (weiss-region-p)
               (delete-and-extract-region (region-beginning) (region-end))))
       (consult--multi
-       (weiss-denote-consult--generate-source-by-config
-        weiss-denote-consult-link-notes-config)
+       (weiss-consult--generate-source-with-local-cfg
+        weiss-denote-consult-link-notes-config
+        'weiss-denote-consult--link-notes-generator)
        :initial (when weiss-denote-consult--region-text
                   (s-downcase weiss-denote-consult--region-text)) 
        :require-match (confirm-nonexistent-file-or-buffer)
@@ -321,8 +376,9 @@ Delete the original subtree."
       (interactive)
       (let ((weiss-denote--files-matching-regexp files-matching-regexp)
             (returned (consult--multi
-                       (weiss-denote-consult--generate-source-by-config
-                        weiss-denote-consult-files-config)
+                       (weiss-consult--generate-source-with-local-cfg
+                        weiss-denote-consult-files-config
+                        'weiss-denote-consult--find-notes-generator)
                        :require-match t
                        :prompt "Denote files: "
                        :history 'consult-denotes-history

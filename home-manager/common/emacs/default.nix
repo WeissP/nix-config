@@ -314,7 +314,6 @@ in {
         ];
         ui = [
           "ui"
-          "highlight-defined"
           "valign"
           # "eldoc-box"
           # [ "sideline" ]

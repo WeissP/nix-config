@@ -32,6 +32,11 @@
        :new-line t
        )
       (
+       :name "yaml"
+       :pair ("#+BEGIN_SRC yaml" . "#+END_SRC")
+       :new-line t
+       )
+      (
        :name "scala"
        :pair ("#+BEGIN_SRC scala" . "#+END_SRC")
        :new-line t

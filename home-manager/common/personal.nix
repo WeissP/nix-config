@@ -45,7 +45,7 @@
               yt-dlp
               pueue
               zoom-us
-              ripgrep-all
+              ripgrep
               imagemagick
               gnumake
               cmake
@@ -78,6 +78,7 @@
           (ifDarwin { packages = with pkgs; [ iterm2 ocamlPackages.cpdf ]; })
           (ifLinux {
             packages = with pkgs; [
+              ripgrep-all
               black
               (python3.withPackages (ps:
                 with ps; [
