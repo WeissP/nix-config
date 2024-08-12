@@ -119,6 +119,10 @@
        :pair ("\\textcolor{red}{" . "}")
        )
       (
+       :name "operatorname"
+       :pair ("\\operatorname{" . "}")
+       )
+      (
        :name "mathbf"
        :pair ("\\mathbf{" . "}")
        )

@@ -17,9 +17,6 @@ with myEnv; {
         PermitRootLogin = "yes";
         KbdInteractiveAuthentication = true;
       };
-      xserver.displayManager.sessionCommands = ''
-        displayManager.sessionCommands =
-      '';
     };
     myPostgresql.databases = [ "webman" "recentf" "digivine" ];
     xserver = {

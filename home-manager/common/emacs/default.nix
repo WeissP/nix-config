@@ -7,7 +7,8 @@ in {
   home.packages = with pkgs; [ clj-kondo nodePackages.jsonlint nixfmt ];
   programs.weissEmacs = lib.mkMerge [
     (ifDarwin {
-      package = pkgs.emacs29-pgtk.override { withXwidgets = false; };
+      # package = pkgs.emacs29-pgtk.override { withXwidgets = false; };
+      package = pkgs.emacs-macport;
     })
     (ifLinux { package = pkgs.emacs29; })
     {
@@ -321,7 +322,8 @@ in {
           "popwin"
           [
             "modus-themes"
-            "darkman" # "circadian"
+            # "darkman"
+            # "circadian"
           ]
           "rainbow-mode"
           "highlight-indent-guides"
@@ -372,7 +374,11 @@ in {
         translate
         apps
         inputs
-      ] ++ (if (myEnv.arch == "linux") then [ "flymake-sqlfluff" ] else [ ]));
+      ] ++ (if (myEnv.arch == "linux") then [
+        "flymake-sqlfluff"
+        "darkman"
+      ] else
+        [ ]));
     }
   ];
 }

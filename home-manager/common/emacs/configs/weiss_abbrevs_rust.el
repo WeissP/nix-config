@@ -51,6 +51,7 @@
         ("Result"  "Result<▮>" weiss--ahf-indent)
         ("rt"  "return ▮;" weiss--ahf-indent)
         ("s"  "Some" weiss--ahf)
+        ("si"  "&'static " weiss--ahf)
         ("me"  ".map_err(Into::into)" weiss--ahf)
         ("Some"  "Some(▮)" weiss--ahf)
         ("st"  "struct ▮ {\n\n}" weiss--ahf-indent)

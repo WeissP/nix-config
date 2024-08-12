@@ -41,7 +41,9 @@
     "DOCSTRING"
     (interactive)
     (call-interactively 'org-store-link)
-    (let ((keywords  (-distinct
+    (let ((dir (concat (file-name-as-directory weiss--denote-location)
+                       "notes"))
+          (keywords  (-distinct
                       (-non-nil
                        (append
                         weiss--denote-keywords
@@ -57,7 +59,7 @@
       (delete-other-windows)
       (weiss-split-window-dwim)
       (other-window 1)
-      (denote title keywords nil weiss--denote-location nil nil pdf-page)
+      (denote title keywords nil dir nil nil pdf-page)
       (previous-line)
       (call-interactively 'org-insert-last-stored-link)
       (ignore-errors (weiss-init-agda-input))

@@ -11,7 +11,9 @@
    pdf-view-mode-map ""
    '(
      ("<up>" . (weiss-pdf-scroll-down (image-previous-line 2)))
+     ("," . (weiss-pdf-scroll-down (image-previous-line 2)))
      ("<down>" . (weiss-pdf-scroll-up (image-next-line 2)))
+     ("." . (weiss-pdf-scroll-up (image-next-line 2)))
      ("=" .  split-window-below)
      ("-" .  pdf-view-shrink)
      ("C--" .  pdf-view-shrink)

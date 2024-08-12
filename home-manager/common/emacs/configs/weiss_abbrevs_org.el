@@ -4,6 +4,8 @@
 
   (define-abbrev-table 'org-mode-abbrev-table
     '(
+      ("uhat" "\\(\\mathrm{UHATs}\\)")
+
       ("ta" ":tangle ")
       ("wa" "WhatsApp")
 ;;;;; symbols

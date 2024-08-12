@@ -7,12 +7,17 @@
       (interactive)
       (let ((dir weiss--denote-location))
         (seq-filter
-         (lambda (file) (and (denote-file-has-identifier-p file)
-                             (denote-file-has-signature-p file)
-                             (member page
-                                     (-map #'string-to-number (s-split "=" (denote-retrieve-filename-signature file))) )
-                             ))
-         (directory-files dir t directory-files-no-dot-files-regexp))
+         (lambda (file)
+           (and (denote-file-has-identifier-p file)
+                (denote-file-has-signature-p file)
+                (member
+                 page
+                 (-map #'string-to-number (s-split "=" (denote-retrieve-filename-signature file))) )
+                ))
+         (directory-files-recursively
+          dir
+          directory-files-no-dot-files-regexp
+          ))
         ))
 
     (defun weiss-denote-pdf--open-files (files)
@@ -30,6 +35,14 @@
           ))
       (other-window 1)
       (balance-windows)
+      )
+
+    (defun weiss-test ()
+      "DOCSTRING"
+      (interactive)
+      (message ": %s" (weiss-denote-pdf--find-all-notes-in-page
+                       (pdf-view-current-page)
+                       ))
       )
 
     (defun weiss-denote-pdf-open-files-cur-page ()

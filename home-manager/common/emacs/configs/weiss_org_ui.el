@@ -15,7 +15,7 @@
    )
 
   ;; controls the size of latex previews 
-  (setq org-format-latex-options (plist-put org-format-latex-options :scale 1.4))
+  (setq org-format-latex-options (plist-put org-format-latex-options :scale 1.2))
 
   
 

@@ -108,7 +108,8 @@ Delete the original subtree."
                                  (concat dir "/notes"))
                                nil nil
                                )) 
-               :action ,(lambda (arg) (find-file (expand-file-name arg denote-directory)))
+               :action ,(lambda (arg)
+                          (find-file (expand-file-name arg denote-directory)))
                :items ,(lambda () (-flatten (-map #'weiss-denote--list-notes (cons dir extra-dirs)) ))
                :state ,(weiss-consult-file-state-under-dir denote-directory)
                ))
@@ -213,22 +214,23 @@ Delete the original subtree."
     (defun weiss-consult--local-cfg ()
       "DOCSTRING"
       (interactive)
-      (when weiss--denote-location
-        `(
-          :name "local"
-          :char ?l
-          :dir ,weiss--denote-location
-          :keywords ,weiss--denote-keywords)
-        ))
+      `(
+        :name "local"
+        :char ?l
+        :dir ,weiss--denote-location
+        :keywords ,weiss--denote-keywords))
 
     (defun weiss-consult--generate-source-with-local-cfg (normal-cfgs generator)
       "DOCSTRING"
       (interactive)
-      (let* ((dyn-cfg (funcall generator (weiss-consult--local-cfg)))
-             (cfgs (cons dyn-cfg normal-cfgs))
-             )
-        (weiss-denote-consult--generate-source-by-config cfgs 0)
-        ))
+      (if (boundp 'weiss--denote-location)
+          (weiss-denote-consult--generate-source-by-config
+           (cons (funcall generator (weiss-consult--local-cfg))
+                 normal-cfgs)
+           0)
+        (weiss-denote-consult--generate-source-by-config normal-cfgs)        
+        )
+      )
 
     (defun weiss-test ()
       "DOCSTRING"
@@ -283,8 +285,11 @@ Delete the original subtree."
                    show-idx
                    (--find-index (s-starts-with?
                                   (plist-get it :dir)
-                                  (expand-file-name default-directory)) configs)
+                                  (expand-file-name default-directory))
+                                 configs)
                    (- (length configs) 1))))
+        (message "idx: %s" idx)
+        ;; (message "configs: %s" (car configs))
         (progn
           (--map-indexed (if (eq idx it-index)
                              (-> it
@@ -324,7 +329,7 @@ Delete the original subtree."
           )
         (consult--multi
          (weiss-consult--generate-source-with-local-cfg
-          weiss-denote-consult-files-config
+          weiss-denote-consult-find-notes-config
           'weiss-denote-consult--find-notes-generator)
          :initial initial 
          :require-match

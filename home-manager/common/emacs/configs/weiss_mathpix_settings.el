@@ -1,11 +1,7 @@
 (defun mathpix-screenshot ()
   "screenshot a image, return the path of the image"
   (interactive)
-  (let ((path "/tmp/flameshot-capture.png"))
-    (delete-file path)
-    (shell-command-to-string "flameshot gui -p /tmp/")
-    path 
-    )
+  (weiss-screenshot)
   )
 
 (defun mathpix-get-b64-image (file)
@@ -42,7 +38,7 @@
                    (-some->>
                        response
                      (request-response-data)
-                     ((lambda (data) (message "data: %s" data) data))
+                     ;; ((lambda (data) (message "data: %s" data) data))
                      (alist-get 'text)
                      ;; preventing org rendering org-emphasis
                      (s-replace "*" " * ") 

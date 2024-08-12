@@ -4,16 +4,18 @@
   ;; (message "recentf loaded!")
   ;; (load (weiss--get-config-file-path "recentf"))
   ;; (setq recentf-save-file (weiss--get-config-file-path "recentf"))
-  
+
   (defun weiss-update-recentf ()
     "DOCSTRING"
     (interactive)
-    (let ((message-log-max nil))
+    (let ((message-log-max nil)
+          (save-silently t)
+          (inhibit-message t))
       (recentf-save-list)
-      (recentf-cleanup)
       ))
+
   (run-at-time nil 60 'weiss-update-recentf)
-    
+  
   (setq
    recentf-max-menu-items 150
    recentf-max-saved-items 3000

@@ -11,7 +11,6 @@
 
   (require 'ox-latex)
 
-
   (setq LaTeX-command-style
         '(("" "%(PDF)%(latex) -shell-escape %S%(PDFout)")))
   (setq
@@ -29,6 +28,7 @@
   ;; \usepackage{xcolor}
   ;; \definecolor{code}{HTML}{986801}
   (add-to-list 'org-latex-packages-alist '("" "minted" t))
+  (add-to-list 'org-latex-packages-alist '("" "stmaryrd" t))
   ;; (add-to-list 'org-latex-packages-alist '("" "tikz" t))
   ;; ;; \\usepackage{arev}
 
@@ -98,11 +98,10 @@
 
 (add-to-list 'org-latex-classes
                '("IEEEtran"
-                 "\\documentclass[11pt,technote]{IEEEtran}
+                 "\\documentclass[11pt,journal]{IEEEtran}
 
 [PACKAGES]
 \\makeatletter
-\\setlength\\parindent{0pt}
 \\usepackage[table]{xcolor}
 \\usepackage{lipsum}
 \\usepackage{ifsym}

@@ -7,6 +7,7 @@
     ./pass.nix
     ./webman.nix
     ./shell
+    ./sioyek.nix
   ] ++ (if myEnv.arch == "linux" then [
     ./hledger.nix
     ./mpv.nix
@@ -81,7 +82,8 @@
               ripgrep-all
               black
               (python3.withPackages (ps:
-                with ps; [
+                with ps;
+                [
                   # python-lsp-server
                   pygments
                 ]))

@@ -1,5 +1,3 @@
-(setq default-input-method "Agda")
-
 (defun weiss-init-agda-input ()
   "DOCSTRING"
   (interactive)
@@ -26,4 +24,4 @@
   (agda-input-setup)
   )
 
-(provide 'weiss_agda-input_settings)
+(provide 'weiss_agda2-mode_input)

@@ -11,11 +11,13 @@
 		          open-target unthreaded parent-buffer t)
     )
 
-  (setq notmuch-fcc-dirs '((".*web\\.de" . "webde/Gesendet")
-                           (".*rptu\\.de" . "rptu/Sent")
-                           (".*cs\\.uni-kl\\.de" . "rptu_cs/Sent")
-                           (".*" . "sent")
-                           ))
+  (setq
+   notmuch-always-prompt-for-sender t
+   notmuch-fcc-dirs '((".*web\\.de" . "webde/Gesendet")
+                      (".*rptu\\.de" . "rptu/Sent")
+                      (".*cs\\.uni-kl\\.de" . "rptu_cs/Sent")
+                      (".*" . "sent")
+                      ))
 
   (setq notmuch-saved-searches
         `(
@@ -29,6 +31,8 @@
           (:name " 163" :query "tag:163 AND is:inbox AND NOT is:unimportant" :key ,(kbd "i m") :search-type tree :sort-order newest-first)
           (:name " Gmail" :query "tag:gmail AND is:inbox AND NOT is:unimportant" :key ,(kbd "i g") :search-type tree :sort-order newest-first)
           ))
+
+  (advice-add 'notmuch-mua-send : #')
 
   (setq notmuch-show-empty-saved-searches t
         notmuch-show-logo nil)

@@ -24,14 +24,23 @@
       (when (ignore-errors org-xournal-mode)
         (org-xournal-show-current-link))))
 
+  (defun weiss-screenshot ()
+    "DOCSTRING"
+    (interactive)
+    (if (eq system-type 'darwin)
+        (let ((p "/tmp/screenshot.png"))
+          (shell-command (concat "screencapture -i "  p))
+          p
+          )
+      (shell-command "flameshot gui -p /tmp")          
+      "/tmp/flameshot-capture.png"
+      )
+    )
+
   (defun weiss-org-screenshot ()
     "call flameshot to capture screen shot"
     (interactive)
-    (shell-command-to-string
-     (concat "flameshot gui -p " weiss/org-img-path))
-    (weiss-org-insert-image
-     (concat weiss/org-img-path "flameshot-capture.png")
-     t t))
+    (weiss-org-insert-image (weiss-screenshot) t t))
 
   (defun weiss-org-download-img ()
     "download the img link from clipboard"
