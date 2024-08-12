@@ -79,6 +79,7 @@
           (ifDarwin { packages = with pkgs; [ iterm2 ocamlPackages.cpdf ]; })
           (ifLinux {
             packages = with pkgs; [
+              firefox
               ripgrep-all
               black
               (python3.withPackages (ps:
@@ -184,7 +185,18 @@
         };
       }
       (ifLinux {
-        xdg.mimeApps.defaultApplications = { "image/png" = [ "feh" ]; };
+        xdg.mimeApps = {
+          enable = true;
+          defaultApplications = {
+            "image/png" = [ "feh" ];
+            "default-web-browser" = [ "firefox.desktop" ];
+            "text/html" = [ "firefox.desktop" ];
+            "x-scheme-handler/http" = [ "firefox.desktop" ];
+            "x-scheme-handler/https" = [ "firefox.desktop" ];
+            "x-scheme-handler/about" = [ "firefox.desktop" ];
+            "x-scheme-handler/unknown" = [ "firefox.desktop" ];
+          };
+        };
         systemd.user = {
           services = with myLib.service; {
             # cider = startup { cmds = "${pkgs.cider}/bin/cider"; };

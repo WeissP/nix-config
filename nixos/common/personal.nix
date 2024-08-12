@@ -37,11 +37,10 @@ with myEnv; {
       autoRepeatDelay = 230;
       autoRepeatInterval = 30;
       displayManager.sessionCommands = ''
-        Exec=GTK_IM_MODULE= QT_IM_MODULE= XMODIFIERS= emacs &
         export PATH=$PATH:${scriptsDir}
         sh $HOME/.screenlayout/horizontal.sh &
         sh mouse_scroll.sh &
-        vivaldi &
+        firefox &
         xbindkeys &
         pasystray &
         aria2c &
@@ -49,6 +48,7 @@ with myEnv; {
         mattermost-desktop &
         sh mapwacom.sh -d "Wacom One by Wacom M Pen stylus" -d "Wacom One by Wacom M Pen eraser" -s "DisplayPort-0" &
         pueue add -i xsettingsd &
+        Exec=GTK_IM_MODULE= QT_IM_MODULE= XMODIFIERS= emacs &
       '';
     };
     blueman.enable = true;
