@@ -32,8 +32,6 @@
           (:name " Gmail" :query "tag:gmail AND is:inbox AND NOT is:unimportant" :key ,(kbd "i g") :search-type tree :sort-order newest-first)
           ))
 
-  (advice-add 'notmuch-mua-send : #')
-
   (setq notmuch-show-empty-saved-searches t
         notmuch-show-logo nil)
 

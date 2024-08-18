@@ -37,6 +37,7 @@
     weissXmonad.url = "github:WeissP/weiss-xmonad";
     # weissXmonad.url = "/home/weiss/projects/weissXmonad/";
     hledger-importer.url = "github:WeissP/hledger-importer";
+    nixpkgs-firefox-darwin.url = "github:bandithedoge/nixpkgs-firefox-darwin";
   };
 
   outputs =

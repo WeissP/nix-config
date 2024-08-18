@@ -4,6 +4,11 @@
 
   (define-abbrev-table 'latex-mode-abbrev-table
     '(
+      ;; temp
+      ("tl" "\\mathrm{LTL}(\\mathrm{Mon})" weiss--ahf)
+      ("tf" "\\mathrm{FO}(\\mathrm{Mon})" weiss--ahf)
+      ("tu" "\\mathrm{UHAT▮}" weiss--ahf)
+
 ;;;;; Greek alphabet
       ("ga" "\\alpha" weiss--ahf)
       ("gga" "\\Alpha" weiss--ahf)
@@ -100,6 +105,7 @@
 
 ;;;;; Logic
       ("la" "\\wedge " weiss--ahf)
+      ("lm" "\\models " weiss--ahf)
       ("lb" "\\bot " weiss--ahf)
       ("lbca" "\\bigcap " weiss--ahf)
       ("lbcu" "\\bigcup " weiss--ahf)
@@ -168,12 +174,18 @@
       ("ad" "\\Downarrow " weiss--ahf)
       ("asd" "\\downarrow " weiss--ahf)
       ("ar" "\\Rightarrow " weiss--ahf)
+      ("art" "\\xRightarrow{▮} " weiss--ahf)
       ("asr" "\\rightarrow " weiss--ahf)
+      ("asrt" "\\xrightarrow{▮} " weiss--ahf)
       ("asqr" "\\rightsquigarrow " weiss--ahf)
       ("al" "\\Leftarrow " weiss--ahf)
+      ("alt" "\\xLeftarrow{▮} " weiss--ahf)
       ("asl" "\\leftarrow " weiss--ahf)
+      ("aslt" "\\xleftarrow{▮} " weiss--ahf)
       ("alr" "\\Leftrightarrow " weiss--ahf)
+      ("alrt" "\\xLeftrightarrow{▮} " weiss--ahf)
       ("aslr" "\\leftrightarrow " weiss--ahf)
+      ("aslrt" "\\xleftrightarrow{▮} " weiss--ahf)
       ("asqlr" "\\leftrightsquigarrow " weiss--ahf)
       ("at" "\\to " weiss--ahf)
       ("atr" "\\twoheadrightarrow" weiss--ahf)

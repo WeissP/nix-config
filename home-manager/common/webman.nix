@@ -63,7 +63,11 @@
               browser = "Safari";
               # location = "${homeDir}/.config/webman/History.db";
             };
-            chromium.browser = "Chromium";
+            firefox = {
+              browser = "Firefox";
+              location =
+                "${homeDir}/Library/Application Support/Firefox/Profiles/qr5u59ie.default-release/places.sqlite";
+            };
           };
           logLevel = "info";
           target = "MacBook";
@@ -89,6 +93,7 @@
           provider.browsers = {
             vivaldi.browser = "Vivaldi";
             chromium.browser = "Chromium";
+            firefox.browser = "Firefox";
           };
           logLevel = "info";
           target = "RaspberryPi";

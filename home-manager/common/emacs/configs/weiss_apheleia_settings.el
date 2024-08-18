@@ -14,7 +14,7 @@
            (when flymake-mode
              (flymake-start)
              (run-with-timer 2 nil #'flymake-start)
-             (run-with-timer 3 nil #'flymake-start)
+             (run-with-timer 4 nil #'flymake-start)
              )                                             
            ))
         )

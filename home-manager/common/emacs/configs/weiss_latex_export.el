@@ -29,6 +29,7 @@
   ;; \definecolor{code}{HTML}{986801}
   (add-to-list 'org-latex-packages-alist '("" "minted" t))
   (add-to-list 'org-latex-packages-alist '("" "stmaryrd" t))
+  (add-to-list 'org-latex-packages-alist '("" "mathtools" t))
   ;; (add-to-list 'org-latex-packages-alist '("" "tikz" t))
   ;; ;; \\usepackage{arev}
 

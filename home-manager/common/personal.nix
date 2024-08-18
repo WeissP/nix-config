@@ -78,14 +78,23 @@
           }
           (ifDarwin { packages = with pkgs; [ iterm2 ocamlPackages.cpdf ]; })
           (ifLinux {
+            pointerCursor = {
+              package = pkgs.afterglow-cursors-recolored;
+              name = "Afterglow-Recolored-Gruvbox-Blue";
+              size = 32;
+              x11.enable = true;
+              gtk.enable = true;
+            };
             packages = with pkgs; [
-              firefox
+              # opendrop
+              # owl
+              # iw
               ripgrep-all
               black
               (python3.withPackages (ps:
-                with ps;
-                [
+                with ps; [
                   # python-lsp-server
+                  matplotlib
                   pygments
                 ]))
               tree
@@ -182,8 +191,10 @@
             nix-direnv.enable = true;
             enableZshIntegration = true;
           };
+          firefox.enable = true;
         };
       }
+      (ifDarwin { programs = { firefox.package = pkgs.firefox-bin; }; })
       (ifLinux {
         xdg.mimeApps = {
           enable = true;
@@ -239,9 +250,15 @@
           ];
         };
 
-        programs = { gpg = { enable = true; }; };
+        programs = {
+          gpg = { enable = true; };
+          firefox.package = pkgs.firefox.override {
+            nativeMessagingHosts = with pkgs; [ passff-host ];
+          };
+        };
 
         services = {
+          kdeconnect.enable = true;
           dunst.enable = true;
           blueman-applet.enable = true;
           mpris-proxy.enable = true; # let buttons of bluetooth devices work

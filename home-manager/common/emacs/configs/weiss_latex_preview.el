@@ -1,9 +1,4 @@
 (with-eval-after-load 'latex
-  (with-eval-after-load 'org-mode
-    (setq org-latex-create-formula-image-program 'dvipng)
-    (plist-put org-format-latex-options :scale 1.1)
-    )
-  
   (eval-after-load "preview"
     '(add-to-list 'preview-default-preamble "\\PreviewEnvironment{tikzpicture}" t)
     )

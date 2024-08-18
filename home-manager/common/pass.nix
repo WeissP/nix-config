@@ -2,7 +2,7 @@
 with myEnv;
 let dir = "${homeDir}/.password-store";
 in {
-  home.packages = with pkgs; [ zbar xclip ];
+  home.packages = with pkgs; [ zbar xclip  ];
   programs = {
     password-store = {
       enable = true;

@@ -28,6 +28,7 @@
      ("<shifttab>" . org-shifttab)
      ("-" . +org/dwim-at-point)
      (";" . org-meta-return)
+     ("\\" . weiss-org-export-latex-pdf)
      ;; ("$" . org-export-dispatch)
      ;; ("C" . org-copy-subtree)
      ("d" . weiss-org-cut-line-or-delete-region)

@@ -4,11 +4,11 @@ let userEmacsDirectory = "${homeDir}/.emacs.d";
 in {
   imports = [ outputs.homeManagerModules.weissEmacs ../recentf.nix ];
 
-  home.packages = with pkgs; [ clj-kondo nodePackages.jsonlint nixfmt ];
+  home.packages = with pkgs; [ clj-kondo nodePackages.jsonlint nixfmt-rfc-style ];
   programs.weissEmacs = lib.mkMerge [
     (ifDarwin {
-      # package = pkgs.emacs29-pgtk.override { withXwidgets = false; };
-      package = pkgs.emacs-macport;
+      package = pkgs.emacs29;
+      # package = pkgs.emacs-macport;
     })
     (ifLinux { package = pkgs.emacs29; })
     {

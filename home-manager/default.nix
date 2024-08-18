@@ -14,6 +14,9 @@ in (if myEnv.arch == "linux" then {
   imports = [ inputs.home-manager.nixosModules.home-manager ];
   config = { inherit home-manager; };
 } else {
-  imports = [ inputs.home-manager.darwinModules.home-manager ];
+  imports = [
+    inputs.home-manager.darwinModules.home-manager
+    { nixpkgs.overlays = [ inputs.nixpkgs-firefox-darwin.overlay ]; }
+  ];
   config = { inherit home-manager; };
 })

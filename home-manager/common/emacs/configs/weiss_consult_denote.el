@@ -288,8 +288,6 @@ Delete the original subtree."
                                   (expand-file-name default-directory))
                                  configs)
                    (- (length configs) 1))))
-        (message "idx: %s" idx)
-        ;; (message "configs: %s" (car configs))
         (progn
           (--map-indexed (if (eq idx it-index)
                              (-> it

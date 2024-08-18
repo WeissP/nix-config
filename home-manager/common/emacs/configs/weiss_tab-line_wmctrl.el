@@ -38,7 +38,12 @@
   (weiss-wmctrl-send-active desk-map desk))
 
 (setq weiss-tab-line-with-desk
-      '(("[4] Digivine" .  (("4.1" . "dv-rs-fed")
+      '(("[1] logic seminar" . (("1.1" . ("/home/weiss/Documents/notes/academic/logic_seminar/report/20240810T081910--report__academic_logic_seminar.org" "/home/weiss/Documents/notes/academic/logic_seminar/notes/20240526T102453==8--position-wise-realizable__academic_barcelo2023_def.org" "/home/weiss/Documents/chats/#Evaluation of Linear Temporal Logic Formulas over Word Sequences#.chat"))
+                                ("1.2" . ("/home/weiss/Documents/notes/academic/logic_seminar/report/20240810T081910--report__academic_logic_seminar.pdf"))
+                                ("1.3" . ("/home/weiss/Documents/notes/academic/documents/Barcelo2023.pdf"))
+
+                                ))
+        ("[4] Digivine" .  (("4.1" . "dv-rs-fed")
                             ("4.1" . "dv-rs-fed")
                             ("4.1" . "dv-api")
                             ("4.2" . "dv-macros")

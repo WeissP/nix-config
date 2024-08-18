@@ -2,7 +2,14 @@
 }:
 with lib;
 with myEnv; {
-  imports = [ ./minimum.nix ./xmonad ./psql.nix ./syncthing.nix ./zsh.nix ];
+  imports = [
+    ./minimum.nix
+    ./xmonad
+    ./psql.nix
+    ./syncthing.nix
+    ./zsh.nix
+    ./uxplay.nix
+  ];
 
   services = {
     geoclue2.enable = true;

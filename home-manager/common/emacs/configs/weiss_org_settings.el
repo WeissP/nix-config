@@ -25,6 +25,14 @@
    org-return-follows-link t
    )
 
+  (defun weiss-org-export-latex-pdf ()
+    "DOCSTRING"
+    (interactive)
+    (let ((warning-minimum-level :error))
+      (call-interactively 'org-latex-export-to-pdf) 
+      )
+    )
+
   (defun weiss-org-id-complete-link (&optional arg)
     "From Stackoverflow. Create an id: link using completion"
     (concat "id:" (org-id-get-with-outline-path-completion)))

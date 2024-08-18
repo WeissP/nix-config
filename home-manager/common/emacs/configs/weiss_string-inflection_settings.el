@@ -1,3 +1,5 @@
+(require 'string-inflection)
+
 (with-eval-after-load 'string-inflection
   (defun string-inflection-rust-style-cycle-function (str)
     "fooBar => FOO_BAR => FooBar => fooBar"
@@ -10,8 +12,7 @@
   (defun string-inflection-rust-style-cycle ()
     "fooBar => FOO_BAR => FooBar => fooBar"
     (interactive)
-    (string-inflection-insert
-     (string-inflection-rust-style-cycle-function (string-inflection-get-current-word))))
+    (string-inflection--single-or-region #'string-inflection-rust-style-cycle-function))
 
   (defun weiss-string-inflection-cycle-auto ()
     "switching by major-mode"

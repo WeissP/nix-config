@@ -27,6 +27,31 @@
        :new-line t
        )
       (
+       :name "Special Block: proposition"
+       :pair ("#+BEGIN_proposition" . "#+END_proposition")
+       :new-line t
+       )
+      (
+       :name "Special Block: lemma"
+       :pair ("#+BEGIN_lemma" . "#+END_lemma")
+       :new-line t
+       )
+      (
+       :name "Special Block: theorem"
+       :pair ("#+BEGIN_theorem" . "#+END_theorem")
+       :new-line t
+       )
+      (
+       :name "Special Block: definition"
+       :pair ("#+ATTR_LATEX: :options []\n#+BEGIN_definition" . "#+END_definition")
+       :new-line t
+       )
+      (
+       :name "Special Block: IEEEproof"
+       :pair ("#+BEGIN_IEEEproof" . "#+END_IEEEproof")
+       :new-line t
+       )
+      (
        :name "rust"
        :pair ("#+BEGIN_SRC rust" . "#+END_SRC")
        :new-line t
@@ -125,6 +150,10 @@
       (
        :name "mathbf"
        :pair ("\\mathbf{" . "}")
+       )
+      (
+       :name "mathrm"
+       :pair ("\\mathrm{" . "}")
        )
       (
        :name "mathbb"

@@ -41,7 +41,7 @@ with myEnv; {
   homebrew = {
     enable = true;
     casks = [
-      "vivaldi"
+      "flameshot"
       "apptivate"
       "font-cascadia-mono-pl"
       "font-fira-code"

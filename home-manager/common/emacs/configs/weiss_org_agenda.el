@@ -1,6 +1,6 @@
 (with-eval-after-load 'org
   (setq
-   org-agenda-files '("/home/weiss/Documents/notes/misc/notes/20240428T091509--time-tracking.org")
+   org-agenda-files '("~/Documents/notes/misc/notes/20240428T091509--time-tracking.org")
    org-agenda-todo-ignore-scheduled t
    org-agenda-prefix-format "%t %s " ;hide files name
    org-agenda-skip-scheduled-if-done t

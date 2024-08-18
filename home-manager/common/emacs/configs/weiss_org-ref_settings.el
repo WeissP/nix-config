@@ -13,6 +13,8 @@
       (cond
        ((string-prefix-p "fig" label)
         (setq prefix " Figure "))
+       ((string-prefix-p "lemma" label)
+        (setq prefix " Lemma "))
        ((string-prefix-p "alg" label)
         (setq prefix " Algorithm "))
        ((string-prefix-p "sec" label)
