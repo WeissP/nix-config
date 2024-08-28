@@ -15,8 +15,11 @@
    )
 
   ;; controls the size of latex previews 
-  (setq org-format-latex-options (plist-put org-format-latex-options :scale 1.0))
-
+  (if (eq system-type 'darwin)
+      (plist-put org-format-latex-options :scale 1.1)
+    (plist-put org-format-latex-options :scale 1.0)    
+    )
+  
   (add-hook 'org-mode-hook (lambda () (variable-pitch-mode)))
   (defun weiss-shrink-window-if-larger-than-buffer (&optional window min-window-size)
     "Weiss: add optional arg min-window-size

@@ -13,6 +13,7 @@ config.font = wezterm.font_with_fallback({
 	"Noto Sans Math",
 	"Noto Color Emoji",
 })
+config.front_end = "WebGpu"
 config.font_size = 13
 config.color_scheme = "WeissDark"
 config.scrollback_lines = 3500

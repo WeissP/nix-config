@@ -8,7 +8,7 @@
       ("tl" "\\mathrm{LTL}(\\mathrm{Mon})" weiss--ahf)
       ("tf" "\\mathrm{FO}(\\mathrm{Mon})" weiss--ahf)
       ("tu" "\\mathrm{UHAT▮}" weiss--ahf)
-
+      
 ;;;;; Greek alphabet
       ("ga" "\\alpha" weiss--ahf)
       ("gga" "\\Alpha" weiss--ahf)

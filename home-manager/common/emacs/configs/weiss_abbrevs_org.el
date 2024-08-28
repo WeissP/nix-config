@@ -5,6 +5,7 @@
   (define-abbrev-table 'org-mode-abbrev-table
     '(
       ("uhat" "\\(\\mathrm{UHATs}\\)")
+      ("pw" "position-wise ")
 
       ("ta" ":tangle ")
       ("wa" "WhatsApp")
