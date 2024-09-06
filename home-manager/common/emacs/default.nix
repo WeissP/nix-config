@@ -1,10 +1,28 @@
-{ inputs, outputs, lib, myEnv, config, secrets, pkgs, ... }:
+{
+  inputs,
+  outputs,
+  lib,
+  myEnv,
+  config,
+  secrets,
+  pkgs,
+  ...
+}:
 with myEnv;
-let userEmacsDirectory = "${homeDir}/.emacs.d";
-in {
-  imports = [ outputs.homeManagerModules.weissEmacs ../recentf.nix ];
+let
+  userEmacsDirectory = "${homeDir}/.emacs.d";
+in
+{
+  imports = [
+    outputs.homeManagerModules.weissEmacs
+    ../recentf.nix
+  ];
 
-  home.packages = with pkgs; [ clj-kondo nodePackages.jsonlint nixfmt-rfc-style ];
+  home.packages = with pkgs; [
+    clj-kondo
+    nodePackages.jsonlint
+    nixfmt-rfc-style
+  ];
   programs.weissEmacs = lib.mkMerge [
     (ifDarwin {
       package = pkgs.emacs29;
@@ -60,9 +78,16 @@ in {
         dir = ./local-packages;
       };
       autoload = {
-        s = [ "s-replace" "s-chop-left" "s-starts-with?" ];
+        s = [
+          "s-replace"
+          "s-chop-left"
+          "s-starts-with?"
+        ];
         dired-quick-sort = [ "hydra-dired-quick-sort/body" ];
-        puni = [ "puni-strict-forward-sexp" "puni-strict-backward-sexp" ];
+        puni = [
+          "puni-strict-forward-sexp"
+          "puni-strict-backward-sexp"
+        ];
         pdf-view = [ "pdf-view-mode" ];
         dired-single-handed-mode = [ "weiss-dired-single-handed-mode" ];
         rotate-text = [ "rotate-text" ];
@@ -175,210 +200,330 @@ in {
         # "weiss-org-sp"
       ];
 
-      emacsPkgs = let
-        libs = [ "s" "exec-path-from-shell" "hydra" "cl-lib" "mode-local" "f" ];
-        core = [ "rotate-text" "global" "wks" ];
-        edit = [ "puni" "apheleia" "abbrevs" "separedit" "elec-pair" ];
-        completion = [
-          # [ "company" "company-box" ]
-          # [ "snails" "snails-custom-backends" ]
-          "yasnippet"
-          [ "vertico" "vertico-directory" ]
-          "orderless"
-          "marginalia"
-          [ "consult" "consult-tramp" ]
-          "dabbrev"
-          [
-            "corfu" # "kind-icon"
-            "nerd-icons-corfu"
-            "cape"
-          ]
-        ];
-        lang = [
-          [
-            "scala-mode"
-            "sbt-mode"
-            "ammonite-term-repl"
-            "ob-ammonite"
-            "scala-cli-repl"
-          ]
-          "nushell-mode"
-          [ "elixir-mode" "flymake-elixir" "inf-elixir" "ob-elixir" ]
-          [ "clojure-mode" "cider" ]
-          "typescript-mode"
-          [ "python" "live-py-mode" ]
-          "php-mode"
-          [ "haskell-mode" ]
-          "rustic"
-          [
-            "web-mode"
-            "rjsx-mode"
-            "mhtml-mode"
-            "svelte-mode"
-            [ "http" "auto-rename-tag" ]
-          ]
-          [ "go-mode" [ "go-gen-test" "gotest" "go-dlv" "go-impl" "go-eldoc" ] ]
-          [
-            "sql" # "ejc-sql"
-            "sql-indent"
+      emacsPkgs =
+        let
+          libs = [
+            "s"
+            "exec-path-from-shell"
+            "hydra"
+            "cl-lib"
+            "mode-local"
+            "f"
+          ];
+          core = [
+            "rotate-text"
+            "global"
+            "wks"
+          ];
+          edit = [
+            "puni"
+            "apheleia"
+            "abbrevs"
+            "separedit"
+            "elec-pair"
+          ];
+          completion = [
+            # [ "company" "company-box" ]
+            # [ "snails" "snails-custom-backends" ]
+            "yasnippet"
+            [
+              "vertico"
+              "vertico-directory"
+            ]
+            "orderless"
+            "marginalia"
+            [
+              "consult"
+              "consult-tramp"
+            ]
+            "dabbrev"
+            [
+              "corfu" # "kind-icon"
+              "nerd-icons-corfu"
+              "cape"
+            ]
+          ];
+          lang = [
+            [
+              "scala-mode"
+              "sbt-mode"
+              "ammonite-term-repl"
+              "ob-ammonite"
+              "scala-cli-repl"
+            ]
+            "nushell-mode"
+            [
+              "elixir-mode"
+              "flymake-elixir"
+              "inf-elixir"
+              "ob-elixir"
+            ]
+            [
+              "clojure-mode"
+              "cider"
+            ]
+            "typescript-mode"
+            [
+              "python"
+              "live-py-mode"
+            ]
+            "php-mode"
+            [ "haskell-mode" ]
+            "rustic"
+            [
+              "web-mode"
+              "rjsx-mode"
+              "mhtml-mode"
+              "svelte-mode"
+              [
+                "http"
+                "auto-rename-tag"
+              ]
+            ]
+            [
+              "go-mode"
+              [
+                "go-gen-test"
+                "gotest"
+                "go-dlv"
+                "go-impl"
+                "go-eldoc"
+              ]
+            ]
+            [
+              "sql" # "ejc-sql"
+              "sql-indent"
 
-          ]
-          [ "haskell-mode" "dante" ]
-          "lua-mode"
-          "nix-mode"
-          [ "dotenv-mode" "yaml-mode" "json-mode" ]
-          [ "csv-mode" "ledger-mode" "mustache-mode" "agda2-mode" ]
-          "dockerfile-mode"
-          "markdown-mode"
-          "mustache-mode"
-          "ess"
-        ];
-        pdf =
-          [ "pdf-tools" "pdf-view" "pdf-view-restore" "literate-calc-mode" ];
-        tools = [
-          [ "embark" "embark-consult" "string-inflection" ]
-          [ "chatu" "chatu-xournal" ]
-          "ztree"
-          "pueue"
-          "rfc-mode"
-          "mathpix"
-          "direnv"
-          "project"
-          # "recentf-db"
-          "recentf"
-          "rg"
-          "which-key"
-          "super-save"
-          "command-log-mode"
-          "gud"
-          "quickrun"
+            ]
+            [
+              "haskell-mode"
+              "dante"
+            ]
+            "lua-mode"
+            "nix-mode"
+            [
+              "dotenv-mode"
+              "yaml-mode"
+              "json-mode"
+            ]
+            [
+              "csv-mode"
+              "ledger-mode"
+              "mustache-mode"
+              "agda2-mode"
+            ]
+            "dockerfile-mode"
+            "markdown-mode"
+            "mustache-mode"
+            "ess"
+          ];
+          pdf = [
+            "pdf-tools"
+            "pdf-view"
+            "pdf-view-restore"
+            "literate-calc-mode"
+          ];
+          tools = [
+            # "edit-server"
+            [
+              "embark"
+              "embark-consult"
+              "string-inflection"
+            ]
+            [
+              "chatu"
+              "chatu-xournal"
+            ]
+            "ztree"
+            "pueue"
+            "rfc-mode"
+            "mathpix"
+            "direnv"
+            "project"
+            # "recentf-db"
+            "recentf"
+            "rg"
+            "which-key"
+            "super-save"
+            "command-log-mode"
+            "gud"
+            "quickrun"
+            [
+              "eglot"
+              # "eglot-booster"
+              # "eglot-signature-eldoc-talkative"
+            ]
+            "lspce"
+            # [ "lsp-bridge" "flymake-bridge" ]
+            [
+              "magit"
+              "forge"
+            ]
+            "browse-at-remote"
+            "aweshell"
+            "gcmh"
+            "citre"
+            "tab-line"
+            # "mind-wave"
+            "gptel"
+            "polymode"
+            "tla-tools"
+            "use-proxy"
+            "denote"
+            [
+              "citar"
+              "citar-denote"
+              "biblio"
+            ]
+            "substitute"
+            # "maxima"
+            # [ "tree-sitter" "tree-sitter-langs" "weiss-tsc-mode" ]
+          ];
+          lint = [
+            # [ "flyspell" "wucuo" "flyspell-correct" ]
+            "jinx"
+            "flymake"
+            "flymake-kondor"
+            "flymake-json"
+          ];
+          org = [
+            "org"
+            "org-clock-csv"
+            # "org-xournalpp"
+            "weiss-org-sp"
+            "org-cite"
+            [
+              "ob-go"
+              "ob-sql-mode"
+            ]
+            "org-pdftools"
+            "org-noter"
+            # [ "org-roam" "snails-roam" ]
+            [
+              "org-fancy-priorities"
+              "org-appear"
+            ]
+            "org-table-to-qmk-keymap"
+            "org-edit-latex"
+          ];
+          latex = [
+            "latex"
+            "auctex"
+            "org-ref"
+            "magic-latex-buffer"
+            "latex-preview-pane"
+          ];
+          dired = [
+            "dired"
+            "wdired"
+            [
+              "dired-rsync-transient"
+              "dired-rsync"
+            ]
+            [
+              "diredfl"
+              "nerd-icons-dired"
+            ]
+            [
+              "dired-filter"
+              "dired-avfs"
+              "dired-collapse"
+              "dired-quick-sort"
+            ]
+            "dired-hacks-utils"
+            "peep-dired"
+            "dired-single-handed-mode"
+          ];
+          ui = [
+            "ui"
+            "valign"
+            # "eldoc-box"
+            # [ "sideline" ]
+            [
+              "modeline"
+              "delight"
+            ]
+            "popwin"
+            [
+              "modus-themes"
+              # "darkman"
+              # "circadian"
+            ]
+            "rainbow-mode"
+            "highlight-indent-guides"
+            "highlight-defined"
+            "highlight-parentheses"
+            "highlight-symbol"
+            "hl-line"
+            "hl-todo"
+            "emojify"
+            "anzu"
+            "web-beautify"
+            "whitespace"
+            "ligature"
+            # "all-the-icons"
+            "nerd-icons"
+            "display-line-numbers"
+            "svg-tag-mode"
+          ];
+          email = [
+            "email"
+            "notmuch"
+          ];
+          tramp = [
+            "tramp"
+            "sudo-edit"
+          ];
+          translate = [ "fanyi" ];
+          apps = [
+            "pass"
+            "nov"
+            "telega"
+          ];
+          inputs = [
+            "agda2-mode"
+            "rime"
+          ];
+          test = [
+            libs
+            core
+            "consult"
+            "vertico"
+            # completion
+          ];
+        in
+        lib.lists.flatten (
           [
-            "eglot"
-            # "eglot-booster"
-            # "eglot-signature-eldoc-talkative"
+            # test
+            "server"
+            libs
+            core
+            edit
+            completion
+            lang
+            pdf
+            tools
+            lint
+            org
+            latex
+            dired
+            ui
+            email
+            tramp
+            translate
+            apps
+            inputs
           ]
-          "lspce"
-          # [ "lsp-bridge" "flymake-bridge" ]
-          [ "magit" "forge" ]
-          "browse-at-remote"
-          "aweshell"
-          "gcmh"
-          "citre"
-          "tab-line"
-          "mind-wave"
-          "polymode"
-          "tla-tools"
-          "use-proxy"
-          "denote"
-          [ "citar" "citar-denote" "biblio" ]
-          "substitute"
-          # "maxima"
-          # [ "tree-sitter" "tree-sitter-langs" "weiss-tsc-mode" ]
-        ];
-        lint = [
-          # [ "flyspell" "wucuo" "flyspell-correct" ]
-          "jinx"
-          "flymake"
-          "flymake-kondor"
-          "flymake-json"
-        ];
-        org = [
-          "org"
-          "org-clock-csv"
-          # "org-xournalpp"
-          "weiss-org-sp"
-          "org-cite"
-          [ "ob-go" "ob-sql-mode" ]
-          "org-pdftools"
-          "org-noter"
-          # [ "org-roam" "snails-roam" ]
-          [ "org-fancy-priorities" "org-appear" ]
-          "org-table-to-qmk-keymap"
-          "org-edit-latex"
-        ];
-        latex = [
-          "latex"
-          "auctex"
-          "org-ref"
-          "magic-latex-buffer"
-          "latex-preview-pane"
-        ];
-        dired = [
-          "dired"
-          "wdired"
-          [ "dired-rsync-transient" "dired-rsync" ]
-          [ "diredfl" "nerd-icons-dired" ]
-          [ "dired-filter" "dired-avfs" "dired-collapse" "dired-quick-sort" ]
-          "dired-hacks-utils"
-          "peep-dired"
-          "dired-single-handed-mode"
-        ];
-        ui = [
-          "ui"
-          "valign"
-          # "eldoc-box"
-          # [ "sideline" ]
-          [ "modeline" "delight" ]
-          "popwin"
-          [
-            "modus-themes"
-            # "darkman"
-            # "circadian"
-          ]
-          "rainbow-mode"
-          "highlight-indent-guides"
-          "highlight-defined"
-          "highlight-parentheses"
-          "highlight-symbol"
-          "hl-line"
-          "hl-todo"
-          "emojify"
-          "anzu"
-          "web-beautify"
-          "whitespace"
-          "ligature"
-          # "all-the-icons"
-          "nerd-icons"
-          "display-line-numbers"
-          "svg-tag-mode"
-        ];
-        email = [ "email" "notmuch" ];
-        tramp = [ "tramp" "sudo-edit" ];
-        translate = [ "fanyi" ];
-        apps = [ "pass" "nov" "telega" ];
-        inputs = [ "agda2-mode" "rime" ];
-        test = [
-          libs
-          core
-          "consult"
-          "vertico"
-          # completion
-        ];
-      in lib.lists.flatten ([
-        # test
-        "server"
-        libs
-        core
-        edit
-        completion
-        lang
-        pdf
-        tools
-        lint
-        org
-        latex
-        dired
-        ui
-        email
-        tramp
-        translate
-        apps
-        inputs
-      ] ++ (if (myEnv.arch == "linux") then [
-        "flymake-sqlfluff"
-        "darkman"
-      ] else
-        [ ]));
+          ++ (
+            if (myEnv.arch == "linux") then
+              [
+                "flymake-sqlfluff"
+                "darkman"
+              ]
+            else
+              [ ]
+          )
+        );
     }
   ];
 }

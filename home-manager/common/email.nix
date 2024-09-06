@@ -48,7 +48,7 @@ in lib.mkMerge [
         address = secrets.email.rptu;
         imap.host = "mail.uni-kl.de";
         primary = true;
-        passwordCommand = withPass "tuk" first;
+        passwordCommand = withPass "rptu" first;
         smtp = {
           host = "smtp.uni-kl.de";
           port = 465;

@@ -5,9 +5,11 @@
   (define-abbrev-table 'latex-mode-abbrev-table
     '(
       ;; temp
-      ("tl" "\\mathrm{LTL}(\\mathrm{Mon})" weiss--ahf)
-      ("tf" "\\mathrm{FO}(\\mathrm{Mon})" weiss--ahf)
-      ("tu" "\\mathrm{UHAT▮}" weiss--ahf)
+      ;; ("tl" "\\mathrm{LTL}(\\mathrm{Mon})" weiss--ahf)
+      ;; ("tf" "\\mathrm{FO}(\\mathrm{Mon})" weiss--ahf)
+      ;; ("tu" "\\mathrm{UHAT▮}" weiss--ahf)
+      ("tau" "\\operatorname{AU}(A \\rightarrow B)" weiss--ahf)
+      ("tw" "\\operatorname{WAU}(A \\rightarrow B)" weiss--ahf)
       
 ;;;;; Greek alphabet
       ("ga" "\\alpha" weiss--ahf)

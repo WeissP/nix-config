@@ -36,6 +36,12 @@
     (kill-new (f-filename f))
     )
 
+  (defun weiss-embark-eval-and-output-region ()
+    "DOCSTRING"
+    (interactive)
+    (eval-region (region-beginning) (region-end) t)
+    )
+
   (with-eval-after-load 'vertico
     (require 'vertico-multiform)
     (add-to-list 'vertico-multiform-categories '(embark-keybinding grid))

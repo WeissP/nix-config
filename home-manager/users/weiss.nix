@@ -5,7 +5,7 @@ with myEnv; {
   else if usage == "server" then [
     ../common/minimum.nix
     ../common/webman.nix
-    ../common/shell.nix
+    ../common/shell
   ] else
     [ ../common/minimum.nix ];
 

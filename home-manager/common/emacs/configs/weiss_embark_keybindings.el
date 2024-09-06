@@ -52,6 +52,7 @@
    '(
      ("s" . weiss-subscriptify-region)
      ("d" . fanyi-dwim)
+     ("e" . weiss-embark-eval-and-output-region)
      ("-" . weiss-add-dashs)
      ("_" . xah-cycle-hyphen-underscore-space)
      ("l" . embark-toggle-highlight)

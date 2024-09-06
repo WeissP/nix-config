@@ -1,5 +1,16 @@
-{ inputs, outputs, lib, config, myEnv, pkgs, secrets, configSession, ... }:
-with myEnv; {
+{
+  inputs,
+  outputs,
+  lib,
+  config,
+  myEnv,
+  pkgs,
+  secrets,
+  configSession,
+  ...
+}:
+with myEnv;
+{
   imports = [
     ../common/minimum.nix
     ../common/psql.nix
@@ -7,7 +18,9 @@ with myEnv; {
     outputs.nixosModules.v2ray
   ];
 
-  nix.gc = { options = lib.mkForce "--delete-older-than 1d"; };
+  nix.gc = {
+    options = lib.mkForce "--delete-older-than 1d";
+  };
 
   time.timeZone = "Japan";
   networking.hostName = "${username}-${configSession}";
@@ -39,21 +52,23 @@ with myEnv; {
       enable = true;
       recommendedProxySettings = false;
       recommendedTlsSettings = false;
-      sslProtocols = "TLSv1 TLSv1.1 TLSv1.2";
-      virtualHosts = lib.attrsets.genAttrs secrets.nodes.Vultr.domains
-        (domain: {
+      sslProtocols = "TLSv1 TLSv1.1 TLSv1.2 TLSv1.3";
+      virtualHosts =
+        lib.attrsets.genAttrs secrets.nodes.Vultr.domains (domain: {
           # addSSL = true;
           # enableACME = true;
           locations = {
-            "/".root = pkgs.fetchFromGitHub {
-              owner = "WeissP";
-              repo = "nix-config";
-              rev = "8ab0d81860e4bdb7331d163462a010d667da9c9f";
-              sha256 = "sha256-B7roCHlKeZmMFIRKeAQMNvjclpnmk1sPSQdBz8YB0yA=";
-            } + "/resources/namari-by-shapingrain/";
+            "/".root =
+              pkgs.fetchFromGitHub {
+                owner = "WeissP";
+                repo = "nix-config";
+                rev = "8ab0d81860e4bdb7331d163462a010d667da9c9f";
+                sha256 = "sha256-B7roCHlKeZmMFIRKeAQMNvjclpnmk1sPSQdBz8YB0yA=";
+              }
+              + "/resources/namari-by-shapingrain/";
           };
-        }) // lib.attrsets.genAttrs
-        (map (root: "webman." + root) secrets.nodes.Vultr.domains) (domain: {
+        })
+        // lib.attrsets.genAttrs (map (root: "webman." + root) secrets.nodes.Vultr.domains) (domain: {
           addSSL = true;
           enableACME = true;
           locations = {
@@ -83,22 +98,28 @@ with myEnv; {
           # access = "${homeDir}/v2ray_access.log";
           # error = "${homeDir}/v2ray_error.log";
         };
-        inbounds = [{
-          listen = "127.0.0.1";
-          port = 17586;
-          protocol = "vmess";
-          settings = {
-            clients = [{
-              id = secrets.v2ray.id;
-              level = 1;
-              alterId = 0;
-            }];
-          };
-          streamSettings = {
-            network = "ws";
-            wsSettings = { path = secrets.v2ray.path; };
-          };
-        }];
+        inbounds = [
+          {
+            listen = "127.0.0.1";
+            port = 17586;
+            protocol = "vmess";
+            settings = {
+              clients = [
+                {
+                  id = secrets.v2ray.id;
+                  level = 1;
+                  alterId = 0;
+                }
+              ];
+            };
+            streamSettings = {
+              network = "ws";
+              wsSettings = {
+                path = secrets.v2ray.path;
+              };
+            };
+          }
+        ];
         outbounds = [
           {
             protocol = "freedom";
@@ -112,11 +133,13 @@ with myEnv; {
           }
         ];
         routing = {
-          rules = [{
-            type = "field";
-            ip = [ "geoip:private" ];
-            outboundTag = "blocked";
-          }];
+          rules = [
+            {
+              type = "field";
+              ip = [ "geoip:private" ];
+              outboundTag = "blocked";
+            }
+          ];
         };
       };
     };
@@ -132,7 +155,10 @@ with myEnv; {
 
   networking.firewall = {
     enable = true;
-    allowedTCPPorts = [ 80 443 ];
+    allowedTCPPorts = [
+      80
+      443
+    ];
   };
 
   system.stateVersion = "23.05";

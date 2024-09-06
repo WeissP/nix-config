@@ -194,6 +194,7 @@
 (wks-trans-keys
  '(
    ("y SPC" . "C-c C-SPC")
+   ("y <RET>" . "C-c <RET>")
    ("y u" . "C-c '")
    ;; ("y x b" . "C-x C-a C-b")
    ;; ("y x p" . "C-x C-a C-p")

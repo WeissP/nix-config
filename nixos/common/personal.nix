@@ -54,7 +54,7 @@ with myEnv; {
         pueue add -i xsettingsd &
         Exec=GTK_IM_MODULE= QT_IM_MODULE= XMODIFIERS= emacs &
         aria2c &
-        sh mapwacom.sh -d "Wacom One by Wacom M Pen stylus" -d "Wacom One by Wacom M Pen eraser" -s "DisplayPort-0" &
+        sh mapwacom.sh --device-regex ".*Wacom.*" -s "DisplayPort-0" &
       '';
     };
     blueman.enable = true;
