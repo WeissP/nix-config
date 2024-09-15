@@ -45,7 +45,7 @@ with myEnv; {
       autoRepeatInterval = 30;
       displayManager.sessionCommands = ''
         export PATH=$PATH:${scriptsDir}
-        sh $HOME/.screenlayout/horizontal.sh &
+        sh $HOME/.screenlayout/desktop.sh &
         sh mouse_scroll.sh &
         firefox &
         xbindkeys &

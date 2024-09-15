@@ -29,6 +29,9 @@
     (setq-mode-local
      org-mode
      completion-at-point-functions '(pcomplete-completions-at-point cape-dict t))
+    (setq-mode-local
+     org-mode
+     corfu-auto-prefix 3)
     )
 
   (with-eval-after-load 'markdown-mode

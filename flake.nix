@@ -19,11 +19,19 @@
       url = "github:WeissP/nur-packages";
       inputs.nixpkgs.follows = "nixpkgs";
     };
-    recentf = { url = "github:WeissP/recentf"; };
-    webman = { url = "github:WeissP/webman"; };
+    recentf = {
+      url = "github:WeissP/recentf";
+    };
+    webman = {
+      url = "github:WeissP/webman";
+    };
 
     deploy-rs = {
       url = "github:serokell/deploy-rs";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
+    disko = {
+      url = "github:nix-community/disko";
       inputs.nixpkgs.follows = "nixpkgs";
     };
     nixos-generators = {
@@ -34,14 +42,25 @@
     emacs-overlay.url = "github:nix-community/emacs-overlay";
     nur.url = "github:nix-community/NUR";
     myNixRepo.url = "github:WeissP/nix-config";
-    weissXmonad.url = "github:WeissP/weiss-xmonad";
-    # weissXmonad.url = "/home/weiss/projects/weissXmonad/";
+    # weissXmonad.url = "github:WeissP/weiss-xmonad";
+    weiss-xmonad = {
+      url = "/home/weiss/projects/weiss-xmonad/";
+      # inputs.nixpkgs.follows = "nixpkgs";
+    };
     hledger-importer.url = "github:WeissP/hledger-importer";
     nixpkgs-firefox-darwin.url = "github:bandithedoge/nixpkgs-firefox-darwin";
   };
 
   outputs =
-    { self, nixpkgs, home-manager, nixos-generators, deploy-rs, ... }@inputs:
+    {
+      self,
+      nixpkgs,
+      home-manager,
+      nixos-generators,
+      deploy-rs,
+      disko,
+      ...
+    }@inputs:
     let
       inherit (self) outputs;
       forAllSystems = nixpkgs.lib.genAttrs [
@@ -51,11 +70,14 @@
         "aarch64-darwin"
         "x86_64-darwin"
       ];
-      secrets = import ./secrets;
       myLib = import ./myLib {
         lib = nixpkgs.lib;
         pkgs = nixpkgs;
         myNixRepo = inputs.myNixRepo;
+      };
+      secrets = import ./secrets {
+        inherit myLib;
+        lib = nixpkgs.lib;
       };
       darwinEnv = myLib.genEnv {
         arch = "darwin";
@@ -68,40 +90,71 @@
         username = "weiss";
       };
       specialArgs = env: {
-        inherit inputs outputs secrets myLib;
+        inherit
+          inputs
+          outputs
+          secrets
+          myLib
+          ;
         myEnv = env;
       };
-    in rec {
+    in
+    rec {
       # Your custom packages
       # Acessible through 'nix build', 'nix shell', etc
-      packages = forAllSystems (system:
-        let pkgs = nixpkgs.legacyPackages.${system};
-        in (import ./pkgs { inherit pkgs; }) // {
+      packages = forAllSystems (
+        system:
+        let
+          pkgs = nixpkgs.legacyPackages.${system};
+        in
+        (import ./pkgs { inherit pkgs; })
+        // {
           qemu = nixos-generators.nixosGenerate {
             inherit system;
             specialArgs = {
-              inherit inputs outputs secrets myLib;
+              inherit
+                inputs
+                outputs
+                secrets
+                myLib
+                ;
               myEnv = linuxEnv;
             };
             format = "vm";
-            modules = [ ./nixos/desktop/configuration.nix ./home-manager ];
+            modules = [
+              ./nixos/desktop/configuration.nix
+              ./home-manager
+            ];
           };
           image = nixos-generators.nixosGenerate {
             inherit system;
             specialArgs = {
-              inherit inputs outputs secrets myLib;
+              inherit
+                inputs
+                outputs
+                secrets
+                myLib
+                ;
               myEnv = linuxEnv;
             };
             format = "install-iso";
-            modules = [ ./nixos/desktop/configuration.nix ./home-manager ];
+            modules = [
+              ./nixos/desktop/configuration.nix
+              ./home-manager
+            ];
           };
 
-        });
+        }
+      );
       # Devshell for bootstrapping
       # Acessible through 'nix develop' or 'nix-shell' (legacy)
-      devShells = forAllSystems (system:
-        let pkgs = nixpkgs.legacyPackages.${system};
-        in import ./shell.nix { inherit pkgs; });
+      devShells = forAllSystems (
+        system:
+        let
+          pkgs = nixpkgs.legacyPackages.${system};
+        in
+        import ./shell.nix { inherit pkgs; }
+      );
 
       # Your custom packages and modifications, exported as overlays
       overlays = import ./overlays { inherit inputs; };
@@ -119,11 +172,17 @@
         desktop = nixpkgs.lib.nixosSystem {
           system = "x86_64-linux";
           specialArgs = {
-            inherit inputs outputs secrets myLib;
+            inherit
+              inputs
+              outputs
+              secrets
+              myLib
+              ;
             myEnv = linuxEnv;
             configSession = "desktop";
           };
           modules = [
+            nixosModules.xmonadBin
             ./nixos/desktop/configuration.nix
             ./nixos/desktop/hardware-configuration.nix
             inputs.nur.nixosModules.nur
@@ -134,7 +193,12 @@
         vultr-miami = nixpkgs.lib.nixosSystem {
           system = "x86_64-linux";
           specialArgs = {
-            inherit inputs outputs secrets myLib;
+            inherit
+              inputs
+              outputs
+              secrets
+              myLib
+              ;
             myEnv = myLib.genEnv {
               arch = "linux";
               usage = "server";
@@ -152,7 +216,12 @@
         vultr = nixpkgs.lib.nixosSystem {
           system = "x86_64-linux";
           specialArgs = {
-            inherit inputs outputs secrets myLib;
+            inherit
+              inputs
+              outputs
+              secrets
+              myLib
+              ;
             myEnv = myLib.genEnv {
               arch = "linux";
               usage = "server";
@@ -161,46 +230,55 @@
             configSession = "vultr";
           };
           modules = [
+            disko.nixosModules.disko
             ./nixos/vultr/configuration.nix
-            ./nixos/vultr/hardware-configuration.nix
+            # ./nixos/vultr/hardware-configuration.nix
             ./home-manager
           ];
         };
       };
 
-      darwinConfigurations = let myEnv = darwinEnv;
-      in {
-        Bozhous-Air = inputs.darwin.lib.darwinSystem {
-          system = "aarch64-darwin";
-          specialArgs = {
-            inherit inputs outputs secrets myLib myEnv;
-            configSession = "Bozhous-Air";
+      darwinConfigurations =
+        let
+          myEnv = darwinEnv;
+        in
+        {
+          Bozhous-Air = inputs.darwin.lib.darwinSystem {
+            system = "aarch64-darwin";
+            specialArgs = {
+              inherit
+                inputs
+                outputs
+                secrets
+                myLib
+                myEnv
+                ;
+              configSession = "Bozhous-Air";
+            };
+            modules = [
+              ./nixos/mac/configuration.nix
+              ./home-manager
+
+              # (homeConfig darwinEnv (import ./home-manager/mac.nix))
+              # darwinHome
+              # home-manager.darwinModules.home-manager
+              # {
+              #   home-manager.extraSpecialArgs = {
+              #     inherit inputs outputs secrets;
+              #     myEnv = darwinEnv;
+              #   };
+              #   home-manager.useGlobalPkgs = true;
+              #   home-manager.useUserPackages = true;
+              #   home-manager.users."${darwinEnv.username}" =
+              # import ./home-manager/mac.nix;
+              # }
+            ];
           };
-          modules = [
-            ./nixos/mac/configuration.nix
-            ./home-manager
-
-            # (homeConfig darwinEnv (import ./home-manager/mac.nix))
-            # darwinHome
-            # home-manager.darwinModules.home-manager
-            # {
-            #   home-manager.extraSpecialArgs = {
-            #     inherit inputs outputs secrets;
-            #     myEnv = darwinEnv;
-            #   };
-            #   home-manager.useGlobalPkgs = true;
-            #   home-manager.useUserPackages = true;
-            #   home-manager.users."${darwinEnv.username}" =
-            # import ./home-manager/mac.nix;
-            # }
-          ];
         };
-      };
 
       homeConfigurations = {
         "weiss@desktop" = home-manager.lib.homeManagerConfiguration {
-          pkgs =
-            nixpkgs.legacyPackages.x86_64-linux; # Home-manager requires 'pkgs' instance
+          pkgs = nixpkgs.legacyPackages.x86_64-linux; # Home-manager requires 'pkgs' instance
           extraSpecialArgs = {
             inherit inputs outputs secrets;
             myEnv = linuxEnv;
@@ -208,20 +286,28 @@
           modules = [ ./home-manager/weiss.nix ];
         };
         "test" = home-manager.lib.homeManagerConfiguration {
-          pkgs =
-            nixpkgs.legacyPackages.x86_64-linux; # Home-manager requires 'pkgs' instance
+          pkgs = nixpkgs.legacyPackages.x86_64-linux; # Home-manager requires 'pkgs' instance
           extraSpecialArgs = {
-            inherit inputs outputs secrets myLib;
+            inherit
+              inputs
+              outputs
+              secrets
+              myLib
+              ;
             myEnv = linuxEnv;
           };
           modules = [ ./home-manager/test.nix ];
         };
 
         "mac" = home-manager.lib.homeManagerConfiguration {
-          pkgs =
-            nixpkgs.legacyPackages.aarch64-darwin; # Home-manager requires 'pkgs' instance
+          pkgs = nixpkgs.legacyPackages.aarch64-darwin; # Home-manager requires 'pkgs' instance
           extraSpecialArgs = {
-            inherit inputs outputs secrets myLib;
+            inherit
+              inputs
+              outputs
+              secrets
+              myLib
+              ;
             myEnv = darwinEnv;
           };
           modules = [ ./home-manager/mac.nix ];
@@ -231,7 +317,10 @@
       deploy = {
         user = "root";
         sshUser = "root";
-        sshOpts = [ "-p" "22" ];
+        sshOpts = [
+          "-p"
+          "22"
+        ];
 
         autoRollback = false;
         magicRollback = false;
@@ -241,8 +330,7 @@
             hostname = secrets."vultr".ip;
             profiles = {
               system = {
-                path = deploy-rs.lib.x86_64-linux.activate.nixos
-                  self.nixosConfigurations."vultr";
+                path = deploy-rs.lib.x86_64-linux.activate.nixos self.nixosConfigurations."vultr";
               };
             };
           };

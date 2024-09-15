@@ -1,3 +1,5 @@
+(setq image-use-external-converter t)
+
 (with-eval-after-load 'image
   (wks-define-key
    image-mode-map

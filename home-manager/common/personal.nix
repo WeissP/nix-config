@@ -157,6 +157,7 @@
                 gtk.enable = true;
               };
               packages = with pkgs; [
+                qrencode
                 ripgrep-all
                 black
                 (python3.withPackages (
@@ -238,10 +239,10 @@
                   source = ./config_files/xmobar;
                   recursive = true;
                 };
-                "${homeDir}/.background-image" = {
-                  source = ./config_files/wallpaper;
-                  recursive = true;
-                };
+                # "${homeDir}/.background-image" = {
+                #   source = ./config_files/wallpaper;
+                #   recursive = true;
+                # };
                 "${homeDir}/.screenlayout" = {
                   source = ./config_files/screenlayout;
                   recursive = true;

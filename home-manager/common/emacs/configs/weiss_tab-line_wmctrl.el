@@ -113,7 +113,7 @@
                               ))
         ("[7] Xmonad" .  (("7.1" . "wx-src")
                           ("7.1" . "wx-src")
-                          ("7.4" . "weissXmonad")))
+                          ("7.6" . "weissXmonad")))
         ("[7] hledger-importer" .  (("7.1" . "he-types")
                                     ("7.1" . "he-lib")
                                     ("7.2" . "he-paypal")
