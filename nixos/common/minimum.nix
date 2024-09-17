@@ -1,6 +1,18 @@
-{ pkgs, lib, myLib, myEnv, secrets, config, inputs, outputs, configSession, ...
-}: {
-  config = with lib;
+{
+  pkgs,
+  lib,
+  myLib,
+  myEnv,
+  secrets,
+  config,
+  inputs,
+  outputs,
+  configSession,
+  ...
+}:
+{
+  config =
+    with lib;
     with myEnv;
     mkMerge [
       {
@@ -12,8 +24,7 @@
 
             # This will additionally add your inputs to the system's legacy channels
             # Making legacy nix commands consistent as well, awesome!
-            nixPath = lib.mapAttrsToList (key: value: "${key}=${value.to.path}")
-              config.nix.registry;
+            nixPath = lib.mapAttrsToList (key: value: "${key}=${value.to.path}") config.nix.registry;
 
             settings = mkMerge [
               {
@@ -25,19 +36,34 @@
                   "https://cache.nixos.org/"
                   "https://cache.iog.io"
                 ];
+                trusted-substituters = [
+                  "https://nix-community.cachix.org"
+                  "https://cache.nixos.org/"
+                  "https://cache.iog.io"
+                ];
                 trusted-public-keys = [
                   "nix-community.cachix.org-1:mB9FSh9qf2dCimDSUo8Zy7bkq5CX+/rkCWyvRCYg3Fs="
+                  "cache.nixos.org-1:6NCHdD59X431o0gWypbMrAURkbJ16ZPMQFGspcDShjY= nix-community.cachix.org-1:mB9FSh9qf2dCimDSUo8Zy7bkq5CX+/rkCWyvRCYg3Fs= sylvorg.cachix.org-1:xd1jb7cDkzX+D+Wqt6TemzkJH9u9esXEFu1yaR9p8H8="
                   "hydra.iohk.io:f/Ea+s+dFdN+3Y/G+FDgSq+a5NEWhJGzdjvKNGv0/EQ=" # haskell
                 ];
               }
-              (ifLinux { trusted-users = [ "root" "${username}" ]; })
+              (ifLinux {
+                trusted-users = [
+                  "root"
+                  "${username}"
+                ];
+              })
             ];
 
-            gc = { automatic = true; };
+            gc = {
+              automatic = true;
+            };
           }
           (ifDarwin {
             gc = {
-              interval = { Hour = 23; };
+              interval = {
+                Hour = 23;
+              };
               options = "--delete-older-than 1d";
             };
             extraOptions = ''
@@ -78,8 +104,13 @@
           (ifLinux {
             isNormalUser = true;
             openssh.authorizedKeys.keys = [ secrets.ssh."163".public ];
-            extraGroups =
-              [ "wheel" "networkmanager" "input" "storage" "docker" ];
+            extraGroups = [
+              "wheel"
+              "networkmanager"
+              "input"
+              "storage"
+              "docker"
+            ];
           })
         ];
 
@@ -100,7 +131,9 @@
         ];
 
         environment = {
-          variables = { LANG = "en_US.UTF-8"; };
+          variables = {
+            LANG = "en_US.UTF-8";
+          };
           systemPackages = with pkgs; [
             git-crypt
             ripgrep
@@ -119,7 +152,9 @@
 
       (ifLinux {
         environment.systemPackages = with pkgs; [ util-linux ];
-        networking = { networkmanager.enable = true; };
+        networking = {
+          networkmanager.enable = true;
+        };
         i18n = {
           defaultLocale = "en_US.UTF-8";
           extraLocaleSettings = {

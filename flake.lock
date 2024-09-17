@@ -3056,7 +3056,7 @@
     },
     "devshell_42": {
       "inputs": {
-        "nixpkgs": "nixpkgs_217"
+        "nixpkgs": "nixpkgs_218"
       },
       "locked": {
         "lastModified": 1722113426,
@@ -3074,7 +3074,7 @@
     },
     "devshell_43": {
       "inputs": {
-        "nixpkgs": "nixpkgs_220"
+        "nixpkgs": "nixpkgs_221"
       },
       "locked": {
         "lastModified": 1722113426,
@@ -7550,7 +7550,7 @@
         "hydra": "hydra_5",
         "iserv-proxy": "iserv-proxy_5",
         "nixpkgs": [
-          "weiss-xmonad",
+          "weissXmonad",
           "haskellNix",
           "nixpkgs-unstable"
         ],
@@ -9257,7 +9257,7 @@
       "inputs": {
         "nix": "nix_5",
         "nixpkgs": [
-          "weiss-xmonad",
+          "weissXmonad",
           "haskellNix",
           "hydra",
           "nix",
@@ -9359,6 +9359,40 @@
         "owner": "stable-haskell",
         "ref": "iserv-syms",
         "repo": "iserv-proxy",
+        "type": "github"
+      }
+    },
+    "libcamera-src": {
+      "flake": false,
+      "locked": {
+        "lastModified": 1725630279,
+        "narHash": "sha256-KH30jmHfxXq4j2CL7kv18DYECJRp9ECuWNPnqPZajPA=",
+        "owner": "raspberrypi",
+        "repo": "libcamera",
+        "rev": "69a894c4adad524d3063dd027f5c4774485cf9db",
+        "type": "github"
+      },
+      "original": {
+        "owner": "raspberrypi",
+        "repo": "libcamera",
+        "rev": "69a894c4adad524d3063dd027f5c4774485cf9db",
+        "type": "github"
+      }
+    },
+    "libpisp-src": {
+      "flake": false,
+      "locked": {
+        "lastModified": 1724944683,
+        "narHash": "sha256-Fo2UJmQHS855YSSKKmGrsQnJzXog1cdpkIOO72yYAM4=",
+        "owner": "raspberrypi",
+        "repo": "libpisp",
+        "rev": "28196ed6edcfeda88d23cc5f213d51aa6fa17bb3",
+        "type": "github"
+      },
+      "original": {
+        "owner": "raspberrypi",
+        "ref": "v1.0.7",
+        "repo": "libpisp",
         "type": "github"
       }
     },
@@ -10325,7 +10359,7 @@
     },
     "naersk_22": {
       "inputs": {
-        "nixpkgs": "nixpkgs_214"
+        "nixpkgs": "nixpkgs_215"
       },
       "locked": {
         "lastModified": 1679567394,
@@ -10554,7 +10588,7 @@
     "nix_5": {
       "inputs": {
         "lowdown-src": "lowdown-src_5",
-        "nixpkgs": "nixpkgs_221",
+        "nixpkgs": "nixpkgs_222",
         "nixpkgs-regression": "nixpkgs-regression_5"
       },
       "locked": {
@@ -11592,6 +11626,21 @@
       "original": {
         "owner": "nix-community",
         "repo": "nixos-generators",
+        "type": "github"
+      }
+    },
+    "nixos-hardware": {
+      "locked": {
+        "lastModified": 1726489388,
+        "narHash": "sha256-JBHtN+n1HzKawpnOQAz6jdgvrtYV9c/kyzgoIdguQGo=",
+        "owner": "nixos",
+        "repo": "nixos-hardware",
+        "rev": "dc8b0296f68f72f3fe77469c549a6f098555c2e9",
+        "type": "github"
+      },
+      "original": {
+        "owner": "nixos",
+        "repo": "nixos-hardware",
         "type": "github"
       }
     },
@@ -15103,6 +15152,22 @@
     },
     "nixpkgs_214": {
       "locked": {
+        "lastModified": 1725826545,
+        "narHash": "sha256-L64N1rpLlXdc94H+F6scnrbuEu+utC03cDDVvvJGOME=",
+        "owner": "NixOS",
+        "repo": "nixpkgs",
+        "rev": "f4c846aee8e1e29062aa8514d5e0ab270f4ec2f9",
+        "type": "github"
+      },
+      "original": {
+        "owner": "NixOS",
+        "ref": "nixos-24.05",
+        "repo": "nixpkgs",
+        "type": "github"
+      }
+    },
+    "nixpkgs_215": {
+      "locked": {
         "lastModified": 1684049129,
         "narHash": "sha256-7WB9LpnPNAS8oI7hMoHeKLNhRX7k3CI9uWBRSfmOCCE=",
         "path": "/nix/store/12b8sml63980nacpjvh0rlf0w5fg7g8l-source",
@@ -15114,7 +15179,7 @@
         "type": "indirect"
       }
     },
-    "nixpkgs_215": {
+    "nixpkgs_216": {
       "locked": {
         "lastModified": 1684662198,
         "narHash": "sha256-lmGDGuFONWSoGBKDDhU/6fOhhmFoZQ8rPf+kS7/e/Gs=",
@@ -15130,7 +15195,7 @@
         "type": "github"
       }
     },
-    "nixpkgs_216": {
+    "nixpkgs_217": {
       "locked": {
         "lastModified": 1681358109,
         "narHash": "sha256-eKyxW4OohHQx9Urxi7TQlFBTDWII+F+x2hklDOQPB50=",
@@ -15146,7 +15211,7 @@
         "type": "github"
       }
     },
-    "nixpkgs_217": {
+    "nixpkgs_218": {
       "locked": {
         "lastModified": 1722073938,
         "narHash": "sha256-OpX0StkL8vpXyWOGUD6G+MA26wAXK6SpT94kLJXo6B4=",
@@ -15162,29 +15227,13 @@
         "type": "github"
       }
     },
-    "nixpkgs_218": {
+    "nixpkgs_219": {
       "locked": {
         "lastModified": 1723221148,
         "narHash": "sha256-7pjpeQlZUNQ4eeVntytU3jkw9dFK3k1Htgk2iuXjaD8=",
         "owner": "NixOS",
         "repo": "nixpkgs",
         "rev": "154bcb95ad51bc257c2ce4043a725de6ca700ef6",
-        "type": "github"
-      },
-      "original": {
-        "owner": "NixOS",
-        "ref": "nixpkgs-unstable",
-        "repo": "nixpkgs",
-        "type": "github"
-      }
-    },
-    "nixpkgs_219": {
-      "locked": {
-        "lastModified": 1718428119,
-        "narHash": "sha256-WdWDpNaq6u1IPtxtYHHWpl5BmabtpmLnMAx0RdJ/vo8=",
-        "owner": "NixOS",
-        "repo": "nixpkgs",
-        "rev": "e6cea36f83499eb4e9cd184c8a8e823296b50ad5",
         "type": "github"
       },
       "original": {
@@ -15212,6 +15261,22 @@
     },
     "nixpkgs_220": {
       "locked": {
+        "lastModified": 1718428119,
+        "narHash": "sha256-WdWDpNaq6u1IPtxtYHHWpl5BmabtpmLnMAx0RdJ/vo8=",
+        "owner": "NixOS",
+        "repo": "nixpkgs",
+        "rev": "e6cea36f83499eb4e9cd184c8a8e823296b50ad5",
+        "type": "github"
+      },
+      "original": {
+        "owner": "NixOS",
+        "ref": "nixpkgs-unstable",
+        "repo": "nixpkgs",
+        "type": "github"
+      }
+    },
+    "nixpkgs_221": {
+      "locked": {
         "lastModified": 1722073938,
         "narHash": "sha256-OpX0StkL8vpXyWOGUD6G+MA26wAXK6SpT94kLJXo6B4=",
         "owner": "NixOS",
@@ -15226,7 +15291,7 @@
         "type": "github"
       }
     },
-    "nixpkgs_221": {
+    "nixpkgs_222": {
       "locked": {
         "lastModified": 1657693803,
         "narHash": "sha256-G++2CJ9u0E7NNTAi9n5G8TdDmGJXcIjkJ3NF8cetQB8=",
@@ -16974,6 +17039,33 @@
         "type": "github"
       }
     },
+    "raspberry-pi-nix": {
+      "inputs": {
+        "libcamera-src": "libcamera-src",
+        "libpisp-src": "libpisp-src",
+        "nixpkgs": "nixpkgs_214",
+        "rpi-bluez-firmware-src": "rpi-bluez-firmware-src",
+        "rpi-firmware-nonfree-src": "rpi-firmware-nonfree-src",
+        "rpi-firmware-src": "rpi-firmware-src",
+        "rpi-linux-6_10_8-src": "rpi-linux-6_10_8-src",
+        "rpi-linux-6_6_47-src": "rpi-linux-6_6_47-src",
+        "rpicam-apps-src": "rpicam-apps-src",
+        "u-boot-src": "u-boot-src"
+      },
+      "locked": {
+        "lastModified": 1726173668,
+        "narHash": "sha256-K+XJBQZ8UZwTjZQTmf5l0OKKy942agFpkEktGcED4NU=",
+        "owner": "nix-community",
+        "repo": "raspberry-pi-nix",
+        "rev": "351301b1a13c108f5cb9d7b7b1f813583d3b5d10",
+        "type": "github"
+      },
+      "original": {
+        "owner": "nix-community",
+        "repo": "raspberry-pi-nix",
+        "type": "github"
+      }
+    },
     "recentf": {
       "inputs": {
         "flake-utils": "flake-utils_31",
@@ -17272,7 +17364,7 @@
       "inputs": {
         "flake-utils": "flake-utils_155",
         "naersk": "naersk_22",
-        "nixpkgs": "nixpkgs_215",
+        "nixpkgs": "nixpkgs_216",
         "rust-overlay": "rust-overlay_52"
       },
       "locked": {
@@ -17446,14 +17538,118 @@
         "home-manager": "home-manager",
         "myNixRepo": "myNixRepo",
         "nixos-generators": "nixos-generators_22",
+        "nixos-hardware": "nixos-hardware",
         "nixpkgs": "nixpkgs_212",
         "nixpkgs-firefox-darwin": "nixpkgs-firefox-darwin_3",
         "nixpkgs-lts": "nixpkgs-lts_22",
         "nur": "nur_22",
+        "raspberry-pi-nix": "raspberry-pi-nix",
         "recentf": "recentf_22",
         "webman": "webman_22",
-        "weiss-xmonad": "weiss-xmonad",
-        "weissNur": "weissNur_22"
+        "weissNur": "weissNur_22",
+        "weissXmonad": "weissXmonad_17"
+      }
+    },
+    "rpi-bluez-firmware-src": {
+      "flake": false,
+      "locked": {
+        "lastModified": 1708969706,
+        "narHash": "sha256-KakKnOBeWxh0exu44beZ7cbr5ni4RA9vkWYb9sGMb8Q=",
+        "owner": "RPi-Distro",
+        "repo": "bluez-firmware",
+        "rev": "78d6a07730e2d20c035899521ab67726dc028e1c",
+        "type": "github"
+      },
+      "original": {
+        "owner": "RPi-Distro",
+        "ref": "bookworm",
+        "repo": "bluez-firmware",
+        "type": "github"
+      }
+    },
+    "rpi-firmware-nonfree-src": {
+      "flake": false,
+      "locked": {
+        "lastModified": 1723266537,
+        "narHash": "sha256-T7eTKXqY9cxEMdab8Snda4CEOrEihy5uOhA6Fy+Mhnw=",
+        "owner": "RPi-Distro",
+        "repo": "firmware-nonfree",
+        "rev": "4b356e134e8333d073bd3802d767a825adec3807",
+        "type": "github"
+      },
+      "original": {
+        "owner": "RPi-Distro",
+        "ref": "bookworm",
+        "repo": "firmware-nonfree",
+        "type": "github"
+      }
+    },
+    "rpi-firmware-src": {
+      "flake": false,
+      "locked": {
+        "lastModified": 1725277507,
+        "narHash": "sha256-DN+NlesZ8YfuVwLKQSHckvpNZxqsbKRflOcS3ShO3Ss=",
+        "owner": "raspberrypi",
+        "repo": "firmware",
+        "rev": "b5eb52b343e9bc1391a8059a38e12e470c109f5c",
+        "type": "github"
+      },
+      "original": {
+        "owner": "raspberrypi",
+        "ref": "1.20240902",
+        "repo": "firmware",
+        "type": "github"
+      }
+    },
+    "rpi-linux-6_10_8-src": {
+      "flake": false,
+      "locked": {
+        "lastModified": 1725639824,
+        "narHash": "sha256-ogItkH2cBiNGmenJUPAhAH591qufrWh1zeqAJCNAExw=",
+        "owner": "raspberrypi",
+        "repo": "linux",
+        "rev": "0c0217e02da43439fb08b2f6b09530723331ed15",
+        "type": "github"
+      },
+      "original": {
+        "owner": "raspberrypi",
+        "ref": "rpi-6.10.y",
+        "repo": "linux",
+        "type": "github"
+      }
+    },
+    "rpi-linux-6_6_47-src": {
+      "flake": false,
+      "locked": {
+        "lastModified": 1725956269,
+        "narHash": "sha256-zn1Totn8NU8MCJmWRGsdarNeSo8rzscrBnhdRVMBuT0=",
+        "owner": "raspberrypi",
+        "repo": "linux",
+        "rev": "cc50cdbcf3e8f065bd7798a92689f54578b4169f",
+        "type": "github"
+      },
+      "original": {
+        "owner": "raspberrypi",
+        "ref": "rpi-6.6.y",
+        "repo": "linux",
+        "type": "github"
+      }
+    },
+    "rpicam-apps-src": {
+      "flake": false,
+      "locked": {
+        "lastModified": 1725543038,
+        "narHash": "sha256-rl5GVigiZWXkpfIteRWUMjtCaPweXRWrBrZOjQ1hiU8=",
+        "owner": "raspberrypi",
+        "repo": "rpicam-apps",
+        "rev": "d7a1a13b041ef2842cd56d7e395b8c9a0ffc3bf5",
+        "type": "github"
+      },
+      "original": {
+        "owner": "raspberrypi",
+        "ref": "v1.5.1",
+        "repo": "rpicam-apps",
+        "type": "github"
       }
     },
     "rust-overlay": {
@@ -18682,7 +18878,7 @@
     "rust-overlay_52": {
       "inputs": {
         "flake-utils": "flake-utils_156",
-        "nixpkgs": "nixpkgs_216"
+        "nixpkgs": "nixpkgs_217"
       },
       "locked": {
         "lastModified": 1684722198,
@@ -18700,7 +18896,7 @@
     },
     "rust-overlay_53": {
       "inputs": {
-        "nixpkgs": "nixpkgs_219"
+        "nixpkgs": "nixpkgs_220"
       },
       "locked": {
         "lastModified": 1723429325,
@@ -21348,6 +21544,19 @@
         "type": "github"
       }
     },
+    "u-boot-src": {
+      "flake": false,
+      "locked": {
+        "lastModified": 1719857238,
+        "narHash": "sha256-mJ2TBy0Y5ZtcGFgtU5RKr0UDUp5FWzojbFb+o/ebRJU=",
+        "type": "tarball",
+        "url": "https://ftp.denx.de/pub/u-boot/u-boot-2024.07.tar.bz2"
+      },
+      "original": {
+        "type": "tarball",
+        "url": "https://ftp.denx.de/pub/u-boot/u-boot-2024.07.tar.bz2"
+      }
+    },
     "utils": {
       "inputs": {
         "systems": "systems"
@@ -22149,7 +22358,7 @@
         "crane": "crane_13",
         "devshell": "devshell_42",
         "flake-utils": "flake-utils_157",
-        "nixpkgs": "nixpkgs_218",
+        "nixpkgs": "nixpkgs_219",
         "rust-overlay": "rust-overlay_53"
       },
       "locked": {
@@ -22598,30 +22807,6 @@
         "owner": "WeissP",
         "repo": "webman",
         "type": "github"
-      }
-    },
-    "weiss-xmonad": {
-      "inputs": {
-        "devshell": "devshell_43",
-        "flake-utils": "flake-utils_158",
-        "haskellNix": "haskellNix_5",
-        "nixpkgs": [
-          "weiss-xmonad",
-          "haskellNix",
-          "nixpkgs-unstable"
-        ]
-      },
-      "locked": {
-        "dirtyRev": "7951c8a78d859a60e7d9d86176fa1bddd4dcfd73-dirty",
-        "dirtyShortRev": "7951c8a-dirty",
-        "lastModified": 1726342722,
-        "narHash": "sha256-zJBWEy8pW/Eh6OduwkNvAOOHFirXD7F3NZN5qLmzZsk=",
-        "type": "git",
-        "url": "file:///home/weiss/projects/weiss-xmonad"
-      },
-      "original": {
-        "type": "git",
-        "url": "file:///home/weiss/projects/weiss-xmonad"
       }
     },
     "weissNur": {
@@ -23453,6 +23638,30 @@
         "owner": "WeissP",
         "repo": "weiss-xmonad",
         "type": "github"
+      }
+    },
+    "weissXmonad_17": {
+      "inputs": {
+        "devshell": "devshell_43",
+        "flake-utils": "flake-utils_158",
+        "haskellNix": "haskellNix_5",
+        "nixpkgs": [
+          "weissXmonad",
+          "haskellNix",
+          "nixpkgs-unstable"
+        ]
+      },
+      "locked": {
+        "dirtyRev": "aa010ea4ad9a92fe04a25639afa8f90fa2c5ec44-dirty",
+        "dirtyShortRev": "aa010ea-dirty",
+        "lastModified": 1726417169,
+        "narHash": "sha256-Agz2t82UxLo0tkr1I/Jj2lvHvtco/uUFZHdRqwXQH5w=",
+        "type": "git",
+        "url": "file:///home/weiss/projects/weiss-xmonad"
+      },
+      "original": {
+        "type": "git",
+        "url": "file:///home/weiss/projects/weiss-xmonad"
       }
     },
     "weissXmonad_2": {

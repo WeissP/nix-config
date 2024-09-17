@@ -16,6 +16,7 @@ Config
         Run Memory ["-t", "MEM:<usedbar>(<used>M)"] 20,
         Run DiskU [("/", "USED:<used> FREE:<free>")] [] 60,
         Run Date "<fc=#bd93f9> %H:%M </fc>" "date" 50,
+        Run XPropertyLog "_XMONAD_LOG_Hori",
         Run XPropertyLog "_XMONAD_LOG_workspace"
       ],
     sepChar = "%",
@@ -30,6 +31,7 @@ Config
       \ <fc=#666666>|</fc>\
       \ <fc=#98be65>%dynnetwork%</fc>\
       \ }{\
+      \ <fn=2>%_XMONAD_LOG_Hori% </fn> \
       \ <fn=2>%_XMONAD_LOG_workspace% </fn> \
       \"
   }

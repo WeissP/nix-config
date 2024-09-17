@@ -13,7 +13,7 @@
   modifications = final: prev: {
     recentf = inputs.recentf.packages."${prev.system}".default;
     webman = inputs.webman.packages."${prev.system}";
-    weissXmonad = inputs.weiss-xmonad.packages."${prev.system}".default;
+    weissXmonad = inputs.weissXmonad.packages."${prev.system}".default;
     ripgrep-all = inputs.nixpkgs-lts.legacyPackages."${prev.system}".ripgrep-all;
     hledger-importer = inputs.hledger-importer.packages."${prev.system}".default;
     # tdlib = tdlib180.tdlib;

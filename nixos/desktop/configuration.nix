@@ -1,6 +1,20 @@
-{ inputs, outputs, lib, config, myEnv, pkgs, secrets, configSession, ... }:
-with myEnv; {
-  imports = [ ../common/personal.nix outputs.nixosModules.v2ray ];
+{
+  inputs,
+  outputs,
+  lib,
+  config,
+  myEnv,
+  pkgs,
+  secrets,
+  configSession,
+  ...
+}:
+with myEnv;
+{
+  imports = [
+    ../common/personal.nix
+    outputs.nixosModules.v2ray
+  ];
   time.timeZone = "Europe/Berlin";
 
   # Use the systemd-boot EFI boot loader.
@@ -18,7 +32,11 @@ with myEnv; {
         KbdInteractiveAuthentication = true;
       };
     };
-    myPostgresql.databases = [ "webman" "recentf" "digivine" ];
+    myPostgresql.databases = [
+      "webman"
+      "recentf"
+      "digivine"
+    ];
     xserver = {
       dpi = 120;
       # xrandrHeads = [
@@ -32,7 +50,9 @@ with myEnv; {
     };
   };
 
-  environment = { systemPackages = [ pkgs.wireguard-tools ]; };
+  environment = {
+    systemPackages = [ pkgs.wireguard-tools ];
+  };
   networking = {
     firewall = {
       enable = false;
@@ -51,92 +71,95 @@ with myEnv; {
     # }
     {
       users = [ "weiss" ];
-      commands = [{
-        command = "ALL";
-        options =
-          [ "NOPASSWD" ]; # "SETENV" # Adding the following could be a good idea
-      }];
+      commands = [
+        {
+          command = "ALL";
+          options = [ "NOPASSWD" ]; # "SETENV" # Adding the following could be a good idea
+        }
+      ];
     }
   ];
 
-  services.btrbk.instances = let
-    preserve_hour_of_day = "4";
-    preserve_day_of_week = "sunday";
-    snapshot_dir_root = "/btrbk_snapshots";
-  in {
-    important_snapshots = {
-      onCalendar = "*:0/15"; # every 15 minutes
-      settings = {
-        inherit preserve_hour_of_day preserve_day_of_week;
-        snapshot_dir = snapshot_dir_root + "/important";
-        snapshot_preserve_min = "3h";
-        snapshot_preserve = "3h";
-        snapshot_create = "onchange";
+  services.btrbk.instances =
+    let
+      preserve_hour_of_day = "4";
+      preserve_day_of_week = "sunday";
+      snapshot_dir_root = "/btrbk_snapshots";
+    in
+    {
+      important_snapshots = {
+        onCalendar = "*:0/15"; # every 15 minutes
+        settings = {
+          inherit preserve_hour_of_day preserve_day_of_week;
+          snapshot_dir = snapshot_dir_root + "/important";
+          snapshot_preserve_min = "3h";
+          snapshot_preserve = "3h";
+          snapshot_create = "onchange";
 
-        subvolume = {
-          "/home/weiss/nix-config" = { };
-          "/home/weiss/Documents" = { };
-          "/home/weiss/projects" = { };
+          subvolume = {
+            "/home/weiss/nix-config" = { };
+            "/home/weiss/Documents" = { };
+            "/home/weiss/projects" = { };
+          };
+        };
+      };
+      all_snapshots = {
+        onCalendar = "*-*-* 18:00:00"; # every day at 18:00
+        settings = {
+          inherit preserve_hour_of_day preserve_day_of_week;
+
+          snapshot_dir = snapshot_dir_root + "/all";
+          snapshot_preserve_min = "3d";
+          snapshot_create = "always";
+
+          subvolume = {
+            "/" = { };
+            "/home" = { };
+            "/home/weiss/nix-config" = { };
+            "/home/weiss/Documents" = { };
+            "/home/weiss/projects" = { };
+          };
+        };
+      };
+      local_backup = {
+        onCalendar = "*-*-* 18:30:00"; # every day at 18:30
+        settings = {
+          inherit preserve_hour_of_day preserve_day_of_week;
+
+          snapshot_dir = snapshot_dir_root + "/all";
+          snapshot_create = "no";
+
+          target = "/mnt/backup/btrbk";
+          target_preserve_min = "no";
+          target_preserve = "20d";
+          subvolume = {
+            "/home/weiss/nix-config" = { };
+            "/home/weiss/Documents" = { };
+            "/home/weiss/projects" = { };
+          };
+        };
+      };
+      external_backup = {
+        onCalendar = "*-*-* 18:30:00"; # every day at 18:30
+        settings = {
+          inherit preserve_hour_of_day preserve_day_of_week;
+
+          snapshot_dir = snapshot_dir_root + "/all";
+          snapshot_create = "no";
+
+          target = "/run/media/weiss/Seagate_Backup/btrbk";
+          target_preserve_min = "no";
+          target_preserve = "10d 10w *m";
+          subvolume = {
+            "/" = { };
+            "/home" = { };
+            "/home/weiss/nix-config" = { };
+            "/home/weiss/Documents" = { };
+            "/home/weiss/projects" = { };
+          };
         };
       };
     };
-    all_snapshots = {
-      onCalendar = "*-*-* 18:00:00"; # every day at 18:00
-      settings = {
-        inherit preserve_hour_of_day preserve_day_of_week;
-
-        snapshot_dir = snapshot_dir_root + "/all";
-        snapshot_preserve_min = "3d";
-        snapshot_create = "always";
-
-        subvolume = {
-          "/" = { };
-          "/home" = { };
-          "/home/weiss/nix-config" = { };
-          "/home/weiss/Documents" = { };
-          "/home/weiss/projects" = { };
-        };
-      };
-    };
-    local_backup = {
-      onCalendar = "*-*-* 18:30:00"; # every day at 18:30
-      settings = {
-        inherit preserve_hour_of_day preserve_day_of_week;
-
-        snapshot_dir = snapshot_dir_root + "/all";
-        snapshot_create = "no";
-
-        target = "/mnt/backup/btrbk";
-        target_preserve_min = "no";
-        target_preserve = "20d";
-        subvolume = {
-          "/home/weiss/nix-config" = { };
-          "/home/weiss/Documents" = { };
-          "/home/weiss/projects" = { };
-        };
-      };
-    };
-    external_backup = {
-      onCalendar = "*-*-* 18:30:00"; # every day at 18:30
-      settings = {
-        inherit preserve_hour_of_day preserve_day_of_week;
-
-        snapshot_dir = snapshot_dir_root + "/all";
-        snapshot_create = "no";
-
-        target = "/run/media/weiss/Seagate_Backup/btrbk";
-        target_preserve_min = "no";
-        target_preserve = "10d 10w *m";
-        subvolume = {
-          "/" = { };
-          "/home" = { };
-          "/home/weiss/nix-config" = { };
-          "/home/weiss/Documents" = { };
-          "/home/weiss/projects" = { };
-        };
-      };
-    };
-  };
 
   system.stateVersion = "23.05";
 }
