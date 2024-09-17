@@ -43,8 +43,8 @@
     emacs-overlay.url = "github:nix-community/emacs-overlay";
     nur.url = "github:nix-community/NUR";
     myNixRepo.url = "github:WeissP/nix-config";
-    # weissXmonad.url = "github:WeissP/weiss-xmonad";
-    weissXmonad.url = "/home/weiss/projects/weiss-xmonad/";
+    weissXmonad.url = "github:WeissP/weiss-xmonad";
+    # weissXmonad.url = "/home/weiss/projects/weiss-xmonad/";
     hledger-importer.url = "github:WeissP/hledger-importer";
     nixpkgs-firefox-darwin.url = "github:bandithedoge/nixpkgs-firefox-darwin";
   };
