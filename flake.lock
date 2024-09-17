@@ -23652,16 +23652,17 @@
         ]
       },
       "locked": {
-        "dirtyRev": "aa010ea4ad9a92fe04a25639afa8f90fa2c5ec44-dirty",
-        "dirtyShortRev": "aa010ea-dirty",
         "lastModified": 1726417169,
-        "narHash": "sha256-Agz2t82UxLo0tkr1I/Jj2lvHvtco/uUFZHdRqwXQH5w=",
-        "type": "git",
-        "url": "file:///home/weiss/projects/weiss-xmonad"
+        "narHash": "sha256-ijUkQKqSlr5ZhHd6UVchuXWqVt4m9+ppqpnhEIUmjFI=",
+        "owner": "WeissP",
+        "repo": "weiss-xmonad",
+        "rev": "aa010ea4ad9a92fe04a25639afa8f90fa2c5ec44",
+        "type": "github"
       },
       "original": {
-        "type": "git",
-        "url": "file:///home/weiss/projects/weiss-xmonad"
+        "owner": "WeissP",
+        "repo": "weiss-xmonad",
+        "type": "github"
       }
     },
     "weissXmonad_2": {
