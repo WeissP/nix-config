@@ -103,7 +103,7 @@
           { home = homeDir; }
           (ifLinux {
             isNormalUser = true;
-            # openssh.authorizedKeys.keys = [ secrets.ssh."163".public ];
+            openssh.authorizedKeys.keys = [ secrets.ssh."163".public ];
             extraGroups = [
               "wheel"
               "networkmanager"

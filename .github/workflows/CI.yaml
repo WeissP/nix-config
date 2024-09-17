@@ -7,7 +7,7 @@ on:
 jobs:
   nix-build:
     name: Nix build
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-latest-arm64
     steps:
        - uses: actions/checkout@v4
        - uses: cachix/install-nix-action@v27
@@ -22,14 +22,5 @@ jobs:
          uses: sliteteam/github-action-git-crypt-unlock@1.2.0
          env:
            GIT_CRYPT_KEY: ${{ secrets.GIT_CRYPT_KEY }}      
-       - uses: uraimo/run-on-arch-action@v2
-         name: Run commands
-         id: runcmd
-         with:
-           arch: armv7
-           distro: ubuntu22.04
-           githubToken: ${{ github.token }}
-           run: nix build '.#nixosConfigurations.rpi.config.system.build.sdImage' --accept-flake-config | cachix push weissp
-
+       - run: nix build '.#nixosConfigurations.rpi.config.system.build.sdImage' --accept-flake-config | cachix push weissp
        
-
