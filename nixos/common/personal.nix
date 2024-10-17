@@ -129,6 +129,7 @@ with myEnv;
           mkFont = callPackage myLib.mkFont { };
         in
         [
+          mplus-outline-fonts.githubRelease
           (mkFont "florencesans-sc" "florencesans-sc.zip")
           (mkFont "monolisa" "monolisa.zip")
           route159

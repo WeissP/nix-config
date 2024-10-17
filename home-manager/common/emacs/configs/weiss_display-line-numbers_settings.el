@@ -1,6 +1,6 @@
-(dolist (x '(prog-mode-hook dired-mode-hook)) 
-  (add-hook x #'display-line-numbers-mode)
-  )
+;; (dolist (x '(prog-mode-hook dired-mode-hook)) 
+;;   (add-hook x #'display-line-numbers-mode)
+;;   )
 
 (with-eval-after-load 'display-line-numbers
   (setq

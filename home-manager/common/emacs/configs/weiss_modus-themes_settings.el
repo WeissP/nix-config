@@ -73,8 +73,8 @@
 
       (custom-set-faces
        '(mode-line
-         ((t (:font "DejaVu Sans Mono-10"))))
-       '(underline
+         ((t (:font "M PLUS 1 Code"))))
+       '(underline 
          ((t (:underline t :weight normal))))       
        '(font-lock-keyword-face
          ((t (:weight bold :slant italic))))
