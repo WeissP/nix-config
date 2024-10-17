@@ -129,7 +129,7 @@ with myEnv;
           mkFont = callPackage myLib.mkFont { };
         in
         [
-          (mkFont "helvetica-ultra-compressed" "helvetica-ultra-compressed.zip")
+          (mkFont "florencesans-sc" "florencesans-sc.zip")
           (mkFont "monolisa" "monolisa.zip")
           route159
           noto-fonts
