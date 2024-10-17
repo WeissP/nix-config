@@ -26,21 +26,21 @@
   (interactive)
   (cl-flet
       ((new-list
-        (in p)
-        (let ((l (weiss-str-indices str p))
-              (start 0)
-              (end (1+ (length str)))
-              )
-          (append
-           (list in)
-           (and
-            (> (car l) (1+ start))
-            (list start))
-           l
-           (and
-            (< (car l) (- end 1))
-            (list end)))
-          )))
+         (in p)
+         (let ((l (weiss-str-indices str p))
+               (start 0)
+               (end (1+ (length str)))
+               )
+           (append
+            (list in)
+            (and
+             (> (car l) (1+ start))
+             (list start))
+            l
+            (and
+             (< (car l) (- end 1))
+             (list end)))
+           )))
     (cond
      ((and (string-prefix-p "\"" str) (string-suffix-p "\"" str))
       (list nil 1 (length str)))
@@ -141,7 +141,7 @@ Version 2017-07-02"
     (skip-chars-forward " \n\t")
     (when (re-search-backward "\n[ \t]*\n" nil "move")
       (re-search-forward "\n[ \t]*\n"))
-    (push-mark (point) t t)
+    (weiss-dont-push-mark (point) t t)
     (re-search-forward "\n[ \t]*\n" nil "move")))
 
 (defun xah-select-block ()
@@ -157,7 +157,7 @@ Version 2019-12-26"
       (skip-chars-forward " \n\t")
       (when (re-search-backward "\n[ \t]*\n" nil "move")
         (re-search-forward "\n[ \t]*\n"))
-      (push-mark (point) t t)
+      (weiss-dont-push-mark (point) t t)
       (re-search-forward "\n[ \t]*\n" nil "move"))))
 
 (defun weiss-region-p ()
@@ -260,7 +260,7 @@ Version 2019-12-26"
       (setq bounds bounds-temp)
       (goto-char (cdr bounds))
       (when (looking-at "[ \"]") (forward-char)))
-    (push-mark (car bounds) t t)
+    (weiss-dont-push-mark (car bounds) t t)
     (setq mark-active t)
     (kill-new
      (buffer-substring-no-properties (region-beginning) (region-end)))))

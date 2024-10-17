@@ -706,10 +706,10 @@ in
             inherit (pkgs) fetchFromGitHub;
             # lsp-bridge = lsp-bridge;
           };
-          denote = pkgs.callPackage ./packages/denote-git.nix {
-            inherit (final) trivialBuild;
-            inherit (pkgs) fetchFromGitHub;
-          };
+          # denote = pkgs.callPackage ./packages/denote-git.nix {
+          #   inherit (final) trivialBuild;
+          #   inherit (pkgs) fetchFromGitHub;
+          # };
           consult-tramp = pkgs.callPackage ./packages/consult-tramp.nix {
             inherit (final) trivialBuild consult;
             inherit (pkgs) fetchFromGitHub;

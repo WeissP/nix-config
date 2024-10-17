@@ -32,8 +32,6 @@
   (wks-unset-key emoji-list-mode-map '("g"))
   )
 
-
-
 (wks-define-key
  text-mode-map ""
  '(("<RET>" . weiss-deactivate-mark-and-new-line)))
@@ -64,6 +62,8 @@
    (current-global-map)
    ""
    '(("<end>" . wks-global-quick-insert-keymap)
+     ("<end> SPC" . weiss-push-mark)
+     ("<end> t" . consult-mark)
      ("<end> ," . previous-buffer)
      ("<end> ." . next-buffer))))
 
@@ -146,7 +146,7 @@
    ("q" . weiss-temp-insert-mode)
    ("r" . weiss-delete-forward-with-region)
    ;; ("s" . snails)
-
+   ("t" . weiss-last-mark)
    ("u" . undo)
    ("v" . xah-paste-or-paste-previous)
    ("w" . wks-repeat-command)

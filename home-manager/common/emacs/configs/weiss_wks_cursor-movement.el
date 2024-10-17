@@ -1,3 +1,5 @@
+(setq set-mark-command-repeat-pop t)
+
 (defun weiss-forward-sexp ()
   "DOCSTRING"
   (interactive)
@@ -142,12 +144,22 @@ Version 2018-06-04"
       (progn
         (deactivate-mark)
         (beginning-of-line)
-        (push-mark nil t)
+        (weiss-dont-push-mark nil )
         (back-to-indentation)
         (setq mark-active t)
         (weiss-select-mode-turn-on))
     (exchange-point-and-mark)))
 
+
+(defun weiss-dont-push-mark (&optional location nomsg activate)
+  "As `push-mark', but don't push old mark to mark ring."
+  (setq location (or location (point)))
+  (if (or activate (not transient-mark-mode))
+      (set-mark location)
+    (set-marker (mark-marker) location))
+  (or nomsg executing-kbd-macro (> (minibuffer-depth) 0)
+      (message "Mark set"))
+  nil)
 
 (defun weiss-select-current-word ()
   "select current word, if current char is not word, backward char until it's a word"
@@ -159,7 +171,7 @@ Version 2018-06-04"
             (lbpo (line-beginning-position)))
         (progn
           (skip-syntax-backward "\\w" (- current-point lbpo))
-          (push-mark nil t)
+          (weiss-dont-push-mark nil t)
           (skip-syntax-forward "\\w")
           ;; (forward-word)
           (setq mark-active t)))

@@ -3,14 +3,12 @@
 
   inputs = {
     nixpkgs.url = "github:nixos/nixpkgs/nixos-unstable";
-    # nixpkgs.url = "github:nixos/nixpkgs/nixos-23.11";
-    nixpkgs-lts.url = "github:nixos/nixpkgs/nixos-23.11";
+    nixpkgs-lts.url = "github:nixos/nixpkgs/nixos-24.05";
     darwin = {
       url = "github:lnl7/nix-darwin/master";
       inputs.nixpkgs.follows = "nixpkgs";
     };
     raspberry-pi-nix.url = "github:nix-community/raspberry-pi-nix";
-    nixos-hardware.url = "github:nixos/nixos-hardware";
     home-manager = {
       url = "github:nix-community/home-manager";
       inputs.nixpkgs.follows = "nixpkgs";
@@ -47,13 +45,6 @@
     # weissXmonad.url = "/home/weiss/projects/weiss-xmonad/";
     hledger-importer.url = "github:WeissP/hledger-importer";
     nixpkgs-firefox-darwin.url = "github:bandithedoge/nixpkgs-firefox-darwin";
-  };
-
-  nixConfig = {
-    # Adapted From: https://github.com/divnix/digga/blob/main/examples/devos/flake.nix#L4
-    extra-substituters = "https://cache.nixos.org https://nix-community.cachix.org https://sylvorg.cachix.org";
-    extra-trusted-public-keys = "cache.nixos.org-1:6NCHdD59X431o0gWypbMrAURkbJ16ZPMQFGspcDShjY= nix-community.cachix.org-1:mB9FSh9qf2dCimDSUo8Zy7bkq5CX+/rkCWyvRCYg3Fs= sylvorg.cachix.org-1:xd1jb7cDkzX+D+Wqt6TemzkJH9u9esXEFu1yaR9p8H8=";
-    extra-experimental-features = "nix-command flakes";
   };
 
   outputs =
@@ -174,7 +165,7 @@
       # NixOS configuration entrypoint
       # Available through 'nixos-rebuild --flake .#your-hostname'
       nixosConfigurations = {
-        desktop = nixpkgs.lib.nixosSystem {
+        Desktop = nixpkgs.lib.nixosSystem {
           system = "x86_64-linux";
           specialArgs = {
             inherit
@@ -184,7 +175,7 @@
               myLib
               ;
             myEnv = linuxEnv;
-            configSession = "desktop";
+            configSession = "Desktop";
           };
           modules = [
             nixosModules.xmonadBin
@@ -193,29 +184,6 @@
             inputs.nur.nixosModules.nur
             ./home-manager
             { boot.binfmt.emulatedSystems = [ "aarch64-linux" ]; }
-          ];
-        };
-
-        vultr-miami = nixpkgs.lib.nixosSystem {
-          system = "x86_64-linux";
-          specialArgs = {
-            inherit
-              inputs
-              outputs
-              secrets
-              myLib
-              ;
-            myEnv = myLib.genEnv {
-              arch = "linux";
-              usage = "server";
-              username = "weiss";
-            };
-            configSession = "vultr-miami";
-          };
-          modules = [
-            ./nixos/vultr-miami/configuration.nix
-            ./nixos/vultr-miami/hardware-configuration.nix
-            ./home-manager
           ];
         };
 
@@ -233,12 +201,11 @@
               usage = "server";
               username = "weiss";
             };
-            configSession = "vultr";
+            configSession = "Vultr";
           };
           modules = [
             disko.nixosModules.disko
             ./nixos/vultr/configuration.nix
-            # ./nixos/vultr/hardware-configuration.nix
             ./home-manager
           ];
         };
@@ -257,15 +224,21 @@
               usage = "server";
               username = "weiss";
             };
-            configSession = "rpi";
+            configSession = "RaspberryPi";
           };
           modules = [
-
             ./nixos/rpi/base.nix
             ./nixos/rpi/configuration.nix
-            # ./home-manager
+            ./home-manager
+            {
+              sdImage.compressImage = false;
+            }
           ];
         };
+      };
+
+      images = {
+        rpi = nixosConfigurations.rpi.config.system.build.sdImage;
       };
 
       darwinConfigurations =
@@ -288,61 +261,9 @@
             modules = [
               ./nixos/mac/configuration.nix
               ./home-manager
-
-              # (homeConfig darwinEnv (import ./home-manager/mac.nix))
-              # darwinHome
-              # home-manager.darwinModules.home-manager
-              # {
-              #   home-manager.extrpiecialArgs = {
-              #     inherit inputs outputs secrets;
-              #     myEnv = darwinEnv;
-              #   };
-              #   home-manager.useGlobalPkgs = true;
-              #   home-manager.useUserPackages = true;
-              #   home-manager.users."${darwinEnv.username}" =
-              # import ./home-manager/mac.nix;
-              # }
             ];
           };
         };
-
-      homeConfigurations = {
-        "weiss@desktop" = home-manager.lib.homeManagerConfiguration {
-          pkgs = nixpkgs.legacyPackages.x86_64-linux; # Home-manager requires 'pkgs' instance
-          extrpiecialArgs = {
-            inherit inputs outputs secrets;
-            myEnv = linuxEnv;
-          };
-          modules = [ ./home-manager/weiss.nix ];
-        };
-        "test" = home-manager.lib.homeManagerConfiguration {
-          pkgs = nixpkgs.legacyPackages.x86_64-linux; # Home-manager requires 'pkgs' instance
-          extrpiecialArgs = {
-            inherit
-              inputs
-              outputs
-              secrets
-              myLib
-              ;
-            myEnv = linuxEnv;
-          };
-          modules = [ ./home-manager/test.nix ];
-        };
-
-        "mac" = home-manager.lib.homeManagerConfiguration {
-          pkgs = nixpkgs.legacyPackages.aarch64-darwin; # Home-manager requires 'pkgs' instance
-          extrpiecialArgs = {
-            inherit
-              inputs
-              outputs
-              secrets
-              myLib
-              ;
-            myEnv = darwinEnv;
-          };
-          modules = [ ./home-manager/mac.nix ];
-        };
-      };
 
       deploy = {
         user = "root";
@@ -356,21 +277,18 @@
         magicRollback = false;
 
         nodes = {
-          # "vultr" = {
-          #   hostname = secrets."vultr".ip;
-          #   profiles = {
-          #     system = {
-          #       path = deploy-rs.lib.x86_64-linux.activate.nixos self.nixosConfigurations."vultr";
-          #     };
-          #   };
-          # };
-          "rpi" = {
-            hostname = "192.168.0.31";
+          "vultr" = {
+            hostname = secrets.nodes."Vultr".publicIp;
             profiles = {
               system = {
-                sshUser = "nixos";
-                magicRollback = false;
-                user = "nixos";
+                path = deploy-rs.lib.x86_64-linux.activate.nixos self.nixosConfigurations."vultr";
+              };
+            };
+          };
+          "rpi" = {
+            hostname = secrets.nodes."RaspberryPi".localIp;
+            profiles = {
+              system = {
                 path = deploy-rs.lib.aarch64-linux.activate.nixos self.nixosConfigurations."rpi";
               };
             };

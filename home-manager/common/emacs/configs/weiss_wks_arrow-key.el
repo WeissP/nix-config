@@ -71,14 +71,26 @@
   (if current-prefix-arg
       (progn
         (setq current-prefix-arg nil)
-        (unless (use-region-p) (push-mark nil t))
+        (unless (use-region-p) (weiss-dont-push-mark nil t))
         (weiss-select-mode-turn-on)
         (forward-char)
         (setq mark-active t))
 
     (if (string= current-input-method "rime")
         (call-interactively 'right-char)
-      (weiss-forward-and-select-word))))
+      (let ((p (point)))        
+        (weiss-forward-and-select-word)
+        (when (and (eq p (point))
+                   (eq p (line-end-position))
+                   (not (eq ?  (char-before)))
+                   )
+          (insert " "))
+        ))))
+
+(defun weiss-test ()
+  "DOCSTRING"
+  (interactive)
+  (message "%s" (char-to-string (char-before))))
 
 (defun weiss-left-key ()
   "smart decide whether move by word or by char"
@@ -86,7 +98,7 @@
   (if current-prefix-arg
       (progn
         (setq current-prefix-arg nil)
-        (unless (use-region-p) (push-mark nil t))
+        (unless (use-region-p) (weiss-dont-push-mark nil t))
         (backward-char)
         (setq mark-active t)
         (weiss-select-mode-turn-on))
@@ -121,7 +133,7 @@
         (setq p (point))))
     (goto-char p))
   ;; (call-interactively 'set-mark-command)
-  (push-mark nil t)
+  (weiss-dont-push-mark nil t)
   (while (member (char-to-string (char-after)) uppercase-alphabet)
     (forward-char))
 
@@ -162,7 +174,7 @@
       (when (= l (line-number-at-pos))
         (setq p (point))))
     (goto-char p))
-  (push-mark nil t)
+  (weiss-dont-push-mark nil t)
 
   (while (member (char-to-string (char-before)) uppercase-alphabet)
     (backward-char))

@@ -5,7 +5,7 @@
       "check whether `str' is an orderless filter and return the filter if it is, otherwise return nil"
       (interactive)
       (let ((prefix "ol: "))
-        (when (s-prefix? "ol: " str)
+        (when (s-prefix? prefix str)
           (s-chop-left (length prefix) str)
           )
         )
@@ -15,7 +15,7 @@
       "use orderless to filter files"
       (if-let ((ol-filter (denote-orderless--is-orderless-filter filter)))
           (progn
-            (message "ol-filter: %s" ol-filter)
+            ;; (message "ol-filter: %s" ol-filter)
             (let ((files (denote--directory-get-files)))
               (when (and omit-current buffer-file-name (denote-file-has-identifier-p buffer-file-name))
                 (setq files (delete buffer-file-name files)))

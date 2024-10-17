@@ -172,7 +172,19 @@ in
           services."ensure-webman-db" = myEnv.ensurePsqlDb "webman";
           services.webman-server = myLib.service.startup {
             cmds = "${pkgs.bash}/bin/bash ${scriptsDir}/start_webman_server.sh";
+            wantedBy = [ ];
             description = "webman-server";
+          };
+          # webman-server must start after network is up, however, network-online.target is not triggered if there is no network-manager installed
+          timers.webman-server-starter = {
+            Unit.Description = "Start webman-server";
+            Timer = {
+              OnBootSec = "30s";
+              Unit = "webman-server.service";
+            };
+            Install = {
+              WantedBy = [ "timers.target" ];
+            };
           };
         };
       })

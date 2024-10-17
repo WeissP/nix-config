@@ -41,7 +41,7 @@
   "DOCSTRING"
   (interactive)
   (goto-char from)
-  (push-mark nil t)
+  (weiss-dont-push-mark nil t)
   (goto-char to)
   (setq mark-active t))
 

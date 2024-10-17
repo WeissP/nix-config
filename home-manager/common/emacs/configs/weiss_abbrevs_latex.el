@@ -199,6 +199,7 @@
       ("dt" "\\tilde{▮} " weiss--ahf)
       ("dr" "\\overrightarrow{▮} " weiss--ahf)
       ("dl" "\\overleftarrow{▮} " weiss--ahf)    
+      ("dlr" "\\xLeftrightarrow{▮} " weiss--ahf)    
 
 ;;;;; Symbols
       ("sc" "\\textcircled" weiss--ahf)

@@ -1,3 +1,5 @@
+(setq org-export-backends '(html latex md))
+
 (with-eval-after-load 'org
   (setq
    org-export-allow-bind-keywords t
@@ -32,13 +34,22 @@
           (tagside "right"))
         )
 
-  (defun weiss-org-export-to-pdf ()
+  ;; (add-to-list 'org-export-backends 'md)
+  ;; (setq org-export-backends '(html latex md))
+
+  (defun weiss-org-export-latex-pdf ()
     "DOCSTRING"
     (interactive)
     (deactivate-mark)
     (ignore-errors 
       (call-interactively 'save-buffer))
-    (org-latex-export-to-pdf))
+    (let ((warning-minimum-level :error))
+      (if org-beamer-mode
+          (call-interactively 'org-beamer-export-to-pdf)
+        (call-interactively 'org-latex-export-to-pdf)    
+        )
+      )    
+    )
   )
 
 (provide 'weiss_org_export)

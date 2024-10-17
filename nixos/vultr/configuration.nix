@@ -19,6 +19,7 @@ with myEnv;
     ../common/minimum.nix
     ../common/psql.nix
     ../common/zsh.nix
+    ../common/syncthing.nix
     outputs.nixosModules.v2ray
   ];
 
@@ -44,6 +45,7 @@ with myEnv;
   };
 
   services = {
+    getty.autologinUser = "${username}";
     openssh = {
       enable = true;
       settings = {
@@ -79,7 +81,7 @@ with myEnv;
                 #   }
                 #   + "/resources/namari-by-shapingrain/";
               };
-              # "/webman".proxyPass = "http://127.0.0.1:7777";
+              "/webman".proxyPass = "http://127.0.0.1:7777";
               "${secrets.v2ray.path}" = {
                 proxyPass = "http://127.0.0.1:17586";
                 extraConfig = ''
@@ -169,14 +171,6 @@ with myEnv;
           ];
         };
       };
-    };
-  };
-
-  users.users = {
-    "root".openssh.authorizedKeys.keys = secrets.ssh."163".authorizedKeys;
-    "${username}" = {
-      openssh.authorizedKeys.keys = secrets.ssh."163".authorizedKeys;
-      hashedPassword = secrets."${configSession}".password.hashed;
     };
   };
 

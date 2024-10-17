@@ -87,6 +87,11 @@
        :new-line t
        )
       (
+       :name "Nushell"
+       :pair ("#+BEGIN_SRC nushell" . "#+END_SRC")
+       :new-line t
+       )
+      (
        :name "java"
        :pair ("#+BEGIN_SRC java" . "#+END_SRC")
        :new-line t

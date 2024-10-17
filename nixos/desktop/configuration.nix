@@ -133,6 +133,8 @@ with myEnv;
           target_preserve_min = "no";
           target_preserve = "20d";
           subvolume = {
+            "/" = { };
+            "/home" = { };
             "/home/weiss/nix-config" = { };
             "/home/weiss/Documents" = { };
             "/home/weiss/projects" = { };

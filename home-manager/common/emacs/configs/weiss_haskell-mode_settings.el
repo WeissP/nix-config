@@ -14,6 +14,13 @@
         haskell-process-type 'cabal-repl
         )
 
+  (defun weiss-haskell-hoogle-lookup ()
+    "DOCSTRING"
+    (interactive)
+    (browse-url (format "http://localhost:%s/?hoogle=%s"
+                        (getenv "HOOGLE_PORT")
+                        (car (hoogle-prompt)))))
+
   (defun weiss-haskell-insert-module-template ()
     "DOCSTRING"
     (interactive)

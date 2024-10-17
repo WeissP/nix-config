@@ -27,13 +27,13 @@
         [
           ./hledger.nix
           ./mpv.nix
-          ./aria.nix
           ./chromium.nix
           ./trayer.nix
           ./fusuma.nix
           ./flameshot.nix
           ./xscreensaver.nix
           ./darkman.nix
+          ./ariang.nix
         ]
       else
         [ ]
@@ -72,6 +72,7 @@
                 imagemagick
                 gnumake
                 cmake
+                niv
                 # v2ray
                 # calibre
                 pdfminer
@@ -85,60 +86,8 @@
                 # additions.ammonite.ammonite_3_2
                 ghostscript
                 (texlive.combine {
-                  inherit (texlive)
-                    scheme-tetex
-                    collection-langkorean
-                    algorithms
-                    cm-super
-                    pgf
-                    dvipng
-                    dvisvgm
-                    enumitem
-                    graphics
-                    wrapfig
-                    amsmath
-                    ulem
-                    hyperref
-                    capt-of
-                    framed
-                    multirow
-                    vmargin
-                    comment
-                    minted
-                    doublestroke
-                    pgfplots
-                    titlesec
-                    subfigure
-                    adjustbox
-                    algorithm2e
-                    ifoddpage
-                    relsize
-                    qtree
-                    pict2e
-                    lipsum
-                    ifsym
-                    fontawesome
-                    changepage
-                    inconsolata
-                    xcolor
-                    cancel
-                    stmaryrd
-                    wasysym
-                    wasy
-                    makecell
-                    forest
-                    mnsymbol
-                    biblatex
-                    fontawesome5
-                    pbox
-                    rsfso
-                    upquote
-                    acmart
-                    ieeetran
-                    ;
+                  inherit (texlive) scheme-full;
                   pkgFilter = pkg: pkg.tlType == "run" || pkg.tlType == "bin" || pkg.pname == "cm-super";
-                  # elem tlType [ "run" "bin" "doc" "source" ]
-                  # there are also other attributes: version, name
                 })
               ];
             }
@@ -146,6 +95,68 @@
               packages = with pkgs; [
                 iterm2
                 ocamlPackages.cpdf
+                # (texlive.combine {
+                #   inherit (texlive)
+                #     scheme-tetex
+                #     collection-langkorean
+                #     algorithms
+                #     cm-super
+                #     pgf
+                #     dvipng
+                #     dvisvgm
+                #     enumitem
+                #     graphics
+                #     wrapfig
+                #     amsmath
+                #     ulem
+                #     hyperref
+                #     capt-of
+                #     framed
+                #     multirow
+                #     vmargin
+                #     comment
+                #     minted
+                #     doublestroke
+                #     pgfplots
+                #     titlesec
+                #     subfigure
+                #     adjustbox
+                #     algorithm2e
+                #     ifoddpage
+                #     relsize
+                #     qtree
+                #     pict2e
+                #     lipsum
+                #     ifsym
+                #     fontawesome
+                #     changepage
+                #     inconsolata
+                #     xcolor
+                #     cancel
+                #     stmaryrd
+                #     wasysym
+                #     wasy
+                #     makecell
+                #     forest
+                #     mnsymbol
+                #     biblatex
+                #     fontawesome5
+                #     pbox
+                #     rsfso
+                #     upquote
+                #     acmart
+                #     ieeetran
+                #     beamertheme-arguelles
+                #     alegreya
+                #     fontaxes
+                #     mathalpha
+                #     opencolor
+                #     tcolorbox
+                #     ;
+                #   pkgFilter = pkg: pkg.tlType == "run" || pkg.tlType == "bin" || pkg.pname == "cm-super";
+                #   # elem tlType [ "run" "bin" "doc" "source" ]
+                #   # there are also other attributes: version, name
+                # })
               ];
             })
             (ifLinux {
@@ -157,6 +168,10 @@
                 gtk.enable = true;
               };
               packages = with pkgs; [
+                steam
+                jellyfin-media-player
+                calibre
+                jellyfin-mpv-shim
                 qrencode
                 ripgrep-all
                 black
@@ -299,6 +314,11 @@
               Service = {
                 ExecStart = "${pkgs.xorg.setxkbmap}/bin/setxkbmap -layout de -variant nodeadkeys";
               };
+            };
+            start_jellyfin_mpv_shim = startup {
+              cmds = ''
+                ${pkgs.jellyfin-mpv-shim}/bin/jellyfin-mpv-shim
+              '';
             };
           };
           timers = {

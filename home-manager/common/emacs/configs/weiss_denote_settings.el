@@ -7,6 +7,13 @@
  denote-backlinks-show-context t
  denote-org-extras-dblock-file-contents-separator "\n⠊⠊⠊⠊⠊⠊⠊⠊⠊⠊⠊⠊⠊⠊⠊⠊⠊⠊⠊⠊⠊⠊⠊⠊⠊⠊⠊⠊⠊⠊⠊⠊⠊⠊⠊⠊⠊⠊⠊⠊⠊⠊⠊⠊⠊⠊\n"
  denote-excluded-directories-regexp "ltximg"
+ denote-excluded-files-regexp (rx
+                               (or
+                                (seq (* anychar) ".tex")
+                                (seq (* anychar) ".pdfpc")
+                                (seq (* anychar) ".bib")
+                                (seq (* anychar) ".bbl")
+                                )) 
  denote-rename-no-confirm t 
  )
 
@@ -34,8 +41,6 @@
     (require 'denote-org-extras)
     (require 'denote-journal-extras)
     )
-  
-  (denote-extract-keywords-from-path   "/home/weiss/nix-config/home-manager/common/emacs/configs/weiss_denote_settings.el")
 
   (defun weiss-denote-pdf-note (&rest additional-keywords)
     "DOCSTRING"

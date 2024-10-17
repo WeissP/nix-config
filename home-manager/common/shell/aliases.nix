@@ -33,6 +33,7 @@ let
     sf = "sqlfluff fix --config ${homeDir}/.config/sqlfluff/.sqlfluff ";
     sl = "sqlfluff lint --config ${homeDir}/.config/sqlfluff/.sqlfluff ";
     sfp = "sf --dialect postgres ";
+    r = "nix-direnv-reload";
   };
 in {
   programs.bash = { shellAliases = posixAliases // generalAliases; };

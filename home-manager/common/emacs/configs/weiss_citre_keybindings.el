@@ -28,8 +28,8 @@
    '(
      ("<down>" . citre-peek-next-line)
      ("<up>" . citre-peek-prev-line)
-     ("<right>" . citre-peek-next-definition)
-     ("<left>" . citre-peek-prev-definition)
+     ("<left>" . citre-peek-next-definition)
+     ("<right>" . citre-peek-prev-definition)
      ("C-c C-p" . citre-peek-through)
      ("C-c C-j" . citre-peek-next-branch)
      ("C-c C-k" . citre-peek-prev-branch)

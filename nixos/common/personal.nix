@@ -1,7 +1,18 @@
-{ pkgs, lib, myLib, myEnv, secrets, config, inputs, outputs, configSession, ...
+{
+  pkgs,
+  lib,
+  myLib,
+  myEnv,
+  secrets,
+  config,
+  inputs,
+  outputs,
+  configSession,
+  ...
 }:
 with lib;
-with myEnv; {
+with myEnv;
+{
   imports = [
     ./minimum.nix
     ./xmonad
@@ -11,6 +22,9 @@ with myEnv; {
     ./uxplay.nix
   ];
 
+  networking = {
+    networkmanager.enable = true;
+  };
   services = {
     geoclue2.enable = true;
     # Enable automatic login for the user.
@@ -66,13 +80,23 @@ with myEnv; {
 
   programs = {
     zsh.enable = true;
-    git = { enable = true; };
+    git = {
+      enable = true;
+    };
   };
 
   environment = {
     shells = [ pkgs.zsh ];
     pathsToLink = [ "/share/zsh" ];
     systemPackages = with pkgs; [
+      git-crypt
+      ripgrep
+      cachix
+      fd
+      killall
+      locale
+      unzip
+      zip
       v2ray
       pavucontrol
       xdotool
@@ -86,6 +110,9 @@ with myEnv; {
   hardware = {
     pulseaudio.enable = false;
     bluetooth.enable = true;
+    graphics.enable32Bit = true;
+    pulseaudio.support32Bit = true;
+
   };
 
   virtualisation.docker = {
@@ -96,9 +123,13 @@ with myEnv; {
   fonts = mkMerge [
     {
       fontDir.enable = true;
-      packages = with pkgs;
-        let mkFont = callPackage myLib.mkFont { };
-        in [
+      packages =
+        with pkgs;
+        let
+          mkFont = callPackage myLib.mkFont { };
+        in
+        [
+          (mkFont "helvetica-ultra-compressed" "helvetica-ultra-compressed.zip")
           (mkFont "monolisa" "monolisa.zip")
           route159
           noto-fonts
@@ -127,10 +158,21 @@ with myEnv; {
       fontconfig = {
         defaultFonts = {
           emoji = [ "Noto Color Emoji" ];
-          monospace =
-            [ "Noto Sans Mono CJK SC" "Sarasa Mono SC" "DejaVu Sans Mono" ];
-          sansSerif = [ "Noto Sans CJK SC" "Source Han Sans SC" "DejaVu Sans" ];
-          serif = [ "Noto Serif CJK SC" "Source Han Serif SC" "DejaVu Serif" ];
+          monospace = [
+            "Noto Sans Mono CJK SC"
+            "Sarasa Mono SC"
+            "DejaVu Sans Mono"
+          ];
+          sansSerif = [
+            "Noto Sans CJK SC"
+            "Source Han Sans SC"
+            "DejaVu Sans"
+          ];
+          serif = [
+            "Noto Serif CJK SC"
+            "Source Han Serif SC"
+            "DejaVu Serif"
+          ];
         };
       };
     })

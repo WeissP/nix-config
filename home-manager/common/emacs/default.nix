@@ -244,6 +244,7 @@ in
             ]
           ];
           lang = [
+            "protobuf-mode"
             [
               "scala-mode"
               "sbt-mode"
@@ -324,6 +325,7 @@ in
             "literate-calc-mode"
           ];
           tools = [
+            # "dogears"
             # "edit-server"
             [
               "embark"
@@ -348,11 +350,7 @@ in
             "command-log-mode"
             "gud"
             "quickrun"
-            [
-              "eglot"
-              # "eglot-booster"
-              # "eglot-signature-eldoc-talkative"
-            ]
+            # [ "eglot" "eglot-booster" "eglot-signature-eldoc-talkative" ]
             "lspce"
             # [ "lsp-bridge" "flymake-bridge" ]
             [

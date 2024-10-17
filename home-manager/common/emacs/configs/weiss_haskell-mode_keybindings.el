@@ -4,7 +4,7 @@
    haskell-mode-map
    ""
    '(
-     ("C-c C-s" . haskell-hoogle-lookup-from-local)
+     ("C-c C-s" . weiss-haskell-hoogle-lookup)
      ("-" . weiss-haskell-load-process-and-switch-buffer)
      ))  
   )

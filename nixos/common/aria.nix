@@ -1,57 +1,34 @@
 {
   pkgs,
+  secrets,
   myEnv,
   myLib,
   lib,
-  secrets,
   configSession,
   ...
 }:
 with myEnv;
 let
-  configDir = "${homeDir}/.config/aria2";
+  configDir = "/etc/aria2";
   downloadDir =
     if configSession == "RaspberryPi" then
       "/run/media/weiss/575b3fc0-13fc-4db2-bdd0-bbccb66f83b3/aria2"
     else
       "${homeDir}/Downloads/aria2";
-  completedDir = "${downloadDir}/completed";
-  logFile = "${configDir}/aria2.log";
-  hooksLogFile = "${configDir}/aria2_hooks.log";
   sess = "${configDir}/aria2.sess";
-  hooksDir = "${configDir}/hooks";
-  onCompleteScriptPath = "${hooksDir}/on_complete.sh";
 in
 {
-  systemd.user.services.aria2 = myLib.service.startup {
-    cmds = "${pkgs.aria2}/bin/aria2c";
-    description = "aria2c";
-  };
-  home.file = {
-    "${hooksDir}/aria_move.sh" = {
-      source = ./config_files/aria_hooks/aria_move.sh;
-      executable = true;
-    };
-    "${onCompleteScriptPath}" = {
-      text = ''
-        #!/bin/sh
-        export DOWNLOAD="${downloadDir}"
-        export COMPLETE="${completedDir}"
-        export LOG_FILE="${hooksLogFile}"
-        export LOG_LEVEL=2  # 1=NORMAL, 2=NORMAL+ERROR, 3=NORMAL+ERROR+INFO, 4=NORMAL+INFO+ERROR+DEBUG
-        export PATH=/run/current-system/sw/bin
-        "${hooksDir}/aria_move.sh" "$1" "$2" "$3"
-      '';
-      executable = true;
-    };
-  };
-  programs.aria2 = {
+  system.activationScripts.makeAriaDir = ''
+    mkdir -p ${configDir}
+    touch ${sess}   
+  '';
+  services.aria2 = {
     enable = true;
+    rpcSecretFile = pkgs.writeText "aria2secret" secrets.nodes."${configSession}".password.raw;
+    openPorts = true;
     settings = {
       dir = "${downloadDir}";
-      rpc-secret = secrets.nodes."${configSession}".password.raw;
       input-file = sess;
-      on-download-complete = onCompleteScriptPath;
       save-session = sess;
       save-session-interval = 60;
       max-concurrent-downloads = 15;
@@ -70,7 +47,7 @@ in
       no-file-allocation-limit = "8M";
       console-log-level = "notice";
       log-level = "warn";
-      log = "${logFile}";
+      # log = "/var/log/aria2.log";
       enable-rpc = true;
       rpc-allow-origin-all = true;
       rpc-listen-all = true;
@@ -78,12 +55,10 @@ in
       min-split-size = "8M";
       split = 32;
       user-agent = "Transmission/2.77";
-      listen-port = "50101-50109";
       seed-ratio = 0.1;
       seed-time = 0;
       enable-dht = true;
       enable-dht6 = true;
-      dht-listen-port = "50101-50109";
       dht-entry-point = "dht.transmissionbt.com:6881";
       dht-entry-point6 = "dht.transmissionbt.com:6881";
       dht-file-path = "${configDir}/dht.dat";

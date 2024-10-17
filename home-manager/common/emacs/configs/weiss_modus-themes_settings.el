@@ -72,6 +72,8 @@
          ((t (:underline t :weight normal)))))
 
       (custom-set-faces
+       '(mode-line
+         ((t (:font "DejaVu Sans Mono-10"))))
        '(underline
          ((t (:underline t :weight normal))))       
        '(font-lock-keyword-face
@@ -117,6 +119,10 @@
     (add-hook 'darkman-mode-hook #'weiss-modus-patch-faces)
     (add-hook 'darkman-after-mode-changed-hook #'weiss-modus-patch-faces)
     (darkman-mode)
+    )
+
+  (when (eq system-type 'darwin)
+    (modus-themes-load-theme 'modus-operandi-tinted)
     )
   )
 
