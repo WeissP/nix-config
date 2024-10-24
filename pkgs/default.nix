@@ -6,4 +6,5 @@
   mpv-thumbfast = pkgs.callPackage ./mpv-thumbfast.nix { };
   ammonite = pkgs.callPackage ./ammonite.nix { };
   mkFont = pkgs.callPackage ./mkFont.nix { };
+  private-gpt = pkgs.callPackage ./private-gpt { };
 }

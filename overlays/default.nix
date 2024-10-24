@@ -60,6 +60,42 @@
             system = final.system;
             config.allowUnfree = true;
           };
+      "2024-09-08" =
+        import
+          (final.fetchFromGitHub {
+            owner = "NixOS";
+            repo = "nixpkgs";
+            rev = "e29ea571a3f9f1f906b41cfcb7c9f955419ea15a"; 
+            sha256 = "sha256-erk1S1nEVFSbrQs8UHvJYht76KUp1IdTpzRj+P+Xuww=";
+          })
+          {
+            system = final.system;
+            config.allowUnfree = true;
+          };
+      "2024-09-16" =
+        import
+          (final.fetchFromGitHub {
+            owner = "NixOS";
+            repo = "nixpkgs";
+            rev = "d43d78b0b0fe6124c8ac77ee515cff54118cb0bf";
+            sha256 = "sha256-UXnOFicV+GN2mBQF4P01WpVuWXoDP2FrcSRpWnA+T1Y=";
+          })
+          {
+            system = final.system;
+            config.allowUnfree = true;
+          };
+      "2024-10-11" =
+        import
+          (final.fetchFromGitHub {
+            owner = "NixOS";
+            repo = "nixpkgs";
+            rev = "1a7ad9eabbb44da5063195ffa2f6bf2056902623";
+            sha256 = "sha256-LzicIsOq7tgATdekv3wfOX9WWP25/NObw8zk840eCJ0=";
+          })
+          {
+            system = final.system;
+            config.allowUnfree = true;
+          };
     };
   };
 

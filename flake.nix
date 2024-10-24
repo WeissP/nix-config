@@ -179,6 +179,7 @@
           };
           modules = [
             nixosModules.xmonadBin
+            nixosModules.private-gpt
             ./nixos/desktop/configuration.nix
             ./nixos/desktop/hardware-configuration.nix
             inputs.nur.nixosModules.nur

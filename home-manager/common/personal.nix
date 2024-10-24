@@ -34,6 +34,7 @@
           ./xscreensaver.nix
           ./darkman.nix
           ./ariang.nix
+          ./aider.nix
         ]
       else
         [ ]
@@ -62,6 +63,7 @@
                 "${homeDir}/.ssh/id_rsa".text = secrets.ssh."163".private;
               };
               packages = with pkgs; [
+                wget
                 alacritty
                 unrar
                 p7zip
@@ -168,9 +170,12 @@
                 gtk.enable = true;
               };
               packages = with pkgs; [
+                # pkgs.pinnedUnstables."2024-09-08".python311Packages.private-gpt
+                # additions.private-gpt
+                zotero
                 steam
                 jellyfin-media-player
-                calibre
+                lts.calibre
                 jellyfin-mpv-shim
                 qrencode
                 ripgrep-all

@@ -3,8 +3,17 @@
   (interactive)
   (push-mark))
 
-(advice-add 'beginning-of-buffer :before #'weiss-push-mark)
-(advice-add 'end-of-buffer :before #'weiss-push-mark)
+(defun weiss--push-mark-unless-select-mode (&rest args)
+  "DOCSTRING"
+  (interactive)
+  (unless weiss-select-mode-p
+    (weiss-push-mark)
+    )
+  )
+
+(advice-add 'beginning-of-buffer :before #'weiss--push-mark-unless-select-mode)
+(advice-add 'end-of-buffer :before #'weiss--push-mark-unless-select-mode)
+
 
 (defun weiss-test ()
   "DOCSTRING"

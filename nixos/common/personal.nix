@@ -20,12 +20,14 @@ with myEnv;
     ./syncthing.nix
     ./zsh.nix
     ./uxplay.nix
+    ./sunshine.nix
   ];
 
   networking = {
     networkmanager.enable = true;
   };
   services = {
+    joycond.enable = true;
     geoclue2.enable = true;
     # Enable automatic login for the user.
     displayManager.autoLogin.enable = true;
@@ -134,7 +136,7 @@ with myEnv;
           (mkFont "monolisa" "monolisa.zip")
           route159
           noto-fonts
-          noto-fonts-cjk
+          noto-fonts-cjk-sans
           noto-fonts-emoji
           stix-two
           liberation_ttf

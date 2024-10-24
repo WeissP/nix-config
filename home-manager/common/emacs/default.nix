@@ -99,6 +99,7 @@ in
         consult-tramp = [ "consult-tramp" ];
         citar-denote = [ "citar-denote-open-note" ];
         chatu = [ "chatu-mode" ];
+        aider = [ "aider-transient-menu" ];
       };
       eagerLoad = [
         "direnv"
@@ -325,6 +326,7 @@ in
             "literate-calc-mode"
           ];
           tools = [
+            "khoj"
             # "dogears"
             # "edit-server"
             [
@@ -350,7 +352,9 @@ in
             "command-log-mode"
             "gud"
             "quickrun"
-            # [ "eglot" "eglot-booster" "eglot-signature-eldoc-talkative" ]
+            [
+              "eglot" # "eglot-booster" "eglot-signature-eldoc-talkative"
+            ]
             "lspce"
             # [ "lsp-bridge" "flymake-bridge" ]
             [
@@ -363,11 +367,17 @@ in
             "citre"
             "tab-line"
             # "mind-wave"
-            "gptel"
+            [
+              "gptel"
+              "aider"
+            ]
             "polymode"
             "tla-tools"
             "use-proxy"
-            "denote"
+            [
+              "denote"
+              "consult-denote"
+            ]
             [
               "citar"
               "citar-denote"

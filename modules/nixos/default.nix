@@ -5,4 +5,5 @@
   # List your module files here
   v2ray = import ./v2ray.nix;
   xmonadBin = import ./xmonadBin.nix;
+  private-gpt = import ./private-gpt.nix;
 }

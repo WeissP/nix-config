@@ -1,5 +1,5 @@
 ;; -*- lexical-binding: t -*-
-
+(defvar weiss-org-pic-width nil)
 (with-eval-after-load 'org
   (add-to-list 'image-file-name-extensions "pdf")
   (defun weiss-mac-org-insert-screenshot ()
@@ -98,7 +98,7 @@
         (insert "\n")
         )
        (img-attr
-        (let ((size (if (string= (file-name-extension old-path) "svg") 400 400)))
+        (let ((size (or weiss-org-pic-width 400) ))
           (insert
            (format "#+ATTR_ORG: :width %s\n#+ATTR_LATEX: :width 12cm\n" size))
           )

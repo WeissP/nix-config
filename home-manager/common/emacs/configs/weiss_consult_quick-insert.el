@@ -82,6 +82,11 @@
        :new-line t
        )
       (
+       :name "Sql"
+       :pair ("#+BEGIN_SRC sql" . "#+END_SRC")
+       :new-line t
+       )
+      (
        :name "Shell"
        :pair ("#+BEGIN_SRC sh" . "#+END_SRC")
        :new-line t

@@ -6,15 +6,11 @@
   secrets,
   configSession,
   ...
-}:
+}: 
 with myEnv;
-let
+let 
   configDir = "${homeDir}/.config/aria2";
-  downloadDir =
-    if configSession == "RaspberryPi" then
-      "/run/media/weiss/575b3fc0-13fc-4db2-bdd0-bbccb66f83b3/aria2"
-    else
-      "${homeDir}/Downloads/aria2";
+  downloadDir = "${homeDir}/Downloads/aria2";
   completedDir = "${downloadDir}/completed";
   logFile = "${configDir}/aria2.log";
   hooksLogFile = "${configDir}/aria2_hooks.log";

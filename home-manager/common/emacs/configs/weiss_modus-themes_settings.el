@@ -74,6 +74,8 @@
       (custom-set-faces
        '(mode-line
          ((t (:font "M PLUS 1 Code"))))
+       '(mode-line-inactive
+         ((t (:font "M PLUS 1 Code"))))
        '(underline 
          ((t (:underline t :weight normal))))       
        '(font-lock-keyword-face

@@ -7,16 +7,22 @@
     (interactive)
     (when (called-interactively-p 'any)      
       (when-let (formatters (apheleia--get-formatters))
-        (apheleia-format-buffer
-         formatters
-         (lambda ()
-           (save-buffer)
-           (when flymake-mode
-             (flymake-start)
-             (run-with-timer 2 nil #'flymake-start)
-             (run-with-timer 4 nil #'flymake-start)
-             )                                             
-           ))
+          (apheleia-format-buffer
+           formatters
+           (lambda ()
+             (save-buffer)
+             (when flymake-mode
+               (flymake-start)
+               (run-with-timer 2 nil #'flymake-start)
+               (run-with-timer 4 nil #'flymake-start)
+               )                                             
+             ))
+        ;; (let ((exec-path exec-path))
+        ;;   (when-let ((dir-env (getenv "DEVSHELL_DIR")))
+        ;;     (add-to-list 'exec-path dir-env)
+        ;;     )
+
+        ;;   )
         )
       )
     )

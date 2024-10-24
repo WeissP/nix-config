@@ -21,6 +21,7 @@
                         (getenv "HOOGLE_PORT")
                         (car (hoogle-prompt)))))
 
+
   (defun weiss-haskell-insert-module-template ()
     "DOCSTRING"
     (interactive)

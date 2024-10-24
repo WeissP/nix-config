@@ -5,7 +5,7 @@
    ""
    '(
      ("C-c C-s" . weiss-haskell-hoogle-lookup)
-     ("-" . weiss-haskell-load-process-and-switch-buffer)
+     ;; ("-" . weiss-haskell-load-process-and-switch-buffer)
      ))  
   )
 

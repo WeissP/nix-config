@@ -208,6 +208,14 @@ in
       recipes = mkOption {
         description = "recipes";
         default = {
+          aider = {
+            emacsPackages = [ "aider" ];
+            externalPackages = [
+              pkgs.pinnedUnstables."2024-09-16".aider-chat
+              # pkgs.aider-chat 
+            ];
+          };
+
           gptel = {
             emacsPackages = [
               "gptel"
@@ -646,6 +654,14 @@ in
           #   inherit (pkgs) fetchFromGitLab;
           # };
           # circadian = pkgs.pinnedUnstables."2024-01-05".emacsPackages.circadian;
+          aider = pkgs.callPackage ./packages/aider.nix {
+            inherit (final) trivialBuild;
+            inherit (pkgs) fetchFromGitHub;
+            deps = with final; {
+              inherit transient helm;
+            };
+          };
+
           eglot-booster = pkgs.callPackage ./packages/eglot-booster.nix {
             inherit (final) trivialBuild;
             inherit (pkgs) fetchFromGitHub;

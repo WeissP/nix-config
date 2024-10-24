@@ -8,6 +8,8 @@
 (custom-set-faces
  '(mode-line ((t :box (:style released-button)))))
 
+(setq mode-line-compact 'long)
+
 (setq-default mode-line-format
               `(
                 " "

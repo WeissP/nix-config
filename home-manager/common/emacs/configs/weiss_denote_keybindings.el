@@ -32,10 +32,11 @@
     )
   
   (with-eval-after-load 'org
+    (wks-unset-key org-mode-map '("C-c C-j"))
     (wks-define-key
      org-mode-map "C-c "
      '(("C-i" . weiss-denote-consult-link)
-       ("C-j t" . denote-keywords-add)
+       ("C-j t" . denote-rename-file-keywords)
        ("C-r" . weiss-denote-org-extract-subtree)
        ))
     )

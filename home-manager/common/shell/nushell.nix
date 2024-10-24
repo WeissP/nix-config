@@ -14,12 +14,15 @@ with myEnv; {
              isolation: true
          }
       }
-      $env.config = ($env.config | upsert hooks.env_change.PWD {|config|
-              [{
-              condition: {|_, after| $after | path join 'init.nu' | path exists}
-              code: "print 'loading init.nu ...'; use init.nu *"
-            }
-            ]
+      $env.config = ($env.config | upsert hooks {
+          env_change: {
+              PWD: [
+                  {
+                    condition: {|_, after| $after | path join 'init.nu' | path exists}
+                    code: "print 'loading init.nu ...'; use init.nu *"
+                  }
+              ]
+          }
       })
       use task.nu
 

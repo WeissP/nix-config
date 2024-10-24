@@ -368,7 +368,7 @@ Delete the original subtree."
     (defun weiss-denote-consult-link ()
       "DOCSTRING"
       (interactive)
-      (if current-prefix-arg
+      (if current-prefix-arg 
           (call-interactively 'denote-org-extras-link-to-heading)
         (call-interactively 'weiss-denote-consult-link-notes)
         )
