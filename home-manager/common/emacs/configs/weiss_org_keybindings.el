@@ -5,8 +5,7 @@
    ("d t" .  org-todo-list)))
 
 (with-eval-after-load 'org
-  (require 'weiss_org_quick-insert)
-
+  
   (defun weiss-org-return ()
     "DOCSTRING"
     (interactive)

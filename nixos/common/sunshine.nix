@@ -12,7 +12,7 @@ let
   connector = "DisplayPort-1";
   autoresScript = pkgs.writeScript "autores-script" ''
     #!/usr/bin/env bash
-
+ 
     # Get params and set any defaults
     width=''${SUNSHINE_CLIENT_WIDTH}
     height=''${SUNSHINE_CLIENT_HEIGHT}

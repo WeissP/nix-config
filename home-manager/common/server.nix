@@ -18,4 +18,6 @@
     ./aria.nix
     ./videosDownloader.nix
   ];
+
+  config.home.packages = with pkgs; [ dua ];
 }

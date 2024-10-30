@@ -7,16 +7,16 @@
     (interactive)
     (when (called-interactively-p 'any)      
       (when-let (formatters (apheleia--get-formatters))
-          (apheleia-format-buffer
-           formatters
-           (lambda ()
-             (save-buffer)
-             (when flymake-mode
-               (flymake-start)
-               (run-with-timer 2 nil #'flymake-start)
-               (run-with-timer 4 nil #'flymake-start)
-               )                                             
-             ))
+        (apheleia-format-buffer
+         formatters
+         (lambda ()
+           (save-buffer)
+           (when flymake-mode
+             (flymake-start)
+             (run-with-timer 2 nil #'flymake-start)
+             (run-with-timer 4 nil #'flymake-start)
+             )                                             
+           ))
         ;; (let ((exec-path exec-path))
         ;;   (when-let ((dir-env (getenv "DEVSHELL_DIR")))
         ;;     (add-to-list 'exec-path dir-env)
@@ -47,6 +47,7 @@
   (push '(rustfmt . ("rustfmt" "--quiet" "--emit" "stdout")) apheleia-formatters)
   (push '(fourmolu . ("fourmolu" "--stdin-input-file" (or (buffer-file-name) (buffer-name)))) apheleia-formatters)
   (push '(cabal-fmt . ("cabal-fmt")) apheleia-formatters)
+  (push '(taplo . ("taplo" "fmt" "-")) apheleia-formatters)
 
   ;; (push '(nushell-mode . nufmt) apheleia-mode-alist)
   (push '(scala-mode . scalafmt) apheleia-mode-alist)
@@ -55,6 +56,10 @@
   (push '(clojurescript-mode . zprint) apheleia-mode-alist)
   (push '(clojure-mode . zprint) apheleia-mode-alist)
   (push '(nxml-mode . xmlstarlet) apheleia-mode-alist)
+
+  (with-eval-after-load 'conf-mode
+    (push '(conf-toml-mode . taplo) apheleia-mode-alist)
+    )
   )
 
 (provide 'weiss_apheleia_settings)

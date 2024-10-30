@@ -126,7 +126,7 @@
         ("[设3] glove80" .  (("设3" . "glove80")
                              ("设3" . "glove80")
                              ))        
-        ("[记] Documents" .  (("记" . nil)))
+        ("[记] Documents" .  (("记" . ("/home/weiss/Documents/notes/misc/notes/20231128T160730--shopping-list.org"))))
         )
       )
 

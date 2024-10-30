@@ -172,6 +172,8 @@
               packages = with pkgs; [
                 # pkgs.pinnedUnstables."2024-09-08".python311Packages.private-gpt
                 # additions.private-gpt
+                taplo
+                sqlite
                 zotero
                 steam
                 jellyfin-media-player

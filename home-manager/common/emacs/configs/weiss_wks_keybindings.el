@@ -20,6 +20,10 @@
   (wks-define-key
    conf-mode-map ""
    '(("<RET>" . weiss-deactivate-mark-and-new-line)))
+
+  (wks-define-key
+   conf-toml-mode-map ""
+   '(("<tab>" . save-buffer)))
   )
 
 (with-eval-after-load 'nxml-mode

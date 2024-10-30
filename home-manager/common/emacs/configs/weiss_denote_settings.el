@@ -3,7 +3,7 @@
 (setq
  denote-directory weiss/notes-dir
  denote-prompts '(subdirectory title signature keywords)
- denote-rename-buffer-format "%t %s"
+ denote-rename-buffer-format "%t %s" 
  denote-backlinks-show-context t
  denote-org-extras-dblock-file-contents-separator "\n⠊⠊⠊⠊⠊⠊⠊⠊⠊⠊⠊⠊⠊⠊⠊⠊⠊⠊⠊⠊⠊⠊⠊⠊⠊⠊⠊⠊⠊⠊⠊⠊⠊⠊⠊⠊⠊⠊⠊⠊⠊⠊⠊⠊⠊⠊\n"
  denote-excluded-directories-regexp "ltximg"

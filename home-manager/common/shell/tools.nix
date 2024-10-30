@@ -1,5 +1,13 @@
-{ config, myEnv, secrets, lib, pkgs, ... }:
-with myEnv; {
+{
+  config,
+  myEnv,
+  secrets,
+  lib,
+  pkgs,
+  ...
+}:
+with myEnv;
+{
   programs = {
     bat.enable = false;
     atuin = {
@@ -7,12 +15,14 @@ with myEnv; {
       enableZshIntegration = true;
       enableNushellIntegration = true;
       flags = [ "--disable-up-arrow" ];
-      settings = { auto_sync = true; };
+      settings = {
+        auto_sync = true;
+      };
     };
     carapace = {
       enable = true;
       enableZshIntegration = true;
-      enableNushellIntegration = true;
+      enableNushellIntegration = false; # I am using multiple completors
     };
     broot = {
       enable = false;
@@ -39,7 +49,7 @@ with myEnv; {
       enableZshIntegration = true;
     };
     fzf.enable = true;
-    jq.enable = true;
+    jq.enable = false;
   };
   services.gpg-agent = {
     enableNushellIntegration = true;

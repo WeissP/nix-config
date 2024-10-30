@@ -36,10 +36,10 @@
 
   (with-eval-after-load 'comint
     (setq-mode-local
-     comint-mode
+     comint-mode 
      completion-at-point-functions '(pcomplete-completions-at-point cape-dict t))
     (setq-mode-local
-     org-mode
+     comint-mode
      corfu-auto-prefix 3)
     )
 

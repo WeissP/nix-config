@@ -208,6 +208,23 @@ in
       recipes = mkOption {
         description = "recipes";
         default = {
+          consult-omni = {
+            emacsPackages = [
+              "consult-omni"
+            ];
+            localPackages =
+              let
+                src = pkgs.fetchFromGitHub {
+                  owner = "armindarvish";
+                  repo = "consult-omni";
+                  rev = version;
+                  hash = "sha256-x5rNTNEDLoHzIlA1y+VsQ+Y0Pa1QXbybt2rIUBJ+VtM=";
+                };
+              in
+              {
+                consult-omni-sources = "${src}/sources";
+              };
+          };
           aider = {
             emacsPackages = [ "aider" ];
             externalPackages = [
@@ -215,7 +232,6 @@ in
               # pkgs.aider-chat 
             ];
           };
-
           gptel = {
             emacsPackages = [
               "gptel"
@@ -659,6 +675,14 @@ in
             inherit (pkgs) fetchFromGitHub;
             deps = with final; {
               inherit transient helm;
+            };
+          };
+
+          consult-omni = pkgs.callPackage ./packages/consult-omni.nix {
+            inherit (final) trivialBuild;
+            inherit (pkgs) fetchFromGitHub;
+            deps = with final; {
+              inherit consult embark;
             };
           };
 

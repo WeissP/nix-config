@@ -55,19 +55,19 @@ in {
     home.packages = [ pkgs.recentf ];
     systemd.user = {
       services."ensure-recentf-db" = myEnv.ensurePsqlDb "recentf";
-      # services.recentf-clean = {
-      #   Unit.Description = "clean unexists recent files";
-      #   Service = { ExecStart = "${pkgs.recentf.outPath}/bin/recentf clean"; };
-      # };
-      # timers.recentf-clean = {
-      #   Unit.Description = "clean unexists recent files";
-      #   Timer = {
-      #     OnBootSec = "5s";
-      #     OnUnitActiveSec = cfg.cleanFreq;
-      #     Unit = "webman-cli-provider.service";
-      #   };
-      #   Install = { WantedBy = [ "timers.target" ]; };
-      # };
+      services.recentf-clean = {
+        Unit.Description = "clean unexists recent files";
+        Service = { ExecStart = "${pkgs.recentf.outPath}/bin/recentf clean"; };
+      };
+      timers.recentf-clean = {
+        Unit.Description = "clean unexists recent files";
+        Timer = {
+          OnBootSec = "5s";
+          OnUnitActiveSec = cfg.cleanFreq;
+          Unit = "webman-cli-provider.service";
+        };
+        Install = { WantedBy = [ "timers.target" ]; };
+      };
     };
   };
 }

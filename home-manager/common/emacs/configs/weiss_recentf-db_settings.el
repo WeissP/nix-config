@@ -5,13 +5,13 @@
   (interactive)
   (ignore-errors
     (call-process
-       recentf-executable
-       nil
-       0
-       t
-       "add"
-       (expand-file-name filename)
-       ))  
+     recentf-executable
+     nil
+     0
+     t
+     "add"
+     (expand-file-name filename)
+     ))  
   )
 
 (defun weiss-delete-file-advice (l arg &optional trash)

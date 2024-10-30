@@ -21,6 +21,7 @@
     "DOCSTRING"
     (interactive)
     (org-noter-insert-precise-note-toggle-no-questions t)
+    (other-window 1)
     )
   )
 

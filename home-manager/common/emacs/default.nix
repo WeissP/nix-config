@@ -235,6 +235,7 @@ in
             "marginalia"
             [
               "consult"
+              "consult-omni"
               "consult-tramp"
             ]
             "dabbrev"
@@ -245,6 +246,7 @@ in
             ]
           ];
           lang = [
+            "git-modes"
             "protobuf-mode"
             [
               "scala-mode"
@@ -293,9 +295,10 @@ in
               ]
             ]
             [
-              "sql" # "ejc-sql"
+              "sql"
+              "ejc-sql"
               "sql-indent"
-
+              "emacsql"
             ]
             [
               "haskell-mode"
@@ -344,8 +347,8 @@ in
             "mathpix"
             "direnv"
             "project"
-            # "recentf-db"
-            "recentf"
+            "recentf-db"
+            # "recentf"
             "rg"
             "which-key"
             "super-save"

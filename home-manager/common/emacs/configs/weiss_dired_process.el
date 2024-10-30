@@ -13,7 +13,7 @@
         (dolist (x marked-files)
           (let ((file-paths (split-string x ":")))
             (weiss-start-process "rsync-ssh"
-                                 (format "rsync -PaAXv -e ssh \"%s:%s\" %s"
+                                 (format "rsync -PaAXv -e ssh \"%s:%s\" \"%s\""
                                          (nth 1 file-paths)
                                          (nth 2 file-paths)
                                          target-path)))))
@@ -21,7 +21,7 @@
         (dolist (x marked-files)
           (let ((target-paths (split-string target-path ":")))
             (weiss-start-process "rsync-ssh"
-                                 (format "rsync -PaAXv -e ssh %s \"%s:%s\""
+                                 (format "rsync -PaAXv -e ssh \"%s\" \"%s:%s\""
                                          x
                                          (nth 1 target-paths)
                                          (nth 2 target-paths)
@@ -30,7 +30,7 @@
         (dolist (x marked-files)
           (let ((file-paths (split-string x ":")))
             (weiss-start-process "copy-from-docker"
-                                 (format "docker cp \"%s:%s\" %s"
+                                 (format "docker cp \"%s:%s\" \"%s\""
                                          (nth 1 file-paths)
                                          (nth 2 file-paths)
                                          target-path)))))
@@ -46,7 +46,7 @@
                                          docker-path)))))
        (t
         (weiss-start-process "rsync"
-                             (format "rsync -PaAXv %s %s"
+                             (format "rsync -PaAXv %s \"%s\""
                                      (format "\"%s\""
                                              (mapconcat 'identity marked-files "\" \""))
                                      target-path))))))
