@@ -32,7 +32,7 @@ with myEnv;
     direnv = {
       enable = true;
       enableZshIntegration = true;
-      enableNushellIntegration = true;
+      enableNushellIntegration = false; # outdated
     };
     zoxide = {
       enable = true;

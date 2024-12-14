@@ -2,7 +2,7 @@
 
 (setq
  denote-directory weiss/notes-dir
- denote-prompts '(subdirectory title signature keywords)
+ denote-prompts '(title keywords)
  denote-rename-buffer-format "%t %s" 
  denote-backlinks-show-context t
  denote-org-extras-dblock-file-contents-separator "\n⠊⠊⠊⠊⠊⠊⠊⠊⠊⠊⠊⠊⠊⠊⠊⠊⠊⠊⠊⠊⠊⠊⠊⠊⠊⠊⠊⠊⠊⠊⠊⠊⠊⠊⠊⠊⠊⠊⠊⠊⠊⠊⠊⠊⠊⠊\n"
@@ -14,7 +14,7 @@
                                 (seq (* anychar) ".bib")
                                 (seq (* anychar) ".bbl")
                                 )) 
- denote-rename-no-confirm t 
+ denote-rename-confirmations nil 
  )
 
 (defun denote--dir (&rest segs)
@@ -40,9 +40,16 @@
   (with-eval-after-load 'org
     (require 'denote-org-extras)
     (require 'denote-journal-extras)
+
+    (defun weiss-denote--after-dblock (&rest args)
+      "DOCSTRING"
+      (call-interactively 'org-latex-preview)
+      )
+    (advice-add 'org-dblock-write:denote-files :after #'weiss-denote--after-dblock)
     )
 
   (defun weiss-denote-pdf-note (&rest additional-keywords)
+
     "DOCSTRING"
     (interactive)
     (call-interactively 'org-store-link)
@@ -108,21 +115,19 @@
             (indent-region beginning-of-contents (point-max) 2)))
         (buffer-string))))
   (advice-add 'denote-org-extras-dblock--get-file-contents :override #'weiss-denote-org-dblock--get-file-contents)
-  ;; (advice-remove 'denote-org-extras-dblock--get-file-contents #'weiss-denote-org-dblock--get-file-contents)
 
-  
   (defun weiss-denote-journal-setup ()
     (interactive)
     (call-interactively 'weiss-enable-rime)
     (wks-vanilla-mode-enable)
     )
-
+  (add-to-list 'denote-templates '(journal . ""))
   (add-hook 'denote-journal-extras-hook #'weiss-denote-journal-setup)
 
   (defun weiss-denote--rename-buffer-service (&rest args)
     (denote-rename-buffer-rename-function-or-fallback))
 
-  (advice-add 'denote--rename-buffer :after #'weiss-denote--rename-buffer-service)
+  ;; (advice-add 'denote--rename-buffer :after #'weiss-denote--rename-buffer-service)
   )
 
 

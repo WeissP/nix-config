@@ -29,11 +29,13 @@
                   "https://cache.iog.io"
                 ];
                 trusted-substituters = [
+                  "https://weiss.cachix.org"
                   "https://nix-community.cachix.org"
                   "https://cache.nixos.org/"
                   "https://cache.iog.io"
                 ];
                 trusted-public-keys = [
+                  "weiss.cachix.org-1:2IzFIzVwv8/iIrmz319mWB0KDqGl16eoNF67eX1YNdo="
                   "nix-community.cachix.org-1:mB9FSh9qf2dCimDSUo8Zy7bkq5CX+/rkCWyvRCYg3Fs="
                   "cache.nixos.org-1:6NCHdD59X431o0gWypbMrAURkbJ16ZPMQFGspcDShjY="
                   "sylvorg.cachix.org-1:xd1jb7cDkzX+D+Wqt6TemzkJH9u9esXEFu1yaR9p8H8="
@@ -89,10 +91,14 @@
           overlays = [
             outputs.overlays.additions
             outputs.overlays.modifications
-            outputs.overlays.weissNur
             outputs.overlays.lts
             outputs.overlays.pinnedUnstables
             (import inputs.emacs-overlay)
+            # (import (
+            #   builtins.fetchTarball {
+            #     url = "https://github.com/nix-community/emacs-overlay/archive/87e8ffccb53aa67dfaab7bd4fd9f27b543e73cec.tar.gz";
+            #   }
+            # ))
           ];
           config = {
             allowUnfree = true;
@@ -114,6 +120,15 @@
             ];
           })
         ];
+
+        # programs = {
+        #   gnupg = {
+        #     agent = {
+        #       enable = true;
+        #       pinentryPackage = pkgs.pinentry-gnome3;
+        #     };
+        #   };
+        # };
 
         services = mkMerge [
           { }
@@ -138,6 +153,7 @@
           systemPackages = with pkgs; [
             vim
             git
+            lsof
           ];
         };
 

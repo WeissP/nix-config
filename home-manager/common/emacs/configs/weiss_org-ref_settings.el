@@ -1,6 +1,6 @@
-(with-eval-after-load 'org
-  (require 'org-ref)
-  )
+;; (with-eval-after-load 'org
+;;   (require 'org-ref)
+;;   )
 
 (with-eval-after-load 'org-ref
   (defun weiss-org-ref-insert-labels (label)

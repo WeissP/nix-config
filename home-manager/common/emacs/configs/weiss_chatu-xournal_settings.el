@@ -1,4 +1,4 @@
-(with-eval-after-load 'chatu-xournal
+(with-eval-after-load 'chatu-xournal 
   (defun weiss-new-xournal ()
     "DOCSTRING"
     (interactive)

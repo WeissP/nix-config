@@ -3,9 +3,6 @@
 {
   # This one brings our custom packages from the 'pkgs' directory
   additions = final: _prev: { additions = import ../pkgs { pkgs = final; }; };
-  weissNur = final: prev: {
-    weissNur = inputs.weissNur.packages."${prev.system}";
-  };
 
   # This one contains whatever you want to overlay
   # You can change versions, add patches, set compilation flags, anything really.
@@ -16,6 +13,7 @@
     weissXmonad = inputs.weissXmonad.packages."${prev.system}".default;
     ripgrep-all = inputs.nixpkgs-lts.legacyPackages."${prev.system}".ripgrep-all;
     hledger-importer = inputs.hledger-importer.packages."${prev.system}".default;
+    nix-alien = inputs.nix-alien.packages."${prev.system}".default;
     # tdlib = tdlib180.tdlib;
     # example = prev.example.overrideAttrs (oldAttrs: rec {
     # ...
@@ -65,7 +63,7 @@
           (final.fetchFromGitHub {
             owner = "NixOS";
             repo = "nixpkgs";
-            rev = "e29ea571a3f9f1f906b41cfcb7c9f955419ea15a"; 
+            rev = "e29ea571a3f9f1f906b41cfcb7c9f955419ea15a";
             sha256 = "sha256-erk1S1nEVFSbrQs8UHvJYht76KUp1IdTpzRj+P+Xuww=";
           })
           {
@@ -107,4 +105,5 @@
       config.allowUnfree = true;
     };
   };
+
 }

@@ -89,30 +89,30 @@ in
   };
 
   systemd.user = {
-    services."download-channels-videos" = {
-      Unit.Description = "download channels videos";
-      Service = {
-        ExecStart = "${channelCfgDir}/download_videos.sh";
-      };
-    };
-    timers."download-channels-videos" = {
-      Unit.Description = "trigger download channels videos service";
-      Timer = {
-        OnCalendar = [
-          "*-*-* 03:30:00 Europe/Berlin"
-          "*-*-* 12:30:00 Europe/Berlin"
-          "*-*-* 13:00:00 Europe/Berlin"
-          "*-*-* 13:30:00 Europe/Berlin"
-          "*-*-* 14:01:00 Europe/Berlin"
-          "*-*-* 14:05:00 Europe/Berlin"
-          "*-*-* 14:10:00 Europe/Berlin"
-        ];
-        Unit = "download-channels-videos.service";
-      };
-      Install = {
-        WantedBy = [ "timers.target" ];
-      };
-    };
+    # services."download-channels-videos" = {
+    #   Unit.Description = "download channels videos";
+    #   Service = {
+    #     ExecStart = "${channelCfgDir}/download_videos.sh";
+    #   };
+    # };
+    # timers."download-channels-videos" = {
+    #   Unit.Description = "trigger download channels videos service";
+    #   Timer = {
+    #     OnCalendar = [
+    #       "*-*-* 03:30:00 Europe/Berlin"
+    #       "*-*-* 12:30:00 Europe/Berlin"
+    #       "*-*-* 13:00:00 Europe/Berlin"
+    #       "*-*-* 13:30:00 Europe/Berlin"
+    #       "*-*-* 14:01:00 Europe/Berlin"
+    #       "*-*-* 14:05:00 Europe/Berlin"
+    #       "*-*-* 14:10:00 Europe/Berlin"
+    #     ];
+    #     Unit = "download-channels-videos.service";
+    #   };
+    #   Install = {
+    #     WantedBy = [ "timers.target" ];
+    #   };
+    # };
     services."download-channels-audios" = {
       Unit.Description = "download channels audios";
       Service = {

@@ -1,5 +1,6 @@
 ## Specify the model to use for the main chat
-deepseek: true
+deepseek: false
+sonnet: true
 
 ## Specify the .env file to load (default: .env in git root)
 env-file: "/home/weiss/.config/aider/aider.env"

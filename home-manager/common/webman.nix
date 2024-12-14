@@ -129,9 +129,16 @@
           nodeName = "Desktop";
           cli = {
             provider.browsers = {
-              vivaldi.browser = "Vivaldi";
-              chromium.browser = "Chromium";
-              firefox.browser = "Firefox";
+              # vivaldi.browser = "Vivaldi";
+              # chromium.browser = "Chromium";
+              floorp = {
+                browser = "Floorp";
+                location = "${homeDir}/.floorp/9zfvq2bx.default/places.sqlite";
+              };
+              firefox = {
+                browser = "Firefox";
+                location = "${homeDir}/.mozilla/firefox/oqbprr8u.default/places.sqlite";
+              };
             };
             logLevel = "info";
             target = "RaspberryPi";

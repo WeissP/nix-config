@@ -41,13 +41,14 @@
                       filepath
                       "--stdout"))
         apheleia-formatters)    
-  (push '(zprint . ("zprint")) apheleia-formatters)    
+  (push '(zprint . ("zprint" "{:search-config? true}")) apheleia-formatters)    
   ;; (push '(nufmt . ("nufmt" file)) apheleia-formatters)    
   (push '(xmlstarlet . ("xmlstarlet" "format" "--indent-tab")) apheleia-formatters)    
   (push '(rustfmt . ("rustfmt" "--quiet" "--emit" "stdout")) apheleia-formatters)
   (push '(fourmolu . ("fourmolu" "--stdin-input-file" (or (buffer-file-name) (buffer-name)))) apheleia-formatters)
   (push '(cabal-fmt . ("cabal-fmt")) apheleia-formatters)
   (push '(taplo . ("taplo" "fmt" "-")) apheleia-formatters)
+  (push '(bibtex-tidy . ("bibtex-tidy" "--merge" "combine" "--blank-lines")) apheleia-formatters)
 
   ;; (push '(nushell-mode . nufmt) apheleia-mode-alist)
   (push '(scala-mode . scalafmt) apheleia-mode-alist)
@@ -56,6 +57,7 @@
   (push '(clojurescript-mode . zprint) apheleia-mode-alist)
   (push '(clojure-mode . zprint) apheleia-mode-alist)
   (push '(nxml-mode . xmlstarlet) apheleia-mode-alist)
+  (push '(bibtex-mode . bibtex-tidy) apheleia-mode-alist)
 
   (with-eval-after-load 'conf-mode
     (push '(conf-toml-mode . taplo) apheleia-mode-alist)

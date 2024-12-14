@@ -8,24 +8,44 @@
 }:
 with myEnv;
 let
+  relayCfg = rec {
+    port = 22067;
+    statusPort = 22070;
+    id = "DCJGVXZ-24YYWZH-PKMUADC-ZNXQPSR-R5TNJAC-WIPWXPV-TMGXAIX-5CFKEAA";
+    token = secrets.syncthing.relayToken;
+    address = "relay://${secrets.nodes.Vultr.publicIp}:${toString port}?id=${id}&token=${token}";
+  };
+
+  localAddress = [
+    "tcp://0.0.0.0:22000"
+    "quic://0.0.0.0:22000"
+  ];
+  globalAddress = [
+    "tcp://0.0.0.0:22000"
+    "quic://0.0.0.0:22000"
+    relayCfg.address
+    "dynamic"
+  ];
   devices = {
     "Desktop" = {
       id = "MCEQ2JV-HSSFYQ7-T7ON2HM-UBJWV7W-P5QT6HP-HKGGKVR-FHKBVWX-XGG2IQN";
+      address = localAddress;
     };
     "iPhone" = {
       id = "TSQCB54-DQ2ZASG-4U32JBR-A267D5W-GR5IHYJ-KGOMAHA-P63BVR4-YGSI6AC";
+      address = globalAddress;
     };
     "Mac-Air" = {
       id = "E46SRGL-J6RDKHH-2VF5O4X-6SMS2XY-CHFJUXB-DGLWXYW-ZZTMZAS-PAIZ5A4";
+      address = globalAddress;
     };
     "iPad-mini" = {
       id = "SEGAQMH-FLWY4KU-DSDIHJ6-MZLFJEM-ROC4QGI-OXML6AB-QHKCC4X-INQILAG";
+      address = globalAddress;
     };
     "Raspberrypi" = {
       id = "75A5Z5M-PTQ65XJ-4PHURBD-DCLT4TD-4HST4NK-5MVCW4A-QZA6VDR-3EW75QC";
-    };
-    "Vultr" = {
-      id = "WSH7JRH-IIQBXKZ-PERK242-RC2EH6N-BFXAVUG-WFZP5HE-LTVAVTU-QQXJUQH";
+      address = globalAddress;
     };
   };
   nodeInfo = secrets.nodes."${configSession}";
@@ -37,13 +57,12 @@ if (configSession == "Vultr") then
       22070
     ];
     services.syncthing = {
-      relay = {
+      relay = with relayCfg; {
+        inherit port statusPort;
         enable = true;
         providedBy = "my private relay server";
-        port = 22067;
-        statusPort = 22070;
         pools = [ ''""'' ];
-        extraOptions = [ "--token=${secrets.syncthing.relayToken}" ];
+        extraOptions = [ "--token=${token}" ];
       };
     };
   }
@@ -69,14 +88,16 @@ else
                     "Mac-Air"
                     "iPad-mini"
                   ]
+                else if (configSession == "Bozhous-Air") then
+                  [
+                    "iPhone"
+                    "iPad-mini"
+                  ]
                 else
                   [ "Raspberrypi" ];
               genPath =
                 name:
-                if (configSession == "RaspberryPi") then
-                  "${homeDir}/syncthing/${name}"
-                else
-                  "${homeDir}/${name}";
+                if (configSession == "RaspberryPi") then "${homeDir}/syncthing/${name}" else "${homeDir}/${name}";
             in
             lib.mkMerge [
               {
@@ -115,8 +136,11 @@ else
         };
       };
     })
-    (ifServer {
-      networking.firewall.allowedTCPPorts = [ 8384 ];
+    (ifLocalServer {
+      networking.firewall.allowedTCPPorts = [
+        8384
+        22000
+      ];
       services.syncthing = {
         guiAddress = "${nodeInfo.localIp}:8384";
         settings.gui = {

@@ -358,19 +358,22 @@ Delete the original subtree."
 
     (defun weiss-denote-link-format-heading-description (file-text heading-text)
       "Return description for FILE-TEXT with HEADING-TEXT at the end."
+      (when (s-contains? "]"  heading-text)
+        (setq heading-text (read-string "heading text: " heading-text))
+        )
       (completing-read
        "Choose link description format: "
        (list heading-text (format "%s::%s" file-text heading-text) file-text)
        )
       )
-    (advice-add 'denote-link-format-heading-description :override #'weiss-denote-link-format-heading-description)
+    ;; (advice-add 'denote-link-format-heading-description :override #'weiss-denote-link-format-heading-description)
 
     (defun weiss-denote-consult-link ()
-      "DOCSTRING"
+      "DOCSTRING" 
       (interactive)
       (if current-prefix-arg 
           (call-interactively 'denote-org-extras-link-to-heading)
-        (call-interactively 'weiss-denote-consult-link-notes)
+        (call-interactively 'denote-insert-link)
         )
       )
 
@@ -389,7 +392,7 @@ Delete the original subtree."
         (expand-file-name (car returned) denote-directory)      
         )
       )
-    (advice-add 'denote-file-prompt :override #'weiss-denote-file-prompt)
+    ;; (advice-add 'denote-file-prompt :override #'weiss-denote-file-prompt)
     )
   )
 

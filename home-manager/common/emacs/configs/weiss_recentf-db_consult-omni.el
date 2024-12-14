@@ -1,4 +1,4 @@
-(with-eval-after-load 'consult-omni
+(with-eval-after-load 'consult-omni-sources
   (setq
    consult-omni-recentf-db-args (list recentf-executable "search")
    )
@@ -21,14 +21,19 @@
               (file (denote--command-with-features #'denote nil nil t nil)))
         (consult-omni-propertize-by-plist string `(:title ,string :source "Notes Search" :url nil :search-url nil :query ,string :file ,(file-truename file)))))
   
+  (defun consult-omni--recentf-db-filter (candidates &optional query)
+    (seq-filter #'s-present? candidates)
+    )
+  
   (consult-omni-define-source
    "recentf-db"
-   :narrow-char ?n 
+   :narrow-char ?r
    :category 'file
    :type 'async
    :require-match t 
    :face 'consult-omni-engine-title-face
    :request #'consult-omni--recentf-db-builder
+   :filter #'consult-omni--recentf-db-filter
    :on-preview #'consult-omni--recentf-db-preview
    :on-return #'identity
    :on-callback #'consult-omni--recentf-db-callback
@@ -40,8 +45,10 @@
    :interactive consult-omni-intereactive-commands-type
    :enabled (lambda () (bound-and-true-p recentf-executable))
    :annotate nil)
+
+  (add-to-list 'consult-omni-multi-sources "recentf-db")
   )
- 
-(add-to-list 'consult-omni-multi-sources "recentf-db")
+
+
 
 (provide 'weiss_recentf-db_consult-omni)

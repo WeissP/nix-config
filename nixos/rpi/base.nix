@@ -6,7 +6,10 @@
   ...
 }:
 {
-  imports = [ inputs.raspberry-pi-nix.nixosModules.raspberry-pi ];
+  imports = [
+    inputs.raspberry-pi-nix.nixosModules.raspberry-pi
+    inputs.raspberry-pi-nix.nixosModules.sd-image
+  ];
 
   # bcm2711 for rpi 3, 3+, 4, zero 2 w
   # bcm2712 for rpi 5
@@ -14,23 +17,30 @@
   # https://www.raspberrypi.com/documentation/computers/linux_kernel.html#native-build-configuration
   raspberry-pi-nix.board = "bcm2711";
   boot.initrd.systemd.tpm2.enable = false;
-  # hardware = {
-  #   bluetooth.enable = false;
-  #   raspberry-pi = {
-  #     config = {
-  #       all = {
-  #         base-dt-params = {
-  #           # enable autoprobing of bluetooth driver
-  #           # https://github.com/raspberrypi/linux/blob/c8c99191e1419062ac8b668956d19e788865912a/arch/arm/boot/dts/overlays/README#L222-L224
-  #           krnbt = {
-  #             enable = true;
-  #             value = "on";
-  #           };
-  #         };
-  #       };
-  #     };
-  #   };
-  # };
+  hardware = {
+    raspberry-pi = {
+      config = {
+        all = {
+          base-dt-params = {
+            BOOT_UART = {
+              value = 1;
+              enable = true;
+            };
+            uart_2ndstage = {
+              value = 1;
+              enable = true;
+            };
+          };
+          dt-overlays = {
+            disable-bt = {
+              enable = true;
+              params = { };
+            };
+          };
+        };
+      };
+    };
+  };
   system.stateVersion = "24.11";
 }
 # {

@@ -15,7 +15,6 @@ with myEnv; {
     overlays = [
       outputs.overlays.additions
       outputs.overlays.modifications
-      outputs.overlays.weissNur
       outputs.overlays.lts
     ];
     config = {

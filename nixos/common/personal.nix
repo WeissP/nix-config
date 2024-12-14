@@ -21,6 +21,7 @@ with myEnv;
     ./zsh.nix
     ./uxplay.nix
     ./sunshine.nix
+    ./fonts.nix
   ];
 
   networking = {
@@ -63,13 +64,12 @@ with myEnv;
         export PATH=$PATH:${scriptsDir}
         sh $HOME/.screenlayout/desktop.sh &
         sh mouse_scroll.sh &
-        firefox &
+        floorp &
         xbindkeys &
         pasystray &
         pueued &
         pueue add -i xsettingsd &
         Exec=GTK_IM_MODULE= QT_IM_MODULE= XMODIFIERS= emacs &
-        aria2c &
         sh mapwacom.sh --device-regex ".*Wacom.*" -s "DisplayPort-0" &
       '';
     };
@@ -91,6 +91,7 @@ with myEnv;
     shells = [ pkgs.zsh ];
     pathsToLink = [ "/share/zsh" ];
     systemPackages = with pkgs; [
+      protontricks
       git-crypt
       ripgrep
       cachix
@@ -99,13 +100,14 @@ with myEnv;
       locale
       unzip
       zip
-      v2ray
       pavucontrol
       xdotool
       wezterm
       babashka
       udisks
-      config.nur.repos.xddxdd.wechat-uos-bin
+      xdg-user-dirs
+      # config.nur.repos.novel2430.wechat-universal-bwrap
+      # config.nur.repos.pokon548.wechat-uos
     ];
   };
 
@@ -121,64 +123,5 @@ with myEnv;
     enable = true;
     storageDriver = "btrfs";
   };
-
-  fonts = mkMerge [
-    {
-      fontDir.enable = true;
-      packages =
-        with pkgs;
-        let
-          mkFont = callPackage myLib.mkFont { };
-        in
-        [
-          mplus-outline-fonts.githubRelease
-          (mkFont "florencesans-sc" "florencesans-sc.zip")
-          (mkFont "monolisa" "monolisa.zip")
-          route159
-          noto-fonts
-          noto-fonts-cjk-sans
-          noto-fonts-emoji
-          stix-two
-          liberation_ttf
-          fira-code
-          fira-code-symbols
-          (nerdfonts.override { fonts = [ "FiraCode" ]; })
-          mplus-outline-fonts.githubRelease
-          dina-font
-          source-code-pro
-          source-han-sans
-          source-han-serif
-          lato
-          jetbrains-mono
-          cascadia-code
-          sarasa-gothic
-          emacs-all-the-icons-fonts
-          wqy_microhei
-          wqy_zenhei
-        ];
-    }
-    (ifLinux {
-      fontconfig = {
-        defaultFonts = {
-          emoji = [ "Noto Color Emoji" ];
-          monospace = [
-            "Noto Sans Mono CJK SC"
-            "Sarasa Mono SC"
-            "DejaVu Sans Mono"
-          ];
-          sansSerif = [
-            "Noto Sans CJK SC"
-            "Source Han Sans SC"
-            "DejaVu Sans"
-          ];
-          serif = [
-            "Noto Serif CJK SC"
-            "Source Han Serif SC"
-            "DejaVu Serif"
-          ];
-        };
-      };
-    })
-  ];
 
 }

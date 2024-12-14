@@ -4,6 +4,9 @@
  '(("d a" .  weiss-custom-daily-agenda)
    ("d t" .  org-todo-list)))
 
+(defvar wks-org-extra-keymap (make-keymap "wks org extra keymap"))
+(define-prefix-command 'wks-org-extra-keymap-command 'wks-org-extra-keymap)
+ 
 (with-eval-after-load 'org
   
   (defun weiss-org-return ()
@@ -55,10 +58,17 @@
      ("y <tab>" . org-table-toggle-column-width)
      ("y j s" . weiss-org-copy-heading-link)
      ;; ("C-c C-j e" . (weiss-emoji-insert (emoji-insert) (wks-vanilla-mode-enable)))
-     ("C-c C-j e" . emoji-insert)
+     ("C-c C-j" . wks-org-extra-keymap-command)
      ;; ("<f5>" . org-beamer-export-to-pdf)
 
      ("<end> <escape>" . (quick-insert-insert-org (quick-insert-consult "org source code")))))
+
+  (wks-define-key
+   wks-org-extra-keymap
+   ""
+   '(
+     ("e" . emoji-insert)
+     ))
   )
 
 (with-eval-after-load 'org-agenda

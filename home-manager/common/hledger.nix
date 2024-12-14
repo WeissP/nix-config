@@ -1,12 +1,23 @@
-{ pkgs, myEnv, myLib, lib, ... }:
+{
+  pkgs,
+  myEnv,
+  myLib,
+  lib,
+  ...
+}:
 let
   LEDGER_DIR = "${myEnv.financeDir}/journals";
   LEDGER_FILE = "${LEDGER_DIR}/main.journal";
-  LEDGER_HELPER_RULE_PATH =
-    "${myEnv.homeDir}/Documents/notes/misc/notes/20240114T174325--hledger-config__hledger.org";
-in {
+  LEDGER_HELPER_RULE_PATH = "${myEnv.homeDir}/Documents/notes/20240114T174325--hledger-config__hledger.org";
+in
+{
   home = {
-    packages = with pkgs; [ hledger hledger-importer hledger-ui hledger-web ];
+    packages = with pkgs; [
+      hledger
+      hledger-importer
+      hledger-ui
+      hledger-web
+    ];
     sessionVariables = {
       inherit LEDGER_DIR LEDGER_FILE LEDGER_HELPER_RULE_PATH;
     };
@@ -16,16 +27,13 @@ in {
     services = {
       hledger-web = myLib.service.startup {
         cmds = "${pkgs.hledger-web}/bin/hledger-web";
-        Environment =
-          "LEDGER_DIR=${LEDGER_DIR} LEDGER_FILE=${LEDGER_FILE} LEDGER_HELPER_RULE_PATH=${LEDGER_HELPER_RULE_PATH}";
+        Environment = "LEDGER_DIR=${LEDGER_DIR} LEDGER_FILE=${LEDGER_FILE} LEDGER_HELPER_RULE_PATH=${LEDGER_HELPER_RULE_PATH}";
       };
       hledger-importer = {
         Unit.Description = "importing hledger records";
         Service = {
-          Environment =
-            "LEDGER_DIR=${LEDGER_DIR} LEDGER_FILE=${LEDGER_FILE} LEDGER_HELPER_RULE_PATH=${LEDGER_HELPER_RULE_PATH} PATH=${pkgs.pass}/bin";
-          ExecStart =
-            "${pkgs.hledger-importer}/bin/hledger-importer --download --import -a Paypal -a Hand --import-to-journal";
+          Environment = "LEDGER_DIR=${LEDGER_DIR} LEDGER_FILE=${LEDGER_FILE} LEDGER_HELPER_RULE_PATH=${LEDGER_HELPER_RULE_PATH} PATH=${pkgs.pass}/bin";
+          ExecStart = "${pkgs.hledger-importer}/bin/hledger-importer --download --import -a Paypal -a Hand --import-to-journal";
         };
       };
     };
@@ -37,7 +45,9 @@ in {
           Persistent = true;
           Unit = "hledger-importer.service";
         };
-        Install = { WantedBy = [ "timers.target" ]; };
+        Install = {
+          WantedBy = [ "timers.target" ];
+        };
       };
     };
   };

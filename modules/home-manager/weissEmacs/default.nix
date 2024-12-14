@@ -5,6 +5,7 @@
   secrets,
   myEnv,
   config,
+  remoteFiles,
   ...
 }:
 with lib;
@@ -225,11 +226,19 @@ in
                 consult-omni-sources = "${src}/sources";
               };
           };
+          # chatgpt-shell = {
+          #   # emacsPackages = [
+          #   #   "consult-omni"
+          #   # ];
+          #   localPackages = {
+          #     chatgpt-shell = remoteFiles.chatgpt-shell;
+          #   };
+          # };
           aider = {
             emacsPackages = [ "aider" ];
             externalPackages = [
               pkgs.pinnedUnstables."2024-09-16".aider-chat
-              # pkgs.aider-chat 
+              # pkgs.aider-chat
             ];
           };
           gptel = {
@@ -315,7 +324,15 @@ in
           rime =
             if arch == "linux" then
               let
-                pkg = pkgs.weissNur.emacs-rime;
+                pkg = pkgs.callPackage ./packages/emacs-rime.nix {
+                  inherit (pkgs)
+                    fetchFromGitHub
+                    gcc
+                    emacs
+                    librime
+                    stdenv
+                    ;
+                };
               in
               {
                 emacsPackages = [ "rime" ];
@@ -349,7 +366,14 @@ in
               };
           telega =
             let
-              pkg = pkgs.weissNur.telega-server;
+              pkg = pkgs.callPackage ./packages/telega-server.nix {
+                inherit (pkgs)
+                  fetchFromGitHub
+                  pkg-config
+                  stdenv
+                  system
+                  ;
+              };
             in
             {
               cmds = ''(setq telega-server-command "${pkg.outPath}/bin/telega-server")'';
@@ -419,94 +443,6 @@ in
       join = list: lib.strings.concatLines (filter isString (flatten list));
       getConfigs =
         pkg: filter (cfg.isConfigP pkg) (builtins.attrNames (builtins.readDir cfg.emacsConfigPath));
-
-      handleRime = (
-        if arch == "linux" then
-          let
-            pkg = pkgs.weissNur.emacs-rime;
-          in
-          {
-            emacsPackages = [ "rime" ];
-            externalPackages = [ pkg ];
-            cmds = ''
-              (setq rime--module-path "${pkg.outPath}/include/librime-emacs.so")
-              (setq rime-share-data-dir "${homeDir}/.local/share/fcitx5/rime/")
-            '';
-          }
-        else
-          {
-            cmds = ''
-              (setq rime-emacs-module-header-root "${cfg.package.outPath}/include")
-              (setq rime-librime-root "${userEmacsDirectory}/librime/dist")
-              (setq rime-share-data-dir "${homeDir}/Library/Rime/")
-            '';
-            emacsPackages = [ "rime" ];
-            # localPackages."emacs-rime" = pkgs.fetchFromGitHub {
-            #   owner = "DogLooksGood";
-            #   repo = "emacs-rime";
-            #   rev = version;
-            #   hash = "sha256-Z4hGsXwWDXZie/8IALhyoH/eOVfzhbL69OiJlLHmEXw=";
-            # };
-            files."${userEmacsDirectory}/librime" = {
-              source = pkgs.fetchzip {
-                url = "https://github.com/rime/librime/releases/download/1.8.4/rime-a94739f-macOS.tar.bz2";
-                sha256 = "sha256-rxkbiTIC8+i8Zr66lfj6JDFOf4ju8lo3dPP1UDIPC1c=";
-                stripRoot = false;
-              };
-              recursive = true;
-            };
-          }
-      );
-      handleTelega =
-        let
-          pkg = pkgs.weissNur.telega-server;
-        in
-        {
-          cmds = ''(setq telega-server-command "${pkg.outPath}/bin/telega-server")'';
-          externalPackages = [
-            pkg
-            pkgs.ffmpeg
-          ];
-          emacsPackages = [ "telega" ];
-        };
-      handleMindWave =
-        let
-          apiPath = "${localPkgPath}/mind-wave/schluessel.txt";
-        in
-        {
-          cmds = ''
-            (setq mind-wave-python-command "nix-shell")
-            (setq mind-wave-api-key-path "${apiPath}")
-          '';
-          files."${apiPath}".text = secrets.openai.apiKey;
-          localPackages."mind-wave" = pkgs.fetchFromGitHub {
-            owner = "manateelazycat";
-            repo = "mind-wave";
-            rev = "075e5b0c11c8a3f670d2c8ef8dc4e66c6084b958";
-            sha256 = "sha256-avwFsfrbOPWcT/ZLdRVhf8fK3/yUX1S36d4QPqq6meA=";
-            postFetch = ''
-              sed -i -e '1s:^#!/usr/bin/env python3:#! /usr/bin/env nix-shell:' -e '1a #! nix-shell -i python3 -p python3Packages.openai python3Packages.epc python3Packages.sexpdata python3Packages.six' "$out/mind_wave.py"
-            '';
-          };
-        };
-      handleMaxima = {
-        localPackages."maxima" = pkgs.fetchFromGitLab {
-          owner = "sasanidas";
-          repo = "maxima";
-          rev = "1913ee496bb09430e85f76dfadf8ba4d4f95420f";
-          hash = "sha256-PSZlcv48h6ML/HXneH/kZ7gfA3fEwptsI/elCyjGNNY";
-        };
-        externalPackages = with pkgs; [
-          maxima
-          ghostscript
-          gnuplot
-        ];
-      };
-
-      handleEglotJava = {
-        emacsPackages = [ "eglot-java" ];
-        extraPackages = [ pkgs.jdt-language-server ];
-      };
 
       handleLocalPackages = pkg: { localPackages."${pkg}" = ./local-packages + "/${pkg}"; };
       recipes = map (
@@ -662,14 +598,19 @@ in
         enable = true;
         package = cfg.package;
         overrides = prev: final: rec {
-          # clojure-mode =
-          # pkgs.pinnedUnstables."2023-09-27".emacsPackages.clojure-mode;
-          # cider-mode = pkgs.pinnedUnstables."2023-09-27".emacsPackages.cider-mode;
-          # ejc-sql = pkgs.callPackage ./packages/ejc-sql.nix {
-          #   inherit (final) trivialBuild;
-          #   inherit (pkgs) fetchFromGitLab;
-          # };
-          # circadian = pkgs.pinnedUnstables."2024-01-05".emacsPackages.circadian;
+          embark = pkgs.callPackage ./packages/embark.nix {
+            inherit (final) trivialBuild;
+            inherit (pkgs) fetchFromGitHub;
+            deps = with final; {
+              inherit
+                org
+                avy
+                compat
+                consult
+                ;
+            };
+          };
+
           aider = pkgs.callPackage ./packages/aider.nix {
             inherit (final) trivialBuild;
             inherit (pkgs) fetchFromGitHub;

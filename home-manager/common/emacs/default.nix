@@ -100,6 +100,8 @@ in
         citar-denote = [ "citar-denote-open-note" ];
         chatu = [ "chatu-mode" ];
         aider = [ "aider-transient-menu" ];
+        consult-omni = [ "consult-omni-multi" ];
+        embark = [ "embark-act" ];
       };
       eagerLoad = [
         "direnv"
@@ -157,6 +159,8 @@ in
           "ledger-mode"
           "apheleia"
           "string-inflection"
+          "consult-omni"
+          "chatgpt-shell"
         ];
       };
       skipInstall = [
@@ -264,7 +268,9 @@ in
             ]
             [
               "clojure-mode"
+              "clojure-mode-extra-font-locking"
               "cider"
+              "clj-refactor"
             ]
             "typescript-mode"
             [
@@ -329,9 +335,10 @@ in
             "literate-calc-mode"
           ];
           tools = [
-            "khoj"
+            # "khoj"
             # "dogears"
             # "edit-server"
+            # "org-ai"
             [
               "embark"
               "embark-consult"
@@ -373,6 +380,8 @@ in
             [
               "gptel"
               "aider"
+              "chatgpt-shell"
+              "ob-chatgpt-shell"
             ]
             "polymode"
             "tla-tools"
@@ -383,6 +392,7 @@ in
             ]
             [
               "citar"
+              "citar-embark"
               "citar-denote"
               "biblio"
             ]
@@ -498,8 +508,9 @@ in
           test = [
             libs
             core
-            "consult"
-            "vertico"
+            # "citar"
+            # "consult"
+            # "vertico"
             # completion
           ];
         in

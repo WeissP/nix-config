@@ -67,10 +67,15 @@ rec {
     env: with env; rec {
       ifDarwin = optionalAttrs (arch == "darwin");
       ifLinux = optionalAttrs (arch == "linux");
-      ifPersonal = optionalAttrs (usage == "personal");
-      ifServer = optionalAttrs (usage == "server");
-      ifLinuxPersonal = optionalAttrs (arch == "linux" && usage == "personal");
-      ifDarwinPersonal = optionalAttrs (arch == "darwin" && usage == "personal");
+      ifPersonal = optionalAttrs (builtins.elem "personal" usage);
+      ifRemoteServer = optionalAttrs (builtins.elem "remote-server" usage);
+      ifLocalServer = optionalAttrs (builtins.elem "local-server" usage);
+      ifRouter = optionalAttrs (builtins.elem "router" usage);
+      ifServer = optionalAttrs (
+        builtins.elem "local-server" usage || builtins.elem "remote-server" usage
+      );
+      ifLinuxPersonal = optionalAttrs (arch == "linux" && builtins.elem "personal" usage);
+      ifDarwinPersonal = optionalAttrs (arch == "darwin" && builtins.elem "personal" usage);
       username = env.username;
       arch = env.arch;
       usage = env.usage;
@@ -78,6 +83,7 @@ rec {
       nixDir = "${homeDir}/nix-config";
       scriptsDir = "${homeDir}/scripts";
       financeDir = "${homeDir}/finance";
+      singboxCfgDir = "${homeDir}/.config/singbox_config";
       systemBin = binary: if arch == "linux" then "/run/current-system/sw/bin/${binary}" else binary;
       userBin = binary: "/etc/profiles/per-user/${username}/bin/${binary}";
       ensurePsqlDb =

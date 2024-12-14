@@ -113,8 +113,8 @@ in {
         }
       '';
 
-      serviceConfig.KeepAlive = true;
-      serviceConfig.RunAtLoad = true;
+      # serviceConfig.KeepAlive = true;
+      # serviceConfig.RunAtLoad = true;
     };
 
   };

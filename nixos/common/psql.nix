@@ -57,11 +57,11 @@ in {
       ];
     }
     (ifDarwin {
-      launchd.user.agents.postgresql.serviceConfig = {
-        StandardErrorPath =
-          "${homeDir}/.local/share/postgresql/postgres.error.log";
-        StandardOutPath = "${homeDir}/.local/share/postgresql/postgres.out.log";
-      };
+      # launchd.user.agents.postgresql.serviceConfig = {
+      #   StandardErrorPath =
+      #     "${homeDir}/.local/share/postgresql/postgres.error.log";
+      #   StandardOutPath = "${homeDir}/.local/share/postgresql/postgres.out.log";
+      # };
 
       system.activationScripts.preActivation = {
         enable = true;

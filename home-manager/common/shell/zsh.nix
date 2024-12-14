@@ -24,7 +24,7 @@ with myEnv;
           size = 50000;
         };
         zplug = {
-          enable = true;
+          enable = false;
           plugins = [
             { name = "ael-code/zsh-colored-man-pages"; }
             { name = "le0me55i/zsh-extract"; }

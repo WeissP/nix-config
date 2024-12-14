@@ -87,11 +87,15 @@
 
 (setq
  weiss/notes-dir (file-name-as-directory (expand-file-name "~/Documents/notes/"))
- weiss/academic-dir (file-name-as-directory (concat weiss/notes-dir "academic"))
- weiss/academic-documents (file-name-as-directory (concat weiss/academic-dir "documents"))
- weiss/bibs (concat
-             weiss/academic-documents
-             "20240413T081114--bibliography__academic.bib")
+ weiss/academic-dir (file-name-as-directory weiss/notes-dir)
+ weiss/academic-documents (file-name-as-directory (concat weiss/academic-dir "papers"))
+ weiss/bibs (list
+             (concat
+              weiss/academic-documents
+              "20240413T081114--bibliography__academic.bib")
+             (concat
+              weiss/academic-documents
+              "zotero.bib"))
  )
 
 (provide 'weiss_global_user-settings)

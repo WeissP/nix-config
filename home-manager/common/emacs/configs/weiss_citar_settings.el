@@ -1,6 +1,6 @@
 (with-eval-after-load 'citar
   (setq 
-   citar-bibliography (list weiss/bibs)
+   citar-bibliography weiss/bibs
    citar-library-paths (list weiss/academic-documents)
    )
 
@@ -10,12 +10,14 @@
    org-cite-activate-processor 'citar
    )
 
-
-
   (defun weiss-citekey-p (citekey)
     "DOCSTRING"
     (interactive)
     (citar-get-entry citekey))
+
+  (with-eval-after-load 'embark
+    (require 'citar-embark)
+    )
   )
 
 (provide 'weiss_citar_settings)

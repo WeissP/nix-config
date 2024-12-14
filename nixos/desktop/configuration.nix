@@ -7,13 +7,14 @@
   pkgs,
   secrets,
   configSession,
+  remoteFiles,
   ...
 }:
 with myEnv;
 {
   imports = [
     ../common/personal.nix
-    outputs.nixosModules.v2ray
+    ../common/sing-box.nix
   ];
   time.timeZone = "Europe/Berlin";
 
@@ -21,7 +22,7 @@ with myEnv;
   boot.loader.systemd-boot.enable = true;
   boot.loader.efi.canTouchEfiVariables = true;
   boot.initrd.kernelModules = [ "amdgpu" ];
-
+  programs.steam.protontricks.enable = true;
   # This setups a SSH server. Very important if you're setting up a headless system.
   # Feel free to remove if you don't need it.
   services = {
@@ -59,6 +60,10 @@ with myEnv;
       checkReversePath = false;
     };
     hostName = "${username}-${configSession}";
+    # defaultGateway = {
+    #   address = "192.168.0.31";
+    #   interface = "wlo1";
+    # };
   };
 
   virtualisation.docker.enable = true;

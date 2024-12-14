@@ -16,6 +16,19 @@
   (when (fboundp 'password-store-get-field)
     (require 'password-store)
     (setq gptel-api-key (password-store-get-field "openai" "api"))
+    (gptel-make-anthropic "Claude"
+      :stream t                             
+      :key (password-store-get-field "anthropic" "api-key"))
+    )
+ 
+  (gptel-make-privategpt "privateGPT"               ;Any name you want
+    ;; :protocol "http"
+    :host "0.0.0.0:8001"
+    :stream t
+    :context t                            ;Use context provided by embeddings
+    :sources t                            ;Return information about source documents
+    :models '(private-gpt)
+    :header '(("Content-Type" . "application/json"))
     )
   )
 

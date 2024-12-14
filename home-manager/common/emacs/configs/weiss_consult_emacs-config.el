@@ -3,8 +3,8 @@
   (interactive)
   (-map (lambda (s) (s-chop-left 6 s)) 
         (directory-files weiss/configs-dir nil "weiss\_.*el")))
-
-(defun weiss-find-emacs-config (name)
+ 
+(defun weiss-find-emacs-config-short (name)
   "DOCSTRING"
   (interactive)
   (find-file (f-join weiss/configs-dir (concat "weiss_" name)))
@@ -58,7 +58,7 @@
          :name     "emacs-config"
          :category 'emacs-config
          :narrow   ?e
-         :action #'weiss-find-emacs-config
+         :action #'weiss-find-emacs-config-short
          :face     'consult-file
          :new #'weiss-new-emacs-config-file 
          :require-match nil

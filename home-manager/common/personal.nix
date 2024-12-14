@@ -20,11 +20,14 @@
       ./pass.nix
       ./webman.nix
       ./shell
-      ./sioyek.nix
+      ./ripgrep.nix
+      ./browser.nix
     ]
     ++ (
       if myEnv.arch == "linux" then
         [
+
+          ./singboxConfig.nix
           ./hledger.nix
           ./mpv.nix
           ./chromium.nix
@@ -35,6 +38,7 @@
           ./darkman.nix
           ./ariang.nix
           ./aider.nix
+          ./sioyek.nix
         ]
       else
         [ ]
@@ -63,6 +67,7 @@
                 "${homeDir}/.ssh/id_rsa".text = secrets.ssh."163".private;
               };
               packages = with pkgs; [
+                bibtex-tidy
                 wget
                 alacritty
                 unrar
@@ -70,12 +75,10 @@
                 yt-dlp
                 pueue
                 zoom-us
-                ripgrep
                 imagemagick
                 gnumake
                 cmake
                 niv
-                # v2ray
                 # calibre
                 pdfminer
                 anki-bin
@@ -156,7 +159,7 @@
                 #     tcolorbox
                 #     ;
                 #   pkgFilter = pkg: pkg.tlType == "run" || pkg.tlType == "bin" || pkg.pname == "cm-super";
-                #   # elem tlType [ "run" "bin" "doc" "source" ]
+                #   # builtins.elem tlType [ "run" "bin" "doc" "source" ]
                 #   # there are also other attributes: version, name
                 # })
               ];
@@ -170,15 +173,17 @@
                 gtk.enable = true;
               };
               packages = with pkgs; [
-                # pkgs.pinnedUnstables."2024-09-08".python311Packages.private-gpt
-                # additions.private-gpt
+                # nur.repos.xddxdd.wechat-uos-bin
+                qemu
+                nix-alien
+                vdhcoapp
                 taplo
                 sqlite
                 zotero
                 steam
                 jellyfin-media-player
                 lts.calibre
-                jellyfin-mpv-shim
+                pinnedUnstables."2024-09-08".jellyfin-mpv-shim
                 qrencode
                 ripgrep-all
                 black
@@ -187,6 +192,7 @@
                     python-lsp-server
                     matplotlib
                     pygments
+                    seaborn
                   ]
                 ))
                 tree
@@ -194,6 +200,7 @@
                 ssh-copy-id
                 zenith
                 nil
+                nixd
                 docker-compose
                 dua
                 scala-cli
@@ -282,26 +289,14 @@
             nix-direnv.enable = true;
             enableZshIntegration = true;
           };
-          firefox.enable = true;
         };
       }
-      (ifDarwin {
-        programs = {
-          firefox.package = pkgs.firefox-bin;
-        };
-      })
       (ifLinux {
         xdg.mimeApps = {
           enable = true;
           defaultApplications = {
             "application/pdf" = [ "sioyek.desktop" ];
             "image/png" = [ "feh" ];
-            "default-web-browser" = [ "firefox.desktop" ];
-            "text/html" = [ "firefox.desktop" ];
-            "x-scheme-handler/http" = [ "firefox.desktop" ];
-            "x-scheme-handler/https" = [ "firefox.desktop" ];
-            "x-scheme-handler/about" = [ "firefox.desktop" ];
-            "x-scheme-handler/unknown" = [ "firefox.desktop" ];
           };
         };
         systemd.user = {
@@ -322,11 +317,11 @@
                 ExecStart = "${pkgs.xorg.setxkbmap}/bin/setxkbmap -layout de -variant nodeadkeys";
               };
             };
-            start_jellyfin_mpv_shim = startup {
-              cmds = ''
-                ${pkgs.jellyfin-mpv-shim}/bin/jellyfin-mpv-shim
-              '';
-            };
+            # start_jellyfin_mpv_shim = startup {
+            #   cmds = ''
+            #     ${pkgs.jellyfin-mpv-shim}/bin/jellyfin-mpv-shim
+            #   '';
+            # };
           };
           timers = {
             nodeadkeys = {
@@ -356,7 +351,6 @@
           gpg = {
             enable = true;
           };
-          firefox.package = pkgs.firefox.override { nativeMessagingHosts = with pkgs; [ passff-host ]; };
         };
 
         services = {
@@ -371,10 +365,11 @@
               "ignore-scrolling"
             ];
           };
+
           gpg-agent = {
             enable = true;
             maxCacheTtl = 86400; # 24 hours
-            pinentryPackage = pkgs.pinentry-gnome3;
+            pinentryPackage = pkgs.pinentry-qt;
           };
         };
       })

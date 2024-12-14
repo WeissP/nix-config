@@ -17,9 +17,15 @@
   (defun weiss-haskell-hoogle-lookup ()
     "DOCSTRING"
     (interactive)
-    (browse-url (format "http://localhost:%s/?hoogle=%s"
-                        (getenv "HOOGLE_PORT")
-                        (car (hoogle-prompt)))))
+    (haskell-hoogle-start-server)
+    (let ((url (format "http://localhost:%s/?hoogle=%s"
+                       (getenv "HOOGLE_PORT")
+                       (car (hoogle-prompt))))
+          )
+      (message "url: %s" url)
+      (browse-url url)
+      )
+    )
 
 
   (defun weiss-haskell-insert-module-template ()

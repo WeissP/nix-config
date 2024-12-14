@@ -24,7 +24,7 @@
   (cl-defun run-default-action-in-other-window
       (&rest rest &key run type &allow-other-keys)
     (let ((default-action (embark--default-action type)))
-      (split-window-below) ; or your preferred way to split
+      (weiss-split-window-dwim) 
       (funcall run :action default-action :type type rest)))
   (setf (alist-get 'embark-default-action-in-other-window
                    embark-around-action-hooks)

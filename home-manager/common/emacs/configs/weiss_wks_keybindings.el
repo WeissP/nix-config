@@ -9,6 +9,25 @@
    ;; ("<left>" . left-char)
    ))
 
+(with-eval-after-load 'cc-mode
+  (wks-unset-key java-mode-map '("C-c C-p"))
+  )
+
+(with-eval-after-load 'bibtex
+  (wks-define-key
+   bibtex-mode-map ""
+   '(("<tab>" . save-buffer)
+     ("<RET>" . weiss-deactivate-mark-and-new-line)
+     ))
+  )
+
+(with-eval-after-load 'yaml-mode
+  (wks-define-key
+   yaml-mode-map ""
+   '(("<tab>" . save-buffer)
+     ))
+  )
+
 (with-eval-after-load 'yaml-mode
   (wks-define-key
    yaml-mode-map ""
@@ -71,7 +90,7 @@
      ("<end> ," . previous-buffer)
      ("<end> ." . next-buffer))))
 
-(wks-unset-key help-mode-map '("h" "c" "s" "i"))
+(wks-unset-key help-mode-map '("h" "c" "s" "i" "n"))
 (wks-unset-key special-mode-map '("h" "c" "s" "i"))
 (with-eval-after-load 'debug
   (wks-unset-key debugger-mode-map '("h" "j" "i" "l" "k")))

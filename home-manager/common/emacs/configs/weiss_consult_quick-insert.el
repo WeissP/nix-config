@@ -11,6 +11,11 @@
      :narrow ?s
      :pairs
      (
+      ( 
+       :name "Quote"
+       :pair ("#+BEGIN_QUOTE" . "#+END_QUOTE")
+       :new-line t
+       )
       (
        :name "scala with session"
        :pair ("#+BEGIN_SRC scala :session *scala-cli*" . "#+END_SRC")
@@ -59,6 +64,11 @@
       (
        :name "yaml"
        :pair ("#+BEGIN_SRC yaml" . "#+END_SRC")
+       :new-line t
+       )
+      (
+       :name "json"
+       :pair ("#+BEGIN_SRC json" . "#+END_SRC")
        :new-line t
        )
       (

@@ -17,6 +17,7 @@
   "DOCSTRING"
   (interactive "sGroup Name: ")
   ;; (message "group-name: %s" group-name)
+  (message "group-name: %s" group-name)
   (let ((elem `(,(selected-frame) . ,group-name))
         )
     (weiss-tab-unbind-group)

@@ -98,7 +98,7 @@
         (insert "\n")
         )
        (img-attr
-        (let ((size (or weiss-org-pic-width 400) ))
+        (let ((size (or weiss-org-pic-width 800) ))
           (insert
            (format "#+ATTR_ORG: :width %s\n#+ATTR_LATEX: :width 12cm\n" size))
           )

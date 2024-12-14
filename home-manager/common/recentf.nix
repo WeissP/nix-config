@@ -8,6 +8,7 @@
   outputs,
   ...
 }:
+
 {
   imports = [ outputs.homeManagerModules.recentf ];
   config =
@@ -37,7 +38,7 @@
               ext = "pdf";
             }
             {
-              dir_prefix = "${homeDir}/.emacs.d/emacs-config/config";
+              dir_prefix = "${homeDir}/nix-config/home-manager/common/emacs/configs";
               ext = "el";
             }
             {

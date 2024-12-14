@@ -1,6 +1,6 @@
 (with-eval-after-load 'citar-denote
   (setq
-   citar-open-always-create-notes t
+   citar-open-always-create-notes nil
    citar-denote-file-type 'org
    citar-denote-subdir nil
    citar-denote-signature nil
@@ -10,7 +10,44 @@
    citar-denote-title-format "title"
    citar-denote-title-format-authors 1
    citar-denote-title-format-andstr "and"
+   citar-denote-signature t
+   ;; citar-notes-paths (list denote-directory)
    )
+
+  (defvar weiss-citar-denote--last-created-note-cite-key)
+  (advice-add 'citar-denote--create-note
+              :before #'weiss-citar-denote--update-last-created-note-cite-key)
+
+  (defun weiss-citar-denote--update-last-created-note-cite-key (citekey &rest args)
+    "DOCSTRING"
+    (interactive)
+    (setq weiss-citar-denote--last-created-note-cite-key citekey)
+    )
+
+  (defun weiss-citar-denote-org-note-template ()
+    "DOCSTRING"
+    (interactive)
+    (concat
+     (format "[cite:@%s]" weiss-citar-denote--last-created-note-cite-key)      
+     "\n\n"
+     "* notes"
+     "\n"
+     ":PROPERTIES:"
+     "\n"
+     ":NOTER_DOCUMENT: "
+     (->
+      weiss-citar-denote--last-created-note-cite-key
+      (citar--select-resource  :files t)
+      (cdr)
+      (f-relative)      
+      )
+     "\n" 
+     ":END:"
+     "\n"
+     )
+    )
+  (add-to-list 'denote-templates '(citar-org-note . weiss-citar-denote-org-note-template))
+  (setq citar-denote-template 'citar-org-note)
 
   ;; (defun weiss-citar-denote--create-note (citekey &optional _entry)
   ;;   "let notes created at academic dir"
@@ -49,9 +86,9 @@
   
   ;; (advice-remove 'weiss-denote-pdf-note #'weiss-citar-denote--pdf-note-keywords)
   ;; (advice-add 'weiss-denote-pdf-note :filter-args #'weiss-citar-denote--pdf-note-keywords)
-  ;; (define-globalized-minor-mode weiss-global-citar-denote-mode citar-denote-mode
-  ;;   (lambda () (citar-denote-mode 1)))
-  ;; (weiss-global-citar-denote-mode 1)
+  (define-globalized-minor-mode weiss-global-citar-denote-mode citar-denote-mode
+    (lambda () (citar-denote-mode 1)))
+  (weiss-global-citar-denote-mode 1)
   )
 
 
