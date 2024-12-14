@@ -1,26 +1,26 @@
-name: CI
+# name: CI
 
-on:
-  - push
-  - pull_request
+# on:
+#   - push
+#   - pull_request
 
-jobs:
-  nix-build:
-    name: Nix build
-    runs-on: ubuntu-latest-arm64
-    steps:
-       - uses: actions/checkout@v4
-       - uses: cachix/install-nix-action@v27
-         with:
-           github_access_token: ${{ secrets.GITHUB_TOKEN }}
-       - uses: cachix/cachix-action@v14
-         with:
-           name: weissp
-           authToken: '${{ secrets.CACHIX_AUTH_TOKEN }}'
-       - uses: actions/checkout@master
-       - name: Unlock secrets
-         uses: sliteteam/github-action-git-crypt-unlock@1.2.0
-         env:
-           GIT_CRYPT_KEY: ${{ secrets.GIT_CRYPT_KEY }}      
-       - run: nix build '.#nixosConfigurations.rpi.config.system.build.sdImage' --accept-flake-config | cachix push weissp
+# jobs:
+#   nix-build:
+#     name: Nix build
+#     runs-on: ubuntu-latest-arm64
+#     steps:
+#        - uses: actions/checkout@v4
+#        - uses: cachix/install-nix-action@v27
+#          with:
+#            github_access_token: ${{ secrets.GITHUB_TOKEN }}
+#        - uses: cachix/cachix-action@v14
+#          with:
+#            name: weiss
+#            authToken: '${{ secrets.CACHIX_AUTH_TOKEN }}'
+#        - uses: actions/checkout@master
+#        - name: Unlock secrets
+#          uses: sliteteam/github-action-git-crypt-unlock@1.2.0
+#          env:
+#            GIT_CRYPT_KEY: ${{ secrets.GIT_CRYPT_KEY }}      
+#        - run: nix build '.#nixosConfigurations.rpi.config.system.build.sdImage' --accept-flake-config | cachix push weissp
        
