@@ -6,6 +6,7 @@
   config,
   pkgs,
   username,
+  location,
   secrets,
   myLib,
   ...
@@ -22,11 +23,11 @@
       ./shell
       ./ripgrep.nix
       ./browser.nix
+      ./location.nix
     ]
     ++ (
       if myEnv.arch == "linux" then
         [
-
           ./singboxConfig.nix
           ./hledger.nix
           ./mpv.nix
@@ -39,6 +40,7 @@
           ./ariang.nix
           ./aider.nix
           ./sioyek.nix
+          ./autorandr.nix
         ]
       else
         [ ]
@@ -54,6 +56,7 @@
           in
           lib.mkMerge [
             {
+              sessionPath = [ scriptsDir ];
               sessionVariables = {
                 SCRIPTS_DIR = myEnv.scriptsDir;
                 RASP_IP = secrets.nodes.RaspberryPi.localIp;
@@ -228,7 +231,6 @@
                 nodejs
                 ocamlPackages.cpdf
                 p3x-onenote
-                pasystray
                 pdfpc
                 poppler_utils
                 qq
@@ -240,7 +242,6 @@
                 wkhtmltopdf-bin
                 wmctrl
                 xautomation
-                xbindkeys
                 xorg.setxkbmap
                 xournalpp
                 # microsoft-edge
@@ -248,22 +249,6 @@
                 # pinnedUnstables."2023-09-27".webkitgtk
               ];
               file = {
-                ".xbindkeysrc".text = ''
-                  "xte 'keydown Control_L' 'key Tab' 'keyup Control_L' "
-                  b:8
-
-                  "xte 'keydown Control_L' 'keydown Shift_L' 'key Tab' 'keyup Control_L' 'keyup Shift_L'"
-                  b:9
-
-                  "xte 'keydown Control_L' 'key w' 'keyup Control_L'"
-                  b:10
-
-                  "xte 'keydown Control_L' 'key c' 'keyup Control_L'"
-                  b:6
-
-                  "xte 'keydown Control_L' 'key v' 'keyup Control_L'"
-                  b:7
-                '';
                 "${configDir}/xmobar" = {
                   source = ./config_files/xmobar;
                   recursive = true;
@@ -300,28 +285,27 @@
           };
         };
         systemd.user = {
-          services = with myLib.service; {
-            # cider = startup { cmds = "${pkgs.cider}/bin/cider"; };
-            init_dir = startup {
-              cmds = ''
-                pushd ~/
-                ! [[ -d .password-store.git ]] && git clone git@github.com:WeissP/.password-store.git 
-                popd
-              '';
+          services = {
+            start_steam = myLib.service.startup {
+              inherit (myEnv) username;
+              binName = "steam";
             };
-            # mouse_scroll =
-            #   startup { cmds = "${homeDir}/scripts/mouse_scroll.sh"; };
+            mapwacom = {
+              Unit.Description = "map main screen to wacom";
+              Install.WantedBy = [ "autostart.target" ];
+              Service = {
+                Type = "oneshot";
+                RemainAfterExit = true;
+                ExecStart = ''${scriptsDir}/mapwacom.sh --device-regex ".*Wacom.*" -s "DisplayPort-0"'';
+                PassEnvironment = "PATH";
+              };
+            };
             nodeadkeys = {
               Unit.Description = "Set keyboard layout to nodeadkeys";
               Service = {
                 ExecStart = "${pkgs.xorg.setxkbmap}/bin/setxkbmap -layout de -variant nodeadkeys";
               };
             };
-            # start_jellyfin_mpv_shim = startup {
-            #   cmds = ''
-            #     ${pkgs.jellyfin-mpv-shim}/bin/jellyfin-mpv-shim
-            #   '';
-            # };
           };
           timers = {
             nodeadkeys = {
@@ -354,6 +338,7 @@
         };
 
         services = {
+          pasystray.enable = true;
           kdeconnect.enable = true;
           dunst.enable = true;
           blueman-applet.enable = true;

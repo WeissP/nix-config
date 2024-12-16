@@ -43,8 +43,12 @@ in
           };
         };
     in
-    rec {
+    {
       enable = mkEnableOption "weissEmacs";
+      autoStart = mkOption {
+        type = bool;
+        default = true;
+      };
       package = mkOption {
         type = types.package;
         default = pkgs.emacs;
@@ -771,6 +775,15 @@ in
         packages = externalPackages;
         sessionVariables = {
           EDITOR = "emacsclient --create-frame";
+        };
+      };
+ 
+      systemd.user.services.start_emacs = myLib.service.startup {
+        inherit (myEnv) username;
+        binName = "emacs";
+        service = {
+          Environment = "GTK_IM_MODULE= QT_IM_MODULE= XMODIFIERS=";
+          PassEnvironment = "PATH";
         };
       };
     };

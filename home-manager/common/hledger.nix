@@ -26,8 +26,9 @@ in
   systemd.user = {
     services = {
       hledger-web = myLib.service.startup {
-        cmds = "${pkgs.hledger-web}/bin/hledger-web";
-        Environment = "LEDGER_DIR=${LEDGER_DIR} LEDGER_FILE=${LEDGER_FILE} LEDGER_HELPER_RULE_PATH=${LEDGER_HELPER_RULE_PATH}";
+        inherit (myEnv) username;
+        binName = "hledger-web";
+        service.Environment = "LEDGER_DIR=${LEDGER_DIR} LEDGER_FILE=${LEDGER_FILE} LEDGER_HELPER_RULE_PATH=${LEDGER_HELPER_RULE_PATH}";
       };
       hledger-importer = {
         Unit.Description = "importing hledger records";

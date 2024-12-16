@@ -11,6 +11,7 @@
   ...
 }:
 {
+  imports = [ ./location.nix ];
   config =
     with lib;
     with myEnv;

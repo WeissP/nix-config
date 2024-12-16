@@ -6,9 +6,9 @@
   secrets,
   configSession,
   ...
-}: 
+}:
 with myEnv;
-let 
+let
   configDir = "${homeDir}/.config/aria2";
   downloadDir = "${homeDir}/Downloads/aria2";
   completedDir = "${downloadDir}/completed";
@@ -20,8 +20,8 @@ let
 in
 {
   systemd.user.services.aria2 = myLib.service.startup {
-    cmds = "${pkgs.aria2}/bin/aria2c";
-    description = "aria2c";
+    inherit (myEnv) username;
+    binName = "aria2c";
   };
   home.file = {
     "${hooksDir}/aria_move.sh" = {

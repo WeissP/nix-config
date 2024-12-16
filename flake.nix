@@ -20,7 +20,6 @@
       url = "github:WeissP/webman";
       # url = "/home/weiss/projects/webman/";
     };
-
     deploy-rs = {
       url = "github:serokell/deploy-rs";
       inputs.nixpkgs.follows = "nixpkgs";
@@ -42,8 +41,8 @@
       url = "github:WeissP/nix-config";
       flake = false;
     };
-    weissXmonad.url = "github:WeissP/weiss-xmonad";
-    # weissXmonad.url = "/home/weiss/projects/weiss-xmonad/";
+    # weissXmonad.url = "github:WeissP/weiss-xmonad";
+    weissXmonad.url = "/home/weiss/projects/weiss-xmonad/";
     hledger-importer.url = "github:WeissP/hledger-importer";
     nixpkgs-firefox-darwin.url = "github:bandithedoge/nixpkgs-firefox-darwin";
     nuScripts = {
@@ -106,19 +105,24 @@
         ];
         username = "weiss";
       };
-      mkSpecialArgs = configSession: env: {
-        inherit
-          inputs
-          outputs
-          secrets
-          myLib
-          configSession
-          ;
-        myEnv = env;
-        remoteFiles = with inputs; {
-          inherit nuScripts chatgpt-shell;
-        };
-      };
+      mkSpecialArgs =
+        env: extra:
+        let
+          args = extra // {
+            inherit
+              inputs
+              outputs
+              secrets
+              myLib
+              ;
+            myEnv = env;
+            remoteFiles = with inputs; {
+              inherit nuScripts chatgpt-shell;
+            };
+          };
+        in
+        assert (myLib.validateSpecialArgs args);
+        args;
     in
     rec {
       # Your custom packages
@@ -129,27 +133,6 @@
           pkgs = nixpkgs.legacyPackages.${system};
         in
         (import ./pkgs { inherit pkgs; })
-        // {
-          qemu = nixos-generators.nixosGenerate {
-            inherit system;
-            specialArgs = mkSpecialArgs "Desktop" linuxEnv;
-            format = "vm";
-            modules = [
-              ./nixos/desktop/configuration.nix
-              ./home-manager
-            ];
-          };
-          image = nixos-generators.nixosGenerate {
-            inherit system;
-            specialArgs = mkSpecialArgs "Desktop" linuxEnv;
-            format = "install-iso";
-            modules = [
-              ./nixos/desktop/configuration.nix
-              ./home-manager
-            ];
-          };
-
-        }
       );
       # Devshell for bootstrapping
       # Acessible through 'nix develop' or 'nix-shell' (legacy)
@@ -176,7 +159,10 @@
       nixosConfigurations = {
         Desktop = nixpkgs.lib.nixosSystem {
           system = "x86_64-linux";
-          specialArgs = mkSpecialArgs "Desktop" linuxEnv;
+          specialArgs = mkSpecialArgs linuxEnv {
+            configSession = "Desktop";
+            location = "home";
+          };
           modules = [
             nixosModules.xmonadBin
             nixosModules.private-gpt
@@ -190,7 +176,10 @@
 
         vultr = nixpkgs.lib.nixosSystem {
           system = "x86_64-linux";
-          specialArgs = mkSpecialArgs "Vultr" vultrEnv;
+          specialArgs = mkSpecialArgs linuxEnv {
+            configSession = "Vultr";
+            location = "japan";
+          };
           modules = [
             disko.nixosModules.disko
             # ./nixos/vultr/exp.nix
@@ -201,7 +190,10 @@
 
         rpi = nixpkgs.lib.nixosSystem {
           system = "aarch64-linux";
-          specialArgs = mkSpecialArgs "RaspberryPi" rpiEnv;
+          specialArgs = mkSpecialArgs linuxEnv {
+            configSession = "RaspberryPi";
+            location = "home";
+          };
           modules = [
             ./nixos/rpi/base.nix
             ./nixos/rpi/configuration.nix
@@ -215,36 +207,23 @@
         installerCn =
           (nixpkgs.lib.nixosSystem {
             system = "x86_64-linux";
-            specialArgs = mkSpecialArgs "Desktop" linuxEnv;
+            specialArgs = mkSpecialArgs linuxEnv {
+              configSession = "installer";
+              location = "china";
+            };
             modules = [
               ./nixos/installer.nix
             ];
           }).config.system.build.isoImage;
-
-        desktop =
-          (nixos-installer-gen.generateInstaller {
-            inputFlake = self; # Inputs of this flake will be copied to the store to allow offline evaluation
-            includeSrc = true; # Include most tarballs used to compile the closure of targetConfig
-            # Most runtime deps of this config will be copied to the installer (some need to be added manually)
-            targetConfig = nixosConfigurations.Desktop;
-            modules = [
-              # Extra modules to add to the installer
-              {
-                # Reduce compression. For docs, see
-                # https://github.com/NixOS/nixpkgs/blob/50f9b3107a09ed35bbf3f9ab36ad2683619debd2/nixos/lib/make-squashfs.nix#L8
-                # or
-                # https://github.com/NixOS/nixpkgs/blob/50f9b3107a09ed35bbf3f9ab36ad2683619debd2/nixos/modules/installer/cd-dvd/iso-image.nix#L477
-                # isoImage.squashfsCompression = "zstd -Xcompression-level 6";
-                nixpkgs.config.allowUnfree = true;
-              }
-            ];
-          }).iso;
       };
 
       darwinConfigurations = {
         Bozhous-Air = inputs.darwin.lib.darwinSystem {
           system = "aarch64-darwin";
-          specialArgs = mkSpecialArgs "Bozhous-Air" darwinEnv;
+          specialArgs = mkSpecialArgs linuxEnv {
+            configSession = "Bozhous-Air";
+            location = "home";
+          };
           modules = [
             ./nixos/mac/configuration.nix
             ./home-manager

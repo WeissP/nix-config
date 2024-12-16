@@ -29,8 +29,6 @@ with myEnv;
     options = lib.mkForce "--delete-older-than 1d";
   };
 
-  time.timeZone = "Japan";
-  # time.timeZone = secrets.v2ray.vmessLinks."/vmess_links_subscription/1";
   networking.hostName = "${username}-${configSession}";
 
   zramSwap.enable = true;

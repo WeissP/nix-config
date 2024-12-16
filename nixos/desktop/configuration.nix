@@ -15,16 +15,15 @@ with myEnv;
   imports = [
     ../common/personal.nix
     ../common/sing-box.nix
+    ../common/gpu.nix
   ];
   time.timeZone = "Europe/Berlin";
 
   # Use the systemd-boot EFI boot loader.
   boot.loader.systemd-boot.enable = true;
   boot.loader.efi.canTouchEfiVariables = true;
-  boot.initrd.kernelModules = [ "amdgpu" ];
   programs.steam.protontricks.enable = true;
-  # This setups a SSH server. Very important if you're setting up a headless system.
-  # Feel free to remove if you don't need it.
+
   services = {
     openssh = {
       enable = true;
@@ -33,21 +32,8 @@ with myEnv;
         KbdInteractiveAuthentication = true;
       };
     };
-    myPostgresql.databases = [
-      "webman"
-      "recentf"
-      "digivine"
-    ];
     xserver = {
       dpi = 120;
-      # xrandrHeads = [
-      #   {
-      #     output = "DP-1";
-      #     primary = true;
-      #     monitorConfig = "DisplaySize 598 336";
-      #   }
-      #   "HDMI-1"
-      # ];
     };
   };
 
@@ -68,12 +54,6 @@ with myEnv;
 
   virtualisation.docker.enable = true;
   security.sudo.extraRules = [
-    # Allow execution of any command by all users in group sudo,
-    # requiring a password.
-    # {
-    #   groups = [ "sudo" ];
-    #   commands = [ "ALL" ];
-    # }
     {
       users = [ "weiss" ];
       commands = [

@@ -51,8 +51,6 @@ with myEnv;
     xserver = {
       enable = true;
       autorun = true;
-      videoDrivers = [ "amdgpu" ];
-
       xkb = {
         layout = "de";
         variant = ",nodeadkeys";
@@ -60,18 +58,6 @@ with myEnv;
       wacom.enable = true;
       autoRepeatDelay = 230;
       autoRepeatInterval = 30;
-      displayManager.sessionCommands = ''
-        export PATH=$PATH:${scriptsDir}
-        sh $HOME/.screenlayout/desktop.sh &
-        sh mouse_scroll.sh &
-        floorp &
-        xbindkeys &
-        pasystray &
-        pueued &
-        pueue add -i xsettingsd &
-        Exec=GTK_IM_MODULE= QT_IM_MODULE= XMODIFIERS= emacs &
-        sh mapwacom.sh --device-regex ".*Wacom.*" -s "DisplayPort-0" &
-      '';
     };
     blueman.enable = true;
     myPostgresql = {
@@ -91,6 +77,10 @@ with myEnv;
     shells = [ pkgs.zsh ];
     pathsToLink = [ "/share/zsh" ];
     systemPackages = with pkgs; [
+      (pkgs.makeAutostartItem {
+        name = "steam";
+        package = pkgs.steam;
+      })
       protontricks
       git-crypt
       ripgrep

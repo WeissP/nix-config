@@ -86,13 +86,25 @@ rec {
       singboxCfgDir = "${homeDir}/.config/singbox_config";
       systemBin = binary: if arch == "linux" then "/run/current-system/sw/bin/${binary}" else binary;
       userBin = binary: "/etc/profiles/per-user/${username}/bin/${binary}";
-      ensurePsqlDb =
-        dbName:
-        service.startup {
-          cmds = "${scriptsDir}/ensure_psql_db.sh ${dbName}";
-          description = "ensure PostgreSQL database ${dbName}";
+      ensurePsqlDb = dbName: {
+        Unit.Description = "ensure PostgreSQL database ${dbName}";
+        Install.WantedBy = [ "default.target" ];
+        Service = {
+          Type = "simple";
+          ExecStart = "${scriptsDir}/ensure_psql_db.sh ${dbName}";
         };
+      };
     };
+  validateSpecialArgs =
+    args:
+    builtins.hasAttr "location" args
+    && (builtins.hasAttr "configSession" args)
+    && (lib.assertOneOf "location" args.location [
+      "home"
+      "china"
+      "japan"
+    ]);
+
   resource = path: myNixRepo + "/resources/" + path;
   withConfigDir = path: ../home-manager/common/config_files + path;
   mkFont =
@@ -119,19 +131,19 @@ rec {
   service = {
     startup =
       {
-        cmds,
-        description ? "STARTUP",
-        wantedBy ? [ "default.target" ],
-        Environment ? "",
+        binName,
+        username,
+        wantedBy ? [ "autostart.target" ],
+        service ? { },
       }:
       {
-        Unit.Description = description;
+        Unit.Description = "startup ${binName}";
         Install.WantedBy = wantedBy;
         Service = {
-          Type = "simple";
-          ExecStart = cmds;
-          Environment = Environment;
-        };
+          Type = "oneshot";
+          RemainAfterExit = true;
+          ExecStart = "/etc/profiles/per-user/${username}/bin/${binName}";
+        } // service;
       };
   };
 }

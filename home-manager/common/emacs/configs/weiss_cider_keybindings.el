@@ -50,7 +50,7 @@
    ""
    '(("J" . cider-stacktrace-toggle-java)))
 
-  (wks-unset-key cider-inspector-mode-map '("l" "a"))
+  (wks-unset-key cider-inspector-mode-map '("l" "a" "o" "c" ":"))
   (wks-define-key
    cider-inspector-mode-map
    ""

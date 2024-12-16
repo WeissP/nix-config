@@ -19,6 +19,13 @@ lib.mkMerge [
 
   }
   (ifLinux {
+    home.packages = [
+
+      (pkgs.makeAutostartItem {
+        name = "floorp";
+        package = pkgs.floorp;
+      })
+    ];
     programs = {
       # firefox.package = pkgs.firefox.override { nativeMessagingHosts = with pkgs; [ passff-host ]; };
       firefox.enable = true;
@@ -34,22 +41,9 @@ lib.mkMerge [
         "x-scheme-handler/unknown" = [ "${defaultApp}" ];
       };
     };
-    systemd.user = {
-      services = with myLib.service; {
-        start_browser = startup {
-          cmds = ''
-            ${defaultBrowserName}
-          '';
-          Environment = ''
-            PATH=${
-              lib.makeBinPath [
-                defaultBrowserPkg
-              ]
-            }
-          '';
-        };
-      };
+    systemd.user.services.start_browser = myLib.service.startup {
+      inherit (myEnv) username;
+      binName = defaultBrowserName;
     };
-
   })
 ]

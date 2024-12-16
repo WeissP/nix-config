@@ -2511,11 +2511,11 @@
         "rust-overlay": "rust-overlay_2"
       },
       "locked": {
-        "lastModified": 1734193149,
-        "narHash": "sha256-B2CWb08+SjWrXGdXVOfUqWpqldYHmGOEwIyiqzr0wI0=",
+        "lastModified": 1734212455,
+        "narHash": "sha256-1OjPBdFDZ5nFZ3FlRYdHov5pMfn+kq7uE2gJBW4ubjQ=",
         "owner": "WeissP",
         "repo": "webman",
-        "rev": "4f74035bf39179baba4d869dd09df9281921c91e",
+        "rev": "c230652e40bcd7d08f63de9319f76647ea0250bc",
         "type": "github"
       },
       "original": {

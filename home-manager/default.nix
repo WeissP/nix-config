@@ -33,7 +33,21 @@ in
 (
   if myEnv.arch == "linux" then
     {
-      imports = [ inputs.home-manager.nixosModules.home-manager ];
+      imports = [
+        inputs.home-manager.nixosModules.home-manager
+        {
+          home-manager.users."${myEnv.username}" = {
+            systemd.user.targets.autostart = {
+              Unit = {
+                Description = "Current graphical user session";
+                Documentation = "man:systemd.special(7)";
+                RefuseManualStart = "no";
+                StopWhenUnneeded = "no";
+              };
+            };
+          };
+        }
+      ];
       config = {
         inherit home-manager;
       };

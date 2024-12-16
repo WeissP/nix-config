@@ -23,6 +23,7 @@ in
     nodePackages.jsonlint
     nixfmt-rfc-style
   ];
+
   programs.weissEmacs = lib.mkMerge [
     (ifDarwin {
       package = pkgs.emacs29;
