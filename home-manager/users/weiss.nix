@@ -17,6 +17,5 @@ with myEnv;
     (lib.optional (builtins.elem "remote-server" usage) ../common/remoteServer.nix)
     (lib.optional (builtins.elem "router" usage) ../common/router.nix)
   ];
-
-  services.pueue.enable = true;
+  
 }

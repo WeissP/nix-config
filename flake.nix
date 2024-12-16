@@ -41,8 +41,8 @@
       url = "github:WeissP/nix-config";
       flake = false;
     };
-    # weissXmonad.url = "github:WeissP/weiss-xmonad";
-    weissXmonad.url = "/home/weiss/projects/weiss-xmonad/";
+    weissXmonad.url = "github:WeissP/weiss-xmonad";
+    # weissXmonad.url = "/home/weiss/projects/weiss-xmonad/";
     hledger-importer.url = "github:WeissP/hledger-importer";
     nixpkgs-firefox-darwin.url = "github:bandithedoge/nixpkgs-firefox-darwin";
     nuScripts = {
@@ -171,6 +171,23 @@
             inputs.nur.modules.nixos.default
             ./home-manager
             { boot.binfmt.emulatedSystems = [ "aarch64-linux" ]; }
+          ];
+        };
+
+        mini = nixpkgs.lib.nixosSystem {
+          system = "x86_64-linux";
+          specialArgs = mkSpecialArgs linuxEnv {
+            configSession = "mini";
+            location = "china";
+          };
+          modules = [
+            nixosModules.xmonadBin
+            nixosModules.private-gpt
+            ./nixos/mini/configuration.nix
+            ./nixos/desktop/hardware-configuration.nix
+            # ./nixos/mini/hardware-configuration.nix
+            inputs.nur.modules.nixos.default
+            ./home-manager
           ];
         };
 

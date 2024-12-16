@@ -17,7 +17,6 @@ with myEnv;
     ../common/sing-box.nix
     ../common/gpu.nix
   ];
-  time.timeZone = "Europe/Berlin";
 
   # Use the systemd-boot EFI boot loader.
   boot.loader.systemd-boot.enable = true;

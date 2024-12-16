@@ -77,10 +77,6 @@ with myEnv;
     shells = [ pkgs.zsh ];
     pathsToLink = [ "/share/zsh" ];
     systemPackages = with pkgs; [
-      (pkgs.makeAutostartItem {
-        name = "steam";
-        package = pkgs.steam;
-      })
       protontricks
       git-crypt
       ripgrep

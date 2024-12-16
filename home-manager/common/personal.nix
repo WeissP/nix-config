@@ -338,6 +338,7 @@
         };
 
         services = {
+          pueue.enable = true;
           pasystray.enable = true;
           kdeconnect.enable = true;
           dunst.enable = true;

@@ -16,16 +16,8 @@ lib.mkMerge [
     programs = {
       floorp.enable = true;
     };
-
   }
   (ifLinux {
-    home.packages = [
-
-      (pkgs.makeAutostartItem {
-        name = "floorp";
-        package = pkgs.floorp;
-      })
-    ];
     programs = {
       # firefox.package = pkgs.firefox.override { nativeMessagingHosts = with pkgs; [ passff-host ]; };
       firefox.enable = true;
