@@ -46,7 +46,7 @@
    :enabled (lambda () (bound-and-true-p recentf-executable))
    :annotate nil)
 
-  (add-to-list 'consult-omni-multi-sources "recentf-db")
+  ;; (add-to-list 'consult-omni-multi-sources "recentf-db")
   )
 
 

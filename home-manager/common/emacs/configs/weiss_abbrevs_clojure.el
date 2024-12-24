@@ -49,7 +49,7 @@
       ("hsf" "(h/select :▮)\n(h/from :)" weiss--ahf)
       ("hsfw" "(h/select :▮)\n(h/from :)\n(h/where [:= :])" weiss--ahf)
       ("hwh" "(h/where [:= :▮])" weiss--ahf)
-      ("if" "(if ▮)" weiss--ahf)
+      ("if" "(if ▮ nil nil)" weiss--ahf)
       ("if-let" "(if-let [▮]\n \n nil)" weiss--ahf)
       ("il" "if-let" weiss--ahf)
       ("into" "(into ▮)" weiss--ahf)

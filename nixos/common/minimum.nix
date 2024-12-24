@@ -6,6 +6,7 @@
   secrets,
   config,
   inputs,
+  location,
   outputs,
   configSession,
   ...
@@ -22,13 +23,21 @@
             settings = mkMerge [
               {
                 experimental-features = "nix-command flakes";
-                auto-optimise-store = true;
-                substituters = [
-                  # "https://mirror.sjtu.edu.cn/nix-channels/store"
-                  "https://nix-community.cachix.org"
-                  "https://cache.nixos.org/"
-                  "https://cache.iog.io"
-                ];
+                substituters =
+                  if (location == "china") then
+                    [
+                      "https://mirrors.ustc.edu.cn/nix-channels/store?priority=10"
+                      "https://mirror.sjtu.edu.cn/nix-channels/store?priority=10"
+                      "https://nix-community.cachix.org?priority=20"
+                      "https://cache.nixos.org?priority=30"
+                      "https://cache.iog.io?priority=30"
+                    ]
+                  else
+                    [
+                      "https://nix-community.cachix.org"
+                      "https://cache.nixos.org/"
+                      "https://cache.iog.io"
+                    ];
                 trusted-substituters = [
                   "https://weiss.cachix.org"
                   "https://nix-community.cachix.org"
@@ -44,6 +53,7 @@
                 ];
               }
               (ifLinux {
+                auto-optimise-store = true;
                 trusted-users = [
                   "root"
                   "${username}"
@@ -76,7 +86,8 @@
             # This will additionally add your inputs to the system's legacy channels
             # Making legacy nix commands consistent as well, awesome!
             nixPath = lib.mapAttrsToList (key: value: "${key}=${value.to.path}") config.nix.registry;
-
+          })
+          (ifLinuxPersonal {
             extraOptions = ''
               keep-outputs = true
               keep-derivations = true
@@ -84,6 +95,12 @@
             gc = {
               dates = "weekly";
               options = "--delete-older-than 7d";
+            };
+          })
+          (ifServer {
+            gc = {
+              dates = "daily";
+              options = "--delete-older-than 1d";
             };
           })
         ];

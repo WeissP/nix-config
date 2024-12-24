@@ -9,6 +9,7 @@ trivialBuild rec {
   propagatedUserEnvPkgs = with deps; [
     consult
     embark
+    compat
   ];
   buildInputs = propagatedUserEnvPkgs;
   src = (

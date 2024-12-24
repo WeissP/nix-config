@@ -40,8 +40,13 @@
 (setq weiss-tab-line-with-desk
       '(
         ("[1] Master Thesis (mt)" . (("1.1" . "mt-papers")))
-        ("[2] Master Thesis coding (mt)" . (("2.1" . "mt-exp-data")
-                                            ("2.1" . "mt-exp-src")
+        ("[2] Master Thesis coding (mt)" . (("2.1" . "mt-exp-component")
+                                            ("2.1" . "mt-exp-component")
+                                            ("2.1" . "mt-exp-data")                              
+                                            ("2.1" . "mt-exp-domain")                              
+                                            ("2.1" . "mt-exp-src")                              
+                                            ("2.2" . "mt-exp-java")
+                                            ("2.2" . "mt-exp-inte")
                                             ("2.3" . "mt-exp-env")))
         ("[6] FeedTree FT" .  (("6.1" . "ftc-env")
                                ("6.1" . "ftc-src")

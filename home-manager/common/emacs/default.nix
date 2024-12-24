@@ -365,6 +365,7 @@ in
             "quickrun"
             [
               "eglot" # "eglot-booster" "eglot-signature-eldoc-talkative"
+              "eglot-java"
             ]
             "lspce"
             # [ "lsp-bridge" "flymake-bridge" ]
@@ -389,7 +390,7 @@ in
             "use-proxy"
             [
               "denote"
-              "consult-denote"
+              # "consult-denote"
             ]
             [
               "citar"
@@ -500,17 +501,18 @@ in
           apps = [
             "pass"
             "nov"
-            "telega"
+
           ];
           inputs = [
             "agda2-mode"
             "rime"
           ];
           test = [
-            libs
-            core
+            # libs
+            # core
             # "citar"
-            # "consult"
+            "consult"
+            # "consult-omni"
             # "vertico"
             # completion
           ];
@@ -542,6 +544,7 @@ in
               [
                 "flymake-sqlfluff"
                 "darkman"
+                "telega"
               ]
             else
               [ ]

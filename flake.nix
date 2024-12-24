@@ -49,6 +49,10 @@
       url = "github:nushell/nu_scripts";
       flake = false;
     };
+    consult-omni = {
+      url = "github:armindarvish/consult-omni";
+      flake = false;
+    };
     nix-alien.url = "github:thiagokokada/nix-alien";
     nixos-installer-gen.url = "gitlab:GenericNerdyUsername/nixos-installer-gen";
   };
@@ -117,7 +121,7 @@
               ;
             myEnv = env;
             remoteFiles = with inputs; {
-              inherit nuScripts chatgpt-shell;
+              inherit nuScripts chatgpt-shell consult-omni;
             };
           };
         in
@@ -179,21 +183,23 @@
           specialArgs = mkSpecialArgs linuxEnv {
             configSession = "mini";
             location = "china";
+            mainDevice = "/dev/disk/by-id/unknown";
           };
           modules = [
+            disko.nixosModules.disko
+            ./nixos/mini/hardware-configuration.nix
+            ./disko/btrfs_system.nix
             nixosModules.xmonadBin
             nixosModules.private-gpt
-            ./nixos/mini/configuration.nix
-            ./nixos/desktop/hardware-configuration.nix
-            # ./nixos/mini/hardware-configuration.nix
             inputs.nur.modules.nixos.default
+            ./nixos/mini/configuration.nix
             ./home-manager
           ];
         };
 
         vultr = nixpkgs.lib.nixosSystem {
           system = "x86_64-linux";
-          specialArgs = mkSpecialArgs linuxEnv {
+          specialArgs = mkSpecialArgs vultrEnv {
             configSession = "Vultr";
             location = "japan";
           };
@@ -207,7 +213,7 @@
 
         rpi = nixpkgs.lib.nixosSystem {
           system = "aarch64-linux";
-          specialArgs = mkSpecialArgs linuxEnv {
+          specialArgs = mkSpecialArgs rpiEnv {
             configSession = "RaspberryPi";
             location = "home";
           };
@@ -237,7 +243,7 @@
       darwinConfigurations = {
         Bozhous-Air = inputs.darwin.lib.darwinSystem {
           system = "aarch64-darwin";
-          specialArgs = mkSpecialArgs linuxEnv {
+          specialArgs = mkSpecialArgs darwinEnv {
             configSession = "Bozhous-Air";
             location = "home";
           };

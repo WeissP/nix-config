@@ -217,18 +217,9 @@ in
             emacsPackages = [
               "consult-omni"
             ];
-            localPackages =
-              let
-                src = pkgs.fetchFromGitHub {
-                  owner = "armindarvish";
-                  repo = "consult-omni";
-                  rev = version;
-                  hash = "sha256-x5rNTNEDLoHzIlA1y+VsQ+Y0Pa1QXbybt2rIUBJ+VtM=";
-                };
-              in
-              {
-                consult-omni-sources = "${src}/sources";
-              };
+            localPackages = {
+              consult-omni-sources = "${remoteFiles.consult-omni}/sources";
+            };
           };
           # chatgpt-shell = {
           #   # emacsPackages = [
@@ -602,6 +593,14 @@ in
         enable = true;
         package = cfg.package;
         overrides = prev: final: rec {
+          consult = pkgs.callPackage ./packages/consult.nix {
+            inherit (final) trivialBuild;
+            inherit (pkgs) fetchFromGitHub;
+            deps = with final; {
+              inherit compat;
+            };
+          };
+
           embark = pkgs.callPackage ./packages/embark.nix {
             inherit (final) trivialBuild;
             inherit (pkgs) fetchFromGitHub;
@@ -626,8 +625,9 @@ in
           consult-omni = pkgs.callPackage ./packages/consult-omni.nix {
             inherit (final) trivialBuild;
             inherit (pkgs) fetchFromGitHub;
-            deps = with final; {
+            deps = {
               inherit consult embark;
+              inherit (final) compat;
             };
           };
 
@@ -777,7 +777,7 @@ in
           EDITOR = "emacsclient --create-frame";
         };
       };
- 
+
       systemd.user.services.start_emacs = myLib.service.startup {
         inherit (myEnv) username;
         binName = "emacs";

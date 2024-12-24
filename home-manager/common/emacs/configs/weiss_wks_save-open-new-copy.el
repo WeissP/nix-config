@@ -320,13 +320,14 @@ Version 2015-10-14"
                        )
                      ))
         )
-    (if (executable-find "pueue")
+    (if (and (eq system-type 'gnu/linux) (executable-find "pueue"))
         (shell-command (format "pueue add -i '%s'" cmd))
+      ;; (message "%s" cmd)
       (start-process-shell-command "mpv" nil cmd)
       )
     )
   )
- 
+
 (defun xah-open-in-external-app (&optional @fname)
   "Open the current file or dired marked files in external app.
     The app is chosen from your OS's preference.

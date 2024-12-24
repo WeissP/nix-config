@@ -24,13 +24,13 @@
       ./ripgrep.nix
       ./browser.nix
       ./location.nix
+      ./singboxConfig.nix
+      ./mpv.nix
     ]
     ++ (
       if myEnv.arch == "linux" then
         [
-          ./singboxConfig.nix
           ./hledger.nix
-          ./mpv.nix
           ./chromium.nix
           ./trayer.nix
           ./fusuma.nix
@@ -176,6 +176,7 @@
                 gtk.enable = true;
               };
               packages = with pkgs; [
+                ffmpeg
                 # nur.repos.xddxdd.wechat-uos-bin
                 qemu
                 nix-alien
@@ -238,7 +239,6 @@
                 tlaplus
                 dbeaver-bin
                 tlaplusToolbox
-                vivaldi
                 wkhtmltopdf-bin
                 wmctrl
                 xautomation

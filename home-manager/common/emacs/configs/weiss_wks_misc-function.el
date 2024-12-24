@@ -343,12 +343,14 @@ Inspired by `org-combine-plists'."
 (defun weiss-start-process (proc-name command)
   "DOCSTRING"
   (interactive)
-  (let* ((name (concat "process:" proc-name))
-         (b (generate-new-buffer name))
-         ;; (default-directory "/")
-         )
-    (start-process-shell-command proc-name b command)
-    (display-buffer b)))
+  (message "%s" command)
+  ;; (let* ((name (concat "process:" proc-name))
+  ;;        (b (generate-new-buffer name))
+  ;;        ;; (default-directory "/")
+  ;;        )
+  ;;   (start-process-shell-command proc-name b command)
+  ;;   (display-buffer b))
+  )
 
 (defun weiss-eval-last-sexp-this-line()
   "eval last sexp this line"

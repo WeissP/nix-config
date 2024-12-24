@@ -5,7 +5,10 @@
   ...
 }:
 {
-  imports = [ (modulesPath + "/installer/cd-dvd/installation-cd-minimal.nix") ];
+  imports = [
+    (modulesPath + "/installer/cd-dvd/installation-cd-minimal.nix")
+    ./common/sing-box.nix
+  ];
   i18n = {
     defaultLocale = "en_US.UTF-8";
     extraLocaleSettings = {
@@ -21,12 +24,13 @@
     };
   };
   systemd.services.sshd.wantedBy = pkgs.lib.mkForce [ "multi-user.target" ];
-  users.users.root.openssh.authorizedKeys.keys = [ secrets.ssh."163".public ];
+  users.users.root = {
+    openssh.authorizedKeys.keys = [ secrets.ssh."163".public ];
+  };
   environment = {
     systemPackages = with pkgs; [
       util-linux
-      sing-box
-      xorg.setxkbmap
+      udisks
     ];
   };
 }

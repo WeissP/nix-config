@@ -13,6 +13,7 @@ with myEnv;
 {
   imports = [
     ../common/minimum.nix
+    ../common/sing-box.nix
     ../common/psql.nix
     ../common/zsh.nix
   ];
@@ -60,8 +61,10 @@ with myEnv;
 
   homebrew = {
     enable = true;
-    brews = ["pdfpc"];
+    brews = [ "pdfpc" ];
     casks = [
+      "steam"
+      "floorp"
       "flameshot"
       "apptivate"
       "font-cascadia-mono-pl"

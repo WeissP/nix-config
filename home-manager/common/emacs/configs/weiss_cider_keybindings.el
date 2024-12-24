@@ -64,6 +64,9 @@
        ("p" . weiss-cider-embark-pprint)
        ))
     )
+
+  (wks-unset-key cider-test-report-mode-map '("l"))
+  
   )
 
 ;; parent: 

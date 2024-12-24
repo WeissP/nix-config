@@ -1,7 +1,8 @@
 (with-eval-after-load 'eglot
   (add-to-list 'eglot-server-programs '(nix-mode . ("nixd")))
   (add-to-list 'eglot-server-programs '(elixir-mode "elixir-ls"))
-  (add-to-list 'eglot-server-programs '(java-mode "jdt-language-server"  "-configuration" "../config-linux" "-data" "../java-workspace"))
+  ;; (add-to-list 'eglot-server-programs '(java-mode "jdt-language-server"  "-configuration" "../config-linux" "-data" "../java-workspace"))
+  ;; (add-to-list 'eglot-server-programs '(java-mode "jdtls"))
   (add-to-list 'eglot-server-programs '(svelte-mode . ("svelteserver" "--stdio")))
   (add-to-list 'eglot-server-programs '(haskell-mode . ("haskell-language-server" "--lsp")))
 

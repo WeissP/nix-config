@@ -14,13 +14,17 @@ with myEnv;
 lib.mkMerge [
   {
     programs = {
-      floorp.enable = true;
+      # floorp.enable = true;
     };
   }
   (ifLinux {
     programs = {
-      # firefox.package = pkgs.firefox.override { nativeMessagingHosts = with pkgs; [ passff-host ]; };
+      floorp = {
+        enable = true;
+        package = pkgs.floorp.override { nativeMessagingHosts = with pkgs; [ passff-host ]; };
+      };
       firefox.enable = true;
+      firefox.package = pkgs.firefox.override { nativeMessagingHosts = with pkgs; [ passff-host ]; };
     };
     xdg.mimeApps = {
       enable = true;

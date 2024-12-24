@@ -15,6 +15,29 @@ lib.mkMerge [
   {
     environment.systemPackages = [ pkg ];
   }
+  (lib.optionalAttrs (configSession == "installer") {
+    systemd.packages = [ pkg ];
+    systemd.services.sing-box = {
+      serviceConfig = {
+        StateDirectory = "sing-box";
+        StateDirectoryMode = "0700";
+        RuntimeDirectory = "sing-box";
+        RuntimeDirectoryMode = "0700";
+        ExecStart =
+          let
+            cfg = pkgs.writeTextFile {
+              name = "tunCn.json";
+              text = builtins.toJSON secrets.singbox.config.tunCn;
+            };
+          in
+          [
+            ""
+            "${lib.getExe pkg} -D \${STATE_DIRECTORY} -c ${cfg} run"
+          ];
+      };
+      wantedBy = [ "multi-user.target" ];
+    };
+  })
   (ifRouter {
     systemd.packages = [ pkg ];
     systemd.services.sing-box = {

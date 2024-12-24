@@ -119,7 +119,7 @@
   (wks-unset-key Man-mode-map '("k" "n" "s")))
 
 (with-eval-after-load 'view
-  (wks-unset-key view-mode-map '("SPC" "w" "n")))
+  (wks-unset-key view-mode-map '("SPC" "w" "n" "o" "c")))
 
 
 
