@@ -3,12 +3,13 @@
 
   inputs = {
     nixpkgs.url = "github:nixos/nixpkgs/nixos-unstable";
+    nixpkgs-master.url = "github:nixos/nixpkgs/master";
     nixpkgs-lts.url = "github:nixos/nixpkgs/nixos-24.11";
     darwin = {
       url = "github:lnl7/nix-darwin/master";
       inputs.nixpkgs.follows = "nixpkgs";
     };
-    raspberry-pi-nix.url = "git+https://github.com/nix-community/raspberry-pi-nix.git?tag=0.4.1";
+    raspberry-pi-nix.url = "github:nix-community/raspberry-pi-nix?ref=v0.4.1";
     home-manager = {
       url = "github:nix-community/home-manager";
       inputs.nixpkgs.follows = "nixpkgs";
@@ -42,7 +43,6 @@
       flake = false;
     };
     weissXmonad.url = "github:WeissP/weiss-xmonad";
-    # weissXmonad.url = "/home/weiss/projects/weiss-xmonad/";
     hledger-importer.url = "github:WeissP/hledger-importer";
     nixpkgs-firefox-darwin.url = "github:bandithedoge/nixpkgs-firefox-darwin";
     nuScripts = {
@@ -51,6 +51,18 @@
     };
     consult-omni = {
       url = "github:armindarvish/consult-omni";
+      flake = false;
+    };
+    embark = {
+      url = "github:oantolin/embark";
+      flake = false;
+    };
+    citar = {
+      url = "github:emacs-citar/citar";
+      flake = false;
+    };
+    aider-el = {
+      url = "github:tninja/aider.el";
       flake = false;
     };
     nix-alien.url = "github:thiagokokada/nix-alien";
@@ -77,6 +89,7 @@
         "aarch64-darwin"
         "x86_64-darwin"
       ];
+
       myLib = import ./myLib {
         lib = nixpkgs.lib;
         pkgs = nixpkgs;
@@ -86,47 +99,38 @@
         inherit myLib;
         lib = nixpkgs.lib;
       };
-      darwinEnv = myLib.genEnv {
+      darwinEnv = {
         arch = "darwin";
-        usage = [ "personal" ];
         username = "bozhoubai";
       };
-      linuxEnv = myLib.genEnv {
+      linuxEnv = {
         arch = "linux";
-        usage = [ "personal" ];
-        username = "weiss";
-      };
-      vultrEnv = myLib.genEnv {
-        arch = "linux";
-        usage = [ "remote-server" ];
-        username = "weiss";
-      };
-      rpiEnv = myLib.genEnv {
-        arch = "linux";
-        usage = [
-          "local-server"
-          # "router"
-        ];
         username = "weiss";
       };
       mkSpecialArgs =
         env: extra:
-        let
-          args = extra // {
+        assert (myLib.validateEnv extra);
+        {
+          inherit
+            inputs
+            outputs
+            secrets
+            myLib
+            ;
+          myEnv = myLib.expandEnv (extra // env);
+          remoteFiles = with inputs; {
             inherit
-              inputs
-              outputs
-              secrets
-              myLib
+              myNixRepo
+              citar
+              embark
+              nuScripts
+              chatgpt-shell
+              consult-omni
+              aider-el
               ;
-            myEnv = env;
-            remoteFiles = with inputs; {
-              inherit nuScripts chatgpt-shell consult-omni;
-            };
           };
-        in
-        assert (myLib.validateSpecialArgs args);
-        args;
+        };
+
     in
     rec {
       # Your custom packages
@@ -164,6 +168,10 @@
         Desktop = nixpkgs.lib.nixosSystem {
           system = "x86_64-linux";
           specialArgs = mkSpecialArgs linuxEnv {
+            usage = [
+              "personal"
+              "webman-server"
+            ];
             configSession = "Desktop";
             location = "home";
           };
@@ -182,8 +190,14 @@
           system = "x86_64-linux";
           specialArgs = mkSpecialArgs linuxEnv {
             configSession = "mini";
-            location = "china";
-            mainDevice = "/dev/disk/by-id/unknown";
+            location = "home";
+            mainDevice = "/dev/nvme0n1";
+            usage = [
+              # "personal"
+              "webman-server"
+              "local-server"
+              "aria-server"
+            ];
           };
           modules = [
             disko.nixosModules.disko
@@ -199,9 +213,14 @@
 
         vultr = nixpkgs.lib.nixosSystem {
           system = "x86_64-linux";
-          specialArgs = mkSpecialArgs vultrEnv {
+          specialArgs = mkSpecialArgs linuxEnv {
             configSession = "Vultr";
             location = "japan";
+            usage = [
+              "remote-server"
+              "webman-server"
+              "syncthing-relay-server"
+            ];
           };
           modules = [
             disko.nixosModules.disko
@@ -213,9 +232,14 @@
 
         rpi = nixpkgs.lib.nixosSystem {
           system = "aarch64-linux";
-          specialArgs = mkSpecialArgs rpiEnv {
+          specialArgs = mkSpecialArgs linuxEnv {
             configSession = "RaspberryPi";
             location = "home";
+            usage = [
+              "local-server"
+              "webman-server"
+              "aria-server"
+            ];
           };
           modules = [
             ./nixos/rpi/base.nix
@@ -245,7 +269,10 @@
           system = "aarch64-darwin";
           specialArgs = mkSpecialArgs darwinEnv {
             configSession = "Bozhous-Air";
-            location = "home";
+            location = "china";
+            usage = [
+              "webman-server"
+            ];
           };
           modules = [
             ./nixos/mac/configuration.nix
@@ -254,35 +281,61 @@
         };
       };
 
-      deploy = {
-        user = "root";
-        sshUser = "root";
-        sshOpts = [
-          "-p"
-          "22"
-        ];
+      deploy =
+        let
+          activate = forAllSystems (
+            system:
+            (import nixpkgs {
+              inherit system;
+              overlays = [
+                deploy-rs.overlay # or deploy-rs.overlays.default
+                (self: super: {
+                  deploy-rs = {
+                    inherit (import nixpkgs { inherit system; }) deploy-rs;
+                    lib = super.deploy-rs.lib;
+                  };
+                })
+              ];
+            }).deploy-rs.lib.activate
+          );
+        in
+        {
+          user = "root";
+          sshUser = "root";
+          sshOpts = [
+            "-p"
+            "22"
+          ];
 
-        autoRollback = false;
-        magicRollback = false;
+          autoRollback = false;
+          magicRollback = false;
 
-        nodes = {
-          "vultr" = {
-            hostname = secrets.nodes."Vultr".publicIp;
-            profiles = {
-              system = {
-                path = deploy-rs.lib.x86_64-linux.activate.nixos self.nixosConfigurations."vultr";
+          nodes = {
+            "vultr" = {
+              hostname = secrets.nodes."Vultr".publicIp;
+              profiles = {
+                system = {
+                  path = activate.x86_64-linux.nixos self.nixosConfigurations."vultr";
+                };
               };
             };
-          };
-          "rpi" = {
-            hostname = secrets.nodes."RaspberryPi".localIp;
-            profiles = {
-              system = {
-                path = deploy-rs.lib.aarch64-linux.activate.nixos self.nixosConfigurations."rpi";
+            "rpi" = {
+              hostname = secrets.nodes."RaspberryPi".localIp;
+              profiles = {
+                system = {
+                  path = activate.aarch64-linux.nixos self.nixosConfigurations."rpi";
+                };
+              };
+            };
+            "mini" = {
+              hostname = secrets.nodes."mini".localIp;
+              profiles = {
+                system = {
+                  path = activate.x86_64-linux.nixos self.nixosConfigurations."mini";
+                };
               };
             };
           };
         };
-      };
     };
 }

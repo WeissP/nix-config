@@ -1,10 +1,6 @@
 {
   pkgs,
   myEnv,
-  myLib,
-  lib,
-  secrets,
-  configSession,
   ...
 }:
 with myEnv;

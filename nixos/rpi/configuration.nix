@@ -1,13 +1,6 @@
 {
-  modulesPath,
-  inputs,
-  outputs,
-  lib,
-  config,
   myEnv,
   pkgs,
-  secrets,
-  configSession,
   ...
 }:
 with myEnv;
@@ -17,8 +10,6 @@ with myEnv;
     ../common/psql.nix
     ../common/zsh.nix
     ../common/syncthing.nix
-    # ../common/jellyfin.nix
-    ../common/audiobookshelf.nix
     ../common/sing-box.nix
   ];
 
@@ -34,20 +25,16 @@ with myEnv;
   #   ];
   # };
 
-  time.timeZone = "Europe/Berlin";
   environment.systemPackages = with pkgs; [
     vim
     git
   ];
   services = {
-    ntp.enable = true;
     myPostgresql = {
       enable = true;
       package = pkgs.lts.postgresql_15;
     };
-    getty.autologinUser = "${username}";
     devmon.enable = true;
-    udisks2.enable = true;
     dnsmasq = {
       enable = false;
       alwaysKeepRunning = false;

@@ -6,7 +6,7 @@
 
 (defvar wks-org-extra-keymap (make-keymap "wks org extra keymap"))
 (define-prefix-command 'wks-org-extra-keymap-command 'wks-org-extra-keymap)
- 
+
 (with-eval-after-load 'org
   
   (defun weiss-org-return ()
@@ -16,6 +16,7 @@
     (call-interactively 'org-return))
 
   (wks-unset-key org-mode-map '("C-c C-j"))
+
   (wks-define-key
    org-mode-map ""
    '(("M-i" . org-shiftmetaleft)
@@ -28,9 +29,9 @@
      ("<return>" . weiss-org-return)
 
      ("<shifttab>" . org-shifttab)
-     ("-" . +org/dwim-at-point)
+     ;; ("-" . +org/dwim-at-point)
      (";" . org-meta-return)
-     ("\\" . weiss-org-export-latex-pdf)
+     ("\\" . +org/dwim-at-point)
      ;; ("$" . org-export-dispatch)
      ;; ("C" . org-copy-subtree)
      ("d" . weiss-org-cut-line-or-delete-region)
@@ -46,12 +47,13 @@
      ("C-c C-M-x f" . weiss-org-insert-image)
      ("C-c C-M-x u" . weiss-check-umlaut)
      ("C-c C-M-x t" . org-babel-tangle)
+     ("C-c C-M-x l" . weiss-insert-org-transclusion)
      ("C-c C-SPC" . TeX-next-error)
      ("C-c C-o" . org-noter)
      ("y d" . weiss-org-download-img)
      ("y g" . org-goto)
      ("C-c C-q" . weiss-set-org-tags)
-     ("C-c C-s" . org-id-get-create)
+     ("C-c C-s" . org-store-link)
      ("C-c C-t" . org-todo)
      ("C-c C-b" . org-mark-ring-goto)
      ;; ("y <tab>" . org-table-create-with-table\.el)

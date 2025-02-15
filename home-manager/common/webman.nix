@@ -1,14 +1,11 @@
 {
-  pkgs,
   lib,
-  myLib,
   myEnv,
-  config,
   secrets,
   outputs,
-  configSession,
   ...
 }:
+with myEnv;
 {
   imports = [ outputs.homeManagerModules.webman ];
   config =
@@ -29,11 +26,7 @@
             }
           else if tag == "public" then
             {
-              host.domain = "${builtins.elemAt (lib.attrsets.getAttrFromPath [
-                "nodes"
-                name
-                "domains"
-              ] secrets) 0}";
+              host.domain = "webman.${builtins.elemAt (builtins.attrNames secrets.persistentDomains) 0}";
               tls = true;
             }
           else
@@ -46,7 +39,7 @@
         {
           enable = true;
           apiKey = secrets.webman.apiKey;
-          nodes = toNode "RaspberryPi" "local" // toNode "Vultr" "public";
+          nodes = toNode "mini" "local" // toNode "Vultr" "public";
           server = {
             logLevel = "normal";
             secretKey = secrets.webman.secretKey;
@@ -59,18 +52,17 @@
             tagsFile = "${homeDir}/.config/webman/tags.yaml";
           };
         })
-        (ifServer {
+        (ifUsage "webman-server" {
           nodeName = "${configSession}";
-          cli.enable = false;
           server = {
             enable = true;
             dbUrl = "postgres://${username}:${secrets.sql.localPassword}@localhost:5432/webman";
             sync =
-              if configSession != "RaspberryPi" then
+              if configSession != "Vultr" then
                 [
                   {
                     name = "Vultr";
-                    interval = "5 hours";
+                    interval = "1 hours";
                   }
                 ]
               else
@@ -79,22 +71,18 @@
         })
         (lib.optionalAttrs (configSession == "Vultr") {
           nodes."${configSession}" = lib.mkForce {
-            host.ipv4 = lib.attrsets.getAttrFromPath [
-              "nodes"
-              configSession
-              "localIp"
-            ] secrets;
+            host.ipv4 = secrets.nodes.Vultr.localIp;
             port = 7777;
             tls = false;
           };
         })
         (ifDarwin {
-          nodes.MacBook = {
+          nodes."${configSession}" = {
             host.ipv4 = "127.0.0.1";
             port = 7777;
             tls = false;
           };
-          nodeName = "MacBook";
+          nodeName = "${configSession}";
           cli = {
             provider.browsers = {
               safari = {
@@ -107,7 +95,7 @@
               };
             };
             logLevel = "info";
-            target = "MacBook";
+            target = "${configSession}";
           };
           server = {
             enable = true;
@@ -115,18 +103,18 @@
             sync = [
               {
                 name = "Vultr";
-                interval = "5 hours";
+                interval = "2 hours";
               }
             ];
           };
         })
         (ifLinuxPersonal {
-          nodes.Desktop = {
+          nodes."${configSession}" = {
             host.ipv4 = "127.0.0.1";
             port = 7777;
             tls = false;
           };
-          nodeName = "Desktop";
+          nodeName = "${configSession}";
           cli = {
             provider.browsers = {
               # vivaldi.browser = "Vivaldi";
@@ -141,20 +129,17 @@
               };
             };
             logLevel = "info";
-            target = "RaspberryPi";
+            target =
+              if location == "home" then
+                "mini"
+              else if (builtins.elem "webman-server" usage) then
+                configSession
+              else
+                "Vultr";
             freq = "1min";
           };
-          server = {
-            enable = false;
-            dbUrl = "postgres://postgres:postgres@localhost:7776/webman";
-            sync = [
-              {
-                name = "RaspberryPi";
-                interval = "600 seconds";
-              }
-            ];
-          };
         })
+
       ];
     };
 }

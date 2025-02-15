@@ -4,13 +4,13 @@
   deps,
 }:
 trivialBuild rec {
-  pname = "consult-omni";
+  pname = "embark-consult";
   version = "latest";
   propagatedUserEnvPkgs = with deps; [
-    consult
     embark
     compat
+    consult
   ];
   buildInputs = propagatedUserEnvPkgs;
-  src = remoteFiles.consult-omni;
+  src = builtins.filterSource (path: type: baseNameOf path == "embark-consult.el") remoteFiles.embark;
 }

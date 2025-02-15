@@ -5,7 +5,7 @@
     (require 'f)
 
     (setq
-     consult-omni-denote-fd-args (list "fd" "--absolute-path --color=never -e org -e pdf")
+     consult-omni-denote-fd-args (list "fd" "--no-ignore" "--absolute-path --color=never -e org -e pdf")
      consult-omni-denote-fd-dir-invisible-length (length denote-directory)
      consult-omni-denote-fd-name-invisible-length 17
      )

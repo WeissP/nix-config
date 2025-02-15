@@ -14,12 +14,6 @@
   (cl-defun consult-omni--recentf-db-builder (input &rest args &key callback &allow-other-keys)
     "Makes builder command line args for “fd”."
     (list recentf-executable "search" input))
-
-  (defun consult-omni--notes-new-create-denote (&optional string)
-    "Makes new denote note"
-    (if-let* ((_ (push string denote-title-history))
-              (file (denote--command-with-features #'denote nil nil t nil)))
-        (consult-omni-propertize-by-plist string `(:title ,string :source "Notes Search" :url nil :search-url nil :query ,string :file ,(file-truename file)))))
   
   (defun consult-omni--recentf-db-filter (candidates &optional query)
     (seq-filter #'s-present? candidates)
@@ -27,6 +21,7 @@
   
   (consult-omni-define-source
    "recentf-db"
+   :min-input 3
    :narrow-char ?r
    :category 'file
    :type 'async
@@ -46,7 +41,7 @@
    :enabled (lambda () (bound-and-true-p recentf-executable))
    :annotate nil)
 
-  ;; (add-to-list 'consult-omni-multi-sources "recentf-db")
+  (add-to-list 'consult-omni-multi-sources "recentf-db")
   )
 
 

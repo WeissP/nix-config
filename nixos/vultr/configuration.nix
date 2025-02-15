@@ -4,19 +4,16 @@
   outputs,
   lib,
   config,
+  remoteFiles,
   myEnv,
   pkgs,
   myLib,
   secrets,
-  configSession,
   ...
 }:
 with myEnv;
 {
   imports = [
-    # (modulesPath + "/installer/scan/not-detected.nix")
-    # (modulesPath + "/profiles/qemu-guest.nix")
-    # ./disk-config.nix
     ./hardware-configuration.nix
     ../common/minimum.nix
     ../common/psql.nix
@@ -32,6 +29,8 @@ with myEnv;
   networking.hostName = "${username}-${configSession}";
 
   zramSwap.enable = true;
+
+  boot.kernelPackages = pkgs.linuxKernel.packages.linux_6_11;
   # boot.loader.systemd-boot.enable = true;
   # boot.loader.efi.canTouchEfiVariables = true;
 
@@ -68,23 +67,84 @@ with myEnv;
       recommendedProxySettings = false;
       recommendedTlsSettings = false;
       sslProtocols = "TLSv1 TLSv1.1 TLSv1.2 TLSv1.3";
-      virtualHosts = (
-        lib.attrsets.genAttrs secrets.nodes.Vultr.domains (domain: {
-          addSSL = true;
-          enableACME = true;
-          locations = {
-            "/" = {
-              proxyPass = "http://127.0.0.1:7777/";
+      virtualHosts =
+        let
+          vultrHosts = lib.attrsets.genAttrs secrets.nodes.Vultr.domains (domain: {
+            addSSL = true;
+            enableACME = true;
+            serverName = domain;
+            locations = {
+              "/" = {
+                proxyPass = "http://127.0.0.1:7777/";
+              };
+              "/${secrets.singbox.configServer.path}/config" = {
+                proxyPass = "http://127.0.0.1:${toString secrets.singbox.configServer.port}/";
+              };
             };
-            "/webman".proxyPass = "http://127.0.0.1:7777/";
-            "/${secrets.singbox.configServer.path}/config" = {
-              proxyPass = "http://127.0.0.1:${toString secrets.singbox.configServer.port}/";
+          });
+
+          mkPersistentHosts =
+            subdomain: mkCfg:
+            lib.listToAttrs (
+              map (domain: rec {
+                name = if subdomain == "" then domain else "${subdomain}.${domain}";
+                value = lib.mergeAttrs {
+                  serverName = name;
+                  addSSL = true;
+                  sslCertificate = "/var/lib/nginx/certs/${domain}.crt";
+                  sslCertificateKey = "/var/lib/nginx/certs/${domain}.key";
+                } (mkCfg domain);
+              }) (lib.attrNames secrets.persistentDomains)
+            );
+
+          webmanPersistentHosts = mkPersistentHosts "webman" (domain: {
+            locations = {
+              "/" = {
+                proxyPass = "http://127.0.0.1:7777/";
+              };
             };
-          };
-        })
-      );
+          });
+
+          singboxPersistentHosts = mkPersistentHosts "singbox" (domain: {
+            locations = {
+              "/${secrets.singbox.configServer.path}/config" = {
+                proxyPass = "http://127.0.0.1:${toString secrets.singbox.configServer.port}/";
+              };
+            };
+          });
+
+          rootPersistentHosts = mkPersistentHosts "" (domain: {
+            locations = {
+              "/".root = remoteFiles.myNixRepo + "/resources/namari-by-shapingrain/";
+            };
+          });
+
+        in
+        vultrHosts // webmanPersistentHosts // singboxPersistentHosts // rootPersistentHosts;
     };
 
+  };
+
+  systemd.services.nginx-certificates = {
+    description = "Create nginx certificates";
+    wantedBy = [ "nginx.service" ];
+    before = [ "nginx.service" ];
+    serviceConfig.Type = "oneshot";
+    script =
+      let
+        certCommands = lib.concatStrings (
+          lib.mapAttrsToList (domain: value: ''
+            mkdir -p /var/lib/nginx/certs
+            echo "${value.ssl.certificate}" > /var/lib/nginx/certs/${domain}.crt
+            echo "${value.ssl.key}" > /var/lib/nginx/certs/${domain}.key
+            chown nginx:nginx /var/lib/nginx/certs/${domain}.{crt,key}
+            chmod 400 /var/lib/nginx/certs/${domain}.key
+          '') secrets.persistentDomains
+        );
+      in
+      ''
+        ${certCommands}
+      '';
   };
 
   networking.firewall = {

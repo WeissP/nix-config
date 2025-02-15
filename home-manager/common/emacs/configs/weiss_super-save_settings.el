@@ -5,6 +5,10 @@
   (add-to-list 'super-save-triggers 'select-frame-set-input-focus)
   (add-to-list 'super-save-triggers 'dired-jump)
   (super-save-mode +1)
+
+  (with-eval-after-load 'aider 
+    (advice-add 'aider-transient-menu :before #'super-save-command-advice)
+    )
   )
 
 ;; parent: 

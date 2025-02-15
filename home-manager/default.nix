@@ -7,7 +7,6 @@
   pkgs,
   myEnv,
   secrets,
-  configSession,
   remoteFiles,
   ...
 }:
@@ -20,7 +19,6 @@ let
         secrets
         myEnv
         myLib
-        configSession
         remoteFiles
         ;
     };

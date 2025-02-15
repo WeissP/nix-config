@@ -1,6 +1,6 @@
 (with-eval-after-load 'org
   (setq
-   org-tag-alist '(("China" . ?c)("shoppingList" . ?s)("board-game" . ?b)("emacs" . ?e) ("video" . ?v)("misc" . ?m)("article" . ?a) ("eaf") ("snails") ("dired")("roam"))
+   org-tag-alist '(("noexport" . ?n))
    org-tags-column -80
    org-fast-tag-selection-single-key t
    )

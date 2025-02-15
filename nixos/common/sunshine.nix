@@ -4,7 +4,6 @@
   myLib,
   lib,
   secrets,
-  configSession,
   ...
 }:
 with myEnv;

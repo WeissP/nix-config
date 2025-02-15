@@ -63,22 +63,23 @@ rec {
       tail = convertLastSlice (tripletAt nFullSlices);
     in
     join (head ++ [ tail ]);
-  genEnv =
-    env: with env; rec {
+  expandEnv =
+    args:
+    with args;
+    args
+    // rec {
       ifDarwin = optionalAttrs (arch == "darwin");
       ifLinux = optionalAttrs (arch == "linux");
-      ifPersonal = optionalAttrs (builtins.elem "personal" usage);
-      ifRemoteServer = optionalAttrs (builtins.elem "remote-server" usage);
-      ifLocalServer = optionalAttrs (builtins.elem "local-server" usage);
-      ifRouter = optionalAttrs (builtins.elem "router" usage);
+      ifUsage = u: optionalAttrs (builtins.elem u usage);
+      ifPersonal = ifUsage "personal";
+      ifRemoteServer = ifUsage "remote-server";
+      ifLocalServer = ifUsage "local-server";
+      ifRouter = ifUsage "router";
       ifServer = optionalAttrs (
         builtins.elem "local-server" usage || builtins.elem "remote-server" usage
       );
       ifLinuxPersonal = optionalAttrs (arch == "linux" && builtins.elem "personal" usage);
       ifDarwinPersonal = optionalAttrs (arch == "darwin" && builtins.elem "personal" usage);
-      username = env.username;
-      arch = env.arch;
-      usage = env.usage;
       homeDir = if (arch == "darwin") then "/Users/${username}" else "/home/${username}";
       nixDir = "${homeDir}/nix-config";
       scriptsDir = "${homeDir}/scripts";
@@ -95,7 +96,7 @@ rec {
         };
       };
     };
-  validateSpecialArgs =
+  validateEnv =
     args:
     builtins.hasAttr "location" args
     && (builtins.hasAttr "configSession" args)
@@ -141,6 +142,7 @@ rec {
         Install.WantedBy = wantedBy;
         Service = {
           Type = "oneshot";
+          PassEnvironment = "PATH";
           RemainAfterExit = true;
           ExecStart = "/etc/profiles/per-user/${username}/bin/${binName}";
         } // service;

@@ -2,17 +2,17 @@
   pkgs,
   myEnv,
   myLib,
-  lib,
+  secrets,
   ...
 }:
 let
   xsettingsDir = "${myEnv.homeDir}/.config/xsettingsd";
   xsettingsConf = "${xsettingsDir}/xsettingsd.conf";
-  xsettingsdBin = "${pkgs.xsettingsd}/bin/xsettingsd";
   notifyBin = "${pkgs.libnotify}/bin/notify-send";
   killallBin = "${pkgs.killall}/bin/killall";
 in
-myEnv.ifLinux {
+with myEnv;
+ifLinux {
   home = {
     packages = with pkgs; [
       materia-theme
@@ -23,9 +23,8 @@ myEnv.ifLinux {
     xsettingsd.enable = true;
     darkman = {
       enable = true;
-      settings = {
-        lat = 49.2;
-        lng = 7.4;
+      settings = with secrets.locations."${location}"; {
+        inherit lat lng;
       };
       darkModeScripts = {
         notification = ''

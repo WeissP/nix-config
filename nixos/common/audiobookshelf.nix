@@ -1,14 +1,10 @@
 {
   pkgs,
-  lib,
-  myLib,
   myEnv,
-  config,
-  username,
   secrets,
-  configSession,
   ...
 }:
+with myEnv;
 {
   services.audiobookshelf = {
     enable = true;

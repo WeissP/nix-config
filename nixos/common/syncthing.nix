@@ -1,9 +1,7 @@
 {
-  pkgs,
   lib,
   myEnv,
   secrets,
-  configSession,
   ...
 }:
 with myEnv;
@@ -15,7 +13,6 @@ let
     token = secrets.syncthing.relayToken;
     address = "relay://${secrets.nodes.Vultr.publicIp}:${toString port}?id=${id}&token=${token}";
   };
-
   localAddress = [
     "tcp://0.0.0.0:22000"
     "quic://0.0.0.0:22000"
@@ -27,6 +24,10 @@ let
     "dynamic"
   ];
   devices = {
+    "mini" = {
+      id = "NXP4C4L-H3RUREP-TF3IJGV-75KL3EY-2JZVEOF-OBZX2KF-BQPO236-AHVF4AU";
+      address = globalAddress;
+    };
     "Desktop" = {
       id = "MCEQ2JV-HSSFYQ7-T7ON2HM-UBJWV7W-P5QT6HP-HKGGKVR-FHKBVWX-XGG2IQN";
       address = localAddress;
@@ -50,8 +51,8 @@ let
   };
   nodeInfo = secrets.nodes."${configSession}";
 in
-if (configSession == "Vultr") then
-  {
+lib.mkMerge [
+  (ifUsage "syncthing-relay-server" {
     networking.firewall.allowedTCPPorts = [
       22067
       22070
@@ -65,88 +66,100 @@ if (configSession == "Vultr") then
         extraOptions = [ "--token=${token}" ];
       };
     };
-  }
-else
-  lib.mkMerge [
-    (ifLinux {
-      services.syncthing = {
-        enable = true;
+  })
+  (lib.optionalAttrs (arch == "linux" && !(builtins.elem "remote-server" usage)) {
+    services.syncthing = {
+      enable = true;
+      user = "${username}";
+      dataDir = "${homeDir}"; # Default folder for new synced folders
+      configDir = "${homeDir}/.config/syncthing"; # Folder for Syncthing's settings and keys
+      overrideDevices = false;
+      overrideFolders = false;
+      settings = {
+        devices = lib.attrsets.filterAttrs (n: v: configSession != n) devices;
+        folders =
+          let
+            toDevices =
+              if (configSession == "RaspberryPi") then
+                [
+                  "Desktop"
+                  "mini"
+                  "iPhone"
+                  "Mac-Air"
+                  "iPad-mini"
+                ]
+              else if (configSession == "Bozhous-Air") then
+                [
+                  "iPhone"
+                  "iPad-mini"
+                  "mini"
+                ]
+              else if (configSession == "mini") then
+                [
+                  "Desktop"
+                  "Raspberrypi"
+                  "iPhone"
+                  "iPad-mini"
+                  "Mac-Air"
+                ]
+              else
+                [
+                  "Raspberrypi"
+                  "mini"
+                  "Mac-Air"
+                ];
+            genPath =
+              name:
+              if (configSession == "RaspberryPi") then "${homeDir}/syncthing/${name}" else "${homeDir}/${name}";
+          in
+          lib.mkMerge [
+            {
+              "Documents" = {
+                id = "ejsec-hhhop";
+                path = genPath "Documents";
+                devices = toDevices;
+              };
+              "nix-config" = {
+                id = "hwjvk-bhxn6";
+                path = genPath "nix-config";
+                devices = toDevices;
+              };
+              "podcasts" = {
+                id = "7gogk-utgtc";
+                path = genPath "podcasts";
+                devices = toDevices;
+              };
+              "projects" = {
+                id = "eu6nz-2urtd";
+                path = genPath "projects";
+                devices = toDevices;
+              };
+              "finance" = {
+                id = "ndnhp-9awzf";
+                path = genPath "finance";
+                devices = toDevices;
+              };
+              "dotconfig" = {
+                id = "qf5fh-k32bj";
+                path = genPath ".config";
+                devices = toDevices;
+              };
+            }
+          ];
+      };
+    };
+  })
+  (ifLocalServer {
+    networking.firewall.allowedTCPPorts = [
+      8384
+      22000
+    ];
+    services.syncthing = {
+      guiAddress = "${nodeInfo.localIp}:8384";
+      settings.gui = {
         user = "${username}";
-        dataDir = "${homeDir}"; # Default folder for new synced folders
-        configDir = "${homeDir}/.config/syncthing"; # Folder for Syncthing's settings and keys
-        overrideDevices = false;
-        overrideFolders = false;
-        settings = {
-          devices = lib.attrsets.filterAttrs (n: v: configSession != n) devices;
-          folders =
-            let
-              toDevices =
-                if (configSession == "RaspberryPi") then
-                  [
-                    "Desktop"
-                    "iPhone"
-                    "Mac-Air"
-                    "iPad-mini"
-                  ]
-                else if (configSession == "Bozhous-Air") then
-                  [
-                    "iPhone"
-                    "iPad-mini"
-                  ]
-                else
-                  [ "Raspberrypi" ];
-              genPath =
-                name:
-                if (configSession == "RaspberryPi") then "${homeDir}/syncthing/${name}" else "${homeDir}/${name}";
-            in
-            lib.mkMerge [
-              {
-                "Documents" = {
-                  id = "ejsec-hhhop";
-                  path = genPath "Documents";
-                  devices = toDevices;
-                };
-                "nix-config" = {
-                  id = "hwjvk-bhxn6";
-                  path = genPath "nix-config";
-                  devices = toDevices;
-                };
-                "podcasts" = {
-                  id = "7gogk-utgtc";
-                  path = genPath "podcasts";
-                  devices = toDevices;
-                };
-                "projects" = {
-                  id = "eu6nz-2urtd";
-                  path = genPath "projects";
-                  devices = toDevices;
-                };
-                "finance" = {
-                  id = "ndnhp-9awzf";
-                  path = genPath "finance";
-                  devices = toDevices;
-                };
-                "dotconfig" = {
-                  id = "qf5fh-k32bj";
-                  path = genPath ".config";
-                  devices = toDevices;
-                };
-              }
-            ];
-        };
+        password = nodeInfo.password.raw;
       };
-    })
-    (ifLocalServer {
-      networking.firewall.allowedTCPPorts = [
-        8384
-        22000
-      ];
-      services.syncthing = {
-        guiAddress = "${nodeInfo.localIp}:8384";
-        settings.gui = {
-          user = "${username}";
-          password = nodeInfo.password.raw;
-        };
-      };
-    })
-  ]
+    };
+  })
+]

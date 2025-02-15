@@ -50,6 +50,7 @@
                   "/home/${myEnv.username}/Documents" = { };
                   "/home/${myEnv.username}/Downloads" = { };
                   "/home/${myEnv.username}/games" = { };
+                  "/home/${myEnv.username}/Maildir" = { };
                   # Parent is not mounted so the mountpoint must be set
                   "/nix" = {
                     mountOptions = [

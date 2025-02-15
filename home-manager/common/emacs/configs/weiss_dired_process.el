@@ -3,7 +3,7 @@
     "DOCSTRING"
     (interactive)
     (let ((marked-files (dired-get-marked-files))
-          (target-path
+          (target-path 
            (or
             (car (dired-dwim-target-next))
             "~/Downloads/")))
@@ -43,7 +43,7 @@
             (weiss-start-process "copy-to-docker"
                                  (format "docker cp %s %s"
                                          (format "\"%s\"" x)
-                                         docker-path)))))
+                                         docker-path)))));;;
        (t
         (weiss-start-process "rsync"
                              (format "rsync -PaAXv %s \"%s\""

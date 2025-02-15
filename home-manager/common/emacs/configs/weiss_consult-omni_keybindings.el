@@ -1,3 +1,4 @@
+(setq consult-async-min-input 0)
 (with-eval-after-load 'consult-omni
 
   )

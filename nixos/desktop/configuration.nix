@@ -1,19 +1,12 @@
 {
-  inputs,
-  outputs,
-  lib,
-  config,
   myEnv,
   pkgs,
-  secrets,
-  configSession,
-  remoteFiles,
   ...
 }:
 with myEnv;
 {
   imports = [
-    ../common/personal.nix
+    ../common/minimum.nix
     ../common/sing-box.nix
     ../common/gpu.nix
   ];

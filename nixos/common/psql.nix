@@ -1,23 +1,37 @@
-{ pkgs, lib, myEnv, config, inputs, secrets, outputs, ... }:
+{
+  pkgs,
+  lib,
+  myEnv,
+  config,
+  inputs,
+  secrets,
+  outputs,
+  ...
+}:
 with lib;
 with myEnv;
-let cfg = config.services.myPostgresql;
-in {
-  options.services.myPostgresql = rec {
+let
+  cfg = config.services.myPostgresql;
+in
+{
+  options.services.myPostgresql = {
     enable = mkEnableOption "myPostgresql";
     package = mkOption {
-      type = types.package;
+      type = types.nullOr types.package;
+      default = null;
       example = literalExpression "pkgs.postgresql_11";
       description = ''
         PostgreSQL package to use.
       '';
     };
-    dataDir = with types;
+    dataDir =
+      with types;
       mkOption {
         type = str;
         default = "/var/lib/postgresql";
       };
-    databases = with types;
+    databases =
+      with types;
       mkOption {
         type = listOf str;
         default = [ ];
@@ -31,7 +45,6 @@ in {
           postgresql = mkMerge [
             {
               enable = true;
-              package = cfg.package;
               enableTCPIP = true;
               authentication = pkgs.lib.mkOverride 10 ''
                 local all all              trust
@@ -39,9 +52,15 @@ in {
                 host  all all ::1/128      md5
               '';
             }
+            (lib.optionalAttrs (cfg.package != null) {
+              package = cfg.package;
+            })
             (ifDarwin {
               dataDir = cfg.dataDir;
-              initdbArgs = [ "--locale=de_DE.UTF-8" "-D ${cfg.dataDir}" ];
+              initdbArgs = [
+                "--locale=de_DE.UTF-8"
+                "-D ${cfg.dataDir}"
+              ];
             })
             (ifLinux {
               initialScript = pkgs.writeText "backend-initScript" ''
@@ -81,4 +100,3 @@ in {
     })
   ]);
 }
-

@@ -1,9 +1,14 @@
 ## Specify the model to use for the main chat
-deepseek: false
-sonnet: true
+model: openai/o3-mini 
+# model: deepseek/deepseek-reasoner 
+editor-model: deepseek/deepseek-chat
+# sonnet:
+reasoning-effort: high
+detect-urls: false
+
 
 ## Specify the .env file to load (default: .env in git root)
-env-file: "/home/weiss/.config/aider/aider.env"
+# env-file: "~/.config/aider/aider.env"
 
 #################
 # Cache Settings:
@@ -54,7 +59,7 @@ cache-prompts: true
 #pretty: true
 
 ## Enable/disable streaming responses (default: True)
-#stream: true
+stream: true
 
 ## Set the color for user input (default: #00cc00)
 #user-input-color: #00cc00
@@ -105,7 +110,7 @@ cache-prompts: true
 #subtree-only: false
 
 ## Enable/disable auto commit of LLM changes (default: True)
-auto-commits: false
+auto-commits: true
 
 ## Enable/disable commits when repo is found dirty (default: True)
 dirty-commits: true
@@ -117,13 +122,13 @@ dirty-commits: true
 #attribute-committer: true
 
 ## Prefix commit messages with 'aider: ' if aider authored the changes (default: False)
-#attribute-commit-message-author: false
+attribute-commit-message-author: true
 
 ## Prefix all commit messages with 'aider: ' (default: False)
-#attribute-commit-message-committer: false
+attribute-commit-message-committer: false
 
 ## Commit all pending changes with a suitable commit message, then exit
-#commit: false
+commit: false
 
 ## Specify a custom prompt for generating commit messages
 #commit-prompt: xxx
@@ -149,7 +154,7 @@ dirty-commits: true
 #  - zzz
 
 ## Enable/disable automatic linting after changes (default: True)
-#auto-lint: true
+auto-lint: true
 
 ## Specify command to run tests
 #test-cmd: xxx

@@ -37,9 +37,15 @@ lib.mkMerge [
         "x-scheme-handler/unknown" = [ "${defaultApp}" ];
       };
     };
-    systemd.user.services.start_browser = myLib.service.startup {
-      inherit (myEnv) username;
-      binName = defaultBrowserName;
-    };
+    # systemd.user.services.start_browser = myLib.service.startup {
+    #   inherit (myEnv) username;
+    #   binName = defaultBrowserName;
+    #   service = {
+    #     Environment = "GTK_IM_MODULE=fcitx QT_IM_MODULE=fcitx XMODIFIERS=@im=fcitx";
+    #     # PassEnvironment = [
+    #     #   "PATH"
+    #     # ];
+    #   };
+    # };
   })
 ]

@@ -30,6 +30,7 @@
   
   (consult-omni-define-source
    "Emacs Config" 
+   :min-input 2
    :category 'emacs-config
    :narrow-char ?e
    :on-callback #'weiss-find-emacs-config

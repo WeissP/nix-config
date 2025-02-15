@@ -2,9 +2,6 @@
   pkgs,
   secrets,
   myEnv,
-  myLib,
-  lib,
-  configSession,
   ...
 }:
 with myEnv;

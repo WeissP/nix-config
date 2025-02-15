@@ -232,8 +232,8 @@ in
           aider = {
             emacsPackages = [ "aider" ];
             externalPackages = [
-              pkgs.pinnedUnstables."2024-09-16".aider-chat
-              # pkgs.aider-chat
+              # pkgs.pinnedUnstables."2024-09-16".aider-chat
+              pkgs.aider-chat
             ];
           };
           gptel = {
@@ -359,25 +359,13 @@ in
                   recursive = true;
                 };
               };
-          telega =
-            let
-              pkg = pkgs.callPackage ./packages/telega-server.nix {
-                inherit (pkgs)
-                  fetchFromGitHub
-                  pkg-config
-                  stdenv
-                  system
-                  ;
-              };
-            in
-            {
-              cmds = ''(setq telega-server-command "${pkg.outPath}/bin/telega-server")'';
-              externalPackages = [
-                pkg
-                pkgs.ffmpeg
-              ];
-              emacsPackages = [ "telega" ];
-            };
+          telega = {
+            cmds = ''(setq weiss-telega-tdlib-max-version "1.8.3")'';
+            externalPackages = [
+              pkgs.ffmpeg
+            ];
+            emacsPackages = [ "telega" ];
+          };
           mind-wave =
             let
               apiPath = "${cfg.localPkgPath}/mind-wave/schluessel.txt";
@@ -602,10 +590,10 @@ in
           };
 
           embark = pkgs.callPackage ./packages/embark.nix {
+            inherit remoteFiles;
             inherit (final) trivialBuild;
-            inherit (pkgs) fetchFromGitHub;
-            deps = with final; {
-              inherit
+            deps = {
+              inherit (final)
                 org
                 avy
                 compat
@@ -614,20 +602,43 @@ in
             };
           };
 
+          embark-consult = pkgs.callPackage ./packages/embark-consult.nix {
+            inherit remoteFiles;
+            inherit (final) trivialBuild;
+            deps = {
+              inherit embark;
+              inherit (final)
+                compat
+                consult
+                ;
+            };
+          };
+
+          citar-embark = pkgs.callPackage ./packages/citar-embark.nix {
+            inherit remoteFiles;
+            inherit (final) trivialBuild;
+            deps = {
+              inherit embark;
+              inherit (final)
+                citar
+                ;
+            };
+          };
+
           aider = pkgs.callPackage ./packages/aider.nix {
             inherit (final) trivialBuild;
-            inherit (pkgs) fetchFromGitHub;
+            inherit remoteFiles;
             deps = with final; {
-              inherit transient helm;
+              inherit transient helm magit;
             };
           };
 
           consult-omni = pkgs.callPackage ./packages/consult-omni.nix {
+            inherit remoteFiles;
             inherit (final) trivialBuild;
-            inherit (pkgs) fetchFromGitHub;
             deps = {
-              inherit consult embark;
-              inherit (final) compat;
+              inherit embark;
+              inherit (final) compat consult;
             };
           };
 

@@ -1,4 +1,4 @@
-(with-eval-after-load 'password-store
+(with-eval-after-load 'password-store 
   (with-eval-after-load 'embark
     (defvar-keymap embark-password-store-actions
       :doc "Keymap for actions for password-store."

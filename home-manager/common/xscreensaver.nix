@@ -1,5 +1,13 @@
-{ config, myEnv, myLib, lib, pkgs, ... }:
+{
+  config,
+  myEnv,
+  myLib,
+  lib,
+  pkgs,
+  ...
+}:
 (myEnv.ifLinux {
+  home.packages = with pkgs; [ additions.gluqlo ];
   services.xscreensaver = {
     enable = true;
     settings = {
@@ -14,4 +22,3 @@
     };
   };
 })
-

@@ -14,7 +14,6 @@
           (ruby . t)
           (ob-fsharp . t)
           (ob-javascript . t)
-          (ob-go . t)
           (ob-rust . t)
           (ob-java . t)
           (ob-sql-mode . t)

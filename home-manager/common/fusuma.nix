@@ -1,10 +1,19 @@
-{ pkgs, myEnv, lib, ... }:
+{
+  pkgs,
+  myEnv,
+  lib,
+  ...
+}:
 
 (myEnv.ifLinux {
   services = {
     fusuma = rec {
       enable = true;
-      extraPackages = with pkgs; [ xdotool coreutils ];
+      package = pkgs.pinnedUnstables."2024-10-11".fusuma;
+      extraPackages = with pkgs; [
+        xdotool
+        coreutils
+      ];
       settings = {
         swipe = {
           "3" = {

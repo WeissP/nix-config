@@ -4,13 +4,12 @@
   deps,
 }:
 trivialBuild rec {
-  pname = "consult-omni";
+  pname = "citar-embark";
   version = "latest";
   propagatedUserEnvPkgs = with deps; [
-    consult
     embark
-    compat
+    citar
   ];
   buildInputs = propagatedUserEnvPkgs;
-  src = remoteFiles.consult-omni;
+  src = builtins.filterSource (path: type: baseNameOf path == "citar-embark.el") remoteFiles.citar;
 }

@@ -1,12 +1,11 @@
 {
+
   inputs,
   outputs,
   myEnv,
   lib,
   config,
   pkgs,
-  username,
-  location,
   secrets,
   myLib,
   ...
@@ -23,7 +22,7 @@
       ./shell
       ./ripgrep.nix
       ./browser.nix
-      ./location.nix
+      ./aider.nix
       ./singboxConfig.nix
       ./mpv.nix
     ]
@@ -38,7 +37,6 @@
           ./xscreensaver.nix
           ./darkman.nix
           ./ariang.nix
-          ./aider.nix
           ./sioyek.nix
           ./autorandr.nix
         ]
@@ -56,7 +54,9 @@
           in
           lib.mkMerge [
             {
-              sessionPath = [ scriptsDir ];
+              sessionPath = [
+                scriptsDir
+              ];
               sessionVariables = {
                 SCRIPTS_DIR = myEnv.scriptsDir;
                 RASP_IP = secrets.nodes.RaspberryPi.localIp;
@@ -70,6 +70,7 @@
                 "${homeDir}/.ssh/id_rsa".text = secrets.ssh."163".private;
               };
               packages = with pkgs; [
+                fd
                 bibtex-tidy
                 wget
                 alacritty
@@ -93,78 +94,74 @@
                 })
                 # additions.ammonite.ammonite_3_2
                 ghostscript
-                (texlive.combine {
-                  inherit (texlive) scheme-full;
-                  pkgFilter = pkg: pkg.tlType == "run" || pkg.tlType == "bin" || pkg.pname == "cm-super";
-                })
               ];
             }
             (ifDarwin {
               packages = with pkgs; [
                 iterm2
                 ocamlPackages.cpdf
-                # (texlive.combine {
-                #   inherit (texlive)
-                #     scheme-tetex
-                #     collection-langkorean
-                #     algorithms
-                #     cm-super
-                #     pgf
-                #     dvipng
-                #     dvisvgm
-                #     enumitem
-                #     graphics
-                #     wrapfig
-                #     amsmath
-                #     ulem
-                #     hyperref
-                #     capt-of
-                #     framed
-                #     multirow
-                #     vmargin
-                #     comment
-                #     minted
-                #     doublestroke
-                #     pgfplots
-                #     titlesec
-                #     subfigure
-                #     adjustbox
-                #     algorithm2e
-                #     ifoddpage
-                #     relsize
-                #     qtree
-                #     pict2e
-                #     lipsum
-                #     ifsym
-                #     fontawesome
-                #     changepage
-                #     inconsolata
-                #     xcolor
-                #     cancel
-                #     stmaryrd
-                #     wasysym
-                #     wasy
-                #     makecell
-                #     forest
-                #     mnsymbol
-                #     biblatex
-                #     fontawesome5
-                #     pbox
-                #     rsfso
-                #     upquote
-                #     acmart
-                #     ieeetran
-                #     beamertheme-arguelles
-                #     alegreya
-                #     fontaxes
-                #     mathalpha
-                #     opencolor
-                #     tcolorbox
-                #     ;
-                #   pkgFilter = pkg: pkg.tlType == "run" || pkg.tlType == "bin" || pkg.pname == "cm-super";
-                #   # builtins.elem tlType [ "run" "bin" "doc" "source" ]
-                #   # there are also other attributes: version, name
-                # })
+                (texlive.combine {
+                  inherit (texlive)
+                    scheme-tetex
+                    collection-langkorean
+                    algorithms
+                    cm-super
+                    pgf
+                    dvipng
+                    dvisvgm
+                    enumitem
+                    graphics
+                    wrapfig
+                    amsmath
+                    ulem
+                    hyperref
+                    capt-of
+                    framed
+                    multirow
+                    vmargin
+                    comment
+                    minted
+                    doublestroke
+                    pgfplots
+                    titlesec
+                    subfigure
+                    adjustbox
+                    algorithm2e
+                    ifoddpage
+                    relsize
+                    qtree
+                    pict2e
+                    lipsum
+                    ifsym
+                    fontawesome
+                    changepage
+                    inconsolata
+                    xcolor
+                    cancel
+                    stmaryrd
+                    wasysym
+                    wasy
+                    makecell
+                    forest
+                    mnsymbol
+                    biblatex
+                    fontawesome5
+                    pbox
+                    rsfso
+                    upquote
+                    acmart
+                    ieeetran
+                    beamertheme-arguelles
+                    alegreya
+                    fontaxes
+                    mathalpha
+                    opencolor
+                    tcolorbox
+                    ;
+                  pkgFilter = pkg: pkg.tlType == "run" || pkg.tlType == "bin" || pkg.pname == "cm-super";
+                  # builtins.elem tlType [ "run" "bin" "doc" "source" ]
+                  # there are also other attributes: version, name
+                })
               ];
             })
             (ifLinux {
@@ -176,6 +173,12 @@
                 gtk.enable = true;
               };
               packages = with pkgs; [
+                (texlive.combine {
+                  inherit (texlive) scheme-full;
+                  pkgFilter = pkg: pkg.tlType == "run" || pkg.tlType == "bin" || pkg.pname == "cm-super";
+                })
+                bluetui
+                okular
                 ffmpeg
                 # nur.repos.xddxdd.wechat-uos-bin
                 qemu
@@ -286,17 +289,17 @@
         };
         systemd.user = {
           services = {
-            start_steam = myLib.service.startup {
-              inherit (myEnv) username;
-              binName = "steam";
-            };
-            mapwacom = {
+            # start_steam = myLib.service.startup {
+            #   inherit (myEnv) username;
+            #   binName = "steam";
+            # };
+            mapwacom = with secrets.locations."${location}"; {
               Unit.Description = "map main screen to wacom";
               Install.WantedBy = [ "autostart.target" ];
               Service = {
                 Type = "oneshot";
                 RemainAfterExit = true;
-                ExecStart = ''${scriptsDir}/mapwacom.sh --device-regex ".*Wacom.*" -s "DisplayPort-0"'';
+                ExecStart = ''${scriptsDir}/mapwacom.sh --device-regex ".*Wacom.*" -s "${mainScreen}"'';
                 PassEnvironment = "PATH";
               };
             };
@@ -342,7 +345,7 @@
           pasystray.enable = true;
           kdeconnect.enable = true;
           dunst.enable = true;
-          blueman-applet.enable = true;
+          blueman-applet.enable = false;
           mpris-proxy.enable = true; # let buttons of bluetooth devices work
           unclutter = {
             enable = true;

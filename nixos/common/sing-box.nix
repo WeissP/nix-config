@@ -1,10 +1,8 @@
 {
   pkgs,
   myEnv,
-  myLib,
   lib,
   secrets,
-  configSession,
   ...
 }:
 let
@@ -15,7 +13,7 @@ lib.mkMerge [
   {
     environment.systemPackages = [ pkg ];
   }
-  (lib.optionalAttrs (configSession == "installer") {
+  (lib.optionalAttrs (location == "china" && arch == "linux") {
     systemd.packages = [ pkg ];
     systemd.services.sing-box = {
       serviceConfig = {
@@ -70,21 +68,21 @@ lib.mkMerge [
       listen = "[::]:${toString secrets.singbox.configServer.port}";
       root = "${singboxCfgDir}";
     };
-    systemd = {
-      packages = [ pkg ];
-      services.sing-box = {
-        serviceConfig = {
-          StateDirectory = "sing-box";
-          StateDirectoryMode = "0700";
-          RuntimeDirectory = "sing-box";
-          RuntimeDirectoryMode = "0700";
-          ExecStart = [
-            ""
-            "${lib.getExe pkg} -D \${STATE_DIRECTORY} -c ${singboxCfgDir}/server.json run"
-          ];
-        };
-        wantedBy = [ "multi-user.target" ];
-      };
-    };
+    # systemd = {
+    #   packages = [ pkg ];
+    #   services.sing-box = {
+    #     serviceConfig = {
+    #       StateDirectory = "sing-box";
+    #       StateDirectoryMode = "0700";
+    #       RuntimeDirectory = "sing-box";
+    #       RuntimeDirectoryMode = "0700";
+    #       ExecStart = [
+    #         ""
+    #         "${lib.getExe pkg} -D \${STATE_DIRECTORY} -c ${singboxCfgDir}/server.json run"
+    #       ];
+    #     };
+    #     wantedBy = [ "multi-user.target" ];
+    #   };
+    # };
   })
 ]

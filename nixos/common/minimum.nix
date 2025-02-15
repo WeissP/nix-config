@@ -1,18 +1,30 @@
 {
   pkgs,
   lib,
-  myLib,
   myEnv,
   secrets,
   config,
   inputs,
-  location,
   outputs,
-  configSession,
   ...
 }:
 {
-  imports = [ ./location.nix ];
+  imports =
+    let
+      importUsage =
+        attrs: lib.flatten (lib.attrValues (lib.filterAttrs (key: _: builtins.elem key myEnv.usage) attrs));
+    in
+    [
+      ./location.nix
+    ]
+    ++ importUsage {
+      local-server = [
+        ./jellyfin.nix
+        ./audiobookshelf.nix
+      ];
+      personal = ./personal.nix;
+      webman-server = ./psql.nix;
+    };
   config =
     with lib;
     with myEnv;
@@ -93,8 +105,8 @@
               keep-derivations = true
             '';
             gc = {
-              dates = "weekly";
-              options = "--delete-older-than 7d";
+              dates = "daily";
+              options = "--delete-older-than 4d";
             };
           })
           (ifServer {
@@ -120,10 +132,12 @@
           ];
           config = {
             allowUnfree = true;
-            permittedInsecurePackages = [ "openssl-1.1.1w" ];
           };
         };
 
+        networking = {
+          networkmanager.enable = true;
+        };
         users.users."${username}" = mkMerge [
           { home = homeDir; }
           (ifLinux {
@@ -153,6 +167,7 @@
           (ifDarwin { nix-daemon.enable = true; })
           (ifLinux {
             ntp.enable = true;
+            getty.autologinUser = "${username}";
             printing.enable = true;
             dbus.packages = [ pkgs.gcr ];
             udisks2.enable = true;
@@ -187,15 +202,24 @@
             KbdInteractiveAuthentication = true;
           };
         };
-        users.users = {
-          "root".openssh.authorizedKeys.keys = secrets.ssh."163".authorizedKeys;
-          "${username}" = {
-            openssh.authorizedKeys.keys = secrets.ssh."163".authorizedKeys;
-            hashedPassword = secrets.nodes."${configSession}".password.hashed;
+        users = {
+          mutableUsers = false;
+          users = {
+            "root" = {
+              openssh.authorizedKeys.keys = secrets.ssh."163".authorizedKeys;
+              hashedPassword = secrets.nodes."${configSession}".password.hashed;
+              # password = secrets.nodes."${configSession}".password.raw;
+            };
+            "${username}" = {
+              openssh.authorizedKeys.keys = secrets.ssh."163".authorizedKeys;
+              # password = secrets.nodes."${configSession}".password.raw;
+              hashedPassword = secrets.nodes."${configSession}".password.hashed;
+            };
           };
         };
       })
       (ifLinux {
+        boot.initrd.systemd.enable = true;
         environment.systemPackages = with pkgs; [ util-linux ];
         i18n = {
           defaultLocale = "en_US.UTF-8";
@@ -210,6 +234,11 @@
             LC_TELEPHONE = "de_DE.UTF-8";
             LC_TIME = "de_DE.UTF-8";
           };
+        };
+      })
+      (optionalAttrs (builtins.elem "webman-server" usage) {
+        services.myPostgresql = {
+          enable = true;
         };
       })
     ];

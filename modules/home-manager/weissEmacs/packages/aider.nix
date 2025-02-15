@@ -1,19 +1,18 @@
 {
   trivialBuild,
-  fetchFromGitHub,
+  remoteFiles,
   deps,
 }:
 trivialBuild rec {
   pname = "aider";
-  version = "20a72c239b05a97d9f17e69891dd022481b257e9";
-  propagatedUserEnvPkgs = with deps; [ transient helm];
+  version = "latest";
+  propagatedUserEnvPkgs = with deps; [
+    transient
+    helm
+    magit
+  ];
   buildInputs = propagatedUserEnvPkgs;
-  src = (
-    fetchFromGitHub {
-      owner = "tninja";
-      repo = "aider.el";
-      rev = version;
-      hash = "sha256-E7L+OczHNA8FsbWmJGzjRf5+vkBWqwuMF21TDfx7tNo=";
-    }
-  );
+  src = builtins.filterSource (
+    path: type: baseNameOf path != "test_aider.el" && baseNameOf path != "aider-doom.el"
+  ) remoteFiles.aider-el;
 }

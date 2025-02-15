@@ -1,3 +1,14 @@
+(defun weiss-revert-buffer ()
+  "DOCSTRING"
+  (interactive)
+  (if-let ((p (buffer-file-name)))
+      (progn
+        (kill-buffer)
+        (find-file p)
+        )
+    (revert-buffer-quick)
+    ))
+
 (defun plist-merge (&rest plists)
   "Create a single property list from all PLISTS.
 Inspired by `org-combine-plists'."
@@ -343,13 +354,13 @@ Inspired by `org-combine-plists'."
 (defun weiss-start-process (proc-name command)
   "DOCSTRING"
   (interactive)
-  (message "%s" command)
-  ;; (let* ((name (concat "process:" proc-name))
-  ;;        (b (generate-new-buffer name))
-  ;;        ;; (default-directory "/")
-  ;;        )
-  ;;   (start-process-shell-command proc-name b command)
-  ;;   (display-buffer b))
+  ;; (message "%s" command)
+  (let* ((name (concat "process:" proc-name))
+         (b (generate-new-buffer name))
+         ;; (default-directory "/")
+         )
+    (start-process-shell-command proc-name b command)
+    (display-buffer b))
   )
 
 (defun weiss-eval-last-sexp-this-line()

@@ -21,6 +21,7 @@
     
     (consult-omni-define-source
      "Tab Group" 
+     :min-input 1
      :category 'tab 
      :narrow-char ?t
      :type 'sync
@@ -40,8 +41,5 @@
     (add-to-list 'consult-omni-multi-sources "Tab Group")    
     )
   )
-
-
-
 
 (provide 'weiss_tab-line_consult-omni)

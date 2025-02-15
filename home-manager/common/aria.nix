@@ -1,10 +1,7 @@
 {
-  pkgs,
   myEnv,
   myLib,
-  lib,
   secrets,
-  configSession,
   ...
 }:
 with myEnv;
@@ -45,7 +42,11 @@ in
     enable = true;
     settings = {
       dir = "${downloadDir}";
-      rpc-secret = secrets.nodes."${configSession}".password.raw;
+      rpc-secret =
+        if builtins.hasAttr "password" secrets.nodes."${configSession}" then
+          secrets.nodes."${configSession}".password.raw
+        else
+          "aria";
       input-file = sess;
       on-download-complete = onCompleteScriptPath;
       save-session = sess;

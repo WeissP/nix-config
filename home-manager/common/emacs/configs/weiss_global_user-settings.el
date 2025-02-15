@@ -87,6 +87,7 @@
 
 (setq
  weiss/notes-dir (file-name-as-directory (expand-file-name "~/Documents/notes/"))
+ weiss/chats-dir (file-name-as-directory (expand-file-name "~/Documents/chats/"))
  weiss/academic-dir (file-name-as-directory weiss/notes-dir)
  weiss/academic-documents (file-name-as-directory (concat weiss/academic-dir "papers"))
  weiss/bibs (list

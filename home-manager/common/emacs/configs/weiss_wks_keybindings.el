@@ -68,7 +68,7 @@
    ("M-DEL" . (weiss-insert-single-vertical-bar (insert "|")))
    ("M-j" . forward-paragraph)
    ("M-k" . backward-paragraph)
-   ("<f5>" . revert-buffer)
+   ("<f5>" . weiss-revert-buffer)
    ("<f12>" . dabbrev-expand)
    ("M-e" . eldoc)
    ("C-n" . recenter-top-bottom)

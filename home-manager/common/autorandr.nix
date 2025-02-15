@@ -1,17 +1,4 @@
 {
-  inputs,
-  outputs,
-  myEnv,
-  lib,
-  config,
-  pkgs,
-  username,
-  location,
-  secrets,
-  myLib,
-  ...
-}:
-{
   services.autorandr.enable = true;
   programs.autorandr = {
     enable = true;

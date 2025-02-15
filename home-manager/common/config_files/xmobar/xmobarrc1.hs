@@ -33,7 +33,7 @@ Config
             "--high",
             "red"
           ]
-          18000
+          1000
     ],
     template = " <fc=#98be65>%date%</fc>\
                \ <fc=#666666>|</fc>\

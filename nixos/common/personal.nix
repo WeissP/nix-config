@@ -1,20 +1,13 @@
 {
   pkgs,
   lib,
-  myLib,
   myEnv,
-  secrets,
-  config,
-  inputs,
-  outputs,
-  configSession,
   ...
 }:
 with lib;
 with myEnv;
 {
   imports = [
-    ./minimum.nix
     ./xmonad
     ./psql.nix
     ./syncthing.nix
@@ -24,9 +17,6 @@ with myEnv;
     ./fonts.nix
   ];
 
-  networking = {
-    networkmanager.enable = true;
-  };
   services = {
     joycond.enable = true;
     geoclue2.enable = true;
@@ -39,6 +29,11 @@ with myEnv;
         naturalScrolling = true;
         accelSpeed = "0.5"; # float number between -1 and 1.
       };
+    };
+    pulseaudio = {
+      enable = false;
+      support32Bit = true;
+      # package = pkgs.pulseaudioFull;
     };
     pipewire = {
       enable = true;
@@ -62,7 +57,6 @@ with myEnv;
     blueman.enable = true;
     myPostgresql = {
       enable = true;
-      package = pkgs.lts.postgresql_15;
     };
   };
 
@@ -81,7 +75,6 @@ with myEnv;
       git-crypt
       ripgrep
       cachix
-      fd
       killall
       locale
       unzip
@@ -98,11 +91,10 @@ with myEnv;
   };
 
   hardware = {
-    pulseaudio.enable = false;
-    bluetooth.enable = true;
+    bluetooth = {
+      enable = true;
+    };
     graphics.enable32Bit = true;
-    pulseaudio.support32Bit = true;
-
   };
 
   virtualisation.docker = {

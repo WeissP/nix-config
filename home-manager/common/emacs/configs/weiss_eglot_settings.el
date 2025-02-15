@@ -5,7 +5,7 @@
   ;; (add-to-list 'eglot-server-programs '(java-mode "jdtls"))
   (add-to-list 'eglot-server-programs '(svelte-mode . ("svelteserver" "--stdio")))
   (add-to-list 'eglot-server-programs '(haskell-mode . ("haskell-language-server" "--lsp")))
-
+ 
   (add-to-list 'eglot-ignored-server-capabilities :documentHighlightProvider)
   (add-to-list 'eglot-ignored-server-capabilities :inlayHintProvider)
   

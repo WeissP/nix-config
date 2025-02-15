@@ -1,5 +1,6 @@
 # This file defines overlays
 { inputs, ... }:
+
 {
   # This one brings our custom packages from the 'pkgs' directory
   additions = final: _prev: { additions = import ../pkgs { pkgs = final; }; };
@@ -7,18 +8,31 @@
   # This one contains whatever you want to overlay
   # You can change versions, add patches, set compilation flags, anything really.
   # https://nixos.wiki/wiki/Overlays
-  modifications = final: prev: {
-    recentf = inputs.recentf.packages."${prev.system}".default;
-    webman = inputs.webman.packages."${prev.system}";
-    weissXmonad = inputs.weissXmonad.packages."${prev.system}".default;
-    ripgrep-all = inputs.nixpkgs-lts.legacyPackages."${prev.system}".ripgrep-all;
-    hledger-importer = inputs.hledger-importer.packages."${prev.system}".default;
-    nix-alien = inputs.nix-alien.packages."${prev.system}".default;
-    # tdlib = tdlib180.tdlib;
-    # example = prev.example.overrideAttrs (oldAttrs: rec {
-    # ...
-    # });
-  };
+  modifications =
+    final: prev:
+    let
+      master = import inputs.nixpkgs-master {
+        system = final.system;
+        config.allowUnfree = true;
+      };
+    in
+    {
+      recentf = inputs.recentf.packages."${prev.system}".default;
+      webman = inputs.webman.packages."${prev.system}";
+      weissXmonad = inputs.weissXmonad.packages."${prev.system}".default;
+      ripgrep-all = inputs.nixpkgs-lts.legacyPackages."${prev.system}".ripgrep-all;
+      hledger-importer = inputs.hledger-importer.packages."${prev.system}".default;
+      nix-alien = inputs.nix-alien.packages."${prev.system}".default;
+      # aider-chat = master.pkgs.aider-chat;
+      tdlib =
+        (import (builtins.fetchTarball {
+          url = "https://github.com/NixOS/nixpkgs/archive/611bf8f183e6360c2a215fa70dfd659943a9857f.tar.gz";
+          sha256 = "sha256:1rhrajxywl1kaa3pfpadkpzv963nq2p4a2y4vjzq0wkba21inr9k";
+        }) { inherit (prev) system; }).tdlib;
+      # example = prev.example.overrideAttrs (oldAttrs: rec {
+      # ...
+      # });
+    };
 
   pinnedUnstables = final: prev: {
     pinnedUnstables = {

@@ -1,13 +1,5 @@
 {
-  inputs,
-  outputs,
-  lib,
-  config,
-  myEnv,
   pkgs,
-  secrets,
-  configSession,
-  remoteFiles,
   ...
 }:
 {

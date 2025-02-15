@@ -6,6 +6,7 @@
     "DOCSTRING"
     (interactive)
     (when (called-interactively-p 'any)      
+      (when flymake-mode (flymake-start))
       (when-let (formatters (apheleia--get-formatters))
         (apheleia-format-buffer
          formatters
@@ -17,12 +18,7 @@
              (run-with-timer 4 nil #'flymake-start)
              )                                             
            ))
-        ;; (let ((exec-path exec-path))
-        ;;   (when-let ((dir-env (getenv "DEVSHELL_DIR")))
-        ;;     (add-to-list 'exec-path dir-env)
-        ;;     )
-
-        ;;   )
+        (when flymake-mode (run-with-timer 3 nil #'flymake-start))
         )
       )
     )
@@ -34,12 +30,11 @@
   ;;           (lambda () (run-with-idle-timer flymake-no-changes-timeout t #'flymake-start)))
 
 
-  (push '(scalafmt . ("scalafmt"
+  (push '(scalafmt . ("scalafmt" 
                       (when-let* ((project (project-current))
                                   (root (project-root project)))
                         (list "--config" (expand-file-name ".scalafmt.conf" root)))
-                      filepath
-                      "--stdout"))
+                      "--stdin"))
         apheleia-formatters)    
   (push '(zprint . ("zprint" "{:search-config? true}")) apheleia-formatters)    
   ;; (push '(nufmt . ("nufmt" file)) apheleia-formatters)    

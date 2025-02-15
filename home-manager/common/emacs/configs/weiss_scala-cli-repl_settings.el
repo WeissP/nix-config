@@ -34,7 +34,7 @@
         (apply 'term-ansi-make-term
                scala-cli-repl-buffer-name
                "mill"
-               nil
+               nil 
                `("-i" ,(concat weiss--scala-cli-repl-module module-suffix) ))
       (term-char-mode)
       (term-set-escape-char ?\C-x)

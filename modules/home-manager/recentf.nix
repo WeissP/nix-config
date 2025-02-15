@@ -1,42 +1,59 @@
-{ pkgs, myEnv, lib, config, ... }:
+{
+  pkgs,
+  myEnv,
+  lib,
+  config,
+  ...
+}:
 with lib;
 let
   cfg = config.programs.recentf;
   filename = "recentf.toml";
   path = "${config.xdg.configHome}/recentf/${filename}";
   toToml = (pkgs.formats.toml { }).generate filename;
-in {
+in
+{
   options.programs.recentf = {
     enable = mkEnableOption "recentf";
-    tramps = with types;
+    tramps =
+      with types;
       mkOption {
         type = attrsOf str;
         default = { };
       };
-    databaseUrl = with types;
+    databaseUrl =
+      with types;
       mkOption {
         type = str;
         default = "postgres://postgres@localhost/recentf";
       };
-    searchLimit = with types;
+    searchLimit =
+      with types;
       mkOption {
         type = int;
         default = 30;
       };
-    filters = with types;
+    filters =
+      with types;
       mkOption {
-        type = with types;
+        type =
+          with types;
           listOf (submodule {
-            options = lib.attrsets.genAttrs [
-              "name_prefix"
-              "dir_prefix"
-              "ext"
-              "name_suffix"
-            ] (k:
-              mkOption {
-                type = str;
-                default = "5min";
-              });
+            options =
+              lib.attrsets.genAttrs
+                [
+                  "name_prefix"
+                  "dir_prefix"
+                  "ext"
+                  "name_suffix"
+                ]
+                (
+                  k:
+                  mkOption {
+                    type = nullOr str;
+                    default = null;
+                  }
+                );
           });
         default = [ ];
       };
@@ -49,7 +66,7 @@ in {
         tramp_aliases = cfg.tramps;
         database.url = cfg.databaseUrl;
         search.limit = cfg.searchLimit;
-        filter = cfg.filters;
+        filter = map (attrs: lib.attrsets.filterAttrs (n: v: v != null) attrs) cfg.filters;
       };
     };
     home.packages = [ pkgs.recentf ];
@@ -57,7 +74,9 @@ in {
       services."ensure-recentf-db" = myEnv.ensurePsqlDb "recentf";
       services.recentf-clean = {
         Unit.Description = "clean unexists recent files";
-        Service = { ExecStart = "${pkgs.recentf.outPath}/bin/recentf clean"; };
+        Service = {
+          ExecStart = "${pkgs.recentf.outPath}/bin/recentf clean";
+        };
       };
       timers.recentf-clean = {
         Unit.Description = "clean unexists recent files";
@@ -66,9 +85,10 @@ in {
           OnUnitActiveSec = cfg.cleanFreq;
           Unit = "webman-cli-provider.service";
         };
-        Install = { WantedBy = [ "timers.target" ]; };
+        Install = {
+          WantedBy = [ "timers.target" ];
+        };
       };
     };
   };
 }
-

@@ -12,6 +12,31 @@
      :pairs
      (
       ( 
+       :name "chatgpt shell" 
+       :pair ("#+begin_src chatgpt-shell :results output :file :assistant-id asst_omRXqw3ij5BWDXjRHqf6KBjx" . "#+end_src")
+       :new-line t
+       )
+      ( 
+       :name "Beamer visible" 
+       :pair ("#+Beamer: \\visible<2->{" . "#+Beamer: }")
+       :new-line t
+       )
+      ( 
+       :name "Beamer only" 
+       :pair ("#+Beamer: \\only<2>{" . "#+Beamer: }")
+       :new-line t
+       )
+      ( 
+       :name "Beamer appear after"
+       :pair ("@@b:<" . "->@@")
+       :new-line nil
+       )
+      ( 
+       :name "Beamer annotation"
+       :pair ("@@b:" . "@@")
+       :new-line nil
+       )
+      ( 
        :name "Quote"
        :pair ("#+BEGIN_QUOTE" . "#+END_QUOTE")
        :new-line t
@@ -29,6 +54,11 @@
       (
        :name "clojure"
        :pair ("#+BEGIN_SRC clojure" . "#+END_SRC")
+       :new-line t
+       )
+      (
+       :name "latex"
+       :pair ("#+BEGIN_SRC latex" . "#+END_SRC")
        :new-line t
        )
       (
@@ -143,6 +173,16 @@
      :narrow ?l
      :pairs
      (
+      ( 
+       :name "Beamer only" 
+       :pair ("\\only<2>{" . "}")
+       :new-line t
+       )
+      ( 
+       :name "Beamer visible" 
+       :pair ("\\visible<2->{" . "}")
+       :new-line t
+       )
       (
        :name "⌈ ceil ⌉"
        :pair ("\\lceil " . " \\rceil")
@@ -150,6 +190,22 @@
       (
        :name "& newline in align Environment \\"
        :pair ("& =" . " \\\\")
+       )
+      (
+       :name "multirow"
+       :pair ("\\multirow{2}{*}{" . "}")
+       )
+      (
+       :name "multicolumn"
+       :pair ("\\multicolumn{2}{c}{" . "}")
+       )
+      (
+       :name "makecell"
+       :pair ("\\makecell[l]{" . "}")
+       )
+      (
+       :name "onslide"
+       :pair ("\\onslide<2->{" . "}")
        )
       (
        :name "⌊ floor ⌋"
@@ -168,8 +224,12 @@
        :pair ("\\operatorname{" . "}")
        )
       (
-       :name "mathbf"
+       :name "mathbf(bold)"
        :pair ("\\mathbf{" . "}")
+       )
+      (
+       :name "textbf(bold)"
+       :pair ("\\textbf{" . "}")
        )
       (
        :name "mathrm"
@@ -224,7 +284,7 @@
        :pair ("\\underline{" . "}")
        )
       (
-       :name "emph"
+       :name "emph (italic)"
        :pair ("\\emph{" . "}")
        )
       )

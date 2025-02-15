@@ -77,7 +77,12 @@ Version 2018-06-06"
 (defun weiss-kill-append-with-comma ()
   "DOCSTRING"
   (interactive)
-  (weiss-kill-append ","))
+  (weiss-kill-append ", "))
+
+(defun weiss-kill-append-with-dot ()
+  "DOCSTRING"
+  (interactive)
+  (weiss-kill-append "."))
 
 (defun weiss-kill-append-with-pipe ()
   "DOCSTRING"
@@ -288,6 +293,16 @@ Version 2015-10-14"
         (ext ".el"))
     (make-directory dir t)
     (find-file (concat dir prefix date ext))))
+
+(defun weiss-new-chat-file ()
+  "DOCSTRING"
+  (interactive)
+  (let ((prefix "chat-")
+        (date (format-time-string "%S-[%H-%M]-{%0d.%m.%Y}"))
+        (dir weiss/chats-dir)
+        (ext ".org"))
+    (make-directory dir t)
+    (find-file (concat weiss/chats-dir prefix date ext))))
 
 (defun xah-new-empty-buffer ()
   "Create a new empty buffer.

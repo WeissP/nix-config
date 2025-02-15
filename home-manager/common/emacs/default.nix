@@ -132,7 +132,7 @@ in
         "consult-notes"
         "jinx"
         "eldoc-box"
-        # "highlight-defined"
+        "highlight-defined"
         "darkman"
         "modus-themes"
         "circadian"
@@ -201,6 +201,7 @@ in
         "recentf"
         "latex"
         "dabbrev"
+        "ox-beamer"
         # "weiss-tsc-mode"
         # "weiss-dired-single-handed-mode"
         # "weiss-org-sp"
@@ -411,14 +412,13 @@ in
           ];
           org = [
             "org"
+            "org-transclusion"
+            "ox-beamer"
             "org-clock-csv"
             # "org-xournalpp"
             "weiss-org-sp"
             "org-cite"
-            [
-              "ob-go"
-              "ob-sql-mode"
-            ]
+            "ob-sql-mode"
             "org-pdftools"
             "org-noter"
             # [ "org-roam" "snails-roam" ]

@@ -43,12 +43,14 @@
     (deactivate-mark)
     (ignore-errors 
       (call-interactively 'save-buffer))
-    (let ((warning-minimum-level :error))
-      (if org-beamer-mode
-          (call-interactively 'org-beamer-export-to-pdf)
-        (call-interactively 'org-latex-export-to-pdf)    
-        )
-      )    
+    (if org-beamer-mode
+        (call-interactively 'org-beamer-export-to-pdf)
+      (call-interactively 'org-latex-export-to-pdf)    
+      )
+    ;; (let ((warning-minimum-level :error))
+
+    ;;   )
+    
     )
   )
 

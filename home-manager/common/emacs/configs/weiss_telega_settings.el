@@ -1,4 +1,6 @@
 (with-eval-after-load 'telega
+  (setq telega-tdlib-max-version weiss-telega-tdlib-max-version)
+
   (with-eval-after-load 'company
     (add-hook 'telega-chat-mode-hook
               (lambda ()

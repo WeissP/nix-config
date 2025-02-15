@@ -1,11 +1,7 @@
 {
-  pkgs,
   myEnv,
-  configSession,
-  lib,
   ...
 }:
-
 with myEnv;
 let
   em = "Exec=GTK_IM_MODULE= QT_IM_MODULE= XMODIFIERS= emacs";

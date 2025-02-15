@@ -1,14 +1,6 @@
 {
-  pkgs,
   lib,
-  myLib,
   myEnv,
-  secrets,
-  config,
-  inputs,
-  outputs,
-  configSession,
-  location,
   ...
 }:
 with myEnv;

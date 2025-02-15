@@ -2,7 +2,11 @@
   pkg-config,
   stdenv,
   fetchFromGitHub,
+  glibc,
   system,
+  openssl,
+  readline,
+  zlib,
   ...
 }:
 
@@ -16,7 +20,6 @@ let
   tdlib =
     (import (builtins.fetchTarball {
       url = "https://github.com/NixOS/nixpkgs/archive/f76bef61369be38a10c7a1aa718782a60340d9ff.tar.gz";
-
       sha256 = "sha256:01zjqwj1m7qipc4x9gakffi9k8rk5mjk159p20xh1pfil19m82p4";
     }) { inherit system; }).tdlib;
 in
@@ -26,7 +29,15 @@ stdenv.mkDerivation {
 
   src = repo + "/server";
 
-  buildInputs = [ tdlib ];
+  buildInputs = [
+    tdlib
+    pkg-config
+    openssl
+    readline
+    zlib
+    glibc
+    pkg-config
+  ];
   nativeBuildInputs = [ pkg-config ];
 
   enableParallelBuilding = true;

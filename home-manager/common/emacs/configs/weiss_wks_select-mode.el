@@ -155,6 +155,10 @@
   (weiss-select-add-advice-deactivate-mark '(weiss-denote-consult))
   )
 
+(with-eval-after-load 'jinx
+  (weiss-select-add-advice-deactivate-mark '(jinx-correct))
+  )
+
 (advice-add 'xref-find-definitions :before #'weiss-deactivate-mark-unless-in-select-mode-interactive)
 
 ;; (defun anzu-query-replace (arg)

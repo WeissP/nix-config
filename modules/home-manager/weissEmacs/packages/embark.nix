@@ -1,11 +1,11 @@
 {
   trivialBuild,
-  fetchFromGitHub,
+  remoteFiles,
   deps,
 }:
 trivialBuild rec {
   pname = "embark";
-  version = "d2daad08e04090391b3221fa95000492a1f8aabe";
+  version = "latest";
   propagatedUserEnvPkgs = with deps; [
     org
     avy
@@ -13,12 +13,5 @@ trivialBuild rec {
     consult
   ];
   buildInputs = propagatedUserEnvPkgs;
-  src = (
-    fetchFromGitHub {
-      owner = "oantolin";
-      repo = "embark";
-      rev = version;
-      hash = "sha256-dpc08wxgZzosRJs6Cc2f7fCf1x83DZC9vL0sQ20054I=";
-    }
-  );
+  src = remoteFiles.embark;
 }
