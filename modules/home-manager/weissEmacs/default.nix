@@ -233,7 +233,8 @@ in
             emacsPackages = [ "aider" ];
             externalPackages = [
               # pkgs.pinnedUnstables."2024-09-16".aider-chat
-              pkgs.aider-chat
+              pkgs.aider-chat.withPlaywright
+              pkgs.playwright
             ];
           };
           gptel = {
@@ -582,8 +583,8 @@ in
         package = cfg.package;
         overrides = prev: final: rec {
           consult = pkgs.callPackage ./packages/consult.nix {
+            inherit remoteFiles;
             inherit (final) trivialBuild;
-            inherit (pkgs) fetchFromGitHub;
             deps = with final; {
               inherit compat;
             };

@@ -1,11 +1,13 @@
 (setq consult-omni-multi-sources '("Buffer"))
 (setq 
+ consult-async-min-input 0
  consult-omni-sources-modules-to-load '(consult-omni-buffer)
  consult-omni-show-preview t    
  consult-omni-default-interactive-command #'consult-omni-multi
  consult-omni-dynamic-input-debounce 0.3
  consult-omni-dynamic-input-throttle consult-omni-dynamic-input-debounce
- consult-async-split-style 'comma
+ ;; consult-async-split-style 'comma 
+ consult-async-split-style 'perl
  )
 
 (with-eval-after-load 'consult-omni  

@@ -135,9 +135,6 @@
           };
         };
 
-        networking = {
-          networkmanager.enable = true;
-        };
         users.users."${username}" = mkMerge [
           { home = homeDir; }
           (ifLinux {
@@ -164,7 +161,6 @@
 
         services = mkMerge [
           { }
-          (ifDarwin { nix-daemon.enable = true; })
           (ifLinux {
             ntp.enable = true;
             getty.autologinUser = "${username}";
@@ -175,7 +171,7 @@
         ];
 
         security = mkMerge [
-          (ifDarwin { pam.enableSudoTouchIdAuth = true; })
+          (ifDarwin { pam.services.sudo_local.touchIdAuth = true; })
           (ifLinux { rtkit.enable = true; })
         ];
 
@@ -219,6 +215,9 @@
         };
       })
       (ifLinux {
+        networking = {
+          networkmanager.enable = true;
+        };
         boot.initrd.systemd.enable = true;
         environment.systemPackages = with pkgs; [ util-linux ];
         i18n = {

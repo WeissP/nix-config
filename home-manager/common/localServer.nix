@@ -19,5 +19,8 @@
     ./videosDownloader.nix
   ];
 
-  config.home.packages = with pkgs; [ dua ];
+  config.home.packages = with pkgs; [
+    dua
+    lux
+  ];
 }

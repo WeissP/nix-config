@@ -49,6 +49,10 @@
       url = "github:nushell/nu_scripts";
       flake = false;
     };
+    consult = {
+      url = "github:minad/consult";
+      flake = false;
+    };
     consult-omni = {
       url = "github:armindarvish/consult-omni";
       flake = false;
@@ -125,6 +129,7 @@
               embark
               nuScripts
               chatgpt-shell
+              consult
               consult-omni
               aider-el
               ;
@@ -269,7 +274,7 @@
           system = "aarch64-darwin";
           specialArgs = mkSpecialArgs darwinEnv {
             configSession = "Bozhous-Air";
-            location = "china";
+            location = "home";
             usage = [
               "webman-server"
             ];

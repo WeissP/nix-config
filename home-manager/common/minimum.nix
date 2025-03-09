@@ -1,6 +1,21 @@
-{ pkgs, lib, myEnv, config, secrets, inputs, outputs, ... }:
-with myEnv; {
+{
+  pkgs,
+  lib,
+  myEnv,
+  config,
+  secrets,
+  inputs,
+  outputs,
+  ...
+}:
+with myEnv;
+{
   imports = [ ];
+
+  nix.gc = {
+    automatic = true;
+    frequency = "daily";
+  };
 
   programs = {
     home-manager.enable = true;
@@ -8,7 +23,11 @@ with myEnv; {
       enable = true;
       userEmail = secrets.email."163";
       userName = "weiss";
-      extraConfig = { github = { user = "WeissP"; }; };
+      extraConfig = {
+        github = {
+          user = "WeissP";
+        };
+      };
     };
     htop.enable = true;
   };

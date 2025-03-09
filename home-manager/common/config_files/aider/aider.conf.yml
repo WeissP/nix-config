@@ -1,9 +1,10 @@
 ## Specify the model to use for the main chat
-model: openai/o3-mini 
-# model: deepseek/deepseek-reasoner 
-editor-model: deepseek/deepseek-chat
-# sonnet:
-reasoning-effort: high
+# model: openai/o3-mini 
+# model: openrouter/deepseek/deepseek-r1 
+model: anthropic/claude-3-7-sonnet-latest 
+editor-model: openrouter/deepseek/deepseek-chat
+
+# reasoning-effort: high
 detect-urls: false
 
 

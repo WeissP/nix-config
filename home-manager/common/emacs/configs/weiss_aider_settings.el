@@ -9,11 +9,13 @@
     )
   )
 
+(setq aider-popular-models '("anthropic/claude-3-7-sonnet-20250219" "o3-mini" "openrouter/deepseek/deepseek-r1" "openrouter/deepseek/deepseek-chat"))
+
 (with-eval-after-load 'aider 
   (setq weiss-aider-basic-args
         (-concat 
          '("--config" "~/.config/aider/aider.conf.yml" 
-           ;; "--model-settings-file" "/home/weiss/nix-config/home-manager/common/config_files/aider/aider.model.settings.yml" 
+           "--model-settings-file" "~/nix-config/home-manager/common/config_files/aider/aider.model.settings.yml" 
            "--architect"
            )
          
@@ -28,8 +30,6 @@
          )
         aider-args weiss-aider-basic-args
         )
-  
-  
 
   (advice-add
    'aider-run-aider

@@ -25,7 +25,7 @@ with myEnv;
   nix.gc = {
     options = lib.mkForce "--delete-older-than 1d";
   };
-
+ 
   networking.hostName = "${username}-${configSession}";
 
   zramSwap.enable = true;

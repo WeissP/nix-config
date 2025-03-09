@@ -21,10 +21,12 @@ lib.mkMerge [
     programs = {
       floorp = {
         enable = true;
-        package = pkgs.floorp.override { nativeMessagingHosts = with pkgs; [ passff-host ]; };
+        # package = pkgs.floorp.override { nativeMessagingHosts = with pkgs; [ passff-host ]; };
+        package = pkgs.floorp;
       };
-      firefox.enable = true;
-      firefox.package = pkgs.firefox.override { nativeMessagingHosts = with pkgs; [ passff-host ]; };
+      # firefox.enable = true;
+      # firefox.package = pkgs.firefox.override { nativeMessagingHosts = with pkgs; [ passff-host ]; };
+      # firefox.package = pkgs.firefox;
     };
     xdg.mimeApps = {
       enable = true;

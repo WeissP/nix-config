@@ -34,6 +34,9 @@
               ext = "org";
             }
             {
+              dir_prefix = "/dev/shm";
+            }
+            {
               dir_prefix = "${homeDir}/Documents/notes";
               ext = "pdf";
             }

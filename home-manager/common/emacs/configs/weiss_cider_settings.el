@@ -4,7 +4,9 @@
   (defvar weiss-cider-repl-reload-file nil)
   (require 'clojure-mode-extra-font-locking)
   (setq 
-   clojure-toplevel-inside-comment-form t)
+   clojure-toplevel-inside-comment-form t
+   nrepl-sync-request-timeout nil
+   )
   )
 
 ;; (require 'clojure-mode)
@@ -45,6 +47,11 @@
       (cider-eval-file (f-join (or (getenv "PRJ_ROOT") "") weiss-cider-repl-reload-file))
       )
     )
+
+  (defun weiss-test ()
+    "DOCSTRING"
+    (interactive)
+    (message ": %s" (f-join (or (getenv "PRJ_ROOT") "") weiss-cider-repl-reload-file))  )
 
   (defun weiss-cider-repl-refresh ()
     "DOCSTRING"

@@ -47,6 +47,9 @@
           x = "quit";
           B = "script_message bookmarker-menu";
           b = "script_message bookmarker-quick-save";
+          j = "multiply speed 1.1";
+          k = "multiply speed 0.9";
+          BS = "set speed 1.0";
           i = "add audio-delay -0.100";
           l = "add audio-delay 0.100";
           LEFT = "add sub-delay -0.1";

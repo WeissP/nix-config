@@ -1,10 +1,21 @@
-- name: openai/o3-mini
+- name: anthropic/claude-3-7-sonnet-latest
   edit_format: diff
-  weak_model_name: deepseek/deepseek-coder
+  weak_model_name: anthropic/claude-3-5-haiku-20241022
   use_repo_map: true
-  use_temperature: false
-  editor_model_name: deepseek/deepseek-coder
-  editor_edit_format: editor-diff
-  reminder: sys
   examples_as_sys_msg: true
-  caches_by_default: true
+  use_temperature: false
+  extra_params:
+    extra_headers:
+      anthropic-beta: prompt-caching-2024-07-31,pdfs-2024-09-25,output-128k-2025-02-19
+    max_tokens: 64000
+    thinking:
+      type: enabled
+      budget_tokens: 8000 # Adjust this number
+  cache_control: true 
+  editor_model_name: anthropic/claude-3-7-sonnet-latest
+  editor_edit_format: editor-diff
+- name: openrouter/deepseek/deepseek-chat
+  extra_params:
+    extra_body:
+      provider:
+        sort: "throughput"

@@ -178,7 +178,7 @@
                   pkgFilter = pkg: pkg.tlType == "run" || pkg.tlType == "bin" || pkg.pname == "cm-super";
                 })
                 bluetui
-                okular
+                pdf4qt
                 ffmpeg
                 # nur.repos.xddxdd.wechat-uos-bin
                 qemu
@@ -190,7 +190,7 @@
                 steam
                 jellyfin-media-player
                 lts.calibre
-                pinnedUnstables."2024-09-08".jellyfin-mpv-shim
+                jellyfin-mpv-shim
                 qrencode
                 ripgrep-all
                 black

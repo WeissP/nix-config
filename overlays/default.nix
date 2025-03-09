@@ -23,12 +23,16 @@
       ripgrep-all = inputs.nixpkgs-lts.legacyPackages."${prev.system}".ripgrep-all;
       hledger-importer = inputs.hledger-importer.packages."${prev.system}".default;
       nix-alien = inputs.nix-alien.packages."${prev.system}".default;
-      # aider-chat = master.pkgs.aider-chat;
       tdlib =
         (import (builtins.fetchTarball {
           url = "https://github.com/NixOS/nixpkgs/archive/611bf8f183e6360c2a215fa70dfd659943a9857f.tar.gz";
           sha256 = "sha256:1rhrajxywl1kaa3pfpadkpzv963nq2p4a2y4vjzq0wkba21inr9k";
         }) { inherit (prev) system; }).tdlib;
+      # aider-chat =
+      #   (import (builtins.fetchTarball {
+      #     url = "https://github.com/cor/nixpkgs/archive/update-aider-chat-to-75.tar.gz";
+      #     sha256 = "sha256:1r79ra4hncirxpprv92v3gnc3g3kh13dgcab4kl9i196xr9y5wcl";
+      #   }) { inherit (prev) system; }).aider-chat;
       # example = prev.example.overrideAttrs (oldAttrs: rec {
       # ...
       # });

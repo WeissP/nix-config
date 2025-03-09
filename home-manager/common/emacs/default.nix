@@ -26,10 +26,10 @@ in
 
   programs.weissEmacs = lib.mkMerge [
     (ifDarwin {
-      package = pkgs.emacs29;
+      package = pkgs.emacs;
       # package = pkgs.emacs-macport;
     })
-    (ifLinux { package = pkgs.emacs29; })
+    (ifLinux { package = pkgs.emacs; })
     {
       inherit userEmacsDirectory;
       enable = true;
@@ -368,7 +368,7 @@ in
               "eglot" # "eglot-booster" "eglot-signature-eldoc-talkative"
               "eglot-java"
             ]
-            "lspce"
+            # "lspce"
             # [ "lsp-bridge" "flymake-bridge" ]
             [
               "magit"

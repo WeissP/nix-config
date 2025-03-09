@@ -105,6 +105,7 @@
     )
 
   (add-hook 'modus-themes-after-load-theme-hook #'weiss-modus-patch-faces)
+  (setq modus-themes-to-toggle '(modus-operandi-tinted modus-vivendi-tinted))
 
   (with-eval-after-load 'circadian
     (setq calendar-latitude 49.2)
