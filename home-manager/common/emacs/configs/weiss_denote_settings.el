@@ -49,7 +49,6 @@
     )
 
   (defun weiss-denote-pdf-note (&rest additional-keywords)
-
     "DOCSTRING"
     (interactive)
     (call-interactively 'org-store-link)

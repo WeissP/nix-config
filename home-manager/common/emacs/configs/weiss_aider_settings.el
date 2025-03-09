@@ -16,7 +16,7 @@
         (-concat 
          '("--config" "~/.config/aider/aider.conf.yml" 
            "--model-settings-file" "~/nix-config/home-manager/common/config_files/aider/aider.model.settings.yml" 
-           "--architect"
+           ;; "--architect"
            )
          
          (-mapcat (lambda (p) (list "--set-env" (format "%s=%s" (car p) (cdr p))))
