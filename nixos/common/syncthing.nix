@@ -102,9 +102,15 @@ lib.mkMerge [
                   "iPad-mini"
                   "Mac-Air"
                 ]
+              else if (configSession == "uni") then
+                [
+                  "iPhone"
+                  "iPad-mini"
+                  "Mac-Air"
+                  "mini"
+                ]
               else
                 [
-                  "Raspberrypi"
                   "mini"
                   "Mac-Air"
                 ];

@@ -85,8 +85,6 @@ with myEnv;
       babashka
       udisks
       xdg-user-dirs
-      # config.nur.repos.novel2430.wechat-universal-bwrap
-      # config.nur.repos.pokon548.wechat-uos
     ];
   };
 

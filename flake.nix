@@ -191,6 +191,25 @@
           ];
         };
 
+        uni = nixpkgs.lib.nixosSystem {
+          system = "x86_64-linux";
+          specialArgs = mkSpecialArgs linuxEnv {
+            usage = [
+              "personal"
+              "webman-server"
+            ];
+            configSession = "uni";
+            location = "uni";
+          };
+          modules = [
+            nixosModules.xmonadBin
+            ./nixos/desktop/configuration.nix
+            ./nixos/desktop/hardware-configuration.nix
+            inputs.nur.modules.nixos.default
+            ./home-manager
+          ];
+        };
+
         mini = nixpkgs.lib.nixosSystem {
           system = "x86_64-linux";
           specialArgs = mkSpecialArgs linuxEnv {
