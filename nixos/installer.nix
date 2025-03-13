@@ -34,4 +34,36 @@
       git-crypt
     ];
   };
+
+  systemd.services.clone-nix-config = {
+    description = "Clone nix-config repository and unlock with git-crypt";
+    path = with pkgs; [
+      git
+      git-crypt
+    ];
+
+    serviceConfig = {
+      Type = "oneshot";
+      RemainAfterExit = true;
+      WorkingDirectory = "/home/nixos";
+    };
+
+    script =
+      let
+        cryptKeyFile = builtins.path {
+          name = "git-crypt-key";
+          path = ../secrets/cryptkey;
+        };
+      in
+      ''
+        # Clone the repository if it doesn't exist
+        if [ ! -d "/home/nixos/nix-config" ]; then
+          git clone https://github.com/WeissP/nix-config.git /home/nixos/nix-config
+        fi
+
+        # Unlock the repository using the key file
+        cd /home/nixos/nix-config
+        git-crypt unlock ${cryptKeyFile}
+      '';
+  };
 }

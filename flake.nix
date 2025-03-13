@@ -280,6 +280,7 @@
             system = "x86_64-linux";
             specialArgs = mkSpecialArgs linuxEnv {
               configSession = "installer";
+              usage = [ ];
               location = "china";
             };
             modules = [
@@ -291,6 +292,7 @@
             system = "x86_64-linux";
             specialArgs = mkSpecialArgs linuxEnv {
               configSession = "installer";
+              usage = [ ];
               location = "home";
             };
             modules = [
