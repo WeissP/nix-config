@@ -163,7 +163,6 @@
           { }
           (ifLinux {
             ntp.enable = true;
-            getty.autologinUser = "${username}";
             printing.enable = true;
             dbus.packages = [ pkgs.gcr ];
             udisks2.enable = true;

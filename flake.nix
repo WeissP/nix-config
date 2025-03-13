@@ -203,8 +203,8 @@
           };
           modules = [
             nixosModules.xmonadBin
-            ./nixos/desktop/configuration.nix
-            ./nixos/desktop/hardware-configuration.nix
+            ./nixos/uni/configuration.nix
+            ./nixos/uni/hardware-configuration.nix
             inputs.nur.modules.nixos.default
             ./home-manager
           ];
@@ -281,6 +281,17 @@
             specialArgs = mkSpecialArgs linuxEnv {
               configSession = "installer";
               location = "china";
+            };
+            modules = [
+              ./nixos/installer.nix
+            ];
+          }).config.system.build.isoImage;
+        installer =
+          (nixpkgs.lib.nixosSystem {
+            system = "x86_64-linux";
+            specialArgs = mkSpecialArgs linuxEnv {
+              configSession = "installer";
+              location = "home";
             };
             modules = [
               ./nixos/installer.nix

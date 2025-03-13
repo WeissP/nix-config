@@ -31,6 +31,7 @@
     systemPackages = with pkgs; [
       util-linux
       udisks
+      git-crypt
     ];
   };
 }

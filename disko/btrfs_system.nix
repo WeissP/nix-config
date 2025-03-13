@@ -1,4 +1,9 @@
-{ myEnv, mainDevice, ... }:
+{
+  myEnv,
+  mainDevice,
+  swapSize ? "32G",
+  ...
+}:
 {
   disko.devices = {
     disk = {
@@ -13,7 +18,7 @@
               priority = 1;
               name = "ESP";
               start = "1M";
-              end = "512M";
+              end = "1G";
               type = "EF00";
               content = {
                 type = "filesystem";
@@ -63,7 +68,7 @@
                   "/swap" = {
                     mountpoint = "/.swapvol";
                     swap = {
-                      swapfile.size = "32G";
+                      swapfile.size = swapSize;
                     };
                   };
                 };
