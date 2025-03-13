@@ -198,6 +198,8 @@
             KbdInteractiveAuthentication = true;
           };
         };
+      })
+      (ifLinux {
         users = {
           mutableUsers = false;
           users = {
@@ -213,8 +215,6 @@
             };
           };
         };
-      })
-      (ifLinux {
         networking = {
           networkmanager.enable = true;
         };

@@ -232,7 +232,6 @@ in
           aider = {
             emacsPackages = [ "aider" ];
             externalPackages = [
-              # pkgs.pinnedUnstables."2024-09-16".aider-chat
               pkgs.aider-chat.withPlaywright
               pkgs.playwright
             ];

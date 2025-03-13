@@ -14,7 +14,6 @@
 \\usepackage{tikz}
 \\usepackage{amsmath}
 \\usepackage{caption}
-\\usepackage{cite}
 \\usepackage{listings}
 \\usepackage{pdflscape}
 \\usepackage[hidelinks]{hyperref}

@@ -256,6 +256,10 @@
        :pair ("\\texttt{" . "}")
        )
       (
+       :name "textup"
+       :pair ("\\textup{" . "}")
+       ) 
+      (
        :name "bigg paren"
        :pair ("\\bigg( " . "\\bigg)")
        )

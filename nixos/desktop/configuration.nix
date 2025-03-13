@@ -57,88 +57,88 @@ with myEnv;
     }
   ];
 
-  services.btrbk.instances =
-    let
-      preserve_hour_of_day = "4";
-      preserve_day_of_week = "sunday";
-      snapshot_dir_root = "/btrbk_snapshots";
-    in
-    {
-      important_snapshots = {
-        onCalendar = "*:0/15"; # every 15 minutes
-        settings = {
-          inherit preserve_hour_of_day preserve_day_of_week;
-          snapshot_dir = snapshot_dir_root + "/important";
-          snapshot_preserve_min = "3h";
-          snapshot_preserve = "3h";
-          snapshot_create = "onchange";
+  # services.btrbk.instances =
+  #   let
+  #     preserve_hour_of_day = "4";
+  #     preserve_day_of_week = "sunday";
+  #     snapshot_dir_root = "/btrbk_snapshots";
+  #   in
+  #   {
+  #     important_snapshots = {
+  #       onCalendar = "*:0/15"; # every 15 minutes
+  #       settings = {
+  #         inherit preserve_hour_of_day preserve_day_of_week;
+  #         snapshot_dir = snapshot_dir_root + "/important";
+  #         snapshot_preserve_min = "3h";
+  #         snapshot_preserve = "3h";
+  #         snapshot_create = "onchange";
 
-          subvolume = {
-            "/home/weiss/nix-config" = { };
-            "/home/weiss/Documents" = { };
-            "/home/weiss/projects" = { };
-          };
-        };
-      };
-      all_snapshots = {
-        onCalendar = "*-*-* 18:00:00"; # every day at 18:00
-        settings = {
-          inherit preserve_hour_of_day preserve_day_of_week;
+  #         subvolume = {
+  #           "/home/weiss/nix-config" = { };
+  #           "/home/weiss/Documents" = { };
+  #           "/home/weiss/projects" = { };
+  #         };
+  #       };
+  #     };
+  #     all_snapshots = {
+  #       onCalendar = "*-*-* 18:00:00"; # every day at 18:00
+  #       settings = {
+  #         inherit preserve_hour_of_day preserve_day_of_week;
 
-          snapshot_dir = snapshot_dir_root + "/all";
-          snapshot_preserve_min = "3d";
-          snapshot_create = "always";
+  #         snapshot_dir = snapshot_dir_root + "/all";
+  #         snapshot_preserve_min = "3d";
+  #         snapshot_create = "always";
 
-          subvolume = {
-            "/" = { };
-            "/home" = { };
-            "/home/weiss/nix-config" = { };
-            "/home/weiss/Documents" = { };
-            "/home/weiss/projects" = { };
-          };
-        };
-      };
-      local_backup = {
-        onCalendar = "*-*-* 18:30:00"; # every day at 18:30
-        settings = {
-          inherit preserve_hour_of_day preserve_day_of_week;
+  #         subvolume = {
+  #           "/" = { };
+  #           "/home" = { };
+  #           "/home/weiss/nix-config" = { };
+  #           "/home/weiss/Documents" = { };
+  #           "/home/weiss/projects" = { };
+  #         };
+  #       };
+  #     };
+  #     local_backup = {
+  #       onCalendar = "*-*-* 18:30:00"; # every day at 18:30
+  #       settings = {
+  #         inherit preserve_hour_of_day preserve_day_of_week;
 
-          snapshot_dir = snapshot_dir_root + "/all";
-          snapshot_create = "no";
+  #         snapshot_dir = snapshot_dir_root + "/all";
+  #         snapshot_create = "no";
 
-          target = "/mnt/backup/btrbk";
-          target_preserve_min = "no";
-          target_preserve = "20d";
-          subvolume = {
-            "/" = { };
-            "/home" = { };
-            "/home/weiss/nix-config" = { };
-            "/home/weiss/Documents" = { };
-            "/home/weiss/projects" = { };
-          };
-        };
-      };
-      external_backup = {
-        onCalendar = "*-*-* 18:30:00"; # every day at 18:30
-        settings = {
-          inherit preserve_hour_of_day preserve_day_of_week;
+  #         target = "/mnt/backup/btrbk";
+  #         target_preserve_min = "no";
+  #         target_preserve = "20d";
+  #         subvolume = {
+  #           "/" = { };
+  #           "/home" = { };
+  #           "/home/weiss/nix-config" = { };
+  #           "/home/weiss/Documents" = { };
+  #           "/home/weiss/projects" = { };
+  #         };
+  #       };
+  #     };
+  #     external_backup = {
+  #       onCalendar = "*-*-* 18:30:00"; # every day at 18:30
+  #       settings = {
+  #         inherit preserve_hour_of_day preserve_day_of_week;
 
-          snapshot_dir = snapshot_dir_root + "/all";
-          snapshot_create = "no";
+  #         snapshot_dir = snapshot_dir_root + "/all";
+  #         snapshot_create = "no";
 
-          target = "/run/media/weiss/Seagate_Backup/btrbk";
-          target_preserve_min = "no";
-          target_preserve = "10d 10w *m";
-          subvolume = {
-            "/" = { };
-            "/home" = { };
-            "/home/weiss/nix-config" = { };
-            "/home/weiss/Documents" = { };
-            "/home/weiss/projects" = { };
-          };
-        };
-      };
-    };
+  #         target = "/run/media/weiss/Seagate_Backup/btrbk";
+  #         target_preserve_min = "no";
+  #         target_preserve = "10d 10w *m";
+  #         subvolume = {
+  #           "/" = { };
+  #           "/home" = { };
+  #           "/home/weiss/nix-config" = { };
+  #           "/home/weiss/Documents" = { };
+  #           "/home/weiss/projects" = { };
+  #         };
+  #       };
+  #     };
+  #   };
 
   system.stateVersion = "23.05";
 }

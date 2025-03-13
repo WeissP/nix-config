@@ -5,6 +5,7 @@
   fetchFromGitHub,
   gitMinimal,
   portaudio,
+  playwright-driver,
 }:
 
 let
@@ -12,7 +13,7 @@ let
     self = python3;
     packageOverrides = _: super: { tree-sitter = super.tree-sitter_0_21; };
   };
-  version = "0.75.1";
+  version = "0.76.2";
   aider-chat = python3.pkgs.buildPythonPackage {
     pname = "aider-chat";
     inherit version;
@@ -22,7 +23,7 @@ let
       owner = "Aider-AI";
       repo = "aider";
       tag = "v${version}";
-      hash = "sha256-TQDYrkSW58E1/lIBuJsgpXst8OAbaTyNX1SM8mdFgzU=";
+      hash = "sha256-5pmzqlFQEAACAqF12FGTHkyJjpnpuGUe0Y0cpQ0z2Bg=";
     };
 
     pythonRelaxDeps = true;
@@ -30,8 +31,6 @@ let
     build-system = with python3.pkgs; [ setuptools-scm ];
 
     dependencies = with python3.pkgs; [
-      socksio
-
       aiohappyeyeballs
       aiohttp
       aiosignal
@@ -102,6 +101,7 @@ let
       smmap
       sniffio
       sounddevice
+      socksio
       soundfile
       soupsieve
       tiktoken
@@ -181,9 +181,19 @@ let
 
     passthru = {
       withPlaywright = aider-chat.overridePythonAttrs (
-        { dependencies, ... }:
+        {
+          dependencies,
+          makeWrapperArgs,
+          propagatedBuildInputs ? [ ],
+          ...
+        }:
         {
           dependencies = dependencies ++ aider-chat.optional-dependencies.playwright;
+          propagatedBuildInputs = propagatedBuildInputs ++ [ playwright-driver.browsers ];
+          makeWrapperArgs = makeWrapperArgs ++ [
+            "--set PLAYWRIGHT_BROWSERS_PATH ${playwright-driver.browsers}"
+            "--set PLAYWRIGHT_SKIP_VALIDATE_HOST_REQUIREMENTS=true"
+          ];
         }
       );
     };

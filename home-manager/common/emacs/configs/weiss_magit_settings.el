@@ -1,5 +1,5 @@
-(with-eval-after-load 'magit
-  (setq magit-log-section-commit-count 15)
+(with-eval-after-load 'magit 
+  (setq magit-log-section-commit-count 30)
   ;; open magit in current window
   (setq magit-display-buffer-function
         (lambda (buffer)

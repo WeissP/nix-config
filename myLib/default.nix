@@ -104,6 +104,7 @@ rec {
       "home"
       "china"
       "japan"
+      "uni"
     ]);
 
   resource = path: myNixRepo + "/resources/" + path;

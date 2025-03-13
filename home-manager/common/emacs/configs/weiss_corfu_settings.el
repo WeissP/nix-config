@@ -1,3 +1,4 @@
+(setq text-mode-ispell-word-completion nil)
 (setq
  corfu-cycle t
  corfu-auto t

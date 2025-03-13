@@ -40,7 +40,7 @@
     "DOCSTRING"
     (interactive)
     (when (and 
-           (eq major-mode 'comint-mode)
+           (eq major-mode 'aider-comint-mode)
            (s-starts-with? "*aider" (buffer-name) ))
       (weiss-insert-pair "{aider" "aider}" t)
       t

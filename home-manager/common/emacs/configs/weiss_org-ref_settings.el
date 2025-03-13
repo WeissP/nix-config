@@ -3,6 +3,10 @@
 ;;   )
 
 (with-eval-after-load 'org-ref
+  (custom-set-faces
+   '(org-ref-ref-face ((t (:inherit org-link))))
+   )
+
   (defun weiss-org-ref-insert-labels (label)
     "DOCSTRING"
     (interactive

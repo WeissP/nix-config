@@ -28,6 +28,7 @@
           url = "https://github.com/NixOS/nixpkgs/archive/611bf8f183e6360c2a215fa70dfd659943a9857f.tar.gz";
           sha256 = "sha256:1rhrajxywl1kaa3pfpadkpzv963nq2p4a2y4vjzq0wkba21inr9k";
         }) { inherit (prev) system; }).tdlib;
+
       # aider-chat =
       #   (import (builtins.fetchTarball {
       #     url = "https://github.com/cor/nixpkgs/archive/update-aider-chat-to-75.tar.gz";
