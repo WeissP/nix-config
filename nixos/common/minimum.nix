@@ -204,13 +204,6 @@
           users = {
             "root" = {
               openssh.authorizedKeys.keys = secrets.ssh."163".authorizedKeys;
-              hashedPassword = secrets.nodes."${configSession}".password.hashed;
-              # password = secrets.nodes."${configSession}".password.raw;
-            };
-            "${username}" = {
-              openssh.authorizedKeys.keys = secrets.ssh."163".authorizedKeys;
-              # password = secrets.nodes."${configSession}".password.raw;
-              hashedPassword = secrets.nodes."${configSession}".password.hashed;
             };
           };
         };
@@ -231,6 +224,21 @@
             LC_PAPER = "de_DE.UTF-8";
             LC_TELEPHONE = "de_DE.UTF-8";
             LC_TIME = "de_DE.UTF-8";
+          };
+        };
+      })
+      (optionalAttrs (configSession != "installer" && arch == "linux") {
+        users = {
+          mutableUsers = false;
+          users = {
+            "root" = {
+              openssh.authorizedKeys.keys = secrets.ssh."163".authorizedKeys;
+              hashedPassword = secrets.nodes."${configSession}".password.hashed;
+            };
+            "${username}" = {
+              openssh.authorizedKeys.keys = secrets.ssh."163".authorizedKeys;
+              hashedPassword = secrets.nodes."${configSession}".password.hashed;
+            };
           };
         };
       })
