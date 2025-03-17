@@ -170,22 +170,24 @@
       # NixOS configuration entrypoint
       # Available through 'nixos-rebuild --flake .#your-hostname'
       nixosConfigurations = {
-        Desktop = nixpkgs.lib.nixosSystem {
+        desktop = nixpkgs.lib.nixosSystem {
           system = "x86_64-linux";
           specialArgs = mkSpecialArgs linuxEnv {
             usage = [
               "personal"
               "webman-server"
             ];
+            mainDevice = "/dev/nvme0n1";
             configSession = "Desktop";
             location = "home";
           };
           modules = [
-            nixosModules.xmonadBin
-            nixosModules.private-gpt
-            ./nixos/desktop/configuration.nix
+            disko.nixosModules.disko
             ./nixos/desktop/hardware-configuration.nix
+            ./disko/btrfs_system.nix
+            nixosModules.xmonadBin
             inputs.nur.modules.nixos.default
+            ./nixos/desktop/configuration.nix
             ./home-manager
             { boot.binfmt.emulatedSystems = [ "aarch64-linux" ]; }
           ];
@@ -234,6 +236,29 @@
             nixosModules.private-gpt
             inputs.nur.modules.nixos.default
             ./nixos/mini/configuration.nix
+            ./home-manager
+          ];
+        };
+
+        homeServer = nixpkgs.lib.nixosSystem {
+          system = "x86_64-linux";
+          specialArgs = mkSpecialArgs linuxEnv {
+            configSession = "home_server";
+            location = "home";
+            mainDevice = "/dev/nvme0n1";
+            usage = [
+              "webman-server"
+              "local-server"
+              "aria-server"
+            ];
+          };
+          modules = [
+            disko.nixosModules.disko
+            ./nixos/homeServer/hardware-configuration.nix
+            ./disko/btrfs_system.nix
+            nixosModules.xmonadBin
+            inputs.nur.modules.nixos.default
+            ./nixos/homeServer/configuration.nix
             ./home-manager
           ];
         };
