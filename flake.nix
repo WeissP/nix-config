@@ -198,6 +198,7 @@
               "personal"
               "webman-server"
             ];
+            mainDevice = "/dev/sda";
             configSession = "uni";
             location = "uni";
           };
