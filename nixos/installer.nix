@@ -119,6 +119,8 @@
       SESSION=""
       USERNAME="weiss"
       SWAP_SIZE="32G"
+      USER_ID="1000"
+      GROUP_ID="1000"
 
       # Parse command line arguments
       while [[ $# -gt 0 ]]; do
@@ -186,10 +188,6 @@
       TEMP_DIR=$(mktemp -d)
       trap 'rm -rf "$TEMP_DIR"' EXIT
 
-      # Set default values for user and group IDs if not provided
-      USER_ID=${USER_ID:-1000}
-      GROUP_ID=${GROUP_ID:-1000}
-
       # Create a temporary disko config with the specified device
       echo "Creating disko configuration..."
       cat > "$TEMP_DIR/disko-config.nix" << EOF
@@ -203,7 +201,7 @@
       EOF
 
       sudo nix --experimental-features "nix-command flakes" run github:nix-community/disko/latest -- --mode destroy,format,mount "$TEMP_DIR/disko-config.nix"
-
+ 
       # Copy nix-config to the mounted system
       echo "Copying nix-config repository to /mnt/home/$USERNAME/nix-config-boot..."
       sudo mkdir -p "/mnt/home/$USERNAME/nix-config-boot"
