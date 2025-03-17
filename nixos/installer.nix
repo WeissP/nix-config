@@ -121,6 +121,7 @@
       SWAP_SIZE="32G"
       USER_ID="1000"
       GROUP_ID="1000"
+      DISKO_MODE="destroy,format,mount"
 
       # Parse command line arguments
       while [[ $# -gt 0 ]]; do
@@ -153,9 +154,13 @@
             GROUP_ID="$2"
             shift 2
             ;;
+          --mode)
+            DISKO_MODE="$2"
+            shift 2
+            ;;
           *)
             echo "Unknown option: $1"
-            echo "Usage: disko-install --config CONFIG_FILE --device DEVICE --session SESSION [--username USERNAME] [--swap-size SWAP_SIZE] [--user-id USER_ID] [--group-id GROUP_ID]"
+            echo "Usage: disko-install --config CONFIG_FILE --device DEVICE --session SESSION [--username USERNAME] [--swap-size SWAP_SIZE] [--user-id USER_ID] [--group-id GROUP_ID] [--mode DISKO_MODE]"
             exit 1
             ;;
         esac
@@ -200,7 +205,7 @@
       }
       EOF
 
-      sudo nix --experimental-features "nix-command flakes" run github:nix-community/disko/latest -- --mode destroy,format,mount "$TEMP_DIR/disko-config.nix"
+      sudo nix --experimental-features "nix-command flakes" run github:nix-community/disko/latest -- --mode $DISKO_MODE "$TEMP_DIR/disko-config.nix"
  
       # Copy nix-config to the mounted system
       echo "Copying nix-config repository to /mnt/home/$USERNAME/nix-config-boot..."
