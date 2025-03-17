@@ -63,22 +63,42 @@
        )
       (
        :name "Special Block: proposition"
-       :pair ("#+BEGIN_proposition" . "#+END_proposition")
+       :pair ("#+NAME: prop:\n#+BEGIN_proposition" . "#+END_proposition")
+       :new-line t
+       )
+      (
+       :name "Special Block: example"
+       :pair ("#+CAPTION:\n#+NAME: exp:\n#+BEGIN_example" . "#+END_example")
+       :new-line t
+       )
+      (
+       :name "Special Block: latex example"
+       :pair ("#+CAPTION:\n#+NAME: exp:\n#+BEGIN_ltxexample" . "#+END_ltxexample")
        :new-line t
        )
       (
        :name "Special Block: lemma"
-       :pair ("#+BEGIN_lemma" . "#+END_lemma")
+       :pair ("#+NAME: lem:\n#+BEGIN_lemma" . "#+END_lemma")
+       :new-line t
+       )
+      (
+       :name "Special Block: query"
+       :pair ("#+ATTR_LATEX: :options []#+NAME: qry:\n#+BEGIN_query" . "#+END_query")
        :new-line t
        )
       (
        :name "Special Block: theorem"
-       :pair ("#+BEGIN_theorem" . "#+END_theorem")
+       :pair ("#+NAME: thm:\n#+BEGIN_theorem" . "#+END_theorem")
        :new-line t
        )
       (
        :name "Special Block: definition"
-       :pair ("#+ATTR_LATEX: :options []\n#+BEGIN_definition" . "#+END_definition")
+       :pair ("#+NAME: def:\n#+ATTR_LATEX: :options []\n#+BEGIN_definition" . "#+END_definition")
+       :new-line t
+       )
+      ( 
+       :name "Special Block: invariant"
+       :pair ("#+NAME: inv:\n#+ATTR_LATEX: :options []\n#+BEGIN_invariant" . "#+END_invariant")
        :new-line t
        )
       (

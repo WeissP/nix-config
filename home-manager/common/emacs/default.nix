@@ -103,6 +103,7 @@ in
         aider = [ "aider-transient-menu" ];
         consult-omni = [ "consult-omni-multi" ];
         embark = [ "embark-act" ];
+        org-ref = [ "org-ref-get-labels" ];
       };
       eagerLoad = [
         "direnv"
@@ -281,7 +282,7 @@ in
             ]
             "php-mode"
             [ "haskell-mode" ]
-            "rustic"
+            # "rustic"
             [
               "web-mode"
               "rjsx-mode"
@@ -420,6 +421,7 @@ in
             "org-cite"
             "ob-sql-mode"
             "org-pdftools"
+            "org-ref"
             "org-noter"
             # [ "org-roam" "snails-roam" ]
             [
@@ -432,7 +434,6 @@ in
           latex = [
             "latex"
             "auctex"
-            "org-ref"
             "magic-latex-buffer"
             "latex-preview-pane"
           ];
@@ -508,13 +509,11 @@ in
             "rime"
           ];
           test = [
-            # libs
-            # core
-            # "citar"
-            "consult"
-            # "consult-omni"
-            # "vertico"
-            # completion
+            libs
+            core
+            # edit
+            # latex
+            # org
           ];
         in
         lib.lists.flatten (

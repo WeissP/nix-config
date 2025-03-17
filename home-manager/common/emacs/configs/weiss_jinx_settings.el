@@ -12,6 +12,9 @@
                  "[a-zA-Z']*[^[:ascii:]äßöüÄÖÜ]+[a-zA-Z']*"
                  ))
   (add-to-list 'jinx-exclude-faces '(tex-mode font-lock-type-face))
+  (with-eval-after-load 'org-ref-ref-links
+    (add-to-list 'jinx-exclude-faces '(org-mode org-ref-ref-face))
+    )
 
   (with-eval-after-load 'org
     (defun weiss-jinx--exclude-p (start)

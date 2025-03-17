@@ -1,4 +1,7 @@
 (wks-unset-key (current-global-map) '("C-<end>"))
+(wks-unset-key help-mode-map '("SPC" "-" "l") t)
+(wks-unset-key messages-buffer-mode-map '("SPC" "9" "-" "0"))
+(wks-unset-key special-mode-map '("SPC" "9" "-" "0"))
 
 (wks-define-key
  prog-mode-map ""

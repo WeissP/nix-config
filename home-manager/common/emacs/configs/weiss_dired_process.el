@@ -2,7 +2,8 @@
   (defun weiss-dired-rsync ()
     "DOCSTRING"
     (interactive)
-    (let ((marked-files (dired-get-marked-files))
+    (let ((rsync-common "rsync -PaAXv --exclude .direnv")
+          (marked-files (dired-get-marked-files))
           (target-path 
            (or
             (car (dired-dwim-target-next))
@@ -13,7 +14,8 @@
         (dolist (x marked-files)
           (let ((file-paths (split-string x ":")))
             (weiss-start-process "rsync-ssh"
-                                 (format "rsync -PaAXv -e ssh \"%s:%s\" \"%s\""
+                                 (format "%s -e ssh \"%s:%s\" \"%s\""
+                                         rsync-common
                                          (nth 1 file-paths)
                                          (nth 2 file-paths)
                                          target-path)))))
@@ -21,7 +23,8 @@
         (dolist (x marked-files)
           (let ((target-paths (split-string target-path ":")))
             (weiss-start-process "rsync-ssh"
-                                 (format "rsync -PaAXv -e ssh \"%s\" \"%s:%s\""
+                                 (format "%s -e ssh \"%s\" \"%s:%s\""
+                                         rsync-common
                                          x
                                          (nth 1 target-paths)
                                          (nth 2 target-paths)
@@ -46,7 +49,8 @@
                                          docker-path)))));;;
        (t
         (weiss-start-process "rsync"
-                             (format "rsync -PaAXv %s \"%s\""
+                             (format "%s %s \"%s\""
+                                     rsync-common
                                      (format "\"%s\""
                                              (mapconcat 'identity marked-files "\" \""))
                                      target-path))))))

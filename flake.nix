@@ -204,6 +204,7 @@
           modules = [
             nixosModules.xmonadBin
             ./nixos/uni/configuration.nix
+            ./disko/btrfs_system.nix
             ./nixos/uni/hardware-configuration.nix
             inputs.nur.modules.nixos.default
             ./home-manager

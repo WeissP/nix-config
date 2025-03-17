@@ -81,8 +81,4 @@
    key-cmd-list)
   )
 
-(wks-unset-key help-mode-map '("SPC" "-" "l") t)
-(wks-unset-key messages-buffer-mode-map '("SPC" "9" "-" "0"))
-(wks-unset-key special-mode-map '("SPC" "9" "-" "0"))
-
 (provide 'weiss_wks_core)

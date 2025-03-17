@@ -36,21 +36,19 @@
 
   ;; (add-to-list 'org-export-backends 'md)
   ;; (setq org-export-backends '(html latex md))
-
-  (defun weiss-org-export-latex-pdf ()
+  
+  (defun weiss-org-export-to-pdf ()
     "DOCSTRING"
     (interactive)
     (deactivate-mark)
     (ignore-errors 
       (call-interactively 'save-buffer))
     (if org-beamer-mode
-        (call-interactively 'org-beamer-export-to-pdf)
-      (call-interactively 'org-latex-export-to-pdf)    
+        (call-interactively 'org-beamer-export-to-pdf)          
+      (let ((warning-minimum-level :error))
+        (call-interactively 'org-latex-export-to-pdf)
+        )
       )
-    ;; (let ((warning-minimum-level :error))
-
-    ;;   )
-    
     )
   )
 

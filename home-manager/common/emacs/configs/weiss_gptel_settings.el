@@ -1,5 +1,5 @@
 (with-eval-after-load 'gptel
-  (setq
+  (setq 
    gptel-default-mode 'org-mode
    weiss-gptel-directives
    '(
@@ -43,9 +43,9 @@ Now, answer the following question:
    )
 
   (setq gptel-directives (-concat gptel-directives weiss-gptel-directives)
-        gptel-model 'gpt-4o-mini)
+        gptel-model 'gpt-4o-mini
+        )
   (put 'o3-mini :request-params '(:reasoning_effort "high" :stream :json-false))
-  (setq gptel-log-level 'debug)
   (when (fboundp 'password-store-get-field)
     (require 'password-store)
     (setq gptel-api-key (password-store-get-field "openai" "api"))
