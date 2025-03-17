@@ -200,17 +200,12 @@
       })
       (ifLinux {
         users = {
-          mutableUsers = false;
           users = {
             "root" = {
               openssh.authorizedKeys.keys = secrets.ssh."163".authorizedKeys;
             };
           };
         };
-        networking = {
-          networkmanager.enable = true;
-        };
-        boot.initrd.systemd.enable = true;
         environment.systemPackages = with pkgs; [ util-linux ];
         i18n = {
           defaultLocale = "en_US.UTF-8";
@@ -228,6 +223,10 @@
         };
       })
       (optionalAttrs (configSession != "installer" && arch == "linux") {
+        networking = {
+          networkmanager.enable = true;
+        };
+        boot.initrd.systemd.enable = true;
         users = {
           mutableUsers = false;
           users = {
