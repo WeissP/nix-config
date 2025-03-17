@@ -202,11 +202,12 @@
             location = "uni";
           };
           modules = [
-            nixosModules.xmonadBin
-            ./nixos/uni/configuration.nix
-            ./disko/btrfs_system.nix
+            disko.nixosModules.disko
             ./nixos/uni/hardware-configuration.nix
+            ./disko/btrfs_system.nix
+            nixosModules.xmonadBin
             inputs.nur.modules.nixos.default
+            ./nixos/uni/configuration.nix
             ./home-manager
           ];
         };
