@@ -2,6 +2,9 @@
   myEnv,
   mainDevice,
   swapSize ? "32G",
+  # Default user and group IDs (1000 is typically the first normal user)
+  userId ? 1000,
+  groupId ? 1000,
   ...
 }:
 {
@@ -36,42 +39,65 @@
                 extraArgs = [ "-f" ]; # Override existing partition
                 # Subvolumes must set a mountpoint in order to be mounted,
                 # unless their parent is mounted
-                subvolumes = {
-                  # Subvolume name is different from mountpoint
-                  "/rootfs" = {
-                    mountpoint = "/";
-                  };
-                  "/btrbk_snapshots" = {
-                    mountpoint = "/btrbk_snapshots";
-                  };
-                  # Subvolume name is the same as the mountpoint
-                  "/home" = {
-                    mountpoint = "/home";
-                  };
-                  # Sub(sub)volume doesn't need a mountpoint as its parent is mounted
-                  "/home/${myEnv.username}" = { };
-                  "/home/${myEnv.username}/nix-config" = { };
-                  "/home/${myEnv.username}/projects" = { };
-                  "/home/${myEnv.username}/Documents" = { };
-                  "/home/${myEnv.username}/Downloads" = { };
-                  "/home/${myEnv.username}/games" = { };
-                  "/home/${myEnv.username}/Maildir" = { };
-                  # Parent is not mounted so the mountpoint must be set
-                  "/nix" = {
-                    mountOptions = [
+                subvolumes =
+                  let
+                    userMountOps = [
                       "compress=zstd:1"
-                      "noatime"
+                      "uid=${toString userId}"
+                      "gid=${toString groupId}"
                     ];
-                    mountpoint = "/nix";
-                  };
-                  # Subvolume for the swapfile
-                  "/swap" = {
-                    mountpoint = "/.swapvol";
-                    swap = {
-                      swapfile.size = swapSize;
+                  in
+                  {
+                    # Subvolume name is different from mountpoint
+                    "/rootfs" = {
+                      mountpoint = "/";
+                    };
+                    "/btrbk_snapshots" = {
+                      mountpoint = "/btrbk_snapshots";
+                    };
+                    # Subvolume name is the same as the mountpoint
+                    "/home" = {
+                      mountpoint = "/home";
+                      mountOptions = [ "compress=zstd:1" ];
+                    };
+                    # Sub(sub)volume doesn't need a mountpoint as its parent is mounted
+                    "/home/${myEnv.username}" = {
+                      mountOptions = userMountOps;
+                    };
+                    "/home/${myEnv.username}/nix-config" = {
+                      mountOptions = userMountOps;
+                    };
+                    "/home/${myEnv.username}/projects" = {
+                      mountOptions = userMountOps;
+                    };
+                    "/home/${myEnv.username}/Documents" = {
+                      mountOptions = userMountOps;
+                    };
+                    "/home/${myEnv.username}/Downloads" = {
+                      mountOptions = userMountOps;
+                    };
+                    "/home/${myEnv.username}/games" = {
+                      mountOptions = userMountOps;
+                    };
+                    "/home/${myEnv.username}/Maildir" = {
+                      mountOptions = userMountOps;
+                    };
+                    # Parent is not mounted so the mountpoint must be set
+                    "/nix" = {
+                      mountOptions = [
+                        "compress=zstd:1"
+                        "noatime"
+                      ];
+                      mountpoint = "/nix";
+                    };
+                    # Subvolume for the swapfile
+                    "/swap" = {
+                      mountpoint = "/.swapvol";
+                      swap = {
+                        swapfile.size = swapSize;
+                      };
                     };
                   };
-                };
               };
             };
           };

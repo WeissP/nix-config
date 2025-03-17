@@ -178,6 +178,7 @@
               "webman-server"
             ];
             mainDevice = "/dev/nvme0n1";
+            swapSize = "48GB";
             configSession = "Desktop";
             location = "home";
           };

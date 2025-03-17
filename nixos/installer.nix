@@ -107,7 +107,6 @@
       sudo nixos-install --flake "/home/nixos/nix-config#$SESSION" \
         --option trusted-substituters "https://weiss.cachix.org https://nix-community.cachix.org https://cache.nixos.org/ https://cache.iog.io" \
         --option trusted-public-keys "weiss.cachix.org-1:2IzFIzVwv8/iIrmz319mWB0KDqGl16eoNF67eX1YNdo= nix-community.cachix.org-1:mB9FSh9qf2dCimDSUo8Zy7bkq5CX+/rkCWyvRCYg3Fs= cache.nixos.org-1:6NCHdD59X431o0gWypbMrAURkbJ16ZPMQFGspcDShjY= sylvorg.cachix.org-1:xd1jb7cDkzX+D+Wqt6TemzkJH9u9esXEFu1yaR9p8H8= hydra.iohk.io:f/Ea+s+dFdN+3Y/G+FDgSq+a5NEWhJGzdjvKNGv0/EQ="
-
       echo "Installation complete! You can now reboot into your new system."
     '')
     (pkgs.writeShellScriptBin "disko-install" ''
@@ -144,9 +143,17 @@
             SWAP_SIZE="$2"
             shift 2
             ;;
+          --user-id)
+            USER_ID="$2"
+            shift 2
+            ;;
+          --group-id)
+            GROUP_ID="$2"
+            shift 2
+            ;;
           *)
             echo "Unknown option: $1"
-            echo "Usage: disko-install --config CONFIG_FILE --device DEVICE --session SESSION [--username USERNAME] [--swap-size SWAP_SIZE]"
+            echo "Usage: disko-install --config CONFIG_FILE --device DEVICE --session SESSION [--username USERNAME] [--swap-size SWAP_SIZE] [--user-id USER_ID] [--group-id GROUP_ID]"
             exit 1
             ;;
         esac
@@ -179,6 +186,10 @@
       TEMP_DIR=$(mktemp -d)
       trap 'rm -rf "$TEMP_DIR"' EXIT
 
+      # Set default values for user and group IDs if not provided
+      USER_ID=${USER_ID:-1000}
+      GROUP_ID=${GROUP_ID:-1000}
+
       # Create a temporary disko config with the specified device
       echo "Creating disko configuration..."
       cat > "$TEMP_DIR/disko-config.nix" << EOF
@@ -186,12 +197,21 @@
         myEnv.username = "$USERNAME";
         mainDevice = "$DEVICE";
         swapSize = "$SWAP_SIZE";
+        userId = $USER_ID;
+        groupId = $GROUP_ID;
       }
       EOF
 
       sudo nix --experimental-features "nix-command flakes" run github:nix-community/disko/latest -- --mode destroy,format,mount "$TEMP_DIR/disko-config.nix"
 
+      # Copy nix-config to the mounted system
+      echo "Copying nix-config repository to /mnt/home/$USERNAME/nix-config-boot..."
+      sudo mkdir -p "/mnt/home/$USERNAME/nix-config-boot"
+      sudo cp -r /home/nixos/nix-config/* "/mnt/home/$USERNAME/nix-config-boot/"
+      sudo chown -R "$USER_ID:$GROUP_ID" "/mnt/home/$USERNAME/nix-config-boot"
+
       echo "Disk has been formatted and mounted at /mnt."
+      echo "nix-config has been copied to /home/$USERNAME/nix-config-boot on the target system."
       echo "To continue with installation, run: install-nixos --session $SESSION"
     '')
   ];
