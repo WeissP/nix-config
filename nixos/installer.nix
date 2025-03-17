@@ -61,6 +61,55 @@
         echo "Repository ready at /home/nixos/nix-config"
       ''
     )
+    (pkgs.writeShellScriptBin "install-nixos" ''
+      #!/usr/bin/env bash
+      set -e
+
+      # Default values
+      SESSION=""
+
+      # Parse command line arguments
+      while [[ $# -gt 0 ]]; do
+        case $1 in
+          --session)
+            SESSION="$2"
+            shift 2
+            ;;
+          *)
+            echo "Unknown option: $1"
+            echo "Usage: install-nixos --session SESSION"
+            exit 1
+            ;;
+        esac
+      done
+
+      # Check required parameters
+      if [ -z "$SESSION" ]; then
+        echo "Error: Session name is required (--session)"
+        exit 1
+      fi
+
+      echo "Copying generated hardware-configuration to /home/nixos/nix-config/nixos/$SESSION ..."
+      sudo nixos-generate-config --no-filesystems --root /mnt
+      cp /mnt/etc/nixos/hardware-configuration.nix /home/nixos/nix-config/nixos/$SESSION/hardware-configuration.nix
+
+      # Prompt for installation
+      echo "Disk partitioning complete. Ready to install NixOS using flake."
+      read -p "Proceed with installation? (y/N) " -n 1 -r
+      echo
+      if [[ ! $REPLY =~ ^[Yy]$ ]]; then
+        echo "Installation cancelled. The system is mounted at /mnt."
+        exit 0
+      fi
+
+      # Install NixOS using the flake
+      echo "Installing NixOS using flake..."
+      sudo nixos-install --flake "/home/nixos/nix-config#$SESSION" \
+        --option trusted-substituters "https://weiss.cachix.org https://nix-community.cachix.org https://cache.nixos.org/ https://cache.iog.io" \
+        --option trusted-public-keys "weiss.cachix.org-1:2IzFIzVwv8/iIrmz319mWB0KDqGl16eoNF67eX1YNdo= nix-community.cachix.org-1:mB9FSh9qf2dCimDSUo8Zy7bkq5CX+/rkCWyvRCYg3Fs= cache.nixos.org-1:6NCHdD59X431o0gWypbMrAURkbJ16ZPMQFGspcDShjY= sylvorg.cachix.org-1:xd1jb7cDkzX+D+Wqt6TemzkJH9u9esXEFu1yaR9p8H8= hydra.iohk.io:f/Ea+s+dFdN+3Y/G+FDgSq+a5NEWhJGzdjvKNGv0/EQ="
+
+      echo "Installation complete! You can now reboot into your new system."
+    '')
     (pkgs.writeShellScriptBin "disko-install" ''
       #!/usr/bin/env bash
       set -e
@@ -142,24 +191,8 @@
 
       sudo nix --experimental-features "nix-command flakes" run github:nix-community/disko/latest -- --mode destroy,format,mount "$TEMP_DIR/disko-config.nix"
 
-      echo "Copying generated hardware-configuration to /home/nixos/nix-config/nixos/$SESSION ..."
-      sudo nixos-generate-config --no-filesystems --root /mnt
-      cp /mnt/etc/nixos/hardware-configuration.nix /home/nixos/nix-config/nixos/$SESSION/hardware-configuration.nix
-
-      # Prompt for installation
-      echo "Disk partitioning complete. Ready to install NixOS using flake."
-      read -p "Proceed with installation? (y/N) " -n 1 -r
-      echo
-      if [[ ! $REPLY =~ ^[Yy]$ ]]; then
-        echo "Installation cancelled. The system is mounted at /mnt."
-        exit 0
-      fi
-
-      # Install NixOS using the flake
-      echo "Installing NixOS using flake..."
-      sudo nixos-install --flake "/home/nixos/nix-config#$SESSION"
-
-      echo "Installation complete! You can now reboot into your new system."
+      echo "Disk has been formatted and mounted at /mnt."
+      echo "To continue with installation, run: install-nixos --session $SESSION"
     '')
   ];
 }
