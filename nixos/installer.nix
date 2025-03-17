@@ -32,6 +32,7 @@
     util-linux
     udisks
     git-crypt
+    cachix
     (
       let
         cryptKeyFile = builtins.path {
@@ -101,6 +102,7 @@
         echo "Installation cancelled. The system is mounted at /mnt."
         exit 0
       fi
+      cachix use weiss
 
       # Install NixOS using the flake
       echo "Installing NixOS using flake..."
@@ -206,7 +208,7 @@
       EOF
 
       sudo nix --experimental-features "nix-command flakes" run github:nix-community/disko/latest -- --mode $DISKO_MODE "$TEMP_DIR/disko-config.nix"
- 
+
       # Copy nix-config to the mounted system
       echo "Copying nix-config repository to /mnt/home/$USERNAME/nix-config-boot..."
       sudo mkdir -p "/mnt/home/$USERNAME/nix-config-boot"
