@@ -1,5 +1,5 @@
 {
-  username,
+  myEnv,
   mainDevice,
   swapSize ? "32G",
   ...
@@ -49,13 +49,13 @@
                     mountpoint = "/home";
                   };
                   # Sub(sub)volume doesn't need a mountpoint as its parent is mounted
-                  "/home/${username}" = { };
-                  "/home/${username}/nix-config" = { };
-                  "/home/${username}/projects" = { };
-                  "/home/${username}/Documents" = { };
-                  "/home/${username}/Downloads" = { };
-                  "/home/${username}/games" = { };
-                  "/home/${username}/Maildir" = { };
+                  "/home/${myEnv.username}" = { };
+                  "/home/${myEnv.username}/nix-config" = { };
+                  "/home/${myEnv.username}/projects" = { };
+                  "/home/${myEnv.username}/Documents" = { };
+                  "/home/${myEnv.username}/Downloads" = { };
+                  "/home/${myEnv.username}/games" = { };
+                  "/home/${myEnv.username}/Maildir" = { };
                   # Parent is not mounted so the mountpoint must be set
                   "/nix" = {
                     mountOptions = [
