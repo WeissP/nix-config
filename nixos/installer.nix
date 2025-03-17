@@ -7,32 +7,17 @@
 {
   imports = [
     (modulesPath + "/installer/cd-dvd/installation-cd-minimal.nix")
+    ./common/minimum.nix
     ./common/sing-box.nix
   ];
-  i18n = {
-    defaultLocale = "en_US.UTF-8";
-    extraLocaleSettings = {
-      LC_ADDRESS = "de_DE.UTF-8";
-      LC_IDENTIFICATION = "de_DE.UTF-8";
-      LC_MEASUREMENT = "de_DE.UTF-8";
-      LC_MONETARY = "de_DE.UTF-8";
-      LC_NAME = "de_DE.UTF-8";
-      LC_NUMERIC = "de_DE.UTF-8";
-      LC_PAPER = "de_DE.UTF-8";
-      LC_TELEPHONE = "de_DE.UTF-8";
-      LC_TIME = "de_DE.UTF-8";
-    };
-  };
   systemd.services.sshd.wantedBy = pkgs.lib.mkForce [ "multi-user.target" ];
-  users.users.root = {
-    openssh.authorizedKeys.keys = [ secrets.ssh."163".public ];
-  };
 
   environment.systemPackages = with pkgs; [
     util-linux
     udisks
     git-crypt
     cachix
+    btrfs-progs
     (
       let
         cryptKeyFile = builtins.path {
@@ -102,7 +87,6 @@
         echo "Installation cancelled. The system is mounted at /mnt."
         exit 0
       fi
-      cachix use weiss
 
       # Install NixOS using the flake
       echo "Installing NixOS using flake..."
@@ -208,6 +192,27 @@
       EOF
 
       sudo nix --experimental-features "nix-command flakes" run github:nix-community/disko/latest -- --mode $DISKO_MODE "$TEMP_DIR/disko-config.nix"
+
+      # Create user subvolumes manually
+      echo "Creating user subvolumes..."
+      sudo mkdir -p "/mnt/home/$USERNAME"
+      sudo chown "$USER_ID:$GROUP_ID" "/mnt/home/$USERNAME"
+
+      # Create each subvolume with proper permissions
+      sudo btrfs subvolume create "/mnt/home/$USERNAME/nix-config"
+      sudo btrfs subvolume create "/mnt/home/$USERNAME/projects"
+      sudo btrfs subvolume create "/mnt/home/$USERNAME/Documents"
+      sudo btrfs subvolume create "/mnt/home/$USERNAME/Downloads"
+      sudo btrfs subvolume create "/mnt/home/$USERNAME/games"
+      sudo btrfs subvolume create "/mnt/home/$USERNAME/Maildir"
+
+      # Set proper ownership for all created subvolumes
+      sudo chown -R "$USER_ID:$GROUP_ID" "/mnt/home/$USERNAME/nix-config"
+      sudo chown -R "$USER_ID:$GROUP_ID" "/mnt/home/$USERNAME/projects"
+      sudo chown -R "$USER_ID:$GROUP_ID" "/mnt/home/$USERNAME/Documents"
+      sudo chown -R "$USER_ID:$GROUP_ID" "/mnt/home/$USERNAME/Downloads"
+      sudo chown -R "$USER_ID:$GROUP_ID" "/mnt/home/$USERNAME/games"
+      sudo chown -R "$USER_ID:$GROUP_ID" "/mnt/home/$USERNAME/Maildir"
 
       # Copy nix-config to the mounted system
       echo "Copying nix-config repository to /mnt/home/$USERNAME/nix-config-boot..."

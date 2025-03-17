@@ -39,65 +39,38 @@
                 extraArgs = [ "-f" ]; # Override existing partition
                 # Subvolumes must set a mountpoint in order to be mounted,
                 # unless their parent is mounted
-                subvolumes =
-                  let
-                    userMountOps = [
+                subvolumes = {
+                  # Subvolume name is different from mountpoint
+                  "/rootfs" = {
+                    mountpoint = "/";
+                  };
+                  "/btrbk_snapshots" = {
+                    mountpoint = "/btrbk_snapshots";
+                  };
+                  # Subvolume name is the same as the mountpoint
+                  "/home" = {
+                    mountpoint = "/home";
+                    mountOptions = [ "compress=zstd:1" ];
+                  };
+                  # Sub(sub)volume doesn't need a mountpoint as its parent is mounted
+                  "/home/${myEnv.username}" = { };
+                  # User subvolumes are created manually in the disko-install script
+                  # Parent is not mounted so the mountpoint must be set
+                  "/nix" = {
+                    mountOptions = [
                       "compress=zstd:1"
-                      "uid=${toString userId}"
-                      "gid=${toString groupId}"
+                      "noatime"
                     ];
-                  in
-                  {
-                    # Subvolume name is different from mountpoint
-                    "/rootfs" = {
-                      mountpoint = "/";
-                    };
-                    "/btrbk_snapshots" = {
-                      mountpoint = "/btrbk_snapshots";
-                    };
-                    # Subvolume name is the same as the mountpoint
-                    "/home" = {
-                      mountpoint = "/home";
-                      mountOptions = [ "compress=zstd:1" ];
-                    };
-                    # Sub(sub)volume doesn't need a mountpoint as its parent is mounted
-                    "/home/${myEnv.username}" = {
-                      mountOptions = userMountOps;
-                    };
-                    "/home/${myEnv.username}/nix-config" = {
-                      mountOptions = userMountOps;
-                    };
-                    "/home/${myEnv.username}/projects" = {
-                      mountOptions = userMountOps;
-                    };
-                    "/home/${myEnv.username}/Documents" = {
-                      mountOptions = userMountOps;
-                    };
-                    "/home/${myEnv.username}/Downloads" = {
-                      mountOptions = userMountOps;
-                    };
-                    "/home/${myEnv.username}/games" = {
-                      mountOptions = userMountOps;
-                    };
-                    "/home/${myEnv.username}/Maildir" = {
-                      mountOptions = userMountOps;
-                    };
-                    # Parent is not mounted so the mountpoint must be set
-                    "/nix" = {
-                      mountOptions = [
-                        "compress=zstd:1"
-                        "noatime"
-                      ];
-                      mountpoint = "/nix";
-                    };
-                    # Subvolume for the swapfile
-                    "/swap" = {
-                      mountpoint = "/.swapvol";
-                      swap = {
-                        swapfile.size = swapSize;
-                      };
+                    mountpoint = "/nix";
+                  };
+                  # Subvolume for the swapfile
+                  "/swap" = {
+                    mountpoint = "/.swapvol";
+                    swap = {
+                      swapfile.size = swapSize;
                     };
                   };
+                };
               };
             };
           };
