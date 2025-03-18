@@ -17,6 +17,7 @@
     udisks
     git-crypt
     cachix
+    rsync
     btrfs-progs
     (
       let
@@ -215,10 +216,8 @@
       sudo chown -R "$USER_ID:$GROUP_ID" "/mnt/home/$USERNAME/Maildir"
 
       # Copy nix-config to the mounted system
-      echo "Copying nix-config repository to /mnt/home/$USERNAME/nix-config-boot..."
-      sudo mkdir -p "/mnt/home/$USERNAME/nix-config-boot"
-      sudo cp -r /home/nixos/nix-config/* "/mnt/home/$USERNAME/nix-config-boot/"
-      sudo chown -R "$USER_ID:$GROUP_ID" "/mnt/home/$USERNAME/nix-config-boot"
+      echo "Copying nix-config repository to /mnt/home/$USERNAME/nix-config..."
+      sudo rsync -PamAXvtu /home/nixos/nix-config/ "/mnt/home/$USERNAME/nix-config"
 
       echo "Disk has been formatted and mounted at /mnt."
       echo "nix-config has been copied to /home/$USERNAME/nix-config-boot on the target system."

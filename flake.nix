@@ -179,7 +179,7 @@
             ];
             mainDevice = "/dev/nvme0n1";
             swapSize = "48GB";
-            configSession = "Desktop";
+            configSession = "desktop";
             location = "home";
           };
           modules = [

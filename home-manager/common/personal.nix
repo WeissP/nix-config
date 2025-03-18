@@ -29,8 +29,6 @@
     ++ (
       if myEnv.arch == "linux" then
         [
-          ./hledger.nix
-          ./chromium.nix
           ./trayer.nix
           ./fusuma.nix
           ./flameshot.nix
@@ -39,6 +37,15 @@
           ./ariang.nix
           ./sioyek.nix
           ./autorandr.nix
+        ]
+      else
+        [ ]
+    )
+    ++ (
+      if location == "home" then
+        [
+          ./hledger.nix
+          ./chromium.nix
         ]
       else
         [ ]
@@ -60,7 +67,7 @@
               sessionVariables = {
                 SCRIPTS_DIR = myEnv.scriptsDir;
                 RASP_IP = secrets.nodes.RaspberryPi.localIp;
-                DESKTOP_IP = secrets.nodes.Desktop.localIp;
+                DESKTOP_IP = secrets.nodes.desktop.localIp;
               };
               file = {
                 "${homeDir}/scripts" = {

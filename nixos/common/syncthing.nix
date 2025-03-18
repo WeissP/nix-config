@@ -28,7 +28,7 @@ let
       id = "NXP4C4L-H3RUREP-TF3IJGV-75KL3EY-2JZVEOF-OBZX2KF-BQPO236-AHVF4AU";
       address = globalAddress;
     };
-    "Desktop" = {
+    "desktop" = {
       id = "MCEQ2JV-HSSFYQ7-T7ON2HM-UBJWV7W-P5QT6HP-HKGGKVR-FHKBVWX-XGG2IQN";
       address = localAddress;
     };
@@ -82,7 +82,7 @@ lib.mkMerge [
             toDevices =
               if (configSession == "RaspberryPi") then
                 [
-                  "Desktop"
+                  "desktop"
                   "mini"
                   "iPhone"
                   "Mac-Air"
@@ -96,7 +96,7 @@ lib.mkMerge [
                 ]
               else if (configSession == "mini") then
                 [
-                  "Desktop"
+                  "desktop"
                   "Raspberrypi"
                   "iPhone"
                   "iPad-mini"

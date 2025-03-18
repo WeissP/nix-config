@@ -127,9 +127,9 @@ with myEnv;
 
           def sync_videos [] {
               echo "Sync videos from Mac to Desktop"
-              rsync -PamAXvtu -e ssh ${homeDir}/Downloads/videos/rsync weiss@${secrets.nodes.Desktop.localIp}:/home/weiss/Downloads/videos/ 
+              rsync -PamAXvtu -e ssh ${homeDir}/Downloads/videos/rsync weiss@${secrets.nodes.desktop.localIp}:/home/weiss/Downloads/videos/ 
               echo "Sync videos from Desktop to Mac"
-              rsync -PamAXvtu -e ssh weiss@${secrets.nodes.Desktop.localIp}:/home/weiss/Downloads/videos/rsync ${homeDir}/Downloads/videos/ 
+              rsync -PamAXvtu -e ssh weiss@${secrets.nodes.desktop.localIp}:/home/weiss/Downloads/videos/rsync ${homeDir}/Downloads/videos/ 
           }
         '';
     }
