@@ -264,10 +264,14 @@
                   source = ./config_files/xmobar;
                   recursive = true;
                 };
-                # "${homeDir}/.background-image" = {
-                #   source = ./config_files/wallpaper;
-                #   recursive = true;
-                # };
+                "${configDir}/fcitx5" = {
+                  source = ./config_files/fcitx5/dotconfig;
+                  recursive = true;
+                };
+                "${homeDir}/.local/share/fcitx5" = {
+                  source = ./config_files/fcitx5/share;
+                  recursive = true;
+                };
                 "${homeDir}/.screenlayout" = {
                   source = ./config_files/screenlayout;
                   recursive = true;
