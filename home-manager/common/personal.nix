@@ -43,7 +43,7 @@
         [ ]
     )
     ++ (
-      if location == "home" then
+      if (builtins.elem "daily" myEnv.usage) then
         [
           ./hledger.nix
           ./chromium.nix
@@ -305,7 +305,7 @@
             #   inherit (myEnv) username;
             #   binName = "steam";
             # };
-            mapwacom = with secrets.locations."${location}"; {
+            mapwacom = {
               Unit.Description = "map main screen to wacom";
               Install.WantedBy = [ "autostart.target" ];
               Service = {

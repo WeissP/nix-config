@@ -30,6 +30,11 @@ lib.mkMerge [
     };
   }
   (lib.optionalAttrs (location == "home") {
+    # Enable automatic login for the user.
+    services.displayManager.autoLogin = {
+      enable = true;
+      user = "${username}";
+    };
     services.getty.autologinUser = "${username}";
   })
   (lib.optionalAttrs (location != "home") {

@@ -20,9 +20,6 @@ with myEnv;
   services = {
     joycond.enable = true;
     geoclue2.enable = true;
-    # Enable automatic login for the user.
-    displayManager.autoLogin.enable = true;
-    displayManager.autoLogin.user = "${username}";
     libinput = {
       enable = true;
       touchpad = {

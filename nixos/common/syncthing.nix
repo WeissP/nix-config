@@ -130,9 +130,9 @@ lib.mkMerge [
                 path = genPath "nix-config";
                 devices = toDevices;
               };
-              "podcasts" = {
-                id = "7gogk-utgtc";
-                path = genPath "podcasts";
+              "dotconfig" = {
+                id = "qf5fh-k32bj";
+                path = genPath ".config";
                 devices = toDevices;
               };
               "projects" = {
@@ -140,17 +140,19 @@ lib.mkMerge [
                 path = genPath "projects";
                 devices = toDevices;
               };
+            }
+            (lib.optionalAttrs (builtins.elem "daily" usage || configSession == "home_server") {
               "finance" = {
                 id = "ndnhp-9awzf";
                 path = genPath "finance";
                 devices = toDevices;
               };
-              "dotconfig" = {
-                id = "qf5fh-k32bj";
-                path = genPath ".config";
+              "podcasts" = {
+                id = "7gogk-utgtc";
+                path = genPath "podcasts";
                 devices = toDevices;
               };
-            }
+            })
           ];
       };
     };

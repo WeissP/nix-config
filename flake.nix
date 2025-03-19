@@ -176,7 +176,9 @@
             usage = [
               "personal"
               "webman-server"
+              "daily"
             ];
+            mainScreen = "DisplayPort-1";
             mainDevice = "/dev/nvme0n1";
             swapSize = "48GB";
             configSession = "desktop";
@@ -201,6 +203,7 @@
               "personal"
               "webman-server"
             ];
+            mainScreen = "HDMI-0";
             mainDevice = "/dev/sda";
             configSession = "uni";
             location = "uni";

@@ -171,7 +171,12 @@
 
         security = mkMerge [
           (ifDarwin { pam.services.sudo_local.touchIdAuth = true; })
-          (ifLinux { rtkit.enable = true; })
+          (ifLinux {
+            rtkit.enable = true;
+            sudo.extraConfig = ''
+              Defaults        timestamp_timeout=60 
+            '';
+          })
         ];
 
         environment = {
