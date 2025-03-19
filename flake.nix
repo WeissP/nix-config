@@ -247,7 +247,7 @@
         homeServer = nixpkgs.lib.nixosSystem {
           system = "x86_64-linux";
           specialArgs = mkSpecialArgs linuxEnv {
-            configSession = "home_server";
+            configSession = "homeServer";
             location = "home";
             mainDevice = "/dev/nvme0n1";
             usage = [
@@ -257,9 +257,7 @@
             ];
           };
           modules = [
-            disko.nixosModules.disko
             ./nixos/homeServer/hardware-configuration.nix
-            ./disko/btrfs_system.nix
             nixosModules.xmonadBin
             inputs.nur.modules.nixos.default
             ./nixos/homeServer/configuration.nix
@@ -401,6 +399,14 @@
               profiles = {
                 system = {
                   path = activate.x86_64-linux.nixos self.nixosConfigurations."mini";
+                };
+              };
+            };
+            "homeServer" = {
+              hostname = secrets.nodes.homeServer.localIp;
+              profiles = {
+                system = {
+                  path = activate.x86_64-linux.nixos self.nixosConfigurations."homeServer";
                 };
               };
             };

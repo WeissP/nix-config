@@ -18,6 +18,11 @@ with myEnv;
   ];
 
   services = {
+    hardware.openrgb = {
+      enable = false;
+      package = pkgs.openrgb-with-all-plugins;
+      # package = pkgs.openrgb;
+    };
     joycond.enable = true;
     geoclue2.enable = true;
     libinput = {

@@ -28,6 +28,10 @@ let
       id = "NXP4C4L-H3RUREP-TF3IJGV-75KL3EY-2JZVEOF-OBZX2KF-BQPO236-AHVF4AU";
       address = globalAddress;
     };
+    "uni" = {
+      id = "CMBJKCO-A3K2VTQ-P5DBXIV-2ZNWWWU-PVHXQBV-X26OVGE-YBR3L7E-EB2BXAC";
+      address = globalAddress;
+    };
     "desktop" = {
       id = "MCEQ2JV-HSSFYQ7-T7ON2HM-UBJWV7W-P5QT6HP-HKGGKVR-FHKBVWX-XGG2IQN";
       address = localAddress;
@@ -109,6 +113,14 @@ lib.mkMerge [
                   "Mac-Air"
                   "mini"
                 ]
+              else if (configSession == "homeServer") then
+                [
+                  "desktop"
+                  "Raspberrypi"
+                  "iPhone"
+                  "iPad-mini"
+                  "Mac-Air"
+                ]
               else
                 [
                   "mini"
@@ -141,7 +153,7 @@ lib.mkMerge [
                 devices = toDevices;
               };
             }
-            (lib.optionalAttrs (builtins.elem "daily" usage || configSession == "home_server") {
+            (lib.optionalAttrs (builtins.elem "daily" usage || configSession == "homeServer") {
               "finance" = {
                 id = "ndnhp-9awzf";
                 path = genPath "finance";

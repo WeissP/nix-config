@@ -58,7 +58,6 @@
       enable = false;
       checkReversePath = false;
     };
-    hostName = "mini";
   };
 
   virtualisation.docker.enable = true;
