@@ -257,6 +257,8 @@
             ];
           };
           modules = [
+            disko.nixosModules.disko
+            ./disko/btrfs_system.nix
             ./nixos/homeServer/hardware-configuration.nix
             nixosModules.xmonadBin
             inputs.nur.modules.nixos.default

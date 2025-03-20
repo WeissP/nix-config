@@ -191,7 +191,7 @@
         groupId = $GROUP_ID;
       }
       EOF
-
+ 
       sudo nix --experimental-features "nix-command flakes" run github:nix-community/disko/latest -- --mode $DISKO_MODE "$TEMP_DIR/disko-config.nix"
 
       # Create user subvolumes manually

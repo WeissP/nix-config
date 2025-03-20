@@ -1,6 +1,5 @@
 {
-  services.autorandr.enable = true;
-  programs.autorandr = {
+  services.autorandr = {
     enable = true;
     profiles = {
       "default" = {

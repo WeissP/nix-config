@@ -39,7 +39,7 @@ with myEnv;
         {
           enable = true;
           apiKey = secrets.webman.apiKey;
-          nodes = toNode "mini" "local" // toNode "Vultr" "public";
+          nodes = toNode "homeServer" "local" // toNode "Vultr" "public";
           server = {
             logLevel = "normal";
             secretKey = secrets.webman.secretKey;

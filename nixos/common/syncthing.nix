@@ -24,7 +24,7 @@ let
     "dynamic"
   ];
   devices = {
-    "mini" = {
+    "homeServer" = {
       id = "NXP4C4L-H3RUREP-TF3IJGV-75KL3EY-2JZVEOF-OBZX2KF-BQPO236-AHVF4AU";
       address = globalAddress;
     };
@@ -33,7 +33,7 @@ let
       address = globalAddress;
     };
     "desktop" = {
-      id = "MCEQ2JV-HSSFYQ7-T7ON2HM-UBJWV7W-P5QT6HP-HKGGKVR-FHKBVWX-XGG2IQN";
+      id = "HH3DLDT-D5HGBS3-FD42RSD-6273W2T-K6VEN7Q-45WBP4C-VLKGQHH-EDA2HAH";
       address = localAddress;
     };
     "iPhone" = {
@@ -87,7 +87,7 @@ lib.mkMerge [
               if (configSession == "RaspberryPi") then
                 [
                   "desktop"
-                  "mini"
+                  "homeServer"
                   "iPhone"
                   "Mac-Air"
                   "iPad-mini"
@@ -96,9 +96,9 @@ lib.mkMerge [
                 [
                   "iPhone"
                   "iPad-mini"
-                  "mini"
+                  "homeServer"
                 ]
-              else if (configSession == "mini") then
+              else if (configSession == "homeServer") then
                 [
                   "desktop"
                   "Raspberrypi"
@@ -111,19 +111,11 @@ lib.mkMerge [
                   "iPhone"
                   "iPad-mini"
                   "Mac-Air"
-                  "mini"
-                ]
-              else if (configSession == "homeServer") then
-                [
-                  "desktop"
-                  "Raspberrypi"
-                  "iPhone"
-                  "iPad-mini"
-                  "Mac-Air"
+                  "homeServer"
                 ]
               else
                 [
-                  "mini"
+                  "homeServer"
                   "Mac-Air"
                 ];
             genPath =

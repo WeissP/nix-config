@@ -37,7 +37,6 @@
           ./darkman.nix
           ./ariang.nix
           ./sioyek.nix
-          ./autorandr.nix
         ]
       else
         [ ]

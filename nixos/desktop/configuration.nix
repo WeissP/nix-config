@@ -1,5 +1,6 @@
 {
   myEnv,
+  lib,
   pkgs,
   ...
 }:
@@ -7,6 +8,7 @@ with myEnv;
 {
   imports = [
     ../common/minimum.nix
+    # ../common/disableRGB.nix
     ../common/sing-box.nix
     ../common/gpu.nix
   ];
@@ -14,6 +16,7 @@ with myEnv;
   # Use the systemd-boot EFI boot loader.
   boot.loader.systemd-boot.enable = true;
   boot.loader.efi.canTouchEfiVariables = true;
+
   programs.steam.protontricks.enable = true;
 
   services = {
@@ -30,7 +33,9 @@ with myEnv;
   };
 
   environment = {
-    systemPackages = [ pkgs.wireguard-tools ];
+    systemPackages = [
+      pkgs.wireguard-tools
+    ];
   };
   networking = {
     firewall = {
@@ -38,10 +43,6 @@ with myEnv;
       checkReversePath = false;
     };
     hostName = "${username}-${configSession}";
-    # defaultGateway = {
-    #   address = "192.168.0.31";
-    #   interface = "wlo1";
-    # };
   };
 
   virtualisation.docker.enable = true;

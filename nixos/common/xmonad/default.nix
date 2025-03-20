@@ -22,10 +22,18 @@ lib.mkMerge [
       ];
     };
 
-    services.xserver = {
-      windowManager.xmonadBin = {
-        enable = true;
-        binPath = "${pkgs.weissXmonad}/bin/weiss-xmonad-exe";
+    services = {
+      xserver = {
+        windowManager.xmonadBin = {
+          enable = true;
+          binPath = "${pkgs.weissXmonad}/bin/weiss-xmonad-exe";
+        };
+      };
+
+      autorandr = {
+        hooks.postswitch = {
+          restartXmonad = "${pkgs.weissXmonad}/bin/weiss-xmonad-exe --restart";
+        };
       };
     };
   }
@@ -35,7 +43,6 @@ lib.mkMerge [
       enable = true;
       user = "${username}";
     };
-    services.getty.autologinUser = "${username}";
   })
   (lib.optionalAttrs (location != "home") {
     services.xserver = {

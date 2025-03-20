@@ -227,6 +227,9 @@
           };
         };
       })
+      (ifLocalServer {
+        services.getty.autologinUser = "${username}";
+      })
       (optionalAttrs (configSession != "installer" && arch == "linux") {
         networking = {
           networkmanager.enable = true;

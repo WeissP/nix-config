@@ -67,6 +67,11 @@
        :new-line t
        )
       (
+       :name "comment block"
+       :pair ("#+BEGIN_COMMENT" . "#+END_COMMENT")
+       :new-line t
+       )
+      (
        :name "Special Block: example"
        :pair ("#+CAPTION:\n#+NAME: exp:\n#+BEGIN_example" . "#+END_example")
        :new-line t
