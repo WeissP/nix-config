@@ -7,7 +7,7 @@
    (", s" .  weiss-run-java-spring)
    (", d" .  eval-defun)
    (", m" .  weiss-eval-last-sexp-this-line)
-   (", f" .  eval-expression)
+   (", f" .  eval-defun)
    (", r" .  eval-region)
    (", x" .  save-buffers-kill-terminal)
    (", 5" .  revert-buffer)

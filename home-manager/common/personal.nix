@@ -354,6 +354,7 @@
         services = {
           pueue.enable = true;
           pasystray.enable = true;
+          autorandr.enable = true;
           kdeconnect.enable = true;
           dunst.enable = true;
           blueman-applet.enable = false;

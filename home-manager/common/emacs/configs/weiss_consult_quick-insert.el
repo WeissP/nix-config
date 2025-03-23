@@ -103,7 +103,7 @@
        )
       ( 
        :name "Special Block: invariant"
-       :pair ("#+NAME: inv:\n#+ATTR_LATEX: :options []\n#+BEGIN_invariant" . "#+END_invariant")
+       :pair ("#+NAME: inv:\n#+BEGIN_invariant" . "#+END_invariant")
        :new-line t
        )
       (

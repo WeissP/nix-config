@@ -41,7 +41,6 @@
       '(
         ("[1] Master Thesis (mt)" . (("1.1" . "mt-papers")
                                      ("1.4" . "mt-pre")
-                                     ("1.4" . "mt-pre")
                                      ("1.5" . "latex-debug")
                                      ("1.6" . ("/home/weiss/Documents/notes/logic_seminar/presentation/20240930T095443--logic-seminar-presentation__academic_logic_seminar.org"))
                                      ))

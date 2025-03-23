@@ -629,7 +629,12 @@ in
             inherit (final) trivialBuild;
             inherit remoteFiles;
             deps = with final; {
-              inherit transient helm magit;
+              inherit
+                transient
+                helm
+                magit
+                markdown-mode
+                ;
             };
           };
 

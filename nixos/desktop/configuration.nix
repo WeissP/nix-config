@@ -8,7 +8,6 @@ with myEnv;
 {
   imports = [
     ../common/minimum.nix
-    # ../common/disableRGB.nix
     ../common/sing-box.nix
     ../common/gpu.nix
   ];

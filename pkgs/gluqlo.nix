@@ -5,11 +5,11 @@
 pkgs.stdenv.mkDerivation {
   pname = "gluqlo";
   version = "1.0";
-
+ 
   src = pkgs.fetchFromGitHub {
     owner = "alexanderk23";
     repo = "gluqlo";
-    rev = "master";
+    rev = "134a6c0079268db58835f68ed8b8ef91f68c973e";
     sha256 = "sha256-bPRmMQnStPNQsR3l3N7k12Qj+Sf+e8HjhG4ihrqXr0I=";
   };
 

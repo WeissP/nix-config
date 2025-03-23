@@ -35,6 +35,8 @@
       (setq prefix " Listing "))
      ((string-prefix-p "tbl" label)
       (setq prefix " Table "))
+     ((string-prefix-p "fig" label)
+      (setq prefix " Figure "))
      )
     (insert (format "%s[[ref:%s]]" prefix label))
     )
