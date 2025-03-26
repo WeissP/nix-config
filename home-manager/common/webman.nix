@@ -131,7 +131,7 @@ with myEnv;
             logLevel = "info";
             target =
               if location == "home" then
-                "mini"
+                "homeServer"
               else if (builtins.elem "webman-server" usage) then
                 configSession
               else

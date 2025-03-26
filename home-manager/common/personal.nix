@@ -35,7 +35,6 @@
           ./flameshot.nix
           ./xscreensaver.nix
           ./darkman.nix
-          ./ariang.nix
           ./sioyek.nix
         ]
       else
@@ -46,6 +45,7 @@
         [
           ./hledger.nix
           ./chromium.nix
+          ./ariang.nix
         ]
       else
         [ ]
@@ -179,85 +179,90 @@
                 x11.enable = true;
                 gtk.enable = true;
               };
-              packages = with pkgs; [
-                (texlive.combine {
-                  inherit (texlive) scheme-full;
-                  pkgFilter = pkg: pkg.tlType == "run" || pkg.tlType == "bin" || pkg.pname == "cm-super";
-                })
-                bluetui
-                pdf4qt
-                ffmpeg
-                # nur.repos.xddxdd.wechat-uos-bin
-                qemu
-                nix-alien
-                vdhcoapp
-                taplo
-                sqlite
-                zotero
-                steam
-                jellyfin-media-player
-                lts.calibre
-                jellyfin-mpv-shim
-                qrencode
-                ripgrep-all
-                black
-                (python3.withPackages (
-                  ps: with ps; [
-                    python-lsp-server
-                    matplotlib
-                    pygments
-                    seaborn
-                  ]
-                ))
-                tree
-                xfce.xfconf
-                ssh-copy-id
-                zenith
-                nil
-                nixd
-                docker-compose
-                dua
-                scala-cli
-                jdk17
-                coreutils
-                pandoc
-                lux
-                xmlstarlet
-                lm_sensors
-                nodejs
-                feh
-                amdgpu_top
-                lshw
-                jdk17
-                jetbrains.idea-community-bin
-                apfs-fuse
-                aria2
-                cider
-                graphviz
-                libnotify
-                libreoffice
-                librsvg
-                lsof
-                mattermost-desktop
-                nodejs
-                ocamlPackages.cpdf
-                p3x-onenote
-                pdfpc
-                poppler_utils
-                qq
-                simplescreenrecorder
-                tlaplus
-                dbeaver-bin
-                tlaplusToolbox
-                wkhtmltopdf-bin
-                wmctrl
-                xautomation
-                xorg.setxkbmap
-                xournalpp
-                # microsoft-edge
-                # mathpix-snipping-tool
-                # pinnedUnstables."2023-09-27".webkitgtk
-              ];
+              packages =
+                with pkgs;
+                [
+                  (texlive.combine {
+                    inherit (texlive) scheme-full;
+                    pkgFilter = pkg: pkg.tlType == "run" || pkg.tlType == "bin" || pkg.pname == "cm-super";
+                  })
+                  bluetui
+                  pdf4qt
+                  ffmpeg
+                  # nur.repos.xddxdd.wechat-uos-bin
+                  qemu
+                  nix-alien
+                  vdhcoapp
+                  taplo
+                  sqlite
+                  zotero
+                  lts.calibre
+                  jellyfin-mpv-shim
+                  qrencode
+                  ripgrep-all
+                  black
+                  (python3.withPackages (
+                    ps: with ps; [
+                      python-lsp-server
+                      matplotlib
+                      pygments
+                      seaborn
+                    ]
+                  ))
+                  tree
+                  xfce.xfconf
+                  ssh-copy-id
+                  zenith
+                  nil
+                  nixd
+                  docker-compose
+                  dua
+                  scala-cli
+                  jdk17
+                  coreutils
+                  pandoc
+                  xmlstarlet
+                  lm_sensors
+                  nodejs
+                  feh
+                  lshw
+                  jdk17
+                  jetbrains.idea-community-bin
+                  apfs-fuse
+                  graphviz
+                  libnotify
+                  libreoffice
+                  librsvg
+                  lsof
+                  mattermost-desktop
+                  nodejs
+                  ocamlPackages.cpdf
+                  p3x-onenote
+                  pdfpc
+                  poppler_utils
+                  qq
+                  simplescreenrecorder
+                  tlaplus
+                  dbeaver-bin
+                  wkhtmltopdf-bin
+                  wmctrl
+                  xautomation
+                  xorg.setxkbmap
+                  xournalpp
+                  # microsoft-edge
+                  # mathpix-snipping-tool
+                  # pinnedUnstables."2023-09-27".webkitgtk
+                ]
+                ++ (
+                  if (builtins.elem "daily" myEnv.usage) then
+                    [
+                      mkvtoolnix
+                      steam
+                      jellyfin-media-player
+                    ]
+                  else
+                    [ ]
+                );
               file = {
                 "${configDir}/xmobar" = {
                   source = ./config_files/xmobar;

@@ -351,6 +351,7 @@ in
               "chatu"
               "chatu-xournal"
             ]
+            "subed"
             "ztree"
             "pueue"
             "rfc-mode"

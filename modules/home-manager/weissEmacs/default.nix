@@ -330,7 +330,10 @@ in
                 };
               in
               {
-                emacsPackages = [ "rime" ];
+                emacsPackages = [
+                  "rime"
+                  "posframe"
+                ];
                 externalPackages = [ pkg ];
                 cmds = ''
                   (setq rime--module-path "${pkg.outPath}/include/librime-emacs.so")

@@ -90,7 +90,7 @@ with myEnv;
 
           subvolume = {
             "/" = { };
-            "/home" = { };
+            "/home/weiss/" = { };
             "/home/weiss/nix-config" = { };
             "/home/weiss/Documents" = { };
             "/home/weiss/projects" = { };

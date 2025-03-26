@@ -5,52 +5,41 @@
   secrets,
   ...
 }:
+with myEnv;
 let
   pkg = pkgs.sing-box;
+  singboxService = name: singboxCfg: {
+    serviceConfig = {
+      StateDirectory = "sing-box";
+      StateDirectoryMode = "0700";
+      RuntimeDirectory = "sing-box";
+      RuntimeDirectoryMode = "0700";
+      ExecStart =
+        let
+          cfg = pkgs.writeTextFile {
+            name = "${name}.json";
+            text = builtins.toJSON singboxCfg;
+          };
+        in
+        [
+          ""
+          "${lib.getExe pkg} -D \${STATE_DIRECTORY} -c ${cfg} run"
+        ];
+    };
+    wantedBy = [ "multi-user.target" ];
+  };
 in
-with myEnv;
 lib.mkMerge [
   {
     environment.systemPackages = [ pkg ];
   }
   (lib.optionalAttrs (location == "china" && arch == "linux") {
     systemd.packages = [ pkg ];
-    systemd.services.sing-box = {
-      serviceConfig = {
-        StateDirectory = "sing-box";
-        StateDirectoryMode = "0700";
-        RuntimeDirectory = "sing-box";
-        RuntimeDirectoryMode = "0700";
-        ExecStart =
-          let
-            cfg = pkgs.writeTextFile {
-              name = "tunCn.json";
-              text = builtins.toJSON secrets.singbox.config.tunCn;
-            };
-          in
-          [
-            ""
-            "${lib.getExe pkg} -D \${STATE_DIRECTORY} -c ${cfg} run"
-          ];
-      };
-      wantedBy = [ "multi-user.target" ];
-    };
+    systemd.services.sing-box = singboxService "tunCn" secrets.singbox.config.tunCn;
   })
-  (ifRouter {
+  (lib.optionalAttrs (location == "home" && configSession == "desktop") {
     systemd.packages = [ pkg ];
-    systemd.services.sing-box = {
-      serviceConfig = {
-        StateDirectory = "sing-box";
-        StateDirectoryMode = "0700";
-        RuntimeDirectory = "sing-box";
-        RuntimeDirectoryMode = "0700";
-        ExecStart = [
-          ""
-          "${lib.getExe pkg} -D \${STATE_DIRECTORY} -c ${singboxCfgDir}/routerDe.json run"
-        ];
-      };
-      wantedBy = [ "multi-user.target" ];
-    };
+    systemd.services.sing-box = singboxService "tunDe" secrets.singbox.config.tunDe;
   })
   (ifRemoteServer {
     boot.kernelPatches = [
@@ -68,21 +57,5 @@ lib.mkMerge [
       listen = "[::]:${toString secrets.singbox.configServer.port}";
       root = "${singboxCfgDir}";
     };
-    # systemd = {
-    #   packages = [ pkg ];
-    #   services.sing-box = {
-    #     serviceConfig = {
-    #       StateDirectory = "sing-box";
-    #       StateDirectoryMode = "0700";
-    #       RuntimeDirectory = "sing-box";
-    #       RuntimeDirectoryMode = "0700";
-    #       ExecStart = [
-    #         ""
-    #         "${lib.getExe pkg} -D \${STATE_DIRECTORY} -c ${singboxCfgDir}/server.json run"
-    #       ];
-    #     };
-    #     wantedBy = [ "multi-user.target" ];
-    #   };
-    # };
   })
 ]

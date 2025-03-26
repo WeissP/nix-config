@@ -177,6 +177,7 @@
               "personal"
               "webman-server"
               "daily"
+              "aria-server"
             ];
             mainScreen = "DisplayPort-1";
             mainDevice = "/dev/nvme0n1";
