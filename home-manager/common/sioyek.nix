@@ -6,6 +6,9 @@
       "link_highlight_color" = "green";
     };
     bindings = {
+      "add_highlight_with_current_type" = "//"; 
+      "set_select_highlight_type" = "/s";
+      "goto_highlight" = "/g";
       "copy" = "c";
       "screen_down" = "j";
       "screen_up" = "k";

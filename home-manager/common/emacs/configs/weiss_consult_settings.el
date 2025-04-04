@@ -15,6 +15,12 @@
                       (expand-file-name
                        (if get-full-name (funcall get-full-name cand) cand) dir)))))))
 
+(defun consult-ripgrep-all (&optional dir initial)
+  "copied from https://gist.github.com/jthaman/c4eb411defc98f82cfd85c8c0d4c67e0"
+  (interactive "P")
+  (let ((consult-ripgrep-args "rga --null --line-buffered --color=never --max-columns=1000  --smart-case --no-heading --with-filename --line-number"))
+    (consult-ripgrep dir initial)))
+
 (defvar weiss-consult--source-buffer
   `(:name     "Buffer"
               :narrow   ?b

@@ -16,6 +16,7 @@
    notmuch-fcc-dirs '((".*web\\.de" . "webde/Gesendet")
                       (".*rptu\\.de" . "rptu/Sent")
                       (".*cs\\.uni-kl\\.de" . "rptu_cs/Sent")
+                      (".*gmail\\.com" . "gmail/[Gmail]/Sent Mail")
                       (".*" . "sent")
                       ))
 

@@ -15,7 +15,7 @@ let
   musicDownloadDir = "${downloadDir}/music";
   musicVidsDownloadDir = "${downloadDir}/music-videos";
   musicCfgDir = "${cfgDir}/music";
-  ytDlp = pkgs.lts.yt-dlp;
+  ytDlp = pkgs.yt-dlp;
 in
 {
   home = {

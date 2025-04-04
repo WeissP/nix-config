@@ -58,15 +58,14 @@ with myEnv;
             enable = true;
             dbUrl = "postgres://${username}:${secrets.sql.localPassword}@localhost:5432/webman";
             sync =
-              if configSession != "Vultr" then
-                [
-                  {
-                    name = "Vultr";
-                    interval = "1 hours";
-                  }
-                ]
-              else
-                [ ];
+              (lib.lists.optional (configSession != "Vultr") {
+                name = "Vultr";
+                interval = "1 hours";
+              })
+              ++ (lib.lists.optional (location == "home") {
+                name = "homeServer";
+                interval = "2 min";
+              });
           };
         })
         (lib.optionalAttrs (configSession == "Vultr") {
@@ -123,19 +122,13 @@ with myEnv;
                 browser = "Floorp";
                 location = "${homeDir}/.floorp/9zfvq2bx.default/places.sqlite";
               };
-              firefox = {
-                browser = "Firefox";
-                location = "${homeDir}/.mozilla/firefox/oqbprr8u.default/places.sqlite";
-              };
+              # firefox = {
+              #   browser = "Firefox";
+              #   location = "${homeDir}/.mozilla/firefox/oqbprr8u.default/places.sqlite";
+              # };
             };
             logLevel = "info";
-            target =
-              if location == "home" then
-                "homeServer"
-              else if (builtins.elem "webman-server" usage) then
-                configSession
-              else
-                "Vultr";
+            target = if (builtins.elem "webman-server" usage) then configSession else "Vultr";
             freq = "1min";
           };
         })

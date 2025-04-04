@@ -78,7 +78,7 @@ with myEnv;
       locale
       unzip
       zip
-      pavucontrol
+      pwvucontrol
       xdotool
       wezterm
       babashka

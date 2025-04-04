@@ -78,6 +78,8 @@
               };
               packages = with pkgs; [
                 fd
+                exfat
+                # exfatprogs
                 bibtex-tidy
                 wget
                 alacritty
@@ -218,7 +220,7 @@
                   docker-compose
                   dua
                   scala-cli
-                  jdk17
+                  # jdk
                   coreutils
                   pandoc
                   xmlstarlet
@@ -226,7 +228,6 @@
                   nodejs
                   feh
                   lshw
-                  jdk17
                   jetbrains.idea-community-bin
                   apfs-fuse
                   graphviz

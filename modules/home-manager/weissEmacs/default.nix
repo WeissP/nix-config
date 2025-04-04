@@ -232,8 +232,7 @@ in
           aider = {
             emacsPackages = [ "aider" ];
             externalPackages = [
-              pkgs.aider-chat.withPlaywright
-              pkgs.playwright
+              pkgs.aider-chat-full
             ];
           };
           gptel = {
