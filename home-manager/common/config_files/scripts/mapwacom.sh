@@ -105,6 +105,16 @@ valid_screen() {
 	return 1
 }
 
+# Check if dimensions match 21:9 aspect ratio with 5% tolerance
+is_ultrawide() {
+	local width=$1
+	local height=$2
+	local width_times_9=$(( width * 9 ))
+	local height_times_21=$(( height * 21 ))
+	local ratio_percent=$(( (width_times_9 * 100) / height_times_21 ))
+	[ $ratio_percent -ge 95 ] && [ $ratio_percent -le 105 ]
+}
+
 # Adds device $1 to the device list.
 add_device() {
 	[ $SHOW_DEBUG -ne 0 ] && echo "Adding device '$1'."
@@ -166,7 +176,17 @@ map_device_to_screen() {
 		read WIDTH HEIGHT <<< "$LINE"
 	else
 		LINE=`xrandr -q --current | sed -n "s/^$2"' connected.* \([0-9]\+x[0-9]\++[0-9]\++[0-9]\+\).*/\1/p'`
-		read WIDTH HEIGHT <<< `echo "${LINE}" | sed -n 's/\([0-9]\+\)x\([0-9]\+\)+\([0-9]\+\)+\([0-9]\+\)/\1 \2/p'`
+		# Extract width, height, X and Y offsets from screen geometry
+		read WIDTH HEIGHT X Y <<< $(echo "${LINE}" | sed -n 's/\([0-9]\+\)x\([0-9]\+\)+\([0-9]\+\)+\([0-9]\+\)/\1 \2 \3 \4/p')
+		# Check for 21:9 ultrawide screens
+		if is_ultrawide $WIDTH $HEIGHT; then
+			[ $SHOW_DEBUG -ne 0 ] && echo "Detected 21:9 ultrawide screen (${WIDTH}x${HEIGHT})"
+			# Calculate 16:9 width based on screen height
+			new_width=$(( HEIGHT * 16 / 9 ))
+			WIDTH=$new_width
+			LINE="${new_width}x${HEIGHT}+${X}+${Y}"
+			[ $SHOW_DEBUG -ne 0 ] && echo "Ultrawide screen detected. Adjusted width to $new_width for 16:9 area."
+		fi
 	fi
 	[ $SHOW_DEBUG -ne 0 ] && echo "Screen '$2' size ${WIDTH}x${HEIGHT}."
 
@@ -212,7 +232,7 @@ if [ $# -eq 0 ]; then
 fi
 
 clear_devices
-SHOW_DEBUG=0
+SHOW_DEBUG=1
 EXIT_ON_BAD_DEVICE=0 # If we try to map a device that doesn't support it, exit script
 
 while [ $# -gt 0 ]; do
@@ -260,5 +280,5 @@ while [ $# -gt 0 ]; do
 			echo "Unknown option $OPT." 1>&2
 			exit $EXIT_CODE_USAGE
 			;;
-	esac
+	esac 
 done
