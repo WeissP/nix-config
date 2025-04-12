@@ -44,6 +44,7 @@
   (push '(cabal-fmt . ("cabal-fmt")) apheleia-formatters)
   (push '(taplo . ("taplo" "fmt" "-")) apheleia-formatters)
   (push '(bibtex-tidy . ("bibtex-tidy" "--merge" "combine" "--blank-lines")) apheleia-formatters)
+  (push '(google-java-format . ("google-java-format" "-")) apheleia-formatters)
 
   ;; (push '(nushell-mode . nufmt) apheleia-mode-alist)
   (push '(scala-mode . scalafmt) apheleia-mode-alist)
@@ -53,6 +54,7 @@
   (push '(clojure-mode . zprint) apheleia-mode-alist)
   (push '(nxml-mode . xmlstarlet) apheleia-mode-alist)
   (push '(bibtex-mode . bibtex-tidy) apheleia-mode-alist)
+  (push '(java-mode . google-java-format) apheleia-mode-alist)
 
   (with-eval-after-load 'conf-mode
     (push '(conf-toml-mode . taplo) apheleia-mode-alist)
