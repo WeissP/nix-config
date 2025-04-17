@@ -81,4 +81,20 @@
   ];
 
   system.stateVersion = "25.05";
+
+  systemd.services."suspend-daily" = {
+    serviceConfig = {
+      Type = "oneshot";
+      ExecStart = "${pkgs.systemd}/bin/systemctl suspend";
+    };
+  };
+
+  systemd.timers."suspend-daily" = {
+    wantedBy = ["timers.target"];
+    timerConfig = {
+      OnCalendar = "02:30";
+      Persistent = true;
+      AccuracySec = "1min";
+    };
+  };
 }
