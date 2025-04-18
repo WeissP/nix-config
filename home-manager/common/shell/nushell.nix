@@ -13,32 +13,17 @@ with myEnv;
     nufmt
   ];
   programs.fish.enable = true; # I may use fish completer in nushell
-  home.file =
+  programs.nushell =
     let
-      # based on https://github.com/nushell/nushell/discussions/12997
-      plugins = [ "polars" ];
-      activateNushellPluginsNuScript = pkgs.writeTextFile {
-        name = "activateNushellPlugins";
-        destination = "/bin/activateNushellPlugins.nu";
-        text = ''
-          #!/usr/bin/env nu
-          ${lib.concatStringsSep "\n" (
-            map (x: "plugin add ${pkgs.nushellPlugins.${x}}/bin/nu_plugin_${x}") plugins
-          )}
-        '';
-      };
-      msgPackz = pkgs.runCommand "nushellMsgPackz" { } ''
-        mkdir -p "$out"
-        # After some experimentation, I determined that this only works if --plugin-config is FIRST
-        ${pkgs.nushell}/bin/nu --plugin-config "$out/plugin.msgpackz" ${activateNushellPluginsNuScript}/bin/activateNushellPlugins.nu
-      '';
+      p = pkgs;
     in
     {
-      "${config.xdg.configHome}/nushell/plugin.msgpackz".source = "${msgPackz}/plugin.msgpackz";
-    };
-  programs.nushell = lib.mkMerge [
-    {
       enable = true;
+      package = p.nushell;
+      plugins = with p.nushellPlugins; [
+        skim
+        polars
+      ];
       # check options in https://github.com/nushell/nushell/blob/main/crates/nu-utils/src/sample_config/default_config.nu
       configFile.text =
         let
@@ -132,6 +117,5 @@ with myEnv;
               rsync -PamAXvtu -e ssh weiss@${secrets.nodes.desktop.localIp}:/home/weiss/Downloads/videos/rsync ${homeDir}/Downloads/videos/ 
           }
         '';
-    }
-  ];
+    };
 }

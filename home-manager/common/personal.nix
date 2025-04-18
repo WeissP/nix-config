@@ -79,7 +79,7 @@
               packages = with pkgs; [
                 fd
                 exfat
-                # exfatprogs
+                git-crypt
                 bibtex-tidy
                 wget
                 alacritty
@@ -193,12 +193,14 @@
                   ffmpeg
                   # nur.repos.xddxdd.wechat-uos-bin
                   qemu
+                  google-java-format
                   nix-alien
                   vdhcoapp
                   taplo
                   sqlite
                   zotero
                   lts.calibre
+                  jetbrains.idea-community-bin
                   jellyfin-mpv-shim
                   qrencode
                   ripgrep-all

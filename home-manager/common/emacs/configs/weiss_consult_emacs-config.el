@@ -54,7 +54,7 @@
 
 (with-eval-after-load 'weiss_consult_settings
   (setq weiss-consult-source-emacs-config
-        (list
+        (list 
          :name     "emacs-config"
          :category 'emacs-config
          :narrow   ?e

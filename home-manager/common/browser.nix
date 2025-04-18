@@ -43,10 +43,12 @@ lib.mkMerge [
     #   inherit (myEnv) username;
     #   binName = defaultBrowserName;
     #   service = {
-    #     Environment = "GTK_IM_MODULE=fcitx QT_IM_MODULE=fcitx XMODIFIERS=@im=fcitx";
-    #     # PassEnvironment = [
-    #     #   "PATH"
-    #     # ];
+    #     PassEnvironment = [
+    #       "PATH"
+    #       "GTK_IM_MODULE"
+    #       "QT_IM_MODULE"
+    #       "XMODIFIERS"
+    #     ];
     #   };
     # };
   })

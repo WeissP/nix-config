@@ -85,12 +85,12 @@
   systemd.services."suspend-daily" = {
     serviceConfig = {
       Type = "oneshot";
-      ExecStart = "${pkgs.systemd}/bin/systemctl suspend";
+      ExecStart = "${pkgs.systemd}/bin/systemctl hibernate";
     };
   };
 
   systemd.timers."suspend-daily" = {
-    wantedBy = ["timers.target"];
+    wantedBy = [ "timers.target" ];
     timerConfig = {
       OnCalendar = "02:30";
       Persistent = true;

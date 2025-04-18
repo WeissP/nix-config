@@ -30,15 +30,10 @@
           filters = [
             { name_prefix = "COMMIT_EDITMSG"; }
             {
-              dir_prefix = "${homeDir}/Documents/notes";
-              ext = "org";
+              name_regex = "^\d{8}T\d{6}--.+$";
             }
             {
               dir_prefix = "/dev/shm";
-            }
-            {
-              dir_prefix = "${homeDir}/Documents/notes";
-              ext = "pdf";
             }
             {
               dir_prefix = "${homeDir}/nix-config/home-manager/common/emacs/configs";

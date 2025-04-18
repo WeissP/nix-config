@@ -40,7 +40,7 @@ in
       };
       isConfigP = pkg: lib.strings.hasPrefix "weiss_${pkg}_";
       earlyInit = ''
-        (setq gc-cons-threshold most-positive-fixnum (* (expt 1024 3) 6) ; 2^61 bytes
+        (setq gc-cons-threshold most-positive-fixnum ; 2^61 bytes
               gc-cons-percentage 0.6)
         ;; Inhibit resizing frame
         (setq frame-inhibit-implied-resize t)
@@ -282,7 +282,7 @@ in
             ]
             "php-mode"
             [ "haskell-mode" ]
-            # "rustic"
+            "rustic"
             [
               "web-mode"
               "rjsx-mode"

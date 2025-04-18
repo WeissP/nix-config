@@ -21,20 +21,6 @@
   (let ((consult-ripgrep-args "rga --null --line-buffered --color=never --max-columns=1000  --smart-case --no-heading --with-filename --line-number"))
     (consult-ripgrep dir initial)))
 
-(defvar weiss-consult--source-buffer
-  `(:name     "Buffer"
-              :narrow   ?b
-              :category buffer
-              :face     consult-buffer
-              :history  buffer-name-history
-              :state    ,#'consult--buffer-state
-              :default  t
-              :items
-              ,(lambda () (consult--buffer-query :sort 'alpha
-                                                 :filter 'nil
-                                                 :as #'consult--buffer-pair)))
-  "Buffer candidate source for `consult-buffer'.")
-
 (with-eval-after-load 'consult
   (setq consult-buffer-sources
         (remove 'consult--source-bookmark consult-buffer-sources))

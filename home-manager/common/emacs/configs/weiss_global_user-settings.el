@@ -85,6 +85,10 @@
 
 (setq warning-suppress-types '((undo discard-info)))
 
+(setq completion-category-defaults nil
+      completion-category-overrides '((file (styles partial-completion)))
+      )
+
 (setq
  weiss/notes-dir (file-name-as-directory (expand-file-name "~/Documents/notes/"))
  weiss/chats-dir (file-name-as-directory (expand-file-name "~/Documents/chats/"))

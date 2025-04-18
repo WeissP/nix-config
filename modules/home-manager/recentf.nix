@@ -46,6 +46,7 @@ in
                   "dir_prefix"
                   "ext"
                   "name_suffix"
+                  "name_regex"
                 ]
                 (
                   k:

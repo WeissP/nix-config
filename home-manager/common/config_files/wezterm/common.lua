@@ -24,6 +24,16 @@ config.quick_select_patterns = {
 }
 config.keys = {
 	{
+		key = "LeftArrow",
+		mods = "CTRL",
+		action = act.MoveTabRelative(-1),
+	},
+	{
+		key = "RightArrow",
+		mods = "CTRL",
+		action = act.MoveTabRelative(1),
+	},
+	{
 		key = "v",
 		mods = "CTRL",
 		action = { PasteFrom = "Clipboard" },

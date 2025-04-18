@@ -9,6 +9,7 @@ with myEnv; {
         shell = {
           disabled = false;
           zsh_indicator = "𝒛𝒔𝒉>>>";
+          bash_indicator = "𝒃𝒂𝒔𝒉>>>";
           nu_indicator = "𝒏𝒖>>>";
           style = "cyan";
         };

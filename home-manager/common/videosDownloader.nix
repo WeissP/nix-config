@@ -23,7 +23,7 @@ in
       ytDlp
       ffmpeg
     ];
-    file = {
+    file = { 
       "${channelCfgDir}/channels_audios.txt" = {
         source = ./config_files/video_sources/channels_audios.txt;
       };

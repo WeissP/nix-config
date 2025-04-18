@@ -91,12 +91,14 @@ lib.mkMerge [
                   "iPhone"
                   "Mac-Air"
                   "iPad-mini"
+                  "uni"
                 ]
               else if (configSession == "Bozhous-Air") then
                 [
                   "iPhone"
                   "iPad-mini"
                   "homeServer"
+                  "uni"
                 ]
               else if (configSession == "homeServer") then
                 [
@@ -105,6 +107,7 @@ lib.mkMerge [
                   "iPhone"
                   "iPad-mini"
                   "Mac-Air"
+                  "uni"
                 ]
               else if (configSession == "uni") then
                 [
@@ -149,12 +152,19 @@ lib.mkMerge [
               "finance" = {
                 id = "ndnhp-9awzf";
                 path = genPath "finance";
-                devices = toDevices;
+                devices = lib.lists.intersectLists toDevices [
+                  "homeServer"
+                  "desktop"
+                  "iPhone"
+                ];
               };
               "podcasts" = {
                 id = "7gogk-utgtc";
                 path = genPath "podcasts";
-                devices = toDevices;
+                devices = lib.lists.intersectLists toDevices [
+                  "homeServer"
+                  "desktop"
+                ];
               };
             })
           ];

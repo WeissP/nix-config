@@ -4,6 +4,7 @@
    read-file-name-completion-ignore-case t
    read-buffer-completion-ignore-case t
    vertico-scroll-margin 0
+   vertico-sort-function 'vertico-sort-history-length-alpha
    ;; (setq vertico-count 20)
 
    ;; Grow and shrink the Vertico minibuffer
