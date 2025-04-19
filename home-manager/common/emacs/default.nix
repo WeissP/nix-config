@@ -393,6 +393,8 @@ in
             "use-proxy"
             [
               "denote"
+              "denote-org"
+              "denote-journal"
               # "consult-denote"
             ]
             [

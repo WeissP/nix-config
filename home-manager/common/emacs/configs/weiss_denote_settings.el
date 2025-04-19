@@ -25,7 +25,6 @@
 
 (add-hook 'emacs-startup-hook
           #'(lambda ()
-              (require 'denote-rename-buffer)
               (denote-rename-buffer-mode 1)))
 
 (setq denote-file-name-letter-casing
@@ -38,8 +37,8 @@
 
 (with-eval-after-load 'denote
   (with-eval-after-load 'org
-    (require 'denote-org-extras)
-    (require 'denote-journal-extras)
+    (require 'denote-org)
+    (require 'denote-journal)
 
     (defun weiss-denote--after-dblock (&rest args)
       "DOCSTRING"
