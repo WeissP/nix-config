@@ -11,7 +11,7 @@
    "e "
    '(
      ("r" . denote-rename-file-using-front-matter)
-     ("j" . denote-journal-extras-new-entry)
+     ("j" . denote-journal-new-entry)
      ))
 
   (wks-define-key

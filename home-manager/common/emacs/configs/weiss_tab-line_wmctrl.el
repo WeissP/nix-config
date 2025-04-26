@@ -44,7 +44,7 @@
                                      ("1.5" . "latex-debug")
                                      ("1.6" . ("/home/weiss/Documents/notes/logic_seminar/presentation/20240930T095443--logic-seminar-presentation__academic_logic_seminar.org"))
                                      ))
-        ("[2] Master Thesis coding (mt)" . (("2.1" . "mt-join-component")
+        ("[2] Master Thesis coding (mt)" . (("2.1" . "mt-queries")
                                             ("2.1" . "mt-join-utils")
                                             ("2.1" . "mt-join-service")
                                             ("2.1" . "mt-join-tuple")

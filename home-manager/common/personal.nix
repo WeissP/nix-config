@@ -188,6 +188,7 @@
                     inherit (texlive) scheme-full;
                     pkgFilter = pkg: pkg.tlType == "run" || pkg.tlType == "bin" || pkg.pname == "cm-super";
                   })
+                  devenv
                   bluetui
                   pdf4qt
                   ffmpeg

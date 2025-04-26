@@ -9,7 +9,14 @@
     )
   )
 
-(setq aider-popular-models '("anthropic/claude-3-7-sonnet-20250219" "o3-mini" "openrouter/deepseek/deepseek-r1" "openrouter/deepseek/deepseek-chat"))
+(setq aider-popular-models
+      '(
+        "anthropic/claude-3-7-sonnet-20250219"
+        "o4-mini"
+        "openrouter/deepseek/deepseek-r1"
+        "openrouter/deepseek/deepseek-chat"
+        "openrouter/google/gemini-2.5-pro-preview-03-25"
+        ))
 
 (with-eval-after-load 'aider 
   (setq weiss-aider-basic-args

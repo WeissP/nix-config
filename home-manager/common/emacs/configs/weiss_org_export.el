@@ -43,7 +43,7 @@
     (deactivate-mark)
     (ignore-errors 
       (call-interactively 'save-buffer))
-    (if org-beamer-mode
+    (if (and (featurep 'ox-beamer) org-beamer-mode)
         (call-interactively 'org-beamer-export-to-pdf)          
       (let ((warning-minimum-level :error))
         (call-interactively 'org-latex-export-to-pdf)

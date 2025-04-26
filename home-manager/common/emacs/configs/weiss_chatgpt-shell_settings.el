@@ -5,11 +5,16 @@
     )
   (require 'ob-chatgpt-shell)
   (ob-chatgpt-shell-setup)
-  ;;   (ob-chatgpt-shell--make-assistant :name "PDF Assistant"  :instructions "You’re an intelligent PDF document assistant with the ability to analyze and extract information from various types of PDF files. You have a deep understanding of content structure, context, and can provide accurate answers to questions based on the content of the PDF file. 
-  ;; Your task is to answer questions regarding a specific PDF document. Please analyze the information provided in the PDF and respond accurately to the inquiries.
-  ;; Please ensure that your responses are clear, concise, and directly relevant to the questions asked.")
-
+    ;; (ob-chatgpt-shell--make-assistant :name "PDF Assistant"  :instructions "You’re an intelligent PDF document assistant with the ability to analyze and extract information from various types of PDF files. You have a deep understanding of content structure, context, and can provide accurate answers to questions based on the content of the PDF file. 
+  ;; ;; Your task is to answer questions regarding a specific PDF document. Please analyze the information provided in the PDF and respond accurately to the inquiries.
+  ;; ;; Please ensure that your responses are clear, concise, and directly relevant to the questions asked.")
   ;; assistant-id: asst_JszPZ7I3AZMZF4FVERvrBeOf
+  
+;; (ob-chatgpt-shell--make-assistant :name "Editor Assistant"  :instructions "You are an experienced academic editor specializing in computer science papers with over 10 years of experience. You have a keen eye for detail and an understanding of the intricacies of academic writing, ensuring clarity, coherence, and adherence to formatting standards.
+
+;; Your task is to edit a draft of an academic paper. Here is the draft text that needs editing: ")
+;; asst_Pv1V6AZKcDtfgLtUNd5qppz2
+
 
   ;; A quick fix of header bug
   (cl-defun ob-chatgpt-shell--upload-file (&key purpose path)

@@ -1,3 +1,5 @@
+(setq custom-safe-themes t)
+
 (setq modus-themes-headings
       '((1 . ( variable-pitch 1.3))
         (t . 1.2)))

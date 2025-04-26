@@ -105,10 +105,21 @@ with myEnv;
                  direnv export json | from json | default {} | load-env
                  if (which nix-direnv-reload | is-not-empty) {
                     nix-direnv-reload
-                    nu
                  }                  
              }
+             nu
           }
+
+          def shorten [
+              input_path: path
+              --offset (-o): int = 0
+              --limit (-l): int = 10000
+          ] {
+              let output_path = ($input_path | path parse | upsert extension { || $"($offset)_($offset + $limit).short.($in)" } | path join)
+              open $input_path --raw | lines | skip $offset | first $limit | to text | save -f $output_path
+          }
+
+          def "from ndjson" [] { from json -o }
 
           def sync_videos [] {
               echo "Sync videos from Mac to Desktop"

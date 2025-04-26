@@ -105,7 +105,7 @@
         (pcase insert-fun
           ("denote-insert-link" (denote-link
                                  cand 'org 
-                                 (denote--retrieve-title-or-filename cand 'org)
+                                 (denote-query-extract-title cand)
                                  ))
           ("denote-org-extras-link-to-heading"
            (weiss-denote-org-extras-link-to-heading

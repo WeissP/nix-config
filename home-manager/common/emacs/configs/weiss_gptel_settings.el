@@ -59,7 +59,13 @@ Now, answer the following question:
       :key (password-store-get-field "deepseek" "api-key")
       :models '(deepseek-chat deepseek-coder deepseek-reasoner))
     )
-  
+  (gptel-make-openai "OpenRouter"
+    :host "openrouter.ai"
+    :endpoint "/api/v1/chat/completions"
+    :stream t
+    :key (password-store-get-field "openrouter" "api-key")
+    :models '(google/gemini-2.5-pro-preview-03-25
+              ))  
   ;; (gptel-make-privategpt "privateGPT"               ;Any name you want
   ;;   ;; :protocol "http"
   ;;   :host "0.0.0.0:8001"

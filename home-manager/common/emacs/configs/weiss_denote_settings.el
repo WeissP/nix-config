@@ -5,7 +5,7 @@
  denote-prompts '(title keywords)
  denote-rename-buffer-format "%t %s" 
  denote-backlinks-show-context t
- denote-org-extras-dblock-file-contents-separator "\n⠊⠊⠊⠊⠊⠊⠊⠊⠊⠊⠊⠊⠊⠊⠊⠊⠊⠊⠊⠊⠊⠊⠊⠊⠊⠊⠊⠊⠊⠊⠊⠊⠊⠊⠊⠊⠊⠊⠊⠊⠊⠊⠊⠊⠊⠊\n"
+ denote-org-dblock-file-contents-separator "\n⠊⠊⠊⠊⠊⠊⠊⠊⠊⠊⠊⠊⠊⠊⠊⠊⠊⠊⠊⠊⠊⠊⠊⠊⠊⠊⠊⠊⠊⠊⠊⠊⠊⠊⠊⠊⠊⠊⠊⠊⠊⠊⠊⠊⠊⠊\n"
  denote-excluded-directories-regexp "ltximg"
  denote-excluded-files-regexp (rx
                                (or
@@ -112,7 +112,7 @@
           (when add-links
             (indent-region beginning-of-contents (point-max) 2)))
         (buffer-string))))
-  (advice-add 'denote-org-extras-dblock--get-file-contents :override #'weiss-denote-org-dblock--get-file-contents)
+  (advice-add 'denote-org-dblock--get-file-contents :override #'weiss-denote-org-dblock--get-file-contents)
 
   (defun weiss-denote-journal-setup ()
     (interactive)
@@ -120,7 +120,7 @@
     (wks-vanilla-mode-enable)
     )
   (add-to-list 'denote-templates '(journal . ""))
-  (add-hook 'denote-journal-extras-hook #'weiss-denote-journal-setup)
+  (add-hook 'denote-journal-hook #'weiss-denote-journal-setup)
 
   (defun weiss-denote--rename-buffer-service (&rest args)
     (denote-rename-buffer-rename-function-or-fallback))

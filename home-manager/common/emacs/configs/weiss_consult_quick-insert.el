@@ -62,6 +62,11 @@
        :new-line t
        )
       (
+       :name "Special Block: equation"
+       :pair ("#+NAME: eq:\n\\begin{equation}" . "\\end{equation}")
+       :new-line t
+       )
+      (
        :name "Special Block: proposition"
        :pair ("#+NAME: prop:\n#+BEGIN_proposition" . "#+END_proposition")
        :new-line t
