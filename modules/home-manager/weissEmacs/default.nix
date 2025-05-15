@@ -636,6 +636,7 @@ in
             deps = with final; {
               inherit
                 transient
+                s
                 helm
                 magit
                 markdown-mode

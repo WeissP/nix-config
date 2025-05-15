@@ -1,5 +1,5 @@
 (with-eval-after-load 'latex   
-  (wks-unset-key LaTeX-mode-map '("$" "_" "^" "(" "{" "["))
+  (wks-unset-key LaTeX-mode-map '("$" "_" "^" "(" "{" "[" "-"))
 
   (wks-define-key
    LaTeX-mode-map ""

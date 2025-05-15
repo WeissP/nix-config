@@ -9,8 +9,7 @@
    org-image-actual-width nil
    org-fontify-done-headline t
    org-pretty-entities nil
-   ;; hide ** //
-   org-hide-emphasis-markers t
+   org-hide-emphasis-markers nil 
    org-n-level-faces 15
    )
 

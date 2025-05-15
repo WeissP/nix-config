@@ -37,7 +37,7 @@
                       "--stdin"))
         apheleia-formatters)    
   (push '(zprint . ("zprint" "{:search-config? true}")) apheleia-formatters)    
-  ;; (push '(nufmt . ("nufmt" file)) apheleia-formatters)    
+  ;; (push '(nufmt . ("nufmt" "-s")) apheleia-formatters)    
   (push '(xmlstarlet . ("xmlstarlet" "format" "--indent-tab")) apheleia-formatters)    
   (push '(rustfmt . ("rustfmt" "--quiet" "--emit" "stdout")) apheleia-formatters)
   (push '(fourmolu . ("fourmolu" "--stdin-input-file" (or (buffer-file-name) (buffer-name)))) apheleia-formatters)

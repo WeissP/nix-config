@@ -257,7 +257,7 @@
                 ("crt" "\\Return ▮\\;" weiss--ahf-indent)
                 ("cc" "\\tcp{▮}" weiss--ahf-indent)
                 ("ccm" "\\tcc{▮}" weiss--ahf-indent)
-                
+''                
 ;;;;; Misc
                 ("ml" "\\label{▮}" weiss--ahf)
                 ("mlt" "\\left" weiss--ahf)

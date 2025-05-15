@@ -11,6 +11,7 @@ trivialBuild rec {
     helm
     magit
     markdown-mode
+    s
   ];
   buildInputs = propagatedUserEnvPkgs;
   src = builtins.filterSource (

@@ -77,6 +77,7 @@
                 "${homeDir}/.ssh/id_rsa".text = secrets.ssh."163".private;
               };
               packages = with pkgs; [
+                pinnedUnstables."2023-03-31".pkgs.bat
                 fd
                 exfat
                 git-crypt
@@ -346,7 +347,8 @@
         };
 
         i18n.inputMethod = {
-          enabled = "fcitx5";
+          enable = true;
+          type = "fcitx5";
           fcitx5.addons = with pkgs; [
             fcitx5-rime
             fcitx5-configtool

@@ -48,7 +48,8 @@
 
 (setq locale-coding-system 'utf-8
       default-process-coding-system
-      '(utf-8-unix . utf-8-unix))
+      '(utf-8-unix . utf-8-unix)
+      )
 
 ;; save sh file auto with executable permission
 (add-hook 'after-save-hook 'executable-make-buffer-file-executable-if-script-p)

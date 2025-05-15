@@ -16,6 +16,7 @@ with myEnv;
       enableNushellIntegration = true;
       flags = [ "--disable-up-arrow" ];
       settings = {
+        search_mode = "fulltext";
         auto_sync = true;
       };
     };

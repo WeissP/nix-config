@@ -15,7 +15,8 @@
         "o4-mini"
         "openrouter/deepseek/deepseek-r1"
         "openrouter/deepseek/deepseek-chat"
-        "openrouter/google/gemini-2.5-pro-preview-03-25"
+        "gemini/gemini-2.5-flash-preview-04-17"
+        "gemini/gemini-2.5-pro-preview-03-25"
         ))
 
 (with-eval-after-load 'aider 
@@ -32,6 +33,7 @@
                    `("DEEPSEEK_API_KEY" . ,(password-store-get-field "deepseek" "api-key"))
                    `("ANTHROPIC_API_KEY" . ,(password-store-get-field "anthropic" "api-key"))
                    `("OPENROUTER_API_KEY" . ,(password-store-get-field "openrouter" "api-key"))
+                   `("GEMINI_API_KEY" . ,(password-store-get-field "gemini" "api-key"))
                    )
                   )
          )

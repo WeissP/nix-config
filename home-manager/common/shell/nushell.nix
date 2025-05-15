@@ -15,7 +15,7 @@ with myEnv;
   programs.fish.enable = true; # I may use fish completer in nushell
   programs.nushell =
     let
-      p = pkgs;
+      p = pkgs.pinnedUnstables."2025-04-20";
     in
     {
       enable = true;
@@ -120,6 +120,25 @@ with myEnv;
           }
 
           def "from ndjson" [] { from json -o }
+
+          def filter-lines [
+            input_file: path,    # The input file path
+            search_string: string # The string to search for in each line
+          ] {
+            # Parse the input filename to get stem and extension
+            let parts = $input_file | path parse
+
+            # Construct the output filename like name.filtered.ext
+            let output_file = $"($parts.stem).filtered.($parts.extension)"
+
+            # Open the file, split into lines, filter, and save
+            open $input_file
+            | lines
+            | where { |line| $line | str contains $search_string }
+            | save $output_file
+
+            print $"Filtered content saved to: ($output_file)"
+          }
 
           def sync_videos [] {
               echo "Sync videos from Mac to Desktop"
