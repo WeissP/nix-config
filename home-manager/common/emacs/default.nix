@@ -432,7 +432,7 @@ in
               "org-appear"
             ]
             "org-table-to-qmk-keymap"
-            "org-edit-latex"
+            # "org-edit-latex"
           ];
           latex = [
             "latex"

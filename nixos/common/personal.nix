@@ -95,11 +95,11 @@ with myEnv;
   };
 
   virtualisation = {
-    docker = {
-      enable = true;
-      storageDriver = "btrfs";
-    };
+    # docker = {
+    #   enable = true;
+    #   storageDriver = "btrfs";
+    # };
     virtualbox.host.enable = true;
   };
-  users.extraGroups.vboxusers.members = [ "user-with-access-to-virtualbox" ];
+  users.extraGroups.vboxusers.members = [ "$username" ];
 }

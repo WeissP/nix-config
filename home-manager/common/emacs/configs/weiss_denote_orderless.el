@@ -1,6 +1,6 @@
 (with-eval-after-load 'denote
   (with-eval-after-load 'orderless
-
+    
     (defun denote-orderless--is-orderless-filter (str)
       "check whether `str' is an orderless filter and return the filter if it is, otherwise return nil"
       (interactive)
@@ -11,9 +11,9 @@
         )
       )
 
-    (defun denote-orderless-directory-files (oldfun &optional filter omit-current text-only)
+    (defun denote-orderless-directory-files (oldfun &optional files-matching-regexp omit-current text-only exclude-regexp)
       "use orderless to filter files"
-      (if-let ((ol-filter (denote-orderless--is-orderless-filter filter)))
+      (if-let ((ol-filter (denote-orderless--is-orderless-filter files-matching-regexp)))
           (progn
             ;; (message "ol-filter: %s" ol-filter)
             (let ((files (denote--directory-get-files)))
@@ -26,7 +26,7 @@
                 (setq files (seq-filter #'denote-file-is-note-p files)))
               files)
             )
-        (funcall oldfun filter omit-current text-only)
+        (funcall oldfun files-matching-regexp omit-current text-only exclude-regexp)
         )
       )
     

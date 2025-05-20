@@ -44,7 +44,6 @@ with myEnv;
     hostName = "${username}-${configSession}";
   };
 
-  virtualisation.docker.enable = true;
   security.sudo.extraRules = [
     {
       users = [ "weiss" ];
