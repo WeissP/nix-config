@@ -14,7 +14,6 @@ let
   mainDiskCfg = {
     main = {
       type = "disk";
-      # When using disko-install, we will overwrite this value from the commandline
       device = mainDevice;
       content = {
         type = "gpt";
@@ -100,14 +99,9 @@ let
             size = "100%";
             content = {
               type = "btrfs";
-              mountpoint = "/";
+              mountpoint = "/btrbk";
               mountOptions = [ "compress=zstd:6" ];
               extraArgs = [ "-f" ]; # Override existing partition
-              subvolumes = {
-                "/btrbk" = {
-                  mountpoint = "/btrbk";
-                };
-              };
             };
           };
         };

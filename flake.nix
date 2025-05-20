@@ -317,7 +317,7 @@
               location = "china";
             };
             modules = [
-              ./nixos/installer.nix
+              ./nixos/installer/installer.nix
             ];
           }).config.system.build.isoImage;
         installer =
@@ -329,7 +329,7 @@
               location = "home";
             };
             modules = [
-              ./nixos/installer.nix
+              ./nixos/installer/installer.nix
             ];
           }).config.system.build.isoImage;
       };
