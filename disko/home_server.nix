@@ -1,20 +1,14 @@
 {
   lib,
   myEnv,
-  mainDevice,
-  hdd4t,
-  hdd8tArray,
   swapSize ? "32G",
-  # Default user and group IDs (1000 is typically the first normal user)
-  userId ? 1000,
-  groupId ? 1000,
   ...
 }:
 let
   mainDiskCfg = {
     main = {
       type = "disk";
-      device = mainDevice;
+      device = myEnv.mainDevice;
       content = {
         type = "gpt";
         partitions = {
@@ -91,7 +85,7 @@ let
   backupDiskCfg = {
     backup = {
       type = "disk";
-      device = hdd4t;
+      device = myEnv.hdd4t;
       content = {
         type = "gpt";
         partitions = {
@@ -136,7 +130,7 @@ let
           };
         };
       }
-    ) hdd8tArray
+    ) myEnv.hdd8tArray
   );
 
 in

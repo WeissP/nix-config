@@ -52,8 +52,8 @@ export def clone-and-unlock [] {
 # Generates a Disko configuration file specifically for home_server.nix.
 export def generate-home-server-disko-config [
     --mainDevice: string,                                       # The main SSD device (e.g., /dev/nvme0n1). Required.
-    --hhd4t: string,                                            # The 4TB HDD device for backups (e.g., /dev/sda). Required.
-    --hhd8tArray: list<string>,                                 # List of 8TB HDD devices for media (e.g., ["/dev/sdb" "/dev/sdc"]). Required.
+    --hdd4t: string,                                            # The 4TB HDD device for backups (e.g., /dev/sda). Required.
+    --hdd8tArray: list<string>,                                 # List of 8TB HDD devices for media (e.g., ["/dev/sdb" "/dev/sdc"]). Required.
     --username: string = "weiss",                               # Username for the new system.
     --swapSize: string = "32G",                                 # Size of the swapfile.
     --userId: string = "1000",                                  # User ID for the new user.
@@ -62,8 +62,8 @@ export def generate-home-server-disko-config [
     --base_config_file: string = "/home/nixos/nix-config/disko/home_server.nix" # Absolute path to the base disko Nix file.
 ] {
     if ($mainDevice | is-empty) { error make { msg: "--mainDevice is required" } }
-    if ($hhd4t | is-empty) { error make { msg: "--hhd4t is required" } }
-    if ($hhd8tArray | is-empty) { error make { msg: "--hhd8tArray is required and must be a non-empty list of device paths" } }
+    if ($hdd4t | is-empty) { error make { msg: "--hdd4t is required" } }
+    if ($hdd8tArray | is-empty) { error make { msg: "--hdd8tArray is required and must be a non-empty list of device paths" } }
 
     clone-and-unlock
 
@@ -71,15 +71,17 @@ export def generate-home-server-disko-config [
         error make { msg: $"Base Disko config file not found: ($base_config_file). Ensure it is an absolute path and the file exists." }
     }
 
-    # Format the hhd8tArray for Nix: e.g., [ "/dev/sdb" "/dev/sdc" ]
-    let hhd8tArray_nix_string = ($hhd8tArray | each {|p| $"\"/dev/($p)\""} | str join " ")
+    # Format the hdd8tArray for Nix: e.g., [ "/dev/sdb" "/dev/sdc" ]
+    let hdd8tArray_nix_string = ($hdd8tArray | each {|p| $"\"/dev/($p)\""} | str join " ")
 
     let disko_config_content = $"{ lib, ... }:\(import ($base_config_file)) {
       inherit lib;
-      myEnv.username = "($username)";
-      mainDevice = "/dev/($mainDevice)";
-      hhd4t = "/dev/($hhd4t)";
-      hhd8tArray = [ ($hhd8tArray_nix_string) ];
+      myEnv = {
+        username = "($username)";
+        mainDevice = "/dev/($mainDevice)";
+        hdd4t = "/dev/($hdd4t)";
+        hdd8tArray = [ ($hdd8tArray_nix_string) ];
+      };
       swapSize = "($swapSize)";
       userId = ($userId | into int);
       groupId = ($groupId | into int);
@@ -182,5 +184,5 @@ export def install-nixos [
 }
 
 export def generate-home-server-disko-config-preset [] {
-generate-home-server-disko-config --mainDevice "nvme0n1" --hhd4t  "disk/by-id/ata-WDC_WD40EFPX-68C6CN0_WD-WX92D25D7417" --hhd8tArray ["disk/by-id/ata-WDC_WD80EFPX-68C4ZN0_WD-RD255EDH", "disk/by-id/ata-WDC_WD80EFPX-68C4ZN0_WD-RD2579RH", "disk/by-id/ata-WDC_WD80EFPX-68C4ZN0_WD-RD25AXWH" ]
+generate-home-server-disko-config --mainDevice "nvme0n1" --hdd4t  "disk/by-id/ata-WDC_WD40EFPX-68C6CN0_WD-WX92D25D7417" --hdd8tArray ["disk/by-id/ata-WDC_WD80EFPX-68C4ZN0_WD-RD255EDH", "disk/by-id/ata-WDC_WD80EFPX-68C4ZN0_WD-RD2579RH", "disk/by-id/ata-WDC_WD80EFPX-68C4ZN0_WD-RD25AXWH" ]
 } 
