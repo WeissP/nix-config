@@ -55,7 +55,7 @@
 
   networking = {
     interfaces.enp4s0.wakeOnLan = {
-      enable = false;
+      enable = true;
       policy = [
         "magic"
         "broadcast"
@@ -81,20 +81,4 @@
   ];
 
   system.stateVersion = "25.05";
-
-  systemd.services."suspend-daily" = {
-    serviceConfig = {
-      Type = "oneshot";
-      ExecStart = "${pkgs.systemd}/bin/systemctl hibernate";
-    };
-  };
-
-  systemd.timers."suspend-daily" = {
-    wantedBy = [ "timers.target" ];
-    timerConfig = {
-      OnCalendar = "02:30";
-      Persistent = true;
-      AccuracySec = "1min";
-    };
-  };
 }

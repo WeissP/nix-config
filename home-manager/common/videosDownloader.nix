@@ -100,74 +100,74 @@ in
     };
   };
 
-  systemd.user = {
-    services."download-channels-videos" = {
-      Unit.Description = "download channels videos";
-      Service = {
-        ExecStart = "${channelCfgDir}/download_videos.sh";
-      };
-    };
-    timers."download-channels-videos" = {
-      Unit.Description = "trigger download channels videos service";
-      Timer = {
-        OnBootSec = "5min";
-        OnUnitActiveSec = "60min";
-        Unit = "download-channels-videos.service";
-      };
-      Install = {
-        WantedBy = [ "timers.target" ];
-      };
-    };
-    services."download-channels-audios" = {
-      Unit.Description = "download channels audios";
-      Service = {
-        ExecStart = "${channelCfgDir}/download_audios.sh";
-      };
-    };
-    timers."download-channels-audios" = {
-      Unit.Description = "trigger download channels audios service";
-      Timer = {
-        OnBootSec = "3min";
-        OnUnitActiveSec = "30min";
-        Unit = "download-channels-audios.service";
-      };
-      Install = {
-        WantedBy = [ "timers.target" ];
-      };
-    };
-    services."download-music" = {
-      Unit.Description = "download music";
-      Service = {
-        ExecStart = "${musicCfgDir}/download_audios.sh";
-      };
-    };
-    timers."download-music" = {
-      Unit.Description = "trigger download youtube music service";
-      Timer = {
-        OnBootSec = "2min";
-        OnUnitActiveSec = "120min";
-        Unit = "download-music.service";
-      };
-      Install = {
-        WantedBy = [ "timers.target" ];
-      };
-    };
-    services."download-music-videos" = {
-      Unit.Description = "download music videos";
-      Service = {
-        ExecStart = "${musicCfgDir}/download_videos.sh";
-      };
-    };
-    timers."download-music-videos" = {
-      Unit.Description = "trigger download youtube music videos service";
-      Timer = {
-        OnBootSec = "7min";
-        OnUnitActiveSec = "120min";
-        Unit = "download-music-videos.service";
-      };
-      Install = {
-        WantedBy = [ "timers.target" ];
-      };
-    };
-  };
+  # systemd.user = {
+  #   services."download-channels-videos" = {
+  #     Unit.Description = "download channels videos";
+  #     Service = {
+  #       ExecStart = "${channelCfgDir}/download_videos.sh";
+  #     };
+  #   };
+  #   timers."download-channels-videos" = {
+  #     Unit.Description = "trigger download channels videos service";
+  #     Timer = {
+  #       OnBootSec = "5min";
+  #       OnUnitActiveSec = "60min";
+  #       Unit = "download-channels-videos.service";
+  #     };
+  #     Install = {
+  #       WantedBy = [ "timers.target" ];
+  #     };
+  #   };
+  #   services."download-channels-audios" = {
+  #     Unit.Description = "download channels audios";
+  #     Service = {
+  #       ExecStart = "${channelCfgDir}/download_audios.sh";
+  #     };
+  #   };
+  #   timers."download-channels-audios" = {
+  #     Unit.Description = "trigger download channels audios service";
+  #     Timer = {
+  #       OnBootSec = "3min";
+  #       OnUnitActiveSec = "30min";
+  #       Unit = "download-channels-audios.service";
+  #     };
+  #     Install = {
+  #       WantedBy = [ "timers.target" ];
+  #     };
+  #   };
+  #   services."download-music" = {
+  #     Unit.Description = "download music";
+  #     Service = {
+  #       ExecStart = "${musicCfgDir}/download_audios.sh";
+  #     };
+  #   };
+  #   timers."download-music" = {
+  #     Unit.Description = "trigger download youtube music service";
+  #     Timer = {
+  #       OnBootSec = "2min";
+  #       OnUnitActiveSec = "120min";
+  #       Unit = "download-music.service";
+  #     };
+  #     Install = {
+  #       WantedBy = [ "timers.target" ];
+  #     };
+  #   };
+  #   services."download-music-videos" = {
+  #     Unit.Description = "download music videos";
+  #     Service = {
+  #       ExecStart = "${musicCfgDir}/download_videos.sh";
+  #     };
+  #   };
+  #   timers."download-music-videos" = {
+  #     Unit.Description = "trigger download youtube music videos service";
+  #     Timer = {
+  #       OnBootSec = "7min";
+  #       OnUnitActiveSec = "120min";
+  #       Unit = "download-music-videos.service";
+  #     };
+  #     Install = {
+  #       WantedBy = [ "timers.target" ];
+  #     };
+  #   };
+  # };
 }

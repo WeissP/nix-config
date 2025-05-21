@@ -196,7 +196,6 @@
           ];
         };
 
-
         uni = nixpkgs.lib.nixosSystem {
           system = "x86_64-linux";
           specialArgs = mkSpecialArgs linuxEnv {
@@ -251,6 +250,12 @@
             configSession = "homeServer";
             location = "home";
             mainDevice = "/dev/nvme0n1";
+            hdd4t = "/dev/disk/by-id/ata-WDC_WD40EFPX-68C6CN0_WD-WX92D25D7417";
+            hhd8tArray = [
+              "/dev/disk/by-id/ata-WDC_WD80EFPX-68C4ZN0_WD-RD255EDH"
+              "/dev/disk/by-id/ata-WDC_WD80EFPX-68C4ZN0_WD-RD2579RH"
+              "/dev/disk/by-id/ata-WDC_WD80EFPX-68C4ZN0_WD-RD25AXWH"
+            ];
             usage = [
               "webman-server"
               "local-server"
@@ -259,7 +264,7 @@
           };
           modules = [
             disko.nixosModules.disko
-            ./disko/btrfs_system.nix
+            ./disko/home_server.nix
             ./nixos/homeServer/hardware-configuration.nix
             nixosModules.xmonadBin
             inputs.nur.modules.nixos.default

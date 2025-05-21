@@ -35,7 +35,7 @@
         #!/usr/bin/env bash
         set -e
         sudo loadkeys de
-        nu -e "use ${script} *"
+        nu -e "use ${script} * ; show-disk"
       ''
     )
   ];

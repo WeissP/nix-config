@@ -25,7 +25,7 @@ let
   ];
   devices = {
     "homeServer" = {
-      id = "NXP4C4L-H3RUREP-TF3IJGV-75KL3EY-2JZVEOF-OBZX2KF-BQPO236-AHVF4AU";
+      id = "K4NS5UT-M2AVRTV-KHJEDFR-G3KUMSA-JAMEA3L-HY7SFUM-CDERPM7-A27QLQ4";
       address = globalAddress;
     };
     "uni" = {
@@ -158,14 +158,14 @@ lib.mkMerge [
                   "iPhone"
                 ];
               };
-              "podcasts" = {
-                id = "7gogk-utgtc";
-                path = genPath "podcasts";
-                devices = lib.lists.intersectLists toDevices [
-                  "homeServer"
-                  "desktop"
-                ];
-              };
+              # "podcasts" = {
+              #   id = "7gogk-utgtc";
+              #   path = genPath "podcasts";
+              #   devices = lib.lists.intersectLists toDevices [
+              #     "homeServer"
+              #     "desktop"
+              #   ];
+              # };
             })
           ];
       };

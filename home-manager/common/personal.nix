@@ -381,7 +381,7 @@
           gpg-agent = {
             enable = true;
             maxCacheTtl = 86400; # 24 hours
-            pinentryPackage = pkgs.pinentry-qt;
+            pinentry.package = pkgs.pinentry-qt;
           };
         };
       })

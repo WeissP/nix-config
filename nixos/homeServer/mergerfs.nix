@@ -10,12 +10,26 @@
   environment.systemPackages = with pkgs; [
     mergerfs
   ];
-  fileSystems."/storage" = {
-    fsType = "fuse.mergerfs";
-    device = "ssd:hhd:hhd";
-    options = [
-      "category.create=ff"
-      "minfreespace=100G"
-    ];
+  fileSystems = {
+    "/mnt/media_hhd_array" = {
+      fsType = "fuse.mergerfs";
+      device = "/mnt/media/hhd1:/mnt/media/hhd2";
+      options = [
+        "cache.files=off"
+        "category.create=pfrd"
+        "func.getattr=newest"
+        "dropcacheonclose=false"
+      ];
+    };
+    "/media" = {
+      fsType = "fuse.mergerfs";
+      device = "/mnt/media/ssd1:/mnt/media/hhd1:/mnt/media/hhd2";
+      options = [
+        "cache.files=off"
+        "category.create=ff"
+        "func.getattr=newest"
+        "dropcacheonclose=false"
+      ];
+    };
   };
 }

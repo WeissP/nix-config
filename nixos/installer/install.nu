@@ -1,3 +1,7 @@
+export def show-disk [] {
+  ls -l /dev/disk/by-id/ | filter { |r| not ($r.name | str contains part)} | select name target
+}
+
 # Helper function for disko-install
 # Clones/updates the nix-config repository and unlocks it with git-crypt.
 # This function assumes 'git' and 'git-crypt' are in PATH.
@@ -125,17 +129,15 @@ export def apply-disko-config [
         }
         ^sudo chown -R $"($user_id):($group_id)" $subvol_path
     }
+    print "Disk has been formatted and mounted at /mnt."
 
     print $"Copying nix-config repository to ($user_home_on_mnt)/nix-config..."
     if not ($nix_config_repo_path | path exists) {
         error make { msg: $"Nix config repository not found at ($nix_config_repo_path). Ensure it was cloned and unlocked." }
     }
     ^sudo rsync -PamAXvtu $"($nix_config_repo_path)/" $"($user_home_on_mnt)/nix-config"
-    if $env.LAST_EXIT_CODE != 0 {
-        error make { msg: "Failed to rsync nix-config repository." }
-    }
-
-    print "Disk has been formatted and mounted at /mnt."
+    cd $"($user_home_on_mnt)/nix-config" 
+    git remote set-url origin git@github.com:WeissP/nix-config.git
     print $"nix-config has been copied to ($user_home_on_mnt)/nix-config on the target system."
 }
 
@@ -178,3 +180,7 @@ export def install-nixos [
 
     print "Installation complete! You can now reboot into your new system."
 }
+
+export def generate-home-server-disko-config-preset [] {
+generate-home-server-disko-config --mainDevice "nvme0n1" --hhd4t  "disk/by-id/ata-WDC_WD40EFPX-68C6CN0_WD-WX92D25D7417" --hhd8tArray ["disk/by-id/ata-WDC_WD80EFPX-68C4ZN0_WD-RD255EDH", "disk/by-id/ata-WDC_WD80EFPX-68C4ZN0_WD-RD2579RH", "disk/by-id/ata-WDC_WD80EFPX-68C4ZN0_WD-RD25AXWH" ]
+} 
