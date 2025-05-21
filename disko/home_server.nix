@@ -104,33 +104,31 @@ let
   };
 
   hddMediaCfgs = lib.listToAttrs (
-    lib.imap0 (
-      idx: devicePath:
-      let
-        name = if idx == 0 then "media_parity0" else "media_hdd${toString idx}";
-      in
-      {
-        inherit name;
-        value = {
-          type = "disk";
-          device = devicePath;
-          content = {
-            type = "gpt";
-            partitions = {
-              media = {
+    lib.imap0 (idx: devicePath: {
+      name = "media${toString idx}";
+      value = {
+        type = "disk";
+        device = devicePath;
+        content = {
+          type = "gpt";
+          partitions = {
+            media =
+              let
+                name = if idx == 0 then "parity0" else "hdd${toString idx}";
+              in
+              {
                 inherit name;
                 size = "100%";
                 content = {
                   type = "filesystem";
                   format = "ext4";
-                  mountpoint = if idx == 0 then "/mnt/media/parity0" else "/mnt/media/hdd${toString idx}";
+                  mountpoint = "/mnt/media/${name}";
                 };
               };
-            };
           };
         };
-      }
-    ) myEnv.hdd8tArray
+      };
+    }) myEnv.hdd8tArray
   );
 
 in
