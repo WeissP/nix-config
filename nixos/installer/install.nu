@@ -184,5 +184,5 @@ export def install-nixos [
 }
 
 export def generate-home-server-disko-config-preset [] {
-generate-home-server-disko-config --mainDevice "nvme0n1" --hdd4t  "disk/by-id/ata-WDC_WD40EFPX-68C6CN0_WD-WX92D25D7417" --hdd8tArray ["disk/by-id/ata-WDC_WD80EFPX-68C4ZN0_WD-RD255EDH", "disk/by-id/ata-WDC_WD80EFPX-68C4ZN0_WD-RD2579RH", "disk/by-id/ata-WDC_WD80EFPX-68C4ZN0_WD-RD25AXWH" ]
+generate-home-server-disko-config --mainDevice "nvme0n1" --hdd4t  "disk/by-id/ata-WDC_WD40EFPX-68C6CN0_WD-WX92D25D7417" --hdd8tArray ["disk/by-id/ata-WDC_WD80EFPX-68C4ZN0_WD-RD25AXWH", "disk/by-id/ata-WDC_WD80EFPX-68C4ZN0_WD-RD255EDH", "disk/by-id/ata-WDC_WD80EFPX-68C4ZN0_WD-RD2579RH"]
 } 

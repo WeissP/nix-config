@@ -131,9 +131,37 @@ let
     }) myEnv.hdd8tArray
   );
 
+  hddMediaCfgsNoParity = lib.listToAttrs (
+    lib.imap0 (idx: devicePath: {
+      name = "media${toString (idx + 1)}";
+      value = {
+        type = "disk";
+        device = devicePath;
+        content = {
+          type = "gpt";
+          partitions = {
+            media =
+              let
+                partitionLabel = "hdd${toString (idx + 1)}";
+              in
+              {
+                name = partitionLabel;
+                size = "100%";
+                content = {
+                  type = "filesystem";
+                  format = "ext4";
+                  mountpoint = "/mnt/media/${partitionLabel}";
+                };
+              };
+          };
+        };
+      };
+    }) (lib.lists.tail myEnv.hdd8tArray)
+  );
+
 in
 {
   disko.devices = {
-    disk = mainDiskCfg // backupDiskCfg // hddMediaCfgs;
+    disk = mainDiskCfg // backupDiskCfg // hddMediaCfgsNoParity;
   };
 }
