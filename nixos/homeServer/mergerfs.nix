@@ -11,9 +11,9 @@
     mergerfs
   ];
   fileSystems = {
-    "/mnt/media_hhd_array" = {
+    "/mnt/media_hdd_array" = {
       fsType = "fuse.mergerfs";
-      device = "/mnt/media/hhd1:/mnt/media/hhd2";
+      device = "/mnt/media/hdd1:/mnt/media/hdd2";
       options = [
         "cache.files=off"
         "category.create=pfrd"
@@ -23,7 +23,7 @@
     };
     "/media" = {
       fsType = "fuse.mergerfs";
-      device = "/mnt/media/ssd1:/mnt/media/hhd1:/mnt/media/hhd2";
+      device = "/mnt/media/ssd1:/mnt/media/hdd1:/mnt/media/hdd2";
       options = [
         "cache.files=off"
         "category.create=ff"

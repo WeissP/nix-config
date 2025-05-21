@@ -25,7 +25,7 @@
       map to guest = bad user
     '';
     shares = {
-      hhd = {
+      hdd = {
         path = "/run/media/weiss/Seagate_Backup";
         browseable = "yes";
         "read only" = "yes";

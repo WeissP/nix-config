@@ -251,7 +251,7 @@
             location = "home";
             mainDevice = "/dev/nvme0n1";
             hdd4t = "/dev/disk/by-id/ata-WDC_WD40EFPX-68C6CN0_WD-WX92D25D7417";
-            hhd8tArray = [
+            hdd8tArray = [
               "/dev/disk/by-id/ata-WDC_WD80EFPX-68C4ZN0_WD-RD255EDH"
               "/dev/disk/by-id/ata-WDC_WD80EFPX-68C4ZN0_WD-RD2579RH"
               "/dev/disk/by-id/ata-WDC_WD80EFPX-68C4ZN0_WD-RD25AXWH"

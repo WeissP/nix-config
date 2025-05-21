@@ -2,8 +2,8 @@
   lib,
   myEnv,
   mainDevice,
-  hhd4t,
-  hhd8tArray,
+  hdd4t,
+  hdd8tArray,
   swapSize ? "32G",
   # Default user and group IDs (1000 is typically the first normal user)
   userId ? 1000,
@@ -91,7 +91,7 @@ let
   backupDiskCfg = {
     backup = {
       type = "disk";
-      device = hhd4t;
+      device = hdd4t;
       content = {
         type = "gpt";
         partitions = {
@@ -109,11 +109,11 @@ let
     };
   };
 
-  hhdMediaCfgs = lib.listToAttrs (
+  hddMediaCfgs = lib.listToAttrs (
     lib.imap0 (
       idx: devicePath:
       let
-        name = if idx == 0 then "media_parity0" else "media_hhd${toString idx}";
+        name = if idx == 0 then "media_parity0" else "media_hdd${toString idx}";
       in
       {
         inherit name;
@@ -129,19 +129,19 @@ let
                 content = {
                   type = "filesystem";
                   format = "ext4";
-                  mountpoint = if idx == 0 then "/mnt/media/parity0" else "/mnt/media/hhd${toString idx}";
+                  mountpoint = if idx == 0 then "/mnt/media/parity0" else "/mnt/media/hdd${toString idx}";
                 };
               };
             };
           };
         };
       }
-    ) hhd8tArray
+    ) hdd8tArray
   );
 
 in
 {
   disko.devices = {
-    disk = mainDiskCfg // backupDiskCfg // hhdMediaCfgs;
+    disk = mainDiskCfg // backupDiskCfg // hddMediaCfgs;
   };
 }
