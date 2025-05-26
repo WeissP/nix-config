@@ -1,14 +1,14 @@
 {
   myEnv,
   myLib,
-  secrets,
+  secrets, 
   ...
 }:
 with myEnv;
 let
   configDir = "${homeDir}/.config/aria2";
   downloadDir = "${homeDir}/Downloads/aria2";
-  completedDir = "${downloadDir}/completed";
+  completedDir = "/mnt/media/ssd1/videos/porn";
   logFile = "${configDir}/aria2.log";
   hooksLogFile = "${configDir}/aria2_hooks.log";
   sess = "${configDir}/aria2.sess";

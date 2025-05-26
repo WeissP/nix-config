@@ -190,6 +190,7 @@
             ./disko/btrfs_system.nix
             nixosModules.xmonadBin
             inputs.nur.modules.nixos.default
+            nixosModules.myStash
             ./nixos/desktop/configuration.nix
             ./home-manager
             { boot.binfmt.emulatedSystems = [ "aarch64-linux" ]; }
@@ -251,11 +252,13 @@
             location = "home";
             mainDevice = "/dev/nvme0n1";
             hdd4t = "/dev/disk/by-id/ata-WDC_WD40EFPX-68C6CN0_WD-WX92D25D7417";
-            hdd8tArray = [
-              "/dev/disk/by-id/ata-WDC_WD80EFPX-68C4ZN0_WD-RD25AXWH"
-              "/dev/disk/by-id/ata-WDC_WD80EFPX-68C4ZN0_WD-RD255EDH"
-              "/dev/disk/by-id/ata-WDC_WD80EFPX-68C4ZN0_WD-RD2579RH"
-            ];
+            hddMediaArray = {
+              hdd1 = "/dev/disk/by-id/ata-WDC_WD80EFPX-68C4ZN0_WD-RD255EDH";
+              hdd2 = "/dev/disk/by-id/ata-WDC_WD80EFPX-68C4ZN0_WD-RD2579RH";
+            };
+            hddMediaParityArray = {
+              parity1 = "/dev/disk/by-id/ata-ST8000VN004-3CP101_WP01VWR3";
+            };
             usage = [
               "webman-server"
               "local-server"

@@ -38,7 +38,8 @@ with myEnv;
     zoxide = {
       enable = true;
       enableZshIntegration = true;
-      enableNushellIntegration = true;
+      # have to do it on my own to make sure the completer work
+      enableNushellIntegration = false;
     };
     thefuck = {
       enable = false;

@@ -25,32 +25,32 @@ let
   ];
   devices = {
     "homeServer" = {
-      id = "K4NS5UT-M2AVRTV-KHJEDFR-G3KUMSA-JAMEA3L-HY7SFUM-CDERPM7-A27QLQ4";
-      address = globalAddress;
+      id = "OSQX7ZN-HITPCGZ-UIAMHHE-R5IP2WB-G32SNOZ-OOEQLZR-OJR5TIN-UP7ZGAI";
+      addresses = globalAddress;
     };
     "uni" = {
       id = "CMBJKCO-A3K2VTQ-P5DBXIV-2ZNWWWU-PVHXQBV-X26OVGE-YBR3L7E-EB2BXAC";
-      address = globalAddress;
+      addresses = globalAddress;
     };
     "desktop" = {
       id = "HH3DLDT-D5HGBS3-FD42RSD-6273W2T-K6VEN7Q-45WBP4C-VLKGQHH-EDA2HAH";
-      address = localAddress;
+      addresses = localAddress;
     };
     "iPhone" = {
       id = "TSQCB54-DQ2ZASG-4U32JBR-A267D5W-GR5IHYJ-KGOMAHA-P63BVR4-YGSI6AC";
-      address = globalAddress;
+      addresses = globalAddress;
     };
     "Mac-Air" = {
       id = "E46SRGL-J6RDKHH-2VF5O4X-6SMS2XY-CHFJUXB-DGLWXYW-ZZTMZAS-PAIZ5A4";
-      address = globalAddress;
+      addresses = globalAddress;
     };
     "iPad-mini" = {
       id = "SEGAQMH-FLWY4KU-DSDIHJ6-MZLFJEM-ROC4QGI-OXML6AB-QHKCC4X-INQILAG";
-      address = globalAddress;
+      addresses = globalAddress;
     };
     "Raspberrypi" = {
       id = "75A5Z5M-PTQ65XJ-4PHURBD-DCLT4TD-4HST4NK-5MVCW4A-QZA6VDR-3EW75QC";
-      address = globalAddress;
+      addresses = globalAddress;
     };
   };
   nodeInfo = secrets.nodes."${configSession}";
@@ -77,8 +77,8 @@ lib.mkMerge [
       user = "${username}";
       dataDir = "${homeDir}"; # Default folder for new synced folders
       configDir = "${homeDir}/.config/syncthing"; # Folder for Syncthing's settings and keys
-      overrideDevices = false;
-      overrideFolders = false;
+      overrideDevices = true;
+      overrideFolders = true;
       settings = {
         devices = lib.attrsets.filterAttrs (n: v: configSession != n) devices;
         folders =
@@ -119,6 +119,7 @@ lib.mkMerge [
               else
                 [
                   "homeServer"
+                  "iPhone"
                   "Mac-Air"
                 ];
             genPath =

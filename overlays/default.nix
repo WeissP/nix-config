@@ -29,7 +29,7 @@
           sha256 = "sha256:1rhrajxywl1kaa3pfpadkpzv963nq2p4a2y4vjzq0wkba21inr9k";
         }) { inherit (prev) system; }).tdlib;
       yt-dlp = master.yt-dlp;
-      # aider-chat = master.aider-chat;
+      aider-chat = master.aider-chat;
       # example = prev.example.overrideAttrs (oldAttrs: rec {
       # ...
       # });

@@ -31,14 +31,42 @@ with myEnv;
           task = "${remoteFiles.nuScripts}/modules/background_task/task.nu";
         in
         ''
+          source ${
+            pkgs.runCommand "zoxide-nushell-config.nu" { } ''
+              ${lib.getExe pkgs.zoxide} init nushell >> "$out"
+            ''
+          }
+
+          def "nu-complete zoxide path" [context: string] {
+            let parts = $context | split row " " | skip 1
+            {
+              options: {
+                sort: false
+                completion_algorithm: prefix
+                positional: false
+                case_sensitive: false
+              }
+              completions: (zoxide query --list --exclude $env.PWD -- ...$parts | lines)
+            }
+          }
+
+          def --env --wrapped j [...rest: string@"nu-complete zoxide path"] {
+            z ...$rest
+          }
+
           let carapace_completer = {|spans: list<string>|
               carapace $spans.0 nushell ...$spans
               | from json
               | if ($in | default [] | where value =~ '^-.*ERR$' | is-empty) { $in } else { null }
           }
 
-          let zoxide_completer = {|spans|
-              $spans | skip 1 | zoxide query -l ...$in | lines | where {|x| $x != $env.PWD}
+          let fish_completer = {|spans|
+              fish --command $"complete '--do-complete=($spans | str join ' ')'"
+              | from tsv --flexible --noheaders --no-infer
+              | rename value description
+              | update value {
+                  if ($in | path exists) {$'"($in | str replace "\"" "\\\"" )"'} else {$in}
+              }
           }
 
           # This completer will use carapace by default
@@ -56,8 +84,10 @@ with myEnv;
               }
 
               match $spans.0 {
-                  # use zoxide completions for zoxide commands
-                  __zoxide_z | __zoxide_zi => $zoxide_completer
+                  # carapace completions are incorrect for nu
+                  nu => $fish_completer
+                  # fish completes commits and branch names in a nicer way
+                  git => $fish_completer
                   _ => $carapace_completer
               } | do $in $spans
           }
@@ -120,6 +150,7 @@ with myEnv;
           }
 
           def "from ndjson" [] { from json -o }
+          def "from nfo" [] { from xml }
 
           def filter-lines [
             input_file: path,    # The input file path

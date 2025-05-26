@@ -103,65 +103,46 @@ let
     };
   };
 
-  hddMediaCfgs = lib.listToAttrs (
-    lib.imap0 (idx: devicePath: {
-      name = "media${toString idx}";
-      value = {
-        type = "disk";
-        device = devicePath;
-        content = {
-          type = "gpt";
-          partitions = {
-            media =
-              let
-                name = if idx == 0 then "parity0" else "hdd${toString idx}";
-              in
-              {
-                inherit name;
-                size = "100%";
-                content = {
-                  type = "filesystem";
-                  format = "ext4";
-                  mountpoint = "/mnt/media/${name}";
-                };
-              };
+  hddMediaCfgs = lib.mapAttrs (diskKey: devicePath: {
+    type = "disk";
+    device = devicePath;
+    content = {
+      type = "gpt";
+      partitions = {
+        media = {
+          name = diskKey;
+          size = "100%";
+          content = {
+            type = "filesystem";
+            format = "ext4";
+            mountpoint = "/mnt/media/${diskKey}";
           };
         };
       };
-    }) myEnv.hdd8tArray
-  );
+    };
+  }) myEnv.hddMediaArray;
 
-  hddMediaCfgsNoParity = lib.listToAttrs (
-    lib.imap0 (idx: devicePath: {
-      name = "media${toString (idx + 1)}";
-      value = {
-        type = "disk";
-        device = devicePath;
-        content = {
-          type = "gpt";
-          partitions = {
-            media =
-              let
-                partitionLabel = "hdd${toString (idx + 1)}";
-              in
-              {
-                name = partitionLabel;
-                size = "100%";
-                content = {
-                  type = "filesystem";
-                  format = "ext4";
-                  mountpoint = "/mnt/media/${partitionLabel}";
-                };
-              };
+  hddMediaParityCfgs = lib.mapAttrs (diskKey: devicePath: {
+    type = "disk";
+    device = devicePath;
+    content = {
+      type = "gpt";
+      partitions = {
+        media = {
+          name = diskKey;
+          size = "100%";
+          content = {
+            type = "filesystem";
+            format = "xfs";
+            mountpoint = "/mnt/media/${diskKey}";
           };
         };
       };
-    }) (lib.lists.tail myEnv.hdd8tArray)
-  );
-
+    };
+  }) myEnv.hddMediaParityArray;
 in
 {
   disko.devices = {
-    disk = mainDiskCfg // backupDiskCfg // hddMediaCfgsNoParity;
+    disk = mainDiskCfg // backupDiskCfg // hddMediaCfgs // hddMediaParityCfgs;
   };
 }

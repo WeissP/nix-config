@@ -6,4 +6,5 @@
   v2ray = import ./v2ray.nix;
   xmonadBin = import ./xmonadBin.nix;
   private-gpt = import ./private-gpt.nix;
+  myStash = import ./stash.nix;
 }

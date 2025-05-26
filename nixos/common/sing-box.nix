@@ -41,6 +41,10 @@ lib.mkMerge [
     systemd.packages = [ pkg ];
     systemd.services.sing-box = singboxService "tunDe" secrets.singbox.config.tunDe;
   })
+  (lib.optionalAttrs (location == "home" && configSession == "homeServer") {
+    systemd.packages = [ pkg ];
+    systemd.services.sing-box = singboxService "downloadServer" secrets.singbox.config.downloadServer;
+  })
   (ifRemoteServer {
     boot.kernelPatches = [
       {

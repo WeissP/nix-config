@@ -233,7 +233,7 @@ in
             emacsPackages = [ "aider" ];
             externalPackages = [
               (pkgs.aider-chat.withOptional {
-                withPlaywright = false;
+                withPlaywright = true;
                 withHelp = false;
               })
             ];

@@ -15,6 +15,8 @@
           ("below" "above")
           ("up" "down")
           ("Up" "Down")
+          ("west" "east")
+          ("south" "north")
           ("forward" "backward")
           ("downward" "upward")
           ("expand" "contract")

@@ -27,13 +27,13 @@
        :new-line t
        )
       ( 
-       :name "Beamer appear after"
-       :pair ("@@b:<" . "->@@")
+       :name "Beamer appear after" 
+       :pair ("@@b:<" . "->@@ ")
        :new-line nil
        )
       ( 
        :name "Beamer annotation"
-       :pair ("@@b:" . "@@")
+       :pair ("@@b:" . "@@ ")
        :new-line nil
        )
       ( 

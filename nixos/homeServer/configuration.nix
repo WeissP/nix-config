@@ -9,6 +9,8 @@
     ../common/zsh.nix
     ../common/syncthing.nix
     ../common/sing-box.nix
+    ./mergerfs.nix
+    ./snapraid.nix
   ];
 
   # Use the systemd-boot EFI boot loader.
@@ -44,6 +46,7 @@
   environment = {
     systemPackages = with pkgs; [
       wireguard-tools
+      fd
       bluetui
     ];
   };
@@ -54,11 +57,10 @@
   };
 
   networking = {
-    interfaces.enp4s0.wakeOnLan = {
+    interfaces.enp3s0.wakeOnLan = {
       enable = true;
       policy = [
         "magic"
-        "broadcast"
       ];
     };
     firewall = {
