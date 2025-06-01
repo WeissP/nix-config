@@ -9,6 +9,12 @@
       url = "github:lnl7/nix-darwin/master";
       inputs.nixpkgs.follows = "nixpkgs";
     };
+    wired-notify.url = "github:Toqozz/wired-notify";
+    stylix = {
+      url = "github:danth/stylix";
+      inputs.nixpkgs.follows = "nixpkgs";
+      inputs.home-manager.follows = "home-manager";
+    };
     raspberry-pi-nix.url = "github:nix-community/raspberry-pi-nix?ref=v0.4.1";
     home-manager = {
       url = "github:nix-community/home-manager";
@@ -135,18 +141,19 @@
               ;
           };
         };
-
     in
     rec {
       # Your custom packages
       # Acessible through 'nix build', 'nix shell', etc
-      packages = forAllSystems (
-        system:
-        let
-          pkgs = nixpkgs.legacyPackages.${system};
-        in
-        (import ./pkgs { inherit pkgs; })
-      );
+      # packages = forAllSystems (
+      #   system:
+      #   let
+      #     pkgs = nixpkgs.legacyPackages.${system};
+      #   in
+      #   (import ./pkgs {
+      #     inherit pkgs myLib secrets;
+      #   })
+      # );
       # Devshell for bootstrapping
       # Acessible through 'nix develop' or 'nix-shell' (legacy)
       devShells = forAllSystems (
@@ -158,7 +165,7 @@
       );
 
       # Your custom packages and modifications, exported as overlays
-      overlays = import ./overlays { inherit inputs; };
+      overlays = import ./overlays { inherit inputs myLib secrets; };
       # Reusable nixos modules you might want to export
       # These are usually stuff you would upstream into nixpkgs
       nixosModules = import ./modules/nixos;
@@ -186,11 +193,12 @@
           };
           modules = [
             disko.nixosModules.disko
+            inputs.stylix.nixosModules.stylix
             ./nixos/desktop/hardware-configuration.nix
             ./disko/btrfs_system.nix
+            # inputs.wired.homeManagerModules.default
             nixosModules.xmonadBin
             inputs.nur.modules.nixos.default
-            nixosModules.myStash
             ./nixos/desktop/configuration.nix
             ./home-manager
             { boot.binfmt.emulatedSystems = [ "aarch64-linux" ]; }

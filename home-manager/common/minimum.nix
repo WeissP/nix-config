@@ -41,7 +41,26 @@ with myEnv;
     stateVersion = "23.05";
     username = username;
     homeDirectory = homeDir;
-    packages = [ pkgs.lsof ];
+    packages = with pkgs; [
+      lsof
+      gtrash
+      additions.notify
+    ];
+    sessionPath = [
+      scriptsDir
+    ];
+    sessionVariables = {
+      SCRIPTS_DIR = myEnv.scriptsDir;
+      RASP_IP = secrets.nodes.RaspberryPi.localIp;
+      HOME_SERVER_IP = secrets.nodes.homeServer.localIp;
+      DESKTOP_IP = secrets.nodes.desktop.localIp;
+    };
+    file = {
+      "${homeDir}/scripts" = {
+        source = ./config_files/scripts;
+        recursive = true;
+      };
+    };
   };
 
 }

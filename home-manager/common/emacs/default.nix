@@ -104,6 +104,7 @@ in
         consult-omni = [ "consult-omni-multi" ];
         embark = [ "embark-act" ];
         org-ref = [ "org-ref-get-labels" ];
+        transient = [ "transient-define-group" ];
       };
       eagerLoad = [
         "direnv"
@@ -163,6 +164,7 @@ in
           "string-inflection"
           "consult-omni"
           "chatgpt-shell"
+          "ron-mode"
         ];
       };
       skipInstall = [
@@ -253,6 +255,7 @@ in
             ]
           ];
           lang = [
+            "ron-mode"
             "git-modes"
             "protobuf-mode"
             [

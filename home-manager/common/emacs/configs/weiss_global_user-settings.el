@@ -90,6 +90,15 @@
       completion-category-overrides '((file (styles partial-completion)))
       )
 
+(setq delete-by-moving-to-trash t)
+(defun system-move-file-to-trash (filename)
+  (if (and (featurep 'tramp)  (tramp-tramp-file-p filename))
+      (dired-delete-file filename t nil)      
+    (process-file-shell-command
+     (format "%s put --home-fallback %S" (executable-find "gtrash") (file-local-name filename)))
+    )
+  )
+
 (setq
  weiss/notes-dir (file-name-as-directory (expand-file-name "~/Documents/notes/"))
  weiss/chats-dir (file-name-as-directory (expand-file-name "~/Documents/chats/"))

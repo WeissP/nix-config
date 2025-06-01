@@ -22,6 +22,7 @@ let
         remoteFiles
         ;
     };
+    sharedModules = [ inputs.wired-notify.homeManagerModules.default ];
     backupFileExtension = "backup";
     useGlobalPkgs = true;
     useUserPackages = true;

@@ -17,6 +17,7 @@ with myEnv;
     ./sunshine.nix
     ./fonts.nix
     ./gluqloFont.nix
+    ./stylix.nix
   ];
 
   services = {

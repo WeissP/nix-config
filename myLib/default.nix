@@ -78,6 +78,7 @@ rec {
       ifServer = optionalAttrs (
         builtins.elem "local-server" usage || builtins.elem "remote-server" usage
       );
+      ifHomeServer = optionalAttrs (configSession == "homeServer");
       ifLinuxPersonal = optionalAttrs (arch == "linux" && builtins.elem "personal" usage);
       ifDarwinPersonal = optionalAttrs (arch == "darwin" && builtins.elem "personal" usage);
       homeDir = if (arch == "darwin") then "/Users/${username}" else "/home/${username}";
@@ -130,6 +131,12 @@ rec {
   interval = {
     minutes = m: filter (t: trivial.mod t m == 0) (range 1 59);
   };
+  mkNuBinPath =
+    packages:
+    let
+      bins = builtins.replaceStrings [ ":" ] [ "," ] (lib.makeBinPath packages);
+    in
+    "[${bins}]";
   service = {
     startup =
       {

@@ -9,7 +9,7 @@
 with myEnv;
 {
   programs = {
-    bat.enable = false;
+    bat.enable = true;
     atuin = {
       enable = true;
       enableZshIntegration = true;

@@ -30,7 +30,7 @@ log() {
 
 # Function to find a unique name if there's a conflict
 find_unique_name() {
-    local base
+    local base 
     local dir
     local count=0
     local new_base
@@ -113,7 +113,7 @@ if [ "$(basename "$SOURCE_DIR")" != "$(basename "$DOWNLOAD")" ]; then
 else
     log DEBUG "Syncing a single file $SOURCE_FILE"
     sync_file "$SOURCE_FILE" "$DESTINATION_DIR"
-
+ 
     # Attempt to remove the source directory and its empty parent directories if empty
     if find "$SOURCE_DIR" -type d -empty -delete; then
         log INFO "Deleted empty directories in $SOURCE_DIR."
@@ -124,4 +124,6 @@ fi
 
 log NORMAL "Task ID $TASK_ID completed successfully."
 log NORMAL "Syncing $SOURCE_FILE completed successfully."
-exit 0
+
+echo $DESTINATION_DIR
+

@@ -11,7 +11,8 @@ with myEnv;
     ../common/minimum.nix
     ../common/sing-box.nix
     ../common/gpu.nix
-    ../common/jellyfin.nix
+    # ../common/jellyfin.nix
+    ../common/navidrome.nix
   ];
 
   # Use the systemd-boot EFI boot loader.
@@ -59,20 +60,6 @@ with myEnv;
   ];
 
   services.btrbk = {
-    sshAccess = [
-      {
-        key = secrets.ssh."163".public;
-        roles = [
-          "source"
-          "snapshot"
-          "send"
-          "receive"
-          "delete"
-          "info"
-        ];
-      }
-    ];
-
     instances =
       let
         preserve_hour_of_day = "4";
@@ -85,7 +72,7 @@ with myEnv;
           settings = {
             inherit preserve_hour_of_day preserve_day_of_week;
             snapshot_dir = snapshot_dir_root + "/important";
-            snapshot_preserve = "10h 6d 1w";
+            snapshot_preserve = "10h 3d";
             snapshot_create = "onchange";
 
             subvolume = {
@@ -101,7 +88,7 @@ with myEnv;
             inherit preserve_hour_of_day preserve_day_of_week;
 
             snapshot_dir = snapshot_dir_root + "/all";
-            snapshot_preserve = "3h 3d 1w";
+            snapshot_preserve = "3h 3d";
             snapshot_create = "always";
 
             subvolume = {
@@ -113,48 +100,40 @@ with myEnv;
             };
           };
         };
-        # local_backup = {
-        #   onCalendar = "*-*-* 18:30:00"; # every day at 18:30
-        #   settings = {
-        #     inherit preserve_hour_of_day preserve_day_of_week;
 
-        #     snapshot_dir = snapshot_dir_root + "/all";
-        #     snapshot_create = "no";
+        remote_backup = {
+          onCalendar = "*-*-* 18:30:00"; # every day at 18:30
+          settings = {
+            ssh_identity =
+              let
+                p = pkgs.writeText "key" secrets.ssh."btrbk".private;
+              in
+              "${p}";
 
-        #     target = "/mnt/backup/btrbk";
-        #     target_preserve_min = "no";
-        #     target_preserve = "20d";
-        #     subvolume = {
-        #       "/" = { };
-        #       "/home" = { };
-        #       "/home/weiss/nix-config" = { };
-        #       "/home/weiss/Documents" = { };
-        #       "/home/weiss/projects" = { };
-        #     };
-        #   };
-        # };
-        # remote_backup = {
-        #   onCalendar = "*-*-* 18:30:00"; # every day at 18:30
-        #   settings = {
-        #     ssh_identity = "/home/${username}/.ssh/id_rsa";
-        #     target."ssh://${secrets.nodes.homeServer.localIp}/btrbk/desktop".ssh_user = username;
+            inherit preserve_hour_of_day preserve_day_of_week;
+            snapshot_dir = snapshot_dir_root + "/all";
+            snapshot_create = "no";
+            target_preserve_min = "no";
+            target_preserve = "10d 10w 24m";
+            volume."/" =
+              let
+                genTarget = dir: {
+                  target."ssh://${secrets.nodes.homeServer.localIp}/btrbk/desktop/${dir}".ssh_user = "btrbk";
+                };
+              in
+              {
+                snapshot_dir = snapshot_dir_root + "/all";
 
-        #     inherit preserve_hour_of_day preserve_day_of_week;
-
-        #     snapshot_dir = snapshot_dir_root + "/all";
-        #     snapshot_create = "no";
-
-        #     target_preserve_min = "no";
-        #     target_preserve = "10d 10w *m";
-        #     subvolume = {
-        #       "/" = { };
-        #       "/home" = { };
-        #       "/home/weiss/nix-config" = { };
-        #       "/home/weiss/Documents" = { };
-        #       "/home/weiss/projects" = { };
-        #     };
-        #   };
-        # };
+                subvolume = {
+                  "/" = genTarget "root";
+                  "/home" = genTarget "home";
+                  "/home/weiss/nix-config" = genTarget "nix-config";
+                  "/home/weiss/Documents" = genTarget "Documents";
+                  "/home/weiss/projects" = genTarget "projects";
+                };
+              };
+          };
+        };
       };
   };
 

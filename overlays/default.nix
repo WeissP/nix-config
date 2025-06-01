@@ -1,9 +1,18 @@
-# This file defines overlays
-{ inputs, ... }:
+{
+  inputs,
+  myLib,
+  secrets,
+  ...
+}:
 
 {
   # This one brings our custom packages from the 'pkgs' directory
-  additions = final: _prev: { additions = import ../pkgs { pkgs = final; }; };
+  additions = final: _prev: {
+    additions = import ../pkgs {
+      inherit myLib secrets;
+      pkgs = final;
+    };
+  };
 
   # This one contains whatever you want to overlay
   # You can change versions, add patches, set compilation flags, anything really.

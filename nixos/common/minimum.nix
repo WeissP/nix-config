@@ -15,6 +15,7 @@
         attrs: lib.flatten (lib.attrValues (lib.filterAttrs (key: _: builtins.elem key myEnv.usage) attrs));
     in
     [
+      ./nh.nix
       ./location.nix
     ]
     ++ importUsage {
@@ -124,6 +125,7 @@
             outputs.overlays.lts
             outputs.overlays.pinnedUnstables
             (import inputs.emacs-overlay)
+            inputs.wired-notify.overlays.default
             # (import (
             #   builtins.fetchTarball {
             #     url = "https://github.com/nix-community/emacs-overlay/archive/87e8ffccb53aa67dfaab7bd4fd9f27b543e73cec.tar.gz";
@@ -149,15 +151,6 @@
             ];
           })
         ];
-
-        # programs = {
-        #   gnupg = {
-        #     agent = {
-        #       enable = true;
-        #       pinentryPackage = pkgs.pinentry-gnome3;
-        #     };
-        #   };
-        # };
 
         services = mkMerge [
           { }

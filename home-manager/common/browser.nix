@@ -18,11 +18,14 @@ lib.mkMerge [
     };
   }
   (ifLinux {
+    home.packages = with pkgs; [ firefoxpwa ];
     programs = {
       floorp = {
         enable = true;
-        package = pkgs.floorp.override { nativeMessagingHosts = with pkgs; [ passff-host ]; };
-        # package = pkgs.floorp;
+        nativeMessagingHosts = with pkgs; [
+          passff-host
+          firefoxpwa
+        ];
       };
       # firefox.enable = true;
       # firefox.package = pkgs.firefox.override { nativeMessagingHosts = with pkgs; [ passff-host ]; };

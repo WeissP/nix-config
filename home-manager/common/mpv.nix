@@ -21,6 +21,7 @@
       osd-bar = "no";
       border = "no";
       save-position-on-quit = "yes";
+      gpu-api = "opengl";
     };
     bindings =
       let

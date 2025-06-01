@@ -9,6 +9,7 @@
     ../common/zsh.nix
     ../common/syncthing.nix
     ../common/sing-box.nix
+    ../common/navidrome.nix
     ./mergerfs.nix
     ./snapraid.nix
   ];
@@ -81,6 +82,44 @@
       ];
     }
   ];
+
+  services.btrbk = {
+    sshAccess = [
+      {
+        key = secrets.ssh."btrbk".public;
+        roles = [
+          "source"
+          "snapshot"
+          "send"
+          "receive"
+          "delete"
+          "info"
+        ];
+      }
+    ];
+    # instances.local_backup =
+    #   let
+    #     preserve_hour_of_day = "4";
+    #     preserve_day_of_week = "sunday";
+    #     snapshot_dir_root = "/btrbk_snapshots";
+    #   in
+    #   {
+    #     onCalendar = "*-*-* 12:30:00";
+    #     settings = {
+    #       inherit preserve_hour_of_day preserve_day_of_week;
+
+    #       snapshot_dir = snapshot_dir_root + "/all";
+    #       snapshot_create = "no";
+
+    #       target = "/mnt/backup/btrbk";
+    #       target_preserve_min = "no";
+    #       target_preserve = "20d";
+    #       subvolume = {
+    #         "/" = { };
+    #       };
+    #     };
+    #   };
+  };
 
   system.stateVersion = "25.05";
 }

@@ -16,7 +16,8 @@ let
     deploy = "nix run github:serokell/deploy-rs -- -s";
     switch =
       if (arch == "linux") then
-        "sudo nixos-rebuild switch --flake ${homeDir}/nix-config#${configSession}"
+        # "sudo nixos-rebuild switch --flake ${homeDir}/nix-config#${configSession}"
+        "nh os switch ${homeDir}/nix-config#nixosConfigurations.${configSession}"
       else
         "darwin-rebuild switch --flake ${homeDir}/nix-config#${configSession}";
     suspend = "sudo systemctl suspend";
@@ -36,6 +37,7 @@ let
     sf = "sqlfluff fix --config ${homeDir}/.config/sqlfluff/.sqlfluff ";
     sl = "sqlfluff lint --config ${homeDir}/.config/sqlfluff/.sqlfluff ";
     sfp = "sf --dialect postgres ";
+    trash = "gtrash put --home-fallback ";
   };
 in
 {

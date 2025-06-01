@@ -80,6 +80,10 @@
                              ("设3" . "glove80")
                              ))        
         ("[记] Documents" .  (("记" . ("~/Documents/notes/20231128T160730--shopping-list.org"))))
+        ("[1] DDM" .  (("1.1" . "ddm-sheets")
+                       ("1.1" . "ddm-sheets")
+                       ("1.2" . "ddm-lecture")
+                       ("1.2" . "ddm-lecture")))
         )
       )
 

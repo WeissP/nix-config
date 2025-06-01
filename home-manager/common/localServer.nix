@@ -17,6 +17,7 @@
     ./shell
     ./aria.nix
     ./videosDownloader.nix
+    ./gtrash.nix
   ];
 
   config.home.packages = with pkgs; [

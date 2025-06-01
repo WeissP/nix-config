@@ -1,10 +1,10 @@
 ## Specify the model to use for the main chat
-# model: openai/o3-mini 
-model: gemini/gemini-2.5-pro-preview-05-06 
+model: openai/o4-mini 
+# model: gemini/gemini-2.5-pro-preview-05-06 
 # model: anthropic/claude-3-7-sonnet-latest 
 # editor-model: gemini/gemini-2.5-flash-preview-04-17
 
-# reasoning-effort: high
+reasoning-effort: high
 detect-urls: false
 
 auto-accept-architect: false 
@@ -212,7 +212,7 @@ check-update: false
 #apply: xxx
 
 ## Always say yes to every confirmation
-#yes-always: false
+yes-always: false
 
 ## Enable verbose output
 #verbose: false

@@ -15,6 +15,7 @@
   imports =
     [
       ./minimum.nix
+      ./gtrash.nix
       ./terminal/wezterm.nix
       ./emacs
       ./email.nix
@@ -26,11 +27,12 @@
       ./aider.nix
       ./singboxConfig.nix
       ./mpv.nix
+      ./notification.nix
     ]
     ++ (
       if myEnv.arch == "linux" then
         [
-          ./trayer.nix
+          ./trayer.nix 
           ./fusuma.nix
           ./flameshot.nix
           ./xscreensaver.nix
@@ -46,6 +48,7 @@
           ./hledger.nix
           ./chromium.nix
           ./ariang.nix
+          ./wired.nix
         ]
       else
         [ ]
@@ -61,23 +64,13 @@
           in
           lib.mkMerge [
             {
-              sessionPath = [
-                scriptsDir
-              ];
-              sessionVariables = {
-                SCRIPTS_DIR = myEnv.scriptsDir;
-                RASP_IP = secrets.nodes.RaspberryPi.localIp;
-                DESKTOP_IP = secrets.nodes.desktop.localIp;
-              };
               file = {
-                "${homeDir}/scripts" = {
-                  source = ./config_files/scripts;
-                  recursive = true;
-                };
                 "${homeDir}/.ssh/id_rsa".text = secrets.ssh."163".private;
               };
               packages = with pkgs; [
-                pinnedUnstables."2023-03-31".pkgs.bat
+                ntfy-sh
+                bat
+                # pinnedUnstables."2023-03-31".pkgs.bat
                 fd
                 exfat
                 git-crypt
@@ -162,6 +155,7 @@
                     acmart
                     ieeetran
                     beamertheme-arguelles
+                    beamertheme-metropolis
                     alegreya
                     fontaxes
                     mathalpha
@@ -273,7 +267,7 @@
                   source = ./config_files/xmobar;
                   recursive = true;
                 };
-                "${configDir}/fcitx5" = {
+                "${configDir}/fcitx5" = lib.mkForce {
                   source = ./config_files/fcitx5/dotconfig;
                   recursive = true;
                 };

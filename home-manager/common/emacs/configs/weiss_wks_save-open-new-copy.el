@@ -239,6 +239,30 @@ Version 2015-10-14"
               (end-of-line)
               (forward-char))))))))
 
+(defun weiss--maybe-quote-path (path-str)
+  "If PATH-STR contains a space, wrap it with single quotes.
+Otherwise, return PATH-STR unchanged."
+  (if (string-match-p " " path-str)
+      (concat "'" path-str "'")
+    path-str))
+
+(defun weiss-copy-file-path ()
+  "DOCSTRING"
+  (interactive)
+  (let* ((sep " ")
+         (paths 
+          (if (string-equal major-mode 'dired-mode)
+              (->> (dired-get-marked-files)
+                   (-map #'file-local-name)
+                   (-map #'weiss--maybe-quote-path)
+                   (s-join sep)
+                   )
+            (if (buffer-file-name)
+                (file-local-name (buffer-file-name))
+              (expand-file-name default-directory)))))
+    (kill-new paths)
+    (message "File path copied: %s" paths)))
+
 (defun xah-copy-file-path (&optional @dir-path-only-p)
   "Copy the current buffer's file path or dired path to `kill-ring'.
     Result is full path.

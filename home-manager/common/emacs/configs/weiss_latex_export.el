@@ -17,6 +17,7 @@
    org-export-headline-levels 5
    org-export-with-tags nil
    org-latex-listings 'minted
+   org-latex-src-block-backend 'minted
    org-latex-pdf-process
    '("pdflatex -shell-escape -interaction nonstopmode -output-directory %o %f"
 	 "bibtex %b"
@@ -97,7 +98,7 @@
                  ("\\subsubsection{%s}" . "\\subsubsection{%s}")
                  ("\\paragraph{%s}" . "\\paragraph{%s}")))
 
-(add-to-list 'org-latex-classes
+  (add-to-list 'org-latex-classes
                '("IEEEtran"
                  "\\documentclass[11pt,journal]{IEEEtran}
 

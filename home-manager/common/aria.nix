@@ -1,19 +1,53 @@
 {
   myEnv,
   myLib,
-  secrets, 
+  secrets,
+  pkgs,
+  lib,
   ...
 }:
 with myEnv;
 let
   configDir = "${homeDir}/.config/aria2";
   downloadDir = "${homeDir}/Downloads/aria2";
-  completedDir = "/mnt/media/ssd1/videos/porn";
+  completedDir = "${homeDir}/Downloads/aria2/completed";
+  videoDir = "/mnt/media/ssd1/videos/porn";
   logFile = "${configDir}/aria2.log";
   hooksLogFile = "${configDir}/aria2_hooks.log";
   sess = "${configDir}/aria2.sess";
   hooksDir = "${configDir}/hooks";
-  onCompleteScriptPath = "${hooksDir}/on_complete.sh";
+  onCompleteScript =
+    let
+      bins =
+        with pkgs;
+        myLib.mkNuBinPath [
+          rsync
+          gtrash
+          additions.notify
+        ];
+      on_complete = builtins.path {
+        name = "on_complete.nu";
+        path = ./config_files/aria_hooks/on_complete.nu;
+      };
+    in
+    pkgs.writers.writeNuBin "on-complete-final" ''
+      def main [task_id: string, num_files: int, source_file: string] {
+         with-env {
+            Path:${bins} 
+            DOWNLOAD: "${downloadDir}"
+            COMPLETE: "${completedDir}"
+            VIDEO_TARGET_DIR: "${videoDir}"
+            LOG_FILE: "${hooksLogFile}"
+         } {
+            use ${scriptsDir}/logfile.nu
+            logfile set-log-file ${hooksLogFile}
+            logfile set-level info
+            use ${on_complete}
+            on_complete $task_id $num_files ($source_file | path expand)
+         }
+      }
+    '';
+  onCompleteScriptPath = "${onCompleteScript}/bin/on-complete-final";
 in
 {
   systemd.user.services.aria2 = myLib.service.startup {
@@ -25,16 +59,12 @@ in
       source = ./config_files/aria_hooks/aria_move.sh;
       executable = true;
     };
-    "${onCompleteScriptPath}" = {
-      text = ''
-        #!/bin/sh
-        export DOWNLOAD="${downloadDir}"
-        export COMPLETE="${completedDir}"
-        export LOG_FILE="${hooksLogFile}"
-        export LOG_LEVEL=2  # 1=NORMAL, 2=NORMAL+ERROR, 3=NORMAL+ERROR+INFO, 4=NORMAL+INFO+ERROR+DEBUG
-        export PATH=/run/current-system/sw/bin
-        "${hooksDir}/aria_move.sh" "$1" "$2" "$3"
-      '';
+    "${hooksDir}/on_complete.nu" = {
+      source = ./config_files/aria_hooks/on_complete.nu;
+      executable = true;
+    };
+    "${hooksDir}/move_videos.nu" = {
+      source = ./config_files/aria_hooks/move_videos.nu;
       executable = true;
     };
   };
