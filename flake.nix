@@ -245,6 +245,7 @@
             ];
           };
           modules = [
+            nixosModules.picom
             disko.nixosModules.disko
             ./nixos/mini/hardware-configuration.nix
             ./disko/btrfs_system.nix
