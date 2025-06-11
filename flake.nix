@@ -247,6 +247,7 @@
           modules = [
             nixosModules.picom
             disko.nixosModules.disko
+            inputs.stylix.nixosModules.stylix
             ./nixos/mini/hardware-configuration.nix
             ./disko/btrfs_system.nix
             nixosModules.xmonadBin
