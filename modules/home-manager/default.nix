@@ -6,4 +6,5 @@
   webman = import ./webman.nix;
   setup = import ./setup.nix;
   weissEmacs = import ./weissEmacs;
+  ytdlSub = import ./ytdl-sub.nix;
 }

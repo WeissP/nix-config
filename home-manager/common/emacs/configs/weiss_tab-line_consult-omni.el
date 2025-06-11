@@ -21,7 +21,7 @@
     
     (consult-omni-define-source
      "Tab Group" 
-     :min-input 1
+     :min-input 5 
      :category 'tab 
      :narrow-char ?t
      :type 'sync

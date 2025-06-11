@@ -345,6 +345,7 @@ in
             # "dogears"
             # "edit-server"
             # "org-ai"
+            "uniline"
             [
               "embark"
               "embark-consult"

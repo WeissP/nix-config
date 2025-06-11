@@ -38,7 +38,9 @@ in
     in
     mkIf cfg.enable {
       services = {
-        picom.enable = true;
+        picom = {
+          enable = true;
+        };
         dbus.enable = true;
         displayManager = {
           sddm.enable = false;

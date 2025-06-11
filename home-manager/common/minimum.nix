@@ -44,6 +44,7 @@ with myEnv;
     packages = with pkgs; [
       lsof
       gtrash
+      git-crypt
       additions.notify
     ];
     sessionPath = [

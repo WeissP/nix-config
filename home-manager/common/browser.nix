@@ -19,6 +19,8 @@ lib.mkMerge [
   }
   (ifLinux {
     home.packages = with pkgs; [ firefoxpwa ];
+    stylix.targets.floorp.profileNames = [ "default" ];
+    stylix.targets.floorp.enable = false;
     programs = {
       floorp = {
         enable = true;
@@ -46,11 +48,10 @@ lib.mkMerge [
     #   inherit (myEnv) username;
     #   binName = defaultBrowserName;
     #   service = {
-    #     PassEnvironment = [
-    #       "PATH"
-    #       "GTK_IM_MODULE"
-    #       "QT_IM_MODULE"
-    #       "XMODIFIERS"
+    #     Environment = [
+    #       "GTK_IM_MODULE=fcitx"
+    #       "QT_IM_MODULE=fcitx"
+    #       "XMODIFIERS=@im=fcitx"
     #     ];
     #   };
     # };

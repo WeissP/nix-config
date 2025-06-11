@@ -7,12 +7,11 @@
 # - DOWNLOAD:          Directory where Aria2 downloads files.
 # - COMPLETE:          Directory where completed downloads are initially moved.
 # - LOG_FILE:          Path to the rsync log file.
-# - NU_FILE_LOG_LEVEL: Path to the script's own log file.
+# - NU_LOG_FILE: Path to the script's own log file.
 # - VIDEO_TARGET_DIR:  Directory where video files are finally moved.
 
 const video_ext = [3gp,avi,f4v,flv,m2ts,m4v,mkv,mov,mp4,mpeg,rm,rmvb,ts,vob,webm,wmv,strm,mpg]
-# const min_video_move_size = 200Mb
-const min_video_move_size = 0Mb
+const min_video_move_size = 200Mb
 
 # Sets predefined environment variables for debugging purposes.
 # Activates debug level logging.
@@ -21,20 +20,21 @@ export def --env set-debug-env [] {
      $env.COMPLETE = "/home/weiss/Downloads/completed/"
      $env.VIDEO_TARGET_DIR = "/home/weiss/Downloads/completed-videos/"
      $env.LOG_FILE = "/home/weiss/Downloads/x.log"
-     $env.NU_FILE_LOG_LEVEL = "/home/weiss/Downloads/x.log"
+     $env.NU_LOG_FILE = "/home/weiss/Downloads/x.log"
      logfile set-level debug
 }
 
 # Entry point for the Aria2 on-download-complete hook.
 # Moves the downloaded file/directory to $env.COMPLETE.
 # Then, calls move_videos to further process video files.
-export def main [task_id: string, num_files: int, source_file: string] {
+export def main [task_id: string, num_files: int, source_file?: string] {
+   logfile set-level $"($env.log_level)"
    logfile debug $"Script invoked by task_id: ($task_id), num_files: ($num_files), source_file: ($source_file)" 
-   if ($num_files <= 0 or not ($source_file | path exists)) { return }
+   if ($num_files <= 0 or ($source_file | is-empty) or not ($source_file | path exists)) { return }
    let handled = handle_input_file $source_file
    logfile debug $"Regarding input ($source_file), sync ($handled.source) to ($handled.dest)" 
    try {   
-      notify downloads $"Download Finished: ($handled.source)" --title Aria2 
+      notify downloads $"Download Finished: ($handled.source)" --title Aria2 -p 1 
    } catch { |err| 
       if ($err.msg != "I/O error") {
         logfile error $"unable to send notification: ($err.msg)."    
@@ -129,9 +129,7 @@ def move_videos [source_path: string] {
         logfile error $"Source path '($source_path)' does not exist."
         return
     }
- 
-    mkdir $env.VIDEO_TARGET_DIR
-    
+
     let videos = if ($source_path | path type) == "file" {
       if ((($source_path | path parse).extension in $video_ext) and ((du $source_path | first).apparent > $min_video_move_size)) {
       [$source_path]      
@@ -146,6 +144,7 @@ def move_videos [source_path: string] {
     if ($videos | is-empty) {
         logfile debug "No video files were found to move. No items will be trashed."
     } else {
+        mkdir $env.VIDEO_TARGET_DIR
         logfile info $"Processing download from '($source_path)' to '($env.VIDEO_TARGET_DIR)'"
         logfile info $"moving videos: ($videos)"
         $videos | each { |video_file|
@@ -158,3 +157,6 @@ def move_videos [source_path: string] {
     }
 }
 
+export def on_complete [] {
+    
+}

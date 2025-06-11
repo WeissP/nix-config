@@ -38,6 +38,7 @@ let
     sl = "sqlfluff lint --config ${homeDir}/.config/sqlfluff/.sqlfluff ";
     sfp = "sf --dialect postgres ";
     trash = "gtrash put --home-fallback ";
+    # ws = "wezterm --config-file ${configDir}/wezterm/wezterm.lua ssh weiss@192.168.0.33 -- nu -l";
   };
 in
 {

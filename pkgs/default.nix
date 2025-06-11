@@ -3,13 +3,14 @@
 
 {
   pkgs ? (import ../nixpkgs.nix) { },
-  myLib ,
-  secrets ,
+  myLib ? { },
+  secrets ? { },
 }:
 let
   lib = pkgs.lib;
+  mkFont = pkgs.callPackage myLib.mkFont { };
 in
-{
+rec {
   mpv-bookmarker = pkgs.callPackage ./mpv-bookmarker.nix { };
   mpv-thumbfast = pkgs.callPackage ./mpv-thumbfast.nix { };
   ammonite = pkgs.callPackage ./ammonite.nix { };
@@ -20,4 +21,44 @@ in
     inherit pkgs lib secrets;
   };
   formatRon = pkgs.callPackage ./ron.nix { inherit pkgs lib; };
+  monolisa = mkFont "monolisa" "monolisa.zip";
+  florencesans = mkFont "florencesans-sc" "florencesans-sc.zip";
+  writeNuBinWithConfig =
+    name: nuCfg: script:
+    let
+      modules =
+        if (builtins.hasAttr "modules" nuCfg) then
+          (lib.concatStringsSep "\n" (map (mod: "use ${mod}") nuCfg.modules))
+        else
+          "";
+      envs =
+        if (builtins.hasAttr "env" nuCfg) then
+          lib.concatMapAttrsStringSep "\n" (name: val: "$env.${name} = ${val}") nuCfg.env
+        else
+          "";
+      config = pkgs.writeTextFile {
+        name = "nushell-config";
+        text = "${modules}\n${envs}";
+      };
+      interpreter = "${lib.getExe pkgs.nushell} --config ${config}";
+    in
+    pkgs.writers.makeScriptWriter { inherit interpreter; } "/bin/${name}" script;
+  exp = (
+    writeNuBinWithConfig "on-complete-final"
+      {
+        modules = [ "/home/weiss/scripts/logfile.nu" ];
+        env = {
+          log_level = ''"debug"'';
+          NU_LOG_FILE = ''"/tmp/exp.log"'';
+          Path = myLib.mkNuBinPath [ pkgs.hello ];
+        };
+      }
+      ''
+        def main [] {
+           logfile set-level $"($env.log_level)"
+           logfile debug "content"
+           hello
+        }
+      ''
+  );
 }

@@ -44,9 +44,10 @@
 +kis -- tag:RPTU and body:"KIS-Office" 
 +olat -- tag:RPTU and from:lms-admin@vcrp.de 
 +olat_notification -- is:olat and subject:"OpenOLAT-Neuigkeiten"
++rptu_scientific_computing -- (is:RPTU and from:ulrike.hahn@rhrk.uni-kl.de and to:ulrike.hahn@rhrk.uni-kl.de)
 +rptu_rundmail -- (is:RPTU and from:rundmail)
 +rptu_registration -- (is:RPTU and (subject:registration or subject:"Rückmeldezeitraum"))
-+rptu_unimportant -- (is:rptu_rundmail and not is:rptu_registration)
++rptu_unimportant -- (is:rptu_rundmail and not is:rptu_registration) or is:rptu_scientific_computing
 +urm -- (is:RPTU and from:urm)
 
 

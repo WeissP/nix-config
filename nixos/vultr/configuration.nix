@@ -30,7 +30,7 @@ with myEnv;
 
   zramSwap.enable = true;
 
-  boot.kernelPackages = pkgs.linuxKernel.packages.linux_6_11;
+  # boot.kernelPackages = pkgs.linuxKernel.packages.linux_6_11;
   # boot.loader.systemd-boot.enable = true;
   # boot.loader.efi.canTouchEfiVariables = true;
 

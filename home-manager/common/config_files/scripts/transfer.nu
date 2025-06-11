@@ -1,11 +1,14 @@
-export def main [from_path: string, to_path: string, --move] {
-    rsync -PamAXvtu -e ssh $from_path $"weiss@($env.HOME_SERVER_IP):($to_path)"
+def "nu-complete host_path" [] {
+   ["/home/weiss/Downloads/"]
+}
+
+def "nu-complete server_path" [] {
+   ["/media/audios/", "/media/videos/", "/home/weiss/Downloads/videos"]
+}
+
+export def main [from_path: path, to_path: string@"nu-complete server_path", --move] {
+    rsync -PamAXvtu -e ssh $from_path $"home-server:($to_path)"
     if $move {
        trash $from_path
     }
 }
-
-export def move_videos [from_path: string] {
-  main $from_path "/home/weiss/Downloads/videos" --move
-}
-

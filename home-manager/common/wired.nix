@@ -1,3 +1,4 @@
+# Based on https://github.com/oddlama/nix-config
 {
   pkgs,
   lib,
@@ -78,8 +79,8 @@
                 min_width = floor (globalScale * 24);
                 padding = mkPaddingLrBt 16 (-8) 6 12;
                 rounding = globalScale * 12.0;
-                scale_height = floor (globalScale * 24);
-                scale_width = floor (globalScale * 24);
+                scale_height = floor (globalScale * 20);
+                scale_width = floor (globalScale * 20);
               });
             }
             {
@@ -439,6 +440,9 @@
         min_window_width = floor (globalScale * 20);
         min_window_height = floor (globalScale * 20);
         debug = false;
+        idle_threshold = 300;
+        unpause_on_input = true;
+        focus_follows = mkLiteral "Window";
 
         # https://github.com/Toqozz/wired-notify/wiki/Shortcuts
         shortcuts = ShortcutsConfig {
@@ -472,7 +476,7 @@
                   ]))
                 ];
                 params = struct "NotificationBlock" (unnamedStruct {
-                  monitor = 0;
+                  monitor = -1;
                   border_width = globalScale * 2;
                   border_rounding = globalScale * 0;
                   background_color = colors.base00;
@@ -506,7 +510,7 @@
                 offset = mkVec2 (600 - 100) 0;
                 params = struct "TextBlock" (unnamedStruct {
                   color = colors.base05;
-                  dimensions = mkDimensionsWH 100 100 28 28;
+                  dimensions = mkDimensionsWH 100 200 28 28;
                   ellipsize = mkLiteral "End";
                   font = "${fonts.monospace.name} Bold ${toString (globalScale * 14)}";
                   padding = mkPaddingLrBt 0 16 4 12;

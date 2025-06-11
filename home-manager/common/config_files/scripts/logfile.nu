@@ -1,3 +1,24 @@
+# File Logging Module
+#
+# This module provides utilities for logging messages to a file.
+#
+# Environment Variables:
+# - NU_LOG_FILE: Path to the default log file. Set with `log-file set-log-file <path>`.
+# - NU_LOG_FILE_LEVEL: Minimum log level to record (CRITICAL, ERROR, WARNING, INFO, DEBUG, or corresponding integer). Set with `log-file set-level <level>`.
+# - NU_LOGFILE_FORMAT: Format string for log messages. Default: "%DATE%|%LEVEL%|%MSG%"
+# - NU_LOG_DATE_FORMAT: Format string for dates in logs. Default: "%Y-%m-%dT%H:%M:%S%.3f"
+#
+# Log Formatting Placeholders:
+# - %MSG%: The message to be logged.
+# - %DATE%: Timestamp of the log entry.
+# - %LEVEL%: String prefix for the log level (e.g., "INFO", "ERR").
+#
+# Example usage:
+#   use logfile.nu
+#   logfile set-log-file "my_app.log"
+#   logfile set-level INFO
+#   logfile info "Application started"
+
 const LOG_LEVEL = {
     "CRITICAL": 50,
     "ERROR": 40,
@@ -14,31 +35,10 @@ const LOG_PREFIX = {
     "DEBUG": "DBG"
 }
 
-# File Logging Module
-#
-# This module provides utilities for logging messages to a file.
-#
-# Environment Variables:
-# - NU_LOG_FILE: Path to the default log file. Set with `log-file set-log-file <path>`.
-# - NU_FILE_LOG_LEVEL: Minimum log level to record (CRITICAL, ERROR, WARNING, INFO, DEBUG, or corresponding integer). Set with `log-file set-level <level>`.
-# - NU_LOGFILE_FORMAT: Format string for log messages. Default: "%DATE%|%LEVEL%|%MSG%"
-# - NU_LOG_DATE_FORMAT: Format string for dates in logs. Default: "%Y-%m-%dT%H:%M:%S%.3f"
-#
-# Log Formatting Placeholders:
-# - %MSG%: The message to be logged.
-# - %DATE%: Timestamp of the log entry.
-# - %LEVEL%: String prefix for the log level (e.g., "INFO", "ERR").
-#
-# Example usage:
-#   use logfile.nu
-#   logfile set-log-file "my_app.log"
-#   logfile set-level INFO
-#   logfile info "Application started"
-
 export-env { 
     $env.NU_LOGFILE_FORMAT = $env.NU_LOGFILE_FORMAT? | default "%DATE%|%LEVEL%|%MSG%"
     $env.NU_LOG_DATE_FORMAT = $env.NU_LOG_DATE_FORMAT? | default "%Y-%m-%dT%H:%M:%S%.3f"
-    # NU_FILE_LOG_LEVEL is managed by set-level
+    # NU_LOG_FILE_LEVEL is managed by set-level
     # NU_LOG_FILE is managed by set-log-file
 }
 
@@ -100,7 +100,7 @@ def parse-int-level [
 }
 
 def current-log-level [] {
-    let env_level = ($env.NU_FILE_LOG_LEVEL? | default $LOG_LEVEL.INFO)
+    let env_level = ($env.NU_LOG_FILE_LEVEL? | default $LOG_LEVEL.INFO)
 
     try {
         $env_level | into int
@@ -157,6 +157,15 @@ def _do_log [
 # Change logging file
 export def --env set-log-file [file: string] {
     $env.NU_LOG_FILE = $file
+}
+
+# Set the logging directory, creating a new timestamped log file within it
+export def --env set-log-dir-with-timestamped-log [log_dir: string] {
+    let dir = $log_dir | path expand 
+    mkdir $dir
+    let timestamp = date now | format date "%Y%m%d_%H%M%S"
+    let log_file_path = $dir | path join $"($timestamp).log"
+    $env.NU_LOG_FILE = $log_file_path
 }
 
 export def main [] {}
@@ -273,6 +282,6 @@ def "nu-complete log-level" [] {
 # Change logging level
 export def --env set-level [level: string@"nu-complete log-level"] {
     # Keep it as a string so it can be passed to child processes
-    $env.NU_FILE_LOG_LEVEL = parse-string-level $level 
+    $env.NU_LOG_FILE_LEVEL = parse-string-level $level 
 }
 

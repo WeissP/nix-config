@@ -17,6 +17,7 @@
     [
       ./nh.nix
       ./location.nix
+      ./btrbk.nix
     ]
     ++ importUsage {
       local-server = [
@@ -187,6 +188,9 @@
       }
 
       (ifServer {
+        programs = {
+          mosh.enable = true;
+        };
         services.openssh = {
           enable = true;
           settings = {

@@ -18,7 +18,7 @@
 
 (with-eval-after-load 'consult-omni
   (defun weiss-consult-omni--buffer-fetch-results (input &rest args)
-    "DOCSTRING"
+    "DOCSTRING" 
     (interactive)
     (orderless-filter
      input
@@ -100,7 +100,8 @@
 
   (consult-omni-define-source
    "Hidden Buffer" 
-   :min-input 1
+   :min-input 3 
+   :valid-input (lambda (input) (when (s-starts-with? " " input) input))
    :on-preview #'consult-omni--consult-buffer-preview
    :on-return #'identity
    :on-callback #'consult--buffer-action
@@ -121,7 +122,6 @@
    :annotate nil
    :request #'weiss-consult-omni--hidden-buffer-fetch-results
    :transform #'weiss-consult-omni--hidden-buffer-transform
-   :enabled 
    )
 
   (add-to-list 'consult-omni-multi-sources "Buffer")

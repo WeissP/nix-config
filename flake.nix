@@ -25,7 +25,6 @@
     };
     webman = {
       url = "github:WeissP/webman";
-      # url = "/home/weiss/projects/webman/";
     };
     deploy-rs = {
       url = "github:serokell/deploy-rs";
@@ -75,6 +74,10 @@
       url = "github:tninja/aider.el";
       flake = false;
     };
+    drbrain-nushell-config = {
+      url = "github:drbrain/nushell-config";
+      flake = false;
+    };
     nix-alien.url = "github:thiagokokada/nix-alien";
     nixos-installer-gen.url = "gitlab:GenericNerdyUsername/nixos-installer-gen";
   };
@@ -99,7 +102,6 @@
         "aarch64-darwin"
         "x86_64-darwin"
       ];
-
       myLib = import ./myLib {
         lib = nixpkgs.lib;
         pkgs = nixpkgs;
@@ -138,6 +140,7 @@
               consult
               consult-omni
               aider-el
+              drbrain-nushell-config
               ;
           };
         };
@@ -145,15 +148,15 @@
     rec {
       # Your custom packages
       # Acessible through 'nix build', 'nix shell', etc
-      # packages = forAllSystems (
-      #   system:
-      #   let
-      #     pkgs = nixpkgs.legacyPackages.${system};
-      #   in
-      #   (import ./pkgs {
-      #     inherit pkgs myLib secrets;
-      #   })
-      # );
+      packages = forAllSystems (
+        system:
+        let
+          pkgs = nixpkgs.legacyPackages.${system};
+        in
+        (import ./pkgs {
+          inherit pkgs myLib secrets;
+        })
+      );
       # Devshell for bootstrapping
       # Acessible through 'nix develop' or 'nix-shell' (legacy)
       devShells = forAllSystems (
@@ -192,6 +195,7 @@
             location = "home";
           };
           modules = [
+            nixosModules.picom
             disko.nixosModules.disko
             inputs.stylix.nixosModules.stylix
             ./nixos/desktop/hardware-configuration.nix
@@ -235,10 +239,9 @@
             location = "home";
             mainDevice = "/dev/nvme0n1";
             usage = [
-              # "personal"
+              "personal"
               "webman-server"
-              "local-server"
-              "aria-server"
+              "daily"
             ];
           };
           modules = [
@@ -374,7 +377,7 @@
             (import nixpkgs {
               inherit system;
               overlays = [
-                deploy-rs.overlay # or deploy-rs.overlays.default
+                deploy-rs.overlays.default
                 (self: super: {
                   deploy-rs = {
                     inherit (import nixpkgs { inherit system; }) deploy-rs;

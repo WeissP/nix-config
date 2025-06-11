@@ -18,6 +18,7 @@
     ./aria.nix
     ./videosDownloader.nix
     ./gtrash.nix
+    ./ytdl-sub.nix
   ];
 
   config.home.packages = with pkgs; [

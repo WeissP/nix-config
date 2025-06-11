@@ -18,6 +18,7 @@ with myEnv;
     ../common/zsh.nix
   ];
 
+  system.primaryUser = "bozhoubai";
   networking = {
     hostName = "Bozhous-Air";
   };

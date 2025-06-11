@@ -18,9 +18,10 @@ with myEnv;
     let
       # p = pkgs.pinnedUnstables."2025-04-20";
       p = pkgs;
-      nuHooks = "${remoteFiles.nuScripts}/nu-hooks/nu-hooks";
-      task = "${remoteFiles.nuScripts}/modules/background_task/task.nu";
-      jcModule = "${remoteFiles.nuScripts}/modules/jc/";
+      inherit (remoteFiles) nuScripts drbrain-nushell-config;
+      nuHooks = "${nuScripts}/nu-hooks/nu-hooks";
+      task = "${nuScripts}/modules/background_task/task.nu";
+      jcModule = "${nuScripts}/modules/jc/";
     in
     {
       enable = true;
@@ -35,7 +36,11 @@ with myEnv;
         use ${scriptsDir}/logfile.nu
         use ${scriptsDir}/merge_videos.nu
         use ${scriptsDir}/transfer.nu *
+        $env.ACTIVITY_TRACKER_FILE = "${homeDir}/Documents/personal/activities.json"
+        use ${scriptsDir}/track.nu
         use ${jcModule} 
+        # source ${drbrain-nushell-config}/completion/ssh
+        source ${nuScripts}/custom-completions/ssh/ssh-completions.nu
       '';
       configFile.text = ''
         source ${

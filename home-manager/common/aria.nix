@@ -15,59 +15,57 @@ let
   logFile = "${configDir}/aria2.log";
   hooksLogFile = "${configDir}/aria2_hooks.log";
   sess = "${configDir}/aria2.sess";
-  hooksDir = "${configDir}/hooks";
-  onCompleteScript =
-    let
-      bins =
+  inherit (myLib) quote;
+  onCompleteScript = pkgs.additions.writeNuBinWithConfig "on-complete" {
+    modules = [ "${scriptsDir}/logfile.nu" ];
+    env = {
+      log_level = quote "debug";
+      NU_LOG_FILE = quote hooksLogFile;
+      LOG_FILE = quote hooksLogFile;
+      download = quote downloadDir;
+      complete = quote completedDir;
+      video_target_dir = quote videoDir;
+      Path =
         with pkgs;
         myLib.mkNuBinPath [
           rsync
           gtrash
           additions.notify
         ];
-      on_complete = builtins.path {
-        name = "on_complete.nu";
-        path = ./config_files/aria_hooks/on_complete.nu;
-      };
-    in
-    pkgs.writers.writeNuBin "on-complete-final" ''
-      def main [task_id: string, num_files: int, source_file: string] {
-         with-env {
-            Path:${bins} 
-            DOWNLOAD: "${downloadDir}"
-            COMPLETE: "${completedDir}"
-            VIDEO_TARGET_DIR: "${videoDir}"
-            LOG_FILE: "${hooksLogFile}"
-         } {
-            use ${scriptsDir}/logfile.nu
-            logfile set-log-file ${hooksLogFile}
-            logfile set-level info
-            use ${on_complete}
-            on_complete $task_id $num_files ($source_file | path expand)
-         }
-      }
-    '';
-  onCompleteScriptPath = "${onCompleteScript}/bin/on-complete-final";
+    };
+  } (builtins.readFile ./config_files/aria_hooks/on_complete.nu);
+  onCompleteScriptPath = lib.getExe onCompleteScript;
 in
 {
-  systemd.user.services.aria2 = myLib.service.startup {
-    inherit (myEnv) username;
-    binName = "aria2c";
-  };
-  home.file = {
-    "${hooksDir}/aria_move.sh" = {
-      source = ./config_files/aria_hooks/aria_move.sh;
-      executable = true;
-    };
-    "${hooksDir}/on_complete.nu" = {
-      source = ./config_files/aria_hooks/on_complete.nu;
-      executable = true;
-    };
-    "${hooksDir}/move_videos.nu" = {
-      source = ./config_files/aria_hooks/move_videos.nu;
-      executable = true;
+  systemd.user.services.aria2 = {
+    Unit.Description = "startup aria2";
+    Install.WantedBy = [ "autostart.target" ];
+    Service = {
+      Type = "simple";
+      ExecStart = lib.getExe pkgs.aria2;
     };
   };
+  home.packages = [
+    (pkgs.additions.writeNuBinWithConfig "move-aria-downloads" { } ''
+      def "nu-complete downloads" [] {
+         ls -f ${downloadDir}
+         | where { not ($in.name | str ends-with ".torrent") and (not ($in.name | str ends-with ".aria2")) and ($in.name != "${completedDir}") }
+         | get name
+         | each { $in | path relative-to ${downloadDir} }
+      }
+
+      export def main [downloads: string@"nu-complete downloads"] {
+         let fullpath = [${downloadDir}, $downloads] | path join 
+         ${onCompleteScriptPath} "fake-id" 999 $fullpath
+      }
+    '')
+    (pkgs.additions.writeNuBinWithConfig "move-files-to-skip" { } ''
+      ls ${videoDir} -f
+      | where type == file 
+      | get name 
+      | each { mv $in ${videoDir}/skip/ }
+    '')
+  ];
   programs.aria2 = {
     enable = true;
     settings = {

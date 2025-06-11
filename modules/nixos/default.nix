@@ -7,4 +7,5 @@
   xmonadBin = import ./xmonadBin.nix;
   private-gpt = import ./private-gpt.nix;
   myStash = import ./stash.nix;
+  picom = import ./picom.nix;
 }

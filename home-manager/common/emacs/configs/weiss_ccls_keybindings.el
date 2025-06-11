@@ -1,6 +1,8 @@
 (with-eval-after-load 'ccls
-  (wks-unset-key c-mode-map '("," "/" ":"))
-  (wks-unset-key c++-mode-map '("," "/" ":"))
+  (let ((keys '("," "/" ":" ".")))
+    (wks-unset-key c-mode-map keys)
+    (wks-unset-key c++-mode-map keys)    
+    )
   )
 
 ;; parent: lsp-mode

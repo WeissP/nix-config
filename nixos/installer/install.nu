@@ -93,6 +93,41 @@ export def generate-home-server-disko-config [
     print "To apply this configuration, run: apply-disko-config"
 }
 
+# Generates a Disko configuration file specifically for home_server.nix.
+export def generate-btrfs-system-disko-config [
+    --mainDevice: string,                                       # The main SSD device (e.g., /dev/nvme0n1). Required.
+    --username: string = "weiss",                               # Username for the new system.
+    --swapSize: string = "32G",                                 # Size of the swapfile.
+    --userId: string = "1000",                                  # User ID for the new user.
+    --groupId: string = "1000",                                 # Group ID for the new user.
+    --output_disko_config_path: path = "/home/nixos/disko-config.nix", # Path to save the generated disko configuration file.
+    --base_config_file: string = "/home/nixos/nix-config/disko/btrfs_system.nix" # Absolute path to the base disko Nix file.
+] {
+    if ($mainDevice | is-empty) { error make { msg: "--mainDevice is required" } }
+
+    clone-and-unlock
+
+    if not ($base_config_file | path exists) {
+        error make { msg: $"Base Disko config file not found: ($base_config_file). Ensure it is an absolute path and the file exists." }
+    }
+
+    let disko_config_content = $"{ lib, ... }:\(import ($base_config_file)) {
+      inherit lib;
+      myEnv = {
+        username = "($username)";
+        mainDevice = "/dev/($mainDevice)";
+      };
+      swapSize = "($swapSize)";
+      userId = ($userId | into int);
+      groupId = ($groupId | into int);
+    }"
+
+    let abs_output_path = ($output_disko_config_path | path expand)
+    $disko_config_content | save -f $abs_output_path
+    print $"Generated btrfs system disko configuration written to ($abs_output_path)"
+    print "To apply this configuration, run: apply-disko-config"
+}
+
 # Applies a Disko configuration, formats/mounts disks, and prepares user subvolumes.
 export def apply-disko-config [
     --generated_disko_config_path: path =  "/home/nixos/disko-config.nix",    # Path to the generated disko configuration file. This parameter is required.

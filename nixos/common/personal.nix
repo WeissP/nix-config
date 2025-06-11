@@ -9,7 +9,7 @@ with myEnv;
 {
   imports = [
     ./autorandr.nix
-    ./xmonad
+    ./xmonad.nix
     ./psql.nix
     ./syncthing.nix
     ./zsh.nix
@@ -61,6 +61,7 @@ with myEnv;
   };
 
   programs = {
+    mosh.enable = true;
     zsh.enable = true;
     git = {
       enable = true;
@@ -71,6 +72,8 @@ with myEnv;
     shells = [ pkgs.zsh ];
     pathsToLink = [ "/share/zsh" ];
     systemPackages = with pkgs; [
+      kora-icon-theme
+      adwaita-icon-theme
       protontricks
       git-crypt
       ripgrep

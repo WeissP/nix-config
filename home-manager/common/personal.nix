@@ -28,16 +28,16 @@
       ./singboxConfig.nix
       ./mpv.nix
       ./notification.nix
+      ./sioyek.nix
     ]
     ++ (
       if myEnv.arch == "linux" then
         [
-          ./trayer.nix 
+          ./trayer.nix
           ./fusuma.nix
           ./flameshot.nix
           ./xscreensaver.nix
           ./darkman.nix
-          ./sioyek.nix
         ]
       else
         [ ]
@@ -68,9 +68,7 @@
                 "${homeDir}/.ssh/id_rsa".text = secrets.ssh."163".private;
               };
               packages = with pkgs; [
-                ntfy-sh
                 bat
-                # pinnedUnstables."2023-03-31".pkgs.bat
                 fd
                 exfat
                 git-crypt
@@ -103,69 +101,67 @@
               packages = with pkgs; [
                 iterm2
                 ocamlPackages.cpdf
-                (texlive.combine {
-                  inherit (texlive)
-                    scheme-tetex
-                    collection-langkorean
-                    algorithms
-                    cm-super
-                    pgf
-                    dvipng
-                    dvisvgm
-                    enumitem
-                    graphics
-                    wrapfig
-                    amsmath
-                    ulem
-                    hyperref
-                    capt-of
-                    framed
-                    multirow
-                    vmargin
-                    comment
-                    minted
-                    doublestroke
-                    pgfplots
-                    titlesec
-                    subfigure
-                    adjustbox
-                    algorithm2e
-                    ifoddpage
-                    relsize
-                    qtree
-                    pict2e
-                    lipsum
-                    ifsym
-                    fontawesome
-                    changepage
-                    inconsolata
-                    xcolor
-                    cancel
-                    stmaryrd
-                    wasysym
-                    wasy
-                    makecell
-                    forest
-                    mnsymbol
-                    biblatex
-                    fontawesome5
-                    pbox
-                    rsfso
-                    upquote
-                    acmart
-                    ieeetran
-                    beamertheme-arguelles
-                    beamertheme-metropolis
-                    alegreya
-                    fontaxes
-                    mathalpha
-                    opencolor
-                    tcolorbox
-                    ;
-                  pkgFilter = pkg: pkg.tlType == "run" || pkg.tlType == "bin" || pkg.pname == "cm-super";
-                  # builtins.elem tlType [ "run" "bin" "doc" "source" ]
-                  # there are also other attributes: version, name
-                })
+                # (texlive.combine {
+                #   inherit (texlive)
+                #     scheme-tetex
+                #     collection-langkorean
+                #     algorithms
+                #     cm-super
+                #     pgf
+                #     dvipng
+                #     dvisvgm
+                #     enumitem
+                #     graphics
+                #     wrapfig
+                #     amsmath
+                #     ulem
+                #     hyperref
+                #     capt-of
+                #     framed
+                #     multirow
+                #     vmargin
+                #     comment
+                #     minted
+                #     doublestroke
+                #     pgfplots
+                #     titlesec
+                #     subfigure
+                #     adjustbox
+                #     algorithm2e
+                #     ifoddpage
+                #     relsize
+                #     qtree
+                #     pict2e
+                #     lipsum
+                #     ifsym
+                #     fontawesome
+                #     changepage
+                #     inconsolata
+                #     xcolor
+                #     cancel
+                #     stmaryrd
+                #     wasysym
+                #     wasy
+                #     makecell
+                #     forest
+                #     mnsymbol
+                #     biblatex
+                #     fontawesome5
+                #     pbox
+                #     rsfso
+                #     upquote
+                #     acmart
+                #     ieeetran
+                #     beamertheme-arguelles
+                #     beamertheme-metropolis
+                #     alegreya
+                #     fontaxes
+                #     mathalpha
+                #     opencolor
+                #     tcolorbox
+                #     ;
+                #   pkgFilter = pkg: pkg.tlType == "run" || pkg.tlType == "bin" || pkg.pname == "cm-super";
+                # })
               ];
             })
             (ifLinux {
@@ -183,6 +179,8 @@
                     inherit (texlive) scheme-full;
                     pkgFilter = pkg: pkg.tlType == "run" || pkg.tlType == "bin" || pkg.pname == "cm-super";
                   })
+                  masterpdfeditor
+                  kdePackages.okular
                   devenv
                   bluetui
                   pdf4qt
@@ -267,7 +265,7 @@
                   source = ./config_files/xmobar;
                   recursive = true;
                 };
-                "${configDir}/fcitx5" = lib.mkForce {
+                "${configDir}/fcitx5" = {
                   source = ./config_files/fcitx5/dotconfig;
                   recursive = true;
                 };
@@ -287,6 +285,19 @@
             })
           ];
         programs = {
+          ssh = {
+            enable = true;
+            matchBlocks = {
+              "home-server" = {
+                hostname = secrets.nodes.homeServer.localIp;
+                user = username;
+              };
+              "vultr" = {
+                hostname = secrets.nodes.Vultr.publicIp;
+                user = username;
+              };
+            };
+          };
           direnv = {
             enable = true;
             nix-direnv.enable = true;
@@ -295,6 +306,13 @@
         };
       }
       (ifLinux {
+        stylix.targets = {
+          fcitx5.enable = false;
+          emacs.enable = false;
+          gtk.enable = false;
+          # console.enable = false;
+          # floorp.enable = false;
+        };
         xdg.mimeApps = {
           enable = true;
           defaultApplications = {
