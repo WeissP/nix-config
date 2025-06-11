@@ -236,7 +236,8 @@
           system = "x86_64-linux";
           specialArgs = mkSpecialArgs linuxEnv {
             configSession = "mini";
-            location = "home";
+            mainScreen = "HDMI-0";
+            location = "uni";
             mainDevice = "/dev/nvme0n1";
             usage = [
               "personal"
