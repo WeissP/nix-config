@@ -263,6 +263,27 @@ Otherwise, return PATH-STR unchanged."
     (kill-new paths)
     (message "File path copied: %s" paths)))
 
+(defun weiss-dired-send-to-paperless ()
+  "DOCSTRING"
+  (interactive)
+  (let* ((paths 
+          (if (string-equal major-mode 'dired-mode)
+              (->> (dired-get-marked-files)
+                   (-map #'file-local-name)
+                   )
+            (when (buffer-file-name)
+              (list (file-local-name (buffer-file-name)))
+              ))))
+    (dolist (p paths) 
+      (process-file-shell-command (format "cp %S /home/weiss/projects/paperless/consume/" p))
+      (unless (s-contains? "Documents" p)
+        (system-move-file-to-trash p)
+        )
+      )
+    (message "Sent following files to paperless: %s " paths)
+    )
+  )
+
 (defun xah-copy-file-path (&optional @dir-path-only-p)
   "Copy the current buffer's file path or dired path to `kill-ring'.
     Result is full path.

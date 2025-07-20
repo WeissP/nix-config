@@ -15,64 +15,64 @@
 ;;     )) 
 ;; (advice-add 'consult-omni-multi :around #'weiss-with-consult-omni-current-buffer)
 
+(defun weiss-consult-omni--buffer-fetch-results (input &rest args)
+  "DOCSTRING" 
+  (interactive)
+  (orderless-filter
+   input
+   (consult--buffer-query :sort 'omni-current
+                          :filter t 
+                          :as #'consult--buffer-pair)
+   )
+  )
+
+(defun weiss-consult-omni--buffer-transform (candidates &optional query)
+  (mapcar
+   (lambda (item)
+     (let ((name (or (car-safe item) item)))
+       (propertize
+        name
+        :source "Buffer"
+        :title name
+        :url nil 
+        :query query
+        :search-url nil
+        )
+       )         
+     )
+   candidates)
+  )
+
+(defun weiss-consult-omni--hidden-buffer-fetch-results (input &rest args)
+  "DOCSTRING"
+  (interactive)
+  (orderless-filter
+   input
+   (consult--buffer-query :sort nil
+                          :filter 'invert 
+                          :as #'consult--buffer-pair)
+   )
+  )
+
+(defun weiss-consult-omni--hidden-buffer-transform (candidates &optional query)
+  (mapcar
+   (lambda (item)
+     (let ((name (or (car-safe item) item)))
+       (propertize
+        name
+        :source "Hidden Buffer"
+        :title name
+        :url nil 
+        :query query
+        :search-url nil
+        )
+       )         
+     )
+   candidates)
+  )
+
 
 (with-eval-after-load 'consult-omni
-  (defun weiss-consult-omni--buffer-fetch-results (input &rest args)
-    "DOCSTRING" 
-    (interactive)
-    (orderless-filter
-     input
-     (consult--buffer-query :sort 'omni-current
-                            :filter t 
-                            :as #'consult--buffer-pair)
-     )
-    )
-
-  (defun weiss-consult-omni--buffer-transform (candidates &optional query)
-    (mapcar
-     (lambda (item)
-       (let ((name (or (car-safe item) item)))
-         (propertize
-          name
-          :source "Buffer"
-          :title name
-          :url nil 
-          :query query
-          :search-url nil
-          )
-         )         
-       )
-     candidates)
-    )
-
-  (defun weiss-consult-omni--hidden-buffer-fetch-results (input &rest args)
-    "DOCSTRING"
-    (interactive)
-    (orderless-filter
-     input
-     (consult--buffer-query :sort nil
-                            :filter 'invert 
-                            :as #'consult--buffer-pair)
-     )
-    )
-
-  (defun weiss-consult-omni--hidden-buffer-transform (candidates &optional query)
-    (mapcar
-     (lambda (item)
-       (let ((name (or (car-safe item) item)))
-         (propertize
-          name
-          :source "Hidden Buffer"
-          :title name
-          :url nil 
-          :query query
-          :search-url nil
-          )
-         )         
-       )
-     candidates)
-    )
-  
   (consult-omni-define-source
    "Buffer" 
    :min-input 0

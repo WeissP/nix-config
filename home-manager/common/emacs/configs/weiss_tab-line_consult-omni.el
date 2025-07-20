@@ -1,24 +1,24 @@
+(defun consult-omni--tab-line-fetch-results (input &rest args)
+  (orderless-filter input (weiss-tab-all-group-names))
+  )
+
+(defun consult-omni--tab-line-transform (candidates &optional query)
+  (mapcar
+   (lambda (item)
+     (propertize
+      item
+      :source "Tab Group"
+      :title item
+      :url nil
+      :query item
+      :search-url nil
+      )
+     )
+   candidates)
+  )
+
 (with-eval-after-load 'consult-omni-sources
   (with-eval-after-load 'weiss_consult-omni_settings
-    (defun consult-omni--tab-line-fetch-results (input &rest args)
-      (orderless-filter input (weiss-tab-all-group-names))
-      )
-
-    (defun consult-omni--tab-line-transform (candidates &optional query)
-      (mapcar
-       (lambda (item)
-         (propertize
-          item
-          :source "Tab Group"
-          :title item
-          :url nil
-          :query item
-          :search-url nil
-          )
-         )
-       candidates)
-      )
-    
     (consult-omni-define-source
      "Tab Group" 
      :min-input 5 

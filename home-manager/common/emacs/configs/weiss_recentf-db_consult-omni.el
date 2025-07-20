@@ -1,24 +1,25 @@
+(defun consult-omni--recentf-db-preview (cand)
+  "Preview function for `consult-omni-recentf-db'." 
+  (funcall (consult--file-preview) 'preview cand))
+
+(defun consult-omni--recentf-db-callback (cand)
+  "Callback for `consult-omni-recentf-db'."
+  (consult--file-action cand))
+
+(cl-defun consult-omni--recentf-db-builder (input &rest args &key callback &allow-other-keys)
+  "Makes builder command line args for “fd”."
+  (list recentf-executable "search" input))
+
+(defun consult-omni--recentf-db-filter (candidates &optional query)
+  (seq-filter #'s-present? candidates)
+  )
+
+
 (with-eval-after-load 'consult-omni-sources
   (setq
    consult-omni-recentf-db-args (list recentf-executable "search")
    )
 
-  (defun consult-omni--recentf-db-preview (cand)
-    "Preview function for `consult-omni-recentf-db'." 
-    (funcall (consult--file-preview) 'preview cand))
-
-  (defun consult-omni--recentf-db-callback (cand)
-    "Callback for `consult-omni-recentf-db'."
-    (consult--file-action cand))
-
-  (cl-defun consult-omni--recentf-db-builder (input &rest args &key callback &allow-other-keys)
-    "Makes builder command line args for “fd”."
-    (list recentf-executable "search" input))
-  
-  (defun consult-omni--recentf-db-filter (candidates &optional query)
-    (seq-filter #'s-present? candidates)
-    )
-  
   (consult-omni-define-source
    "recentf-db"
    :min-input 3

@@ -275,6 +275,7 @@
                 ("mss" "\\smallskip" weiss--ahf)    
                 ("mms" "\\medskip" weiss--ahf)    
                 ("mbs" "\\bigskip" weiss--ahf)    
+                ("mvs" "\\vspace{▮cm}" weiss--ahf)    
                 ))
         )
     (define-abbrev-table 'latex-mode-abbrev-table abbs)    

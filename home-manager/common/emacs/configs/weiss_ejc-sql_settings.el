@@ -1,5 +1,9 @@
 ;; (require 'ejc-sql)
 
+(defun find-library-name-overriding-ejc (lib-name)
+  "replace the library dir of ejc-sql"
+  (when (string= lib-name "ejc-sql") (format "%s/ejc-sql.el" ejc-repl-dir)))
+
 (with-eval-after-load 'ejc-sql
   (setq clomacs-httpd-default-port 8090
         ejc-sql-separator ";"
@@ -30,9 +34,7 @@
   (unless (file-directory-p ejc-repl-dir)
     (copy-directory ejc-sql-lib-path ejc-repl-dir nil t t)
     (set-file-modes ejc-repl-dir 493))
-  (defun find-library-name-overriding-ejc (lib-name)
-    "replace the library dir of ejc-sql"
-    (when (string= lib-name "ejc-sql") (format "%s/ejc-sql.el" ejc-repl-dir)))
+
   (advice-add 'find-library-name :before-until #'find-library-name-overriding-ejc)
 
   (let* ((user user-login-name)

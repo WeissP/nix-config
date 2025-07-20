@@ -11,6 +11,7 @@ let
   mkFont = pkgs.callPackage myLib.mkFont { };
 in
 rec {
+  metatube-server = pkgs.callPackage ./metatube-server.nix { };
   mpv-bookmarker = pkgs.callPackage ./mpv-bookmarker.nix { };
   mpv-thumbfast = pkgs.callPackage ./mpv-thumbfast.nix { };
   ammonite = pkgs.callPackage ./ammonite.nix { };

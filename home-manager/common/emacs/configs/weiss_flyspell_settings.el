@@ -1,3 +1,16 @@
+(defun weiss-flyspell-save-word ()
+  "From https://stackoverflow.com/questions/22107182/in-emacs-flyspell-mode-how-to-add-new-word-to-dictionary"
+  (interactive)
+  (let ((current-location (point))
+        (word (flyspell-get-word)))
+    (when (consp word)
+      (flyspell-do-correct 'save nil
+                           (car word)
+                           current-location
+                           (cadr word)
+                           (caddr word)
+                           current-location))))
+
 (with-eval-after-load 'flyspell
   (setq ispell-program-name "aspell")
   (setq ispell-extra-args '("--sug-mode=ultra" "--run-together" "--run-together-limit=16"))
@@ -10,17 +23,6 @@
   ;; ;; If it's nil, Emacs tries to automatically set up the dictionaries.
   ;; (when (boundp 'ispell-hunspell-dictionary-alist)
   ;;   (setq ispell-hunspell-dictionary-alist ispell-local-dictionary-alist))
-  (defun weiss-flyspell-save-word ()
-    "From https://stackoverflow.com/questions/22107182/in-emacs-flyspell-mode-how-to-add-new-word-to-dictionary"
-    (interactive)
-    (let ((current-location (point))
-          (word (flyspell-get-word)))
-      (when (consp word)
-        (flyspell-do-correct 'save nil
-                             (car word)
-                             current-location
-                             (cadr word)
-                             (caddr word)
-                             current-location)))))
+  )
 
 (provide 'weiss_flyspell_settings)

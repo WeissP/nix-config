@@ -4,7 +4,7 @@
   inputs = {
     nixpkgs.url = "github:nixos/nixpkgs/nixos-unstable";
     nixpkgs-master.url = "github:nixos/nixpkgs/master";
-    nixpkgs-lts.url = "github:nixos/nixpkgs/nixos-24.11";
+    nixpkgs-lts.url = "github:nixos/nixpkgs/nixos-25.05";
     darwin = {
       url = "github:lnl7/nix-darwin/master";
       inputs.nixpkgs.follows = "nixpkgs";
@@ -13,11 +13,15 @@
     stylix = {
       url = "github:danth/stylix";
       inputs.nixpkgs.follows = "nixpkgs";
-      inputs.home-manager.follows = "home-manager";
+      # inputs.home-manager.follows = "home-manager";
     };
     raspberry-pi-nix.url = "github:nix-community/raspberry-pi-nix?ref=v0.4.1";
     home-manager = {
       url = "github:nix-community/home-manager";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
+    niri = {
+      url = "github:sodiboo/niri-flake";
       inputs.nixpkgs.follows = "nixpkgs";
     };
     recentf = {
@@ -48,6 +52,7 @@
       flake = false;
     };
     weissXmonad.url = "github:WeissP/weiss-xmonad";
+    # weissXmonad.url = "/home/weiss/projects/weiss-xmonad";
     hledger-importer.url = "github:WeissP/hledger-importer";
     nixpkgs-firefox-darwin.url = "github:bandithedoge/nixpkgs-firefox-darwin";
     nuScripts = {
@@ -74,14 +79,17 @@
       url = "github:tninja/aider.el";
       flake = false;
     };
-    drbrain-nushell-config = {
-      url = "github:drbrain/nushell-config";
+    flyover = {
+      url = "github:konrad1977/flyover";
+      flake = false;
+    };
+    gptel-prompts = {
+      url = "github:jwiegley/gptel-prompts";
       flake = false;
     };
     nix-alien.url = "github:thiagokokada/nix-alien";
     nixos-installer-gen.url = "gitlab:GenericNerdyUsername/nixos-installer-gen";
   };
-
   outputs =
     {
       self,
@@ -136,11 +144,11 @@
               citar
               embark
               nuScripts
-              chatgpt-shell
               consult
               consult-omni
               aider-el
-              drbrain-nushell-config
+              flyover
+              gptel-prompts
               ;
           };
         };
@@ -179,154 +187,179 @@
 
       # NixOS configuration entrypoint
       # Available through 'nixos-rebuild --flake .#your-hostname'
-      nixosConfigurations = {
-        desktop = nixpkgs.lib.nixosSystem {
-          system = "x86_64-linux";
-          specialArgs = mkSpecialArgs linuxEnv {
-            usage = [
-              "personal"
-              "webman-server"
-              "daily"
-            ];
-            mainScreen = "DisplayPort-1";
-            mainDevice = "/dev/nvme0n1";
-            swapSize = "48GB";
-            configSession = "desktop";
-            location = "home";
-          };
-          modules = [
+      nixosConfigurations =
+        let
+          baseModules = [
+            disko.nixosModules.disko
+            inputs.nur.modules.nixos.default
+            ./home-manager
+          ];
+          desktopModules = baseModules ++ [
+            # inputs.niri.nixosModules.niri
+            ./disko/btrfs_system.nix
             nixosModules.picom
-            disko.nixosModules.disko
             inputs.stylix.nixosModules.stylix
-            ./nixos/desktop/hardware-configuration.nix
-            ./disko/btrfs_system.nix
-            # inputs.wired.homeManagerModules.default
             nixosModules.xmonadBin
-            inputs.nur.modules.nixos.default
-            ./nixos/desktop/configuration.nix
-            ./home-manager
-            { boot.binfmt.emulatedSystems = [ "aarch64-linux" ]; }
           ];
-        };
-
-        uni = nixpkgs.lib.nixosSystem {
-          system = "x86_64-linux";
-          specialArgs = mkSpecialArgs linuxEnv {
-            usage = [
-              "personal"
-              "webman-server"
-            ];
-            mainScreen = "HDMI-0";
-            mainDevice = "/dev/sda";
-            configSession = "uni";
-            location = "uni";
-          };
-          modules = [
-            disko.nixosModules.disko
-            ./nixos/uni/hardware-configuration.nix
-            ./disko/btrfs_system.nix
-            nixosModules.xmonadBin
-            inputs.nur.modules.nixos.default
-            ./nixos/uni/configuration.nix
-            ./home-manager
-          ];
-        };
-
-        mini = nixpkgs.lib.nixosSystem {
-          system = "x86_64-linux";
-          specialArgs = mkSpecialArgs linuxEnv {
-            configSession = "mini";
-            mainScreen = "HDMI-0";
-            location = "uni";
-            mainDevice = "/dev/nvme0n1";
-            usage = [
-              "personal"
-              "webman-server"
-              "daily"
-            ];
-          };
-          modules = [
-            nixosModules.picom
-            disko.nixosModules.disko
-            inputs.stylix.nixosModules.stylix
-            ./nixos/mini/hardware-configuration.nix
-            ./disko/btrfs_system.nix
-            nixosModules.xmonadBin
-            nixosModules.private-gpt
-            inputs.nur.modules.nixos.default
-            ./nixos/mini/configuration.nix
-            ./home-manager
-          ];
-        };
-
-        homeServer = nixpkgs.lib.nixosSystem {
-          system = "x86_64-linux";
-          specialArgs = mkSpecialArgs linuxEnv {
-            configSession = "homeServer";
-            location = "home";
-            mainDevice = "/dev/nvme0n1";
-            hdd4t = "/dev/disk/by-id/ata-WDC_WD40EFPX-68C6CN0_WD-WX92D25D7417";
-            hddMediaArray = {
-              hdd1 = "/dev/disk/by-id/ata-WDC_WD80EFPX-68C4ZN0_WD-RD255EDH";
-              hdd2 = "/dev/disk/by-id/ata-WDC_WD80EFPX-68C4ZN0_WD-RD2579RH";
+        in
+        {
+          desktop = nixpkgs.lib.nixosSystem {
+            system = "x86_64-linux";
+            specialArgs = mkSpecialArgs linuxEnv {
+              usage = [
+                "personal"
+                "webman-server"
+                "daily"
+              ];
+              mainScreen = "DisplayPort-1";
+              mainDevice = "/dev/nvme0n1";
+              swapSize = "48GB";
+              configSession = "desktop";
+              location = "home";
+              display = "Xorg";
             };
-            hddMediaParityArray = {
-              parity1 = "/dev/disk/by-id/ata-ST8000VN004-3CP101_WP01VWR3";
+            modules = desktopModules ++ [
+              ./nixos/desktop/hardware-configuration.nix
+              ./nixos/desktop/configuration.nix
+              # { boot.binfmt.emulatedSystems = [ "aarch64-linux" ]; }
+            ];
+          };
+
+          uni = nixpkgs.lib.nixosSystem {
+            system = "x86_64-linux";
+            specialArgs = mkSpecialArgs linuxEnv {
+              usage = [
+                "personal"
+                "webman-server"
+              ];
+              mainScreen = "HDMI-0";
+              mainDevice = "/dev/sda";
+              configSession = "uni";
+              location = "uni";
+              display = "Xorg";
             };
-            usage = [
-              "webman-server"
-              "local-server"
-              "aria-server"
+            modules = desktopModules ++ [
+              ./nixos/uni/hardware-configuration.nix
+              ./nixos/uni/configuration.nix
             ];
           };
-          modules = [
-            disko.nixosModules.disko
-            ./disko/home_server.nix
-            ./nixos/homeServer/hardware-configuration.nix
-            nixosModules.xmonadBin
-            inputs.nur.modules.nixos.default
-            ./nixos/homeServer/configuration.nix
-            ./home-manager
-          ];
-        };
 
-        vultr = nixpkgs.lib.nixosSystem {
-          system = "x86_64-linux";
-          specialArgs = mkSpecialArgs linuxEnv {
-            configSession = "Vultr";
-            location = "japan";
-            usage = [
-              "remote-server"
-              "webman-server"
-              "syncthing-relay-server"
+          mini = nixpkgs.lib.nixosSystem {
+            system = "x86_64-linux";
+            specialArgs = mkSpecialArgs linuxEnv {
+              configSession = "mini";
+              mainScreen = "HDMI-1";
+              location = "uni";
+              mainDevice = "/dev/nvme0n1";
+              usage = [
+                "personal"
+                "webman-server"
+                "daily"
+              ];
+              display = "Xorg";
+            };
+            modules = desktopModules ++ [
+              ./nixos/mini/hardware-configuration.nix
+              ./nixos/mini/configuration.nix
             ];
           };
-          modules = [
-            disko.nixosModules.disko
-            # ./nixos/vultr/exp.nix
-            ./nixos/vultr/configuration.nix
-            ./home-manager
-          ];
-        };
 
-        rpi = nixpkgs.lib.nixosSystem {
-          system = "aarch64-linux";
-          specialArgs = mkSpecialArgs linuxEnv {
-            configSession = "RaspberryPi";
-            location = "home";
-            usage = [
-              "local-server"
-              "webman-server"
-              "aria-server"
+          laptop = nixpkgs.lib.nixosSystem {
+            system = "x86_64-linux";
+            specialArgs = mkSpecialArgs linuxEnv {
+              configSession = "laptop";
+              usage = [
+                "personal"
+                "webman-server"
+                "daily"
+              ];
+              mainScreen = "DisplayPort-1";
+              mainDevice = "/dev/nvme0n1";
+              swapSize = "48GB";
+              location = "home";
+              display = "wayland";
+              # display = "Xorg";
+            };
+            modules = desktopModules ++ [
+              ./nixos/laptop/hardware-configuration.nix
+              ./nixos/laptop/configuration.nix
+              (
+                { modulesPath, ... }:
+                {
+                  imports = [ (modulesPath + "/virtualisation/qemu-vm.nix") ];
+                  virtualisation.qemu.options = [
+                    "-device virtio-vga-gl"
+                    "-display gtk,gl=on"
+                  ];
+                }
+              )
             ];
           };
-          modules = [
-            ./nixos/rpi/base.nix
-            ./nixos/rpi/configuration.nix
-            ./home-manager
-          ];
+
+          homeServer = nixpkgs.lib.nixosSystem {
+            system = "x86_64-linux";
+            specialArgs = mkSpecialArgs linuxEnv {
+              configSession = "homeServer";
+              location = "home";
+              mainDevice = "/dev/nvme0n1";
+              hdd4t = "/dev/disk/by-id/ata-WDC_WD40EFPX-68C6CN0_WD-WX92D25D7417";
+              hddMediaArray = {
+                hdd1 = "/dev/disk/by-id/ata-WDC_WD80EFPX-68C4ZN0_WD-RD255EDH";
+                hdd2 = "/dev/disk/by-id/ata-WDC_WD80EFPX-68C4ZN0_WD-RD2579RH";
+              };
+              hddMediaParityArray = {
+                parity1 = "/dev/disk/by-id/ata-ST8000VN004-3CP101_WP01VWR3";
+              };
+              usage = [
+                "webman-server"
+                "local-server"
+                "aria-server"
+              ];
+              display = "none";
+            };
+            modules = baseModules ++ [
+              ./disko/home_server.nix
+              ./nixos/homeServer/hardware-configuration.nix
+              ./nixos/homeServer/configuration.nix
+            ];
+          };
+
+          vultr = nixpkgs.lib.nixosSystem {
+            system = "x86_64-linux";
+            specialArgs = mkSpecialArgs linuxEnv {
+              configSession = "Vultr";
+              location = "japan";
+              usage = [
+                "remote-server"
+                "webman-server"
+                "syncthing-relay-server"
+              ];
+              display = "none";
+            };
+            modules = baseModules ++ [
+              ./nixos/vultr/configuration.nix
+            ];
+          };
+
+          rpi = nixpkgs.lib.nixosSystem {
+            system = "aarch64-linux";
+            specialArgs = mkSpecialArgs linuxEnv {
+              configSession = "RaspberryPi";
+              location = "home";
+              usage = [
+                "local-server"
+                "webman-server"
+                "aria-server"
+              ];
+              display = "none";
+            };
+            modules = [
+              ./nixos/rpi/base.nix
+              ./nixos/rpi/configuration.nix
+              ./home-manager
+            ];
+          };
         };
-      };
 
       images = {
         rpi = nixosConfigurations.rpi.config.system.build.sdImage;
@@ -354,6 +387,11 @@
               ./nixos/installer/installer.nix
             ];
           }).config.system.build.isoImage;
+      };
+
+      vm = {
+        laptop = nixosConfigurations.laptop.config.system.build.vm;
+        desktop = nixosConfigurations.desktop.config.system.build.vm;
       };
 
       darwinConfigurations = {

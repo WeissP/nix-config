@@ -5,6 +5,34 @@
   (interactive)
   (concat weiss/org-file-path path))
 
+(defun weiss-org-id-complete-link (&optional arg)
+  "From Stackoverflow. Create an id: link using completion"
+  (concat "id:" (org-id-get-with-outline-path-completion)))
+
+(defun weiss-org-preview-or-latex-quick-insert ()
+  "DOCSTRING"
+  (interactive)
+  (if (and
+       (not current-prefix-arg)
+       (weiss-region-p)
+       (or
+        (eq 'latex-fragment (org-element-type (org-element-context (org-element-at-point))))
+        (eq 'latex-environment (org-element-type (org-element-context (org-element-at-point))))
+        ))
+      (call-interactively 'quick-insert-insert-latex)
+    (call-interactively 'weiss-org-preview-latex-and-image)
+    )
+  )
+
+(defun weiss-org-insert-link ()
+  "DOCSTRING"
+  (interactive)
+  (if (null org-stored-links)
+      (call-interactively 'org-insert-link)
+    (call-interactively 'org-insert-last-stored-link)
+    )
+  )
+
 (with-eval-after-load 'org
   (setq
    org-imenu-depth 10
@@ -25,27 +53,9 @@
    org-return-follows-link t
    )
 
-  (defun weiss-org-id-complete-link (&optional arg)
-    "From Stackoverflow. Create an id: link using completion"
-    (concat "id:" (org-id-get-with-outline-path-completion)))
   (org-link-set-parameters "id" :complete 'weiss-org-id-complete-link)
   ;; (org-link-set-parameters "id" :insert-description "above")
 
-  (defun weiss-org-preview-or-latex-quick-insert ()
-    "DOCSTRING"
-    (interactive)
-    (if (and
-         (not current-prefix-arg)
-         (weiss-region-p)
-         (or
-          (eq 'latex-fragment (org-element-type (org-element-context (org-element-at-point))))
-          (eq 'latex-environment (org-element-type (org-element-context (org-element-at-point))))
-          ))
-        (call-interactively 'quick-insert-insert-latex)
-      (call-interactively 'weiss-org-preview-latex-and-image)
-      )
-    )
-  
   ;; export snippet translations
   (add-to-list 'org-export-snippet-translation-alist
                '("b" . "beamer"))

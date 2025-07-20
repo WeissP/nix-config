@@ -44,6 +44,7 @@
       ("ltxalg" "#+CAPTION:▮\n#+NAME: alg:\n\\begin{algorithm}\n\\SetKw{bk}{break}\n\\SetKw{ct}{continue}\n\\SetKwFunction{len}{len} \n\\SetKwInOut{INPUT}{Input}\n\\SetKwInOut{OUTPUT}{Output}\n\\INPUT{}\n\\OUTPUT{}\n\\BlankLine\n\n\Return \\;\n\\end{algorithm}\n" weiss--ahf-indent)    
       ("orgimg" "#+ATTR_ORG: :width 600" weiss--ahf-indent)    
       ("cc" "$\\color{code}\\texttt{▮}$" weiss--ahf-indent)    
+      ("vs" "\\vspace{3▮mm}" weiss--ahf)    
 ;;;;; ref
       ("rfig" "#+ATTR_LATEX: :width 8cm\n#+CAPTION:▮\n#+NAME: fig:" weiss--ahf)
       ("rl" "#+CAPTION:▮\n#+NAME:" weiss--ahf)

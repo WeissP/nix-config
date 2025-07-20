@@ -108,7 +108,7 @@
             '';
             gc = {
               dates = "daily";
-              options = "--delete-older-than 4d";
+              options = "--delete-older-than 14d";
             };
           })
           (ifServer {
@@ -120,19 +120,17 @@
         ];
 
         nixpkgs = {
-          overlays = [
-            outputs.overlays.additions
-            outputs.overlays.modifications
-            outputs.overlays.lts
-            outputs.overlays.pinnedUnstables
-            (import inputs.emacs-overlay)
-            inputs.wired-notify.overlays.default
-            # (import (
-            #   builtins.fetchTarball {
-            #     url = "https://github.com/nix-community/emacs-overlay/archive/87e8ffccb53aa67dfaab7bd4fd9f27b543e73cec.tar.gz";
-            #   }
-            # ))
+          overlays = with outputs.overlays; [
+            niri
+            additions
+            modifications
+            lts
+            yt-dlp-pkgs
+            pinnedUnstables
+            wired-notify
+            emacs
           ];
+
           config = {
             allowUnfree = true;
           };

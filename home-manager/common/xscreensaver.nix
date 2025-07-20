@@ -8,10 +8,8 @@
 }:
 (myEnv.ifLinux {
   home.file."${myEnv.homeDir}/.xscreensaver".text = ''
-    timeout:	0:20:00
-    lock:		${if (myEnv.location != "home") then "True" else "False"}
-    lockTimeout:	0:00:01
-    passwdTimeout:	0:00:30
+    timeout:	0:30:00
+    lock:		False
     visualID:	default 
     installColormap:    True
     verbose:	False

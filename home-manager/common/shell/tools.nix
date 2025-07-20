@@ -18,6 +18,9 @@ with myEnv;
       settings = {
         search_mode = "fulltext";
         auto_sync = true;
+        history_filter = [ "ai-config-upsert-provider" ];
+        store_failed = false;
+        score_exits = false;
       };
     };
     carapace = {

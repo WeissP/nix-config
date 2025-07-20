@@ -3,6 +3,7 @@
 ;; let msmtp know which address needs to be used
 (setq mail-specify-envelope-from t)
 (setq mail-envelope-from 'header)
+(setq send-mail-function 'sendmail-send-it)
 (setq message-auto-save-directory "~/Documents/mails")
 
 (provide 'weiss_email_settings)

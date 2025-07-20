@@ -12,26 +12,24 @@
    )
   )
 
-(with-eval-after-load 'org
-  (defun weiss-org-refile (arg)
-    "normally only refile current file, refile all files in org-refile-targets with current-prefix-arg"
-    (interactive "p")
-    (let ((current-prefix-arg))
-      (if (eq arg 1)
-          (weiss-org-refile-current-file)    
-        (call-interactively #'org-refile)
-        ) 
-      )
-    )
-
-  (defun weiss-org-refile-current-file ()
-    "only refile current file"
-    (interactive)
-    (let ((org-refile-targets `((,buffer-file-name :maxlevel . 4)))
-          (org-refile-use-outline-path nil))
-      (message "targets: %s" org-refile-targets)
+(defun weiss-org-refile (arg)
+  "normally only refile current file, refile all files in org-refile-targets with current-prefix-arg"
+  (interactive "p")
+  (let ((current-prefix-arg))
+    (if (eq arg 1)
+        (weiss-org-refile-current-file)    
       (call-interactively #'org-refile)
-      )
+      ) 
+    )
+  )
+
+(defun weiss-org-refile-current-file ()
+  "only refile current file"
+  (interactive)
+  (let ((org-refile-targets `((,buffer-file-name :maxlevel . 4)))
+        (org-refile-use-outline-path nil))
+    (message "targets: %s" org-refile-targets)
+    (call-interactively #'org-refile)
     )
   )
 

@@ -1,10 +1,10 @@
-(with-eval-after-load 'ivy-prescient
-  (defun ivy-prescient-non-fuzzy (str)
-    "Generate an Ivy-formatted non-fuzzy regexp list for the given STR.
+(defun ivy-prescient-non-fuzzy (str)
+  "Generate an Ivy-formatted non-fuzzy regexp list for the given STR.
 This is for use in `ivy-re-builders-alist'."
-    (let ((prescient-filter-method '(literal regexp)))
-      (ivy-prescient-re-builder str)))
+  (let ((prescient-filter-method '(literal regexp)))
+    (ivy-prescient-re-builder str)))
 
+(with-eval-after-load 'ivy-prescient
   (setq ivy-prescient-retain-classic-highlighting t
         ivy-re-builders-alist
         '((counsel-ag . ivy-prescient-non-fuzzy)

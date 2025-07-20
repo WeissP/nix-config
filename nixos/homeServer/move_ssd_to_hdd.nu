@@ -28,21 +28,21 @@ export def main [] {
     logfile info $"Available space on SSD ($available) is less than ($MIN_AVAILABLE_SPACE)."
 
     logfile debug $"Initiating pre-transfer SnapRAID touch and sync to ensure parity before moving files."
-    snapraid touch 
-    snapraid sync
+    # snapraid touch 
+    # snapraid sync
 
     notify home-server-maintenance $"Available space on SSD ($available) is less than ($MIN_AVAILABLE_SPACE), rsync files to HDD array..." -p 3
 
     logfile debug $"rsync: copying NFO files from ($SSD_NFO_DIR) to ($HDD_NFO_DIR)."
  
-    rsync -aqHAXWS --preallocate --checksum --log-file=$"($log_file)" $"($SSD_NFO_DIR)/" $"($HDD_NFO_DIR)/"
+    rsync -aqHAXWS --preallocate --checksum $"($SSD_NFO_DIR)/" $"($HDD_NFO_DIR)/"  o+e> $log_file
 
     ls -f ...(glob ([$SSD_NFO_DIR, "**", "*"] | path join))
     | where { $in.type == file and ($in.name | path parse).extension != "nfo" } 
     | get name | uniq | each { rm $in }
-
-    logfile debug $"rsync: copying all non-NFO files from ($SSD_NFO_DIR) to ($HDD_NFO_DIR)."
-    rsync -aqHAXWS --preallocate --checksum --remove-source-files --exclude='.*' --exclude='lost+found' --exclude=$"($SSD_NFO_DIR)" --log-file=$"($log_file)" $"($env.SSD_MOUNT_POINT)/" "($env.HDD_MOUNT_POINT)/"
+ 
+    logfile debug $"rsync: copying all non-NFO files from ($env.SSD_MOUNT_POINT)/ to ($env.HDD_MOUNT_POINT)/."
+    rsync -aqHAXWS --preallocate --checksum --remove-source-files --exclude='.*' --exclude='lost+found' --exclude=$"($SSD_NFO_DIR)" $"($env.SSD_MOUNT_POINT)/" $"($env.HDD_MOUNT_POINT)/" o+e> $log_file
     logfile info "Rsync process completed."
 
     logfile debug $"All files transferred to HDD. Performing final SnapRAID touch and sync."

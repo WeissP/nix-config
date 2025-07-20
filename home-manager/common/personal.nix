@@ -33,11 +33,19 @@
     ++ (
       if myEnv.arch == "linux" then
         [
-          ./trayer.nix
           ./fusuma.nix
           ./flameshot.nix
-          ./xscreensaver.nix
           ./darkman.nix
+          ./jellyfin-mpv-shim.nix
+          ./autorandr.nix
+        ]
+      else
+        [ ]
+    )
+    ++ (
+      if myEnv.location == "uni" then
+        [
+          ./ytdl-sub.nix
         ]
       else
         [ ]
@@ -49,9 +57,24 @@
           ./chromium.nix
           ./ariang.nix
           ./wired.nix
+          ./prompts.nix
         ]
       else
         [ ]
+    )
+    ++ (
+      if (myEnv.display == "wayland") then
+        [
+          ./fuzzel.nix
+          ./niri.nix
+        ]
+      else if (myEnv.display == "Xorg") then
+        [
+          ./trayer.nix
+          ./xscreensaver.nix
+        ]
+      else
+        lib.asserts.assertMsg (myEnv.display == "none") "Unknow display" [ ]
     );
 
   config =
@@ -73,11 +96,12 @@
                 exfat
                 git-crypt
                 bibtex-tidy
+                prettier
                 wget
                 alacritty
                 unrar
                 p7zip
-                yt-dlp
+                yt-dlp-with-plugins
                 pueue
                 zoom-us
                 imagemagick
@@ -172,94 +196,79 @@
                 x11.enable = true;
                 gtk.enable = true;
               };
-              packages =
-                with pkgs;
-                [
-                  (texlive.combine {
-                    inherit (texlive) scheme-full;
-                    pkgFilter = pkg: pkg.tlType == "run" || pkg.tlType == "bin" || pkg.pname == "cm-super";
-                  })
-                  masterpdfeditor
-                  kdePackages.okular
-                  devenv
-                  bluetui
-                  pdf4qt
-                  ffmpeg
-                  # nur.repos.xddxdd.wechat-uos-bin
-                  qemu
-                  google-java-format
-                  nix-alien
-                  vdhcoapp
-                  taplo
-                  sqlite
-                  zotero
-                  lts.calibre
-                  jetbrains.idea-community-bin
-                  jellyfin-mpv-shim
-                  qrencode
-                  ripgrep-all
-                  black
-                  (python3.withPackages (
-                    ps: with ps; [
-                      python-lsp-server
-                      matplotlib
-                      pygments
-                      seaborn
-                    ]
-                  ))
-                  tree
-                  xfce.xfconf
-                  ssh-copy-id
-                  zenith
-                  nil
-                  nixd
-                  docker-compose
-                  dua
-                  scala-cli
-                  # jdk
-                  coreutils
-                  pandoc
-                  xmlstarlet
-                  lm_sensors
-                  nodejs
-                  feh
-                  lshw
-                  jetbrains.idea-community-bin
-                  apfs-fuse
-                  graphviz
-                  libnotify
-                  libreoffice
-                  librsvg
-                  lsof
-                  mattermost-desktop
-                  nodejs
-                  ocamlPackages.cpdf
-                  p3x-onenote
-                  pdfpc
-                  poppler_utils
-                  qq
-                  simplescreenrecorder
-                  tlaplus
-                  dbeaver-bin
-                  wkhtmltopdf-bin
-                  wmctrl
-                  xautomation
-                  xorg.setxkbmap
-                  xournalpp
-                  # microsoft-edge
-                  # mathpix-snipping-tool
-                  # pinnedUnstables."2023-09-27".webkitgtk
-                ]
-                ++ (
-                  if (builtins.elem "daily" myEnv.usage) then
-                    [
-                      mkvtoolnix
-                      steam
-                      jellyfin-media-player
-                    ]
-                  else
-                    [ ]
-                );
+              packages = with pkgs; [
+                (texlive.combine {
+                  inherit (texlive) scheme-full;
+                  pkgFilter = pkg: pkg.tlType == "run" || pkg.tlType == "bin" || pkg.pname == "cm-super";
+                })
+                yutto
+                devenv
+                bluetui
+                ffmpeg
+                # nur.repos.xddxdd.wechat-uos-bin
+                qemu
+                google-java-format
+                nix-alien
+                taplo
+                sqlite
+                zotero
+                calibre
+                jetbrains.idea-community-bin
+                jellyfin-mpv-shim
+                qrencode
+                ripgrep-all
+                black
+                (python3.withPackages (
+                  ps: with ps; [
+                    python-lsp-server
+                    matplotlib
+                    pygments
+                    seaborn
+                  ]
+                ))
+                tree
+                xfce.xfconf
+                ssh-copy-id
+                zenith
+                nil
+                nixd
+                docker-compose
+                dua
+                scala-cli
+                # jdk
+                coreutils
+                pandoc
+                xmlstarlet
+                lm_sensors
+                nodejs
+                feh
+                lshw
+                jetbrains.idea-community-bin
+                apfs-fuse
+                graphviz
+                libnotify
+                libreoffice
+                librsvg
+                lsof
+                mattermost-desktop
+                nodejs
+                ocamlPackages.cpdf
+                p3x-onenote
+                pdfpc
+                poppler_utils
+                qq
+                simplescreenrecorder
+                tlaplus
+                dbeaver-bin
+                wkhtmltopdf-bin
+                wmctrl
+                xautomation
+                xorg.setxkbmap
+                xournalpp
+                # microsoft-edge
+                # mathpix-snipping-tool
+                # pinnedUnstables."2023-09-27".webkitgtk
+              ];
               file = {
                 "${configDir}/xmobar" = {
                   source = ./config_files/xmobar;
@@ -283,6 +292,28 @@
                 };
               };
             })
+            (ifDisplay {
+              packages = with pkgs; [
+                syncthingtray
+              ];
+            })
+            (ifUsage "daily" {
+              sessionPath = [
+                "/home/${username}/Documents/technical_assistant/dbis-exerciser/result/bin"
+              ];
+              packages = with pkgs; [
+                inkscape
+                llm
+                mkvtoolnix
+                steam
+                jellyfin-media-player
+                ausweisapp
+                masterpdfeditor
+                kdePackages.okular
+                pdf4qt
+                vdhcoapp
+              ];
+            })
           ];
         programs = {
           ssh = {
@@ -297,11 +328,6 @@
                 user = username;
               };
             };
-          };
-          direnv = {
-            enable = true;
-            nix-direnv.enable = true;
-            enableZshIntegration = true;
           };
         };
       }
@@ -361,11 +387,19 @@
         i18n.inputMethod = {
           enable = true;
           type = "fcitx5";
-          fcitx5.addons = with pkgs; [
-            fcitx5-rime
-            fcitx5-configtool
-            fcitx5-chinese-addons
-          ];
+          fcitx5 =
+            let
+              p = pkgs.pinnedUnstables."2025-04-20";
+            in
+            {
+              fcitx5-with-addons = p.kdePackages.fcitx5-with-addons;
+              addons = with p; [
+                fcitx5-rime
+                fcitx5-gtk
+                fcitx5-configtool
+                fcitx5-chinese-addons
+              ];
+            };
         };
 
         programs = {
@@ -377,7 +411,6 @@
         services = {
           pueue.enable = true;
           pasystray.enable = true;
-          autorandr.enable = true;
           kdeconnect.enable = true;
           dunst.enable = true;
           blueman-applet.enable = false;

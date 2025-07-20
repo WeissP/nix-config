@@ -17,9 +17,24 @@
        :new-line t
        )
       ( 
+       :name "Latex Export" 
+       :pair ("#+begin_export latex" . "#+end_export")
+       :new-line t
+       )
+      ( 
        :name "Beamer visible" 
        :pair ("#+Beamer: \\visible<2->{" . "#+Beamer: }")
        :new-line t
+       )
+      ( 
+       :name "Beamer items overlay" 
+       :pair ("#+ATTR_BEAMER: :overlay <+" . "->")
+       :new-line nil
+       )
+      ( 
+       :name "Org Latex table align" 
+       :pair ("#+ATTR_LATEX: :align |r|p{ " . "cm}|")
+       :new-line nil
        )
       ( 
        :name "Beamer only" 

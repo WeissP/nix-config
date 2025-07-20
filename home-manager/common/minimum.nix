@@ -30,6 +30,11 @@ with myEnv;
       };
     };
     htop.enable = true;
+    direnv = {
+      enable = true;
+      nix-direnv.enable = true;
+      enableZshIntegration = true;
+    };
   };
 
   # Nicely reload system units when changing configs

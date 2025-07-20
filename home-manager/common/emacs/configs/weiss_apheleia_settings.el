@@ -1,28 +1,29 @@
 ;; (apheleia-global-mode)
 
 (setq apheleia-mode-lighter nil)
-(with-eval-after-load 'apheleia  
-  (defun weiss-format-buffer-maybe (&rest args)
-    "DOCSTRING"
-    (interactive)
-    (when (called-interactively-p 'any)      
-      (when flymake-mode (flymake-start))
-      (when-let (formatters (apheleia--get-formatters))
-        (apheleia-format-buffer
-         formatters
-         (lambda ()
-           (save-buffer)
-           (when flymake-mode
-             (flymake-start)
-             (run-with-timer 2 nil #'flymake-start)
-             (run-with-timer 4 nil #'flymake-start)
-             )                                             
-           ))
-        (when flymake-mode (run-with-timer 3 nil #'flymake-start))
-        )
+(defun weiss-format-buffer-maybe (&rest args)
+  "DOCSTRING"
+  (interactive)
+  (when (called-interactively-p 'any)      
+    (when (featurep 'flyover) (flyover--clear-overlays))
+    (when flymake-mode (flymake-start))
+    (when-let (formatters (apheleia--get-formatters))
+      (apheleia-format-buffer
+       formatters
+       (lambda ()
+         (save-buffer)
+         (when flymake-mode
+           (flymake-start)
+           (run-with-timer 2 nil #'flymake-start)
+           (run-with-timer 4 nil #'flymake-start)
+           (run-with-timer 5 nil #'(lambda () (when (featurep 'flyover) (flyover-mode 1))))
+           )                                             
+         ))
+      (when flymake-mode (run-with-timer 3 nil #'flymake-start))
       )
     )
-
+  )
+(with-eval-after-load 'apheleia
   (advice-add 'save-buffer :after #'weiss-format-buffer-maybe)
 
   ;; (setq flymake-mode-hook nil)

@@ -30,7 +30,7 @@ export def --env set-debug-env [] {
 export def main [task_id: string, num_files: int, source_file?: string] {
    logfile set-level $"($env.log_level)"
    logfile debug $"Script invoked by task_id: ($task_id), num_files: ($num_files), source_file: ($source_file)" 
-   if ($num_files <= 0 or ($source_file | is-empty) or not ($source_file | path exists)) { return }
+   if ($num_files <= 0 or ($source_file | is-empty) or not ($source_file | path exists) or not ($source_file | str starts-with $env.DOWNLOAD)) { return }
    let handled = handle_input_file $source_file
    logfile debug $"Regarding input ($source_file), sync ($handled.source) to ($handled.dest)" 
    try {   
@@ -124,7 +124,7 @@ export def handle_input_file [input_file: string] {
 # Moves qualifying video files (matching $video_ext and size > $min_video_move_size)
 # to $env.VIDEO_TARGET_DIR. If videos are moved from a subdirectory within $env.COMPLETE,
 # the remaining contents of that subdirectory are trashed.
-def move_videos [source_path: string] {
+export def move_videos [source_path: string] {
     if not ($source_path | path exists) {
         logfile error $"Source path '($source_path)' does not exist."
         return
@@ -137,26 +137,34 @@ def move_videos [source_path: string] {
       []
       }
     } else {
-      let videos = $video_ext | str join ","
-      ls -f ...(glob $"($source_path)/**/*.{($videos)}") | where size > $min_video_move_size | get name
+      cd $source_path
+      ls -f **/*
+        | where size > $min_video_move_size
+        | get name
+        | where {|f| ($f | path parse).extension in $video_ext}
     }
 
+    cd
     if ($videos | is-empty) {
         logfile debug "No video files were found to move. No items will be trashed."
     } else {
-        mkdir $env.VIDEO_TARGET_DIR
         logfile info $"Processing download from '($source_path)' to '($env.VIDEO_TARGET_DIR)'"
         logfile info $"moving videos: ($videos)"
         $videos | each { |video_file|
-           logfile debug $"moving video: ($video_file)"        
-           rsync -aq --backup --suffix=_rsync_backup --remove-source-files --log-file=$"($env.LOG_FILE)" $video_file $env.VIDEO_TARGET_DIR
+           let dir = [$env.VIDEO_TARGET_DIR, ($video_file | path parse).stem] | path join
+           mkdir $dir 
+           logfile debug $"moving video ($video_file) to ($dir)"        
+           try {
+             rsync -aq --backup --suffix=_rsync_backup --remove-source-files --log-file=$"($env.LOG_FILE)" $video_file $dir
+           } catch { |err| 
+             if ($err.msg != "I/O error") {
+               logfile error $"Failed to move videos: ($err.msg)."    
+               return $err.rendered      
+             }
+           }
            logfile debug $"video ($video_file) moved"        
         }
         logfile info $"All Videos moved"
         trash $source_path 
     }
-}
-
-export def on_complete [] {
-    
 }

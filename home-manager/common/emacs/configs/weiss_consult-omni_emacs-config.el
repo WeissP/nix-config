@@ -1,36 +1,37 @@
-(with-eval-after-load 'consult-omni-sources
-  (defun consult-omni--emacs-config-fetch-results (input &rest args)
-    (orderless-filter input (directory-files weiss/configs-dir t "weiss\_.*el"))
-    )
+(defun consult-omni--emacs-config-fetch-results (input &rest args)
+  (orderless-filter input (directory-files weiss/configs-dir t "weiss\_.*el"))
+  )
 
+(defun consult-omni--emacs-config-transform (candidates &optional query)
+  (mapcar
+   (lambda (item)
+     (put-text-property 0 consult-omni--emacs-config-invisible-length 'invisible t item)
+     (propertize
+      item
+      :source "Emacs Config"
+      :title item
+      :url nil
+      :query item
+      :search-url nil
+      )         
+     )
+   candidates)
+  )
+
+(defun weiss-find-emacs-config (cand)
+  "DOCSTRING"
+  (consult--file-action cand)
+  )
+
+(with-eval-after-load 'consult-omni-sources
   (setq
    consult-omni--emacs-config-invisible-length (+ (length weiss/configs-dir) 6)
    )
 
-  (defun consult-omni--emacs-config-transform (candidates &optional query)
-    (mapcar
-     (lambda (item)
-       (put-text-property 0 consult-omni--emacs-config-invisible-length 'invisible t item)
-       (propertize
-        item
-        :source "Emacs Config"
-        :title item
-        :url nil
-        :query item
-        :search-url nil
-        )         
-       )
-     candidates)
-    )
-
-  (defun weiss-find-emacs-config (cand)
-    "DOCSTRING"
-    (consult--file-action cand)
-    )
-  
   (consult-omni-define-source
    "Emacs Config" 
-   :min-input 2
+   :min-input 4 
+   :valid-input (lambda (input) (when (s-contains? " " input) input))
    :category 'emacs-config
    :narrow-char ?e
    :on-callback #'weiss-find-emacs-config

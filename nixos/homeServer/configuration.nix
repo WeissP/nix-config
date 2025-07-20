@@ -10,6 +10,9 @@
     ../common/syncthing.nix
     ../common/sing-box.nix
     ../common/navidrome.nix
+    ../common/karakeep.nix
+    ../common/notesServer.nix
+    # ../common/anki-sync-server.nix # unable to use it on IOS without purchasing the APP
     ./mergerfs.nix
     ./snapraid.nix
   ];
@@ -21,7 +24,7 @@
 
   services = {
     home-assistant = {
-      enable = true;
+      enable = false;
       extraComponents = [
         "esphome"
         "met"
@@ -70,7 +73,21 @@
     };
   };
 
-  virtualisation.docker.enable = true;
+  virtualisation = {
+    docker.enable = true;
+
+    oci-containers = {
+      backend = "docker";
+      containers = {
+        bgutil-provider = {
+          image = "brainicism/bgutil-ytdlp-pot-provider";
+          ports = [ "4416:4416" ];
+          extraOptions = [ "--init" ];
+        };
+      };
+    };
+
+  };
   security.sudo.extraRules = [
     {
       users = [ "weiss" ];
@@ -97,28 +114,6 @@
         ];
       }
     ];
-    # instances.local_backup =
-    #   let
-    #     preserve_hour_of_day = "4";
-    #     preserve_day_of_week = "sunday";
-    #     snapshot_dir_root = "/btrbk_snapshots";
-    #   in
-    #   {
-    #     onCalendar = "*-*-* 12:30:00";
-    #     settings = {
-    #       inherit preserve_hour_of_day preserve_day_of_week;
-
-    #       snapshot_dir = snapshot_dir_root + "/all";
-    #       snapshot_create = "no";
-
-    #       target = "/mnt/backup/btrbk";
-    #       target_preserve_min = "no";
-    #       target_preserve = "20d";
-    #       subvolume = {
-    #         "/" = { };
-    #       };
-    #     };
-    #   };
   };
 
   system.stateVersion = "25.05";

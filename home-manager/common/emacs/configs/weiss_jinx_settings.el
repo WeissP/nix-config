@@ -1,3 +1,12 @@
+(defun weiss-jinx--exclude-p (start)
+  "DOCSTRING"
+  (and
+   (eq major-mode 'org-mode)
+   (member
+    (org-element-type (org-element-context (org-element-at-point start)))
+    '(latex-fragment latex-environment))
+   ))
+
 (with-eval-after-load 'jinx
   (dolist (hook '(text-mode-hook conf-mode-hook))
     (add-hook hook #'jinx-mode))
@@ -17,14 +26,6 @@
     )
 
   (with-eval-after-load 'org
-    (defun weiss-jinx--exclude-p (start)
-      "DOCSTRING"
-      (and
-       (eq major-mode 'org-mode)
-       (member
-        (org-element-type (org-element-context (org-element-at-point start)))
-        '(latex-fragment latex-environment))
-       ))
     (add-to-list 'jinx--predicates #'weiss-jinx--exclude-p)
     )
   )

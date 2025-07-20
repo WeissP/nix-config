@@ -7,7 +7,7 @@
   imports = [
     ../common/minimum.nix
     ../common/zsh.nix
-    ../common/syncthing.nix 
+    ../common/syncthing.nix
     ../common/sing-box.nix
   ];
 
@@ -16,6 +16,10 @@
   boot.loader.efi.canTouchEfiVariables = true;
 
   services = {
+    # disable built-in bluetooth adapter
+    udev.extraRules = ''
+      SUBSYSTEM=="usb", ATTRS{idVendor}=="8087", ATTRS{idProduct}=="0032", ATTR{authorized}="0"
+    '';
     xserver = {
       dpi = 120;
     };

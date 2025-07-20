@@ -354,13 +354,13 @@ Inspired by `org-combine-plists'."
 (defun weiss-start-process (proc-name command)
   "DOCSTRING"
   (interactive)
-  ;; (message "%s" command)
-  (let* ((name (concat "process:" proc-name))
-         (b (generate-new-buffer name))
-         ;; (default-directory "/")
+  (message "command: %s" command)
+  (let* ((b (get-buffer-create proc-name))
          )
     (start-process-shell-command proc-name b command)
-    (display-buffer b))
+    (switch-to-buffer-other-window b)
+    (special-mode)
+    )
   )
 
 (defun weiss-eval-last-sexp-this-line()

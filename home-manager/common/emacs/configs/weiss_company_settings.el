@@ -1,3 +1,16 @@
+(defun weiss-company-select-next-or-toggle-main-frame ()
+  "DOCSTRING"
+  (interactive)
+  (if wks-vanilla-mode
+      (company-complete-common-or-cycle 1)
+    (weiss-switch-to-otherside-top-frame)))
+(defun weiss-company-select-previous-other-window ()
+  "DOCSTRING"
+  (interactive)
+  (if wks-vanilla-mode
+      (company-select-previous)
+    (weiss-switch-buffer-or-otherside-frame-without-top)))
+
 (dolist (x
          '(prog-mode-hook conf-mode-hook eshell-mode-hook org-mode-hook))
   (add-hook x #'company-mode))
@@ -44,7 +57,7 @@
                   (company-dabbrev-code company-gtags company-etags company-keywords)
                   company-oddmuse company-dabbrev))
 
-(setq-mode-local
+  (setq-mode-local
    markdown-mode
    company-backends
    '(company-bbdb company-semantic company-cmake company-clang company-files
@@ -67,19 +80,6 @@
      company-dabbrev company-bbdb company-oddmuse company-eclim company-semantic company-xcode company-cmake company-capf company-files
      (company-dabbrev-code company-gtags company-etags company-keywords))
    )
-
-  (defun weiss-company-select-next-or-toggle-main-frame ()
-    "DOCSTRING"
-    (interactive)
-    (if wks-vanilla-mode
-        (company-complete-common-or-cycle 1)
-      (weiss-switch-to-otherside-top-frame)))
-  (defun weiss-company-select-previous-other-window ()
-    "DOCSTRING"
-    (interactive)
-    (if wks-vanilla-mode
-        (company-select-previous)
-      (weiss-switch-buffer-or-otherside-frame-without-top)))
   )
 
 (provide 'weiss_company_settings)

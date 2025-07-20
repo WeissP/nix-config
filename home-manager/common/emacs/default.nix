@@ -105,6 +105,7 @@ in
         embark = [ "embark-act" ];
         org-ref = [ "org-ref-get-labels" ];
         transient = [ "transient-define-group" ];
+        flyover = [ "flyover-mode" ];
       };
       eagerLoad = [
         "direnv"
@@ -255,6 +256,7 @@ in
             ]
           ];
           lang = [
+            "jinja2-mode"
             "ron-mode"
             "git-modes"
             "protobuf-mode"
@@ -345,6 +347,7 @@ in
             # "dogears"
             # "edit-server"
             # "org-ai"
+            "annotate"
             "uniline"
             [
               "embark"
@@ -388,6 +391,7 @@ in
             # "mind-wave"
             [
               "gptel"
+              "gptel-prompts"
               "aider"
               "chatgpt-shell"
               "ob-chatgpt-shell"
@@ -415,6 +419,7 @@ in
             # [ "flyspell" "wucuo" "flyspell-correct" ]
             "jinx"
             "flymake"
+            "flyover" # it supports flymake as well
             "flymake-kondor"
             "flymake-json"
           ];

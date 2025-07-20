@@ -11,7 +11,6 @@ with myEnv;
     ../common/minimum.nix
     ../common/sing-box.nix
     ../common/gpu.nix
-    ../common/navidrome.nix
   ];
 
   # Use the systemd-boot EFI boot loader.
@@ -19,7 +18,7 @@ with myEnv;
   boot.loader.efi.canTouchEfiVariables = true;
 
   programs.steam.protontricks.enable = true;
-
+  virtualisation.docker.enable = true;
   services = {
     openssh = {
       enable = true;

@@ -1,5 +1,3 @@
-(require 'lspce)
-
 (with-eval-after-load 'lspce
   (lspce-set-log-file "/tmp/lspce.log")
   

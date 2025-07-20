@@ -15,7 +15,7 @@ with myEnv;
     flake = "${homeDir}/nix-config";
     clean = {
       enable = true;
-      extraArgs = if (configSession == "desktop") then "--keep-since 4d" else "--keep-since 1d";
+      extraArgs = if (configSession == "desktop") then "--keep-since 14d" else "--keep-since 1d";
     };
   };
   nix.gc.automatic = lib.mkForce false;

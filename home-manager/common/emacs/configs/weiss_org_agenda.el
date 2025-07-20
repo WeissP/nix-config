@@ -1,3 +1,7 @@
+(defun weiss-custom-daily-agenda()
+  (interactive)
+  (org-agenda nil "c"))
+
 (with-eval-after-load 'org
   (setq
    org-agenda-files '("~/Documents/notes/misc/notes/20240428T091509--time-tracking.org")
@@ -18,9 +22,6 @@
    org-agenda-compact-blocks t
    )
 
-  (defun weiss-custom-daily-agenda()
-    (interactive)
-    (org-agenda nil "c"))
   ;; (getenv "PATH")
   )
 

@@ -1,11 +1,4 @@
-(with-eval-after-load 'org
-  (setq
-   org-tag-alist '(("noexport" . ?n))
-   org-tags-column -80
-   org-fast-tag-selection-single-key t
-   )
-
-  (defun weiss-set-org-tags (&optional arg)
+(defun weiss-set-org-tags (&optional arg)
     "set tags with counsel, using org-use-fast-tag-selection if `arg' =4, align tags if `arg' = 16"
     (interactive "P")
     ;; deactivate mark for org-set-tags-command
@@ -18,6 +11,13 @@
            ))
       )  
     )
+
+(with-eval-after-load 'org
+  (setq
+   org-tag-alist '(("noexport" . ?n))
+   org-tags-column -80
+   org-fast-tag-selection-single-key t
+   )
   )
 
 ;; parent: 

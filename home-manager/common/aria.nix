@@ -11,7 +11,7 @@ let
   configDir = "${homeDir}/.config/aria2";
   downloadDir = "${homeDir}/Downloads/aria2";
   completedDir = "${homeDir}/Downloads/aria2/completed";
-  videoDir = "/mnt/media/ssd1/videos/porn";
+  videoDir = "/mnt/media/ssd1/videos/porn/metatube";
   logFile = "${configDir}/aria2.log";
   hooksLogFile = "${configDir}/aria2_hooks.log";
   sess = "${configDir}/aria2.sess";
@@ -55,9 +55,18 @@ in
       }
 
       export def main [downloads: string@"nu-complete downloads"] {
-         let fullpath = [${downloadDir}, $downloads] | path join 
+         let fullpath = if ($downloads | str starts-with "/") {
+           $downloads         
+         } else {
+           [${downloadDir}, $downloads] | path join
+         }
          ${onCompleteScriptPath} "fake-id" 999 $fullpath
       }
+    '')
+    (pkgs.additions.writeNuBinWithConfig "process-downloaded-videos" { } ''
+      try {docker run -it --rm --user 1000:1000 --network="host" -v ${videoDir}:/app/videos -v /home/weiss/projects/JavSP/config_docker.yml:/app/config.yml ghcr.io/yuukiy/javsp:master}
+      use /home/weiss/projects/process_nfo/process_nfo.nu *
+      todays-nfo | each { normalize-nfo-genres $in }
     '')
     (pkgs.additions.writeNuBinWithConfig "move-files-to-skip" { } ''
       ls ${videoDir} -f

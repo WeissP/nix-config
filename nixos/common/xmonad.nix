@@ -26,17 +26,26 @@ with myEnv;
 
       services = {
         xserver = {
+          enable = true;
+          autorun = true;
+          xkb = {
+            layout = "de";
+            variant = ",nodeadkeys";
+          };
+          wacom.enable = true;
+          autoRepeatDelay = 230;
+          autoRepeatInterval = 30;
           windowManager.xmonadBin = {
             enable = true;
             binPath = "${pkgs.weissXmonad}/bin/weiss-xmonad-exe";
           };
         };
 
-        autorandr = {
-          hooks.postswitch = {
-            restartXmonad = "${pkgs.weissXmonad}/bin/weiss-xmonad-exe --restart";
-          };
-        };
+        # autorandr = {
+        #   hooks.postswitch = {
+        #     restartXmonad = "${pkgs.weissXmonad}/bin/weiss-xmonad-exe --restart";
+        #   };
+        # };
       };
     }
     (lib.optionalAttrs (location == "home") {

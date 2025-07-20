@@ -1,3 +1,8 @@
+(defun weiss-citekey-p (citekey)
+  "DOCSTRING"
+  (interactive)
+  (citar-get-entry citekey))
+
 (with-eval-after-load 'citar
   (setq 
    citar-bibliography weiss/bibs
@@ -9,11 +14,6 @@
    org-cite-follow-processor 'citar
    org-cite-activate-processor 'citar
    )
-
-  (defun weiss-citekey-p (citekey)
-    "DOCSTRING"
-    (interactive)
-    (citar-get-entry citekey))
 
   (with-eval-after-load 'embark
     (require 'citar-embark)

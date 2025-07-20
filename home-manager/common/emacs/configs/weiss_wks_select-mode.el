@@ -109,17 +109,13 @@
    cmds))
 
 (let ((cmds
-       '(swiper-isearch
-         counsel-describe-function
-         counsel-describe-variable
-         weiss-add-parent-sexp
-         weiss-indent
+       '(weiss-add-parent-sexp
+         ;; weiss-indent
          weiss-indent-paragraph
          xah-select-block
          weiss-comment-dwim
          xah-open-file-at-cursor
          weiss-delete-or-add-parent-sexp
-         org-roam-dailies--capture
          org-export-dispatch
          weiss-move-to-next-block
          weiss-move-to-previous-block
@@ -127,7 +123,9 @@
          citre-peek
          ;; xref-find-definitions
          python-shell-send-statement
-         undo)))
+         undo
+         magit-log-buffer-file
+         )))
   (weiss-select-add-advice-deactivate-mark cmds))
 
 

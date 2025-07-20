@@ -30,7 +30,7 @@
           filters = [
             { name_prefix = "COMMIT_EDITMSG"; }
             {
-              name_regex = "^\d{8}T\d{6}--.+$";
+              name_regex = ''^\d{8}T\d{6}.*--.+\..+$'';
             }
             {
               dir_prefix = "/dev/shm";

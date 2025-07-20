@@ -7,14 +7,13 @@
 (defvar wks-org-extra-keymap (make-keymap "wks org extra keymap"))
 (define-prefix-command 'wks-org-extra-keymap-command 'wks-org-extra-keymap)
 
-(with-eval-after-load 'org
-  
-  (defun weiss-org-return ()
-    "DOCSTRING"
-    (interactive)
-    (deactivate-mark)
-    (call-interactively 'org-return))
+(defun weiss-org-return ()
+  "DOCSTRING"
+  (interactive)
+  (deactivate-mark)
+  (call-interactively 'org-return))
 
+(with-eval-after-load 'org
   (wks-unset-key org-mode-map '("C-c C-j"))
 
   (wks-define-key
@@ -56,13 +55,14 @@
      ("C-c C-s" . org-store-link)
      ("C-c C-t" . org-todo)
      ("C-c C-b" . org-mark-ring-goto)
+     ("C-c C-l" . weiss-org-insert-link)
      ;; ("y <tab>" . org-table-create-with-table\.el)
      ("y <tab>" . org-table-toggle-column-width)
      ("y j s" . weiss-org-copy-heading-link)
      ;; ("C-c C-j e" . (weiss-emoji-insert (emoji-insert) (wks-vanilla-mode-enable)))
      ("C-c C-j" . wks-org-extra-keymap-command)
      ;; ("<f5>" . org-beamer-export-to-pdf)
-
+     
      ("<end> <escape>" . (quick-insert-insert-org (quick-insert-consult "org source code")))))
 
   (wks-define-key

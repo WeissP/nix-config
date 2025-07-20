@@ -6,6 +6,10 @@
 }:
 
 {
+  inherit (inputs.niri.overlays) niri;
+
+  yt-dlp-pkgs = import ./yt-dlp.nix;
+
   # This one brings our custom packages from the 'pkgs' directory
   additions = final: _prev: {
     additions = import ../pkgs {
@@ -13,6 +17,9 @@
       pkgs = final;
     };
   };
+
+  emacs = import inputs.emacs-overlay;
+  wired-notify = inputs.wired-notify.overlays.default;
 
   # This one contains whatever you want to overlay
   # You can change versions, add patches, set compilation flags, anything really.
@@ -24,8 +31,10 @@
         system = final.system;
         config.allowUnfree = true;
       };
+      # yt-dlp-pkgs = import ./yt-dlp.nix { inherit final prev; };
     in
     {
+      # inherit (yt-dlp-pkgs) ytdl-sub-with-plugins;
       recentf = inputs.recentf.packages."${prev.system}".default;
       webman = inputs.webman.packages."${prev.system}";
       weissXmonad = inputs.weissXmonad.packages."${prev.system}".default;
@@ -38,7 +47,9 @@
           sha256 = "sha256:1rhrajxywl1kaa3pfpadkpzv963nq2p4a2y4vjzq0wkba21inr9k";
         }) { inherit (prev) system; }).tdlib;
       yt-dlp = master.yt-dlp;
+      # yt-dlp = yt-dlp-pkgs.ytdl-sub-with-plugins;
       aider-chat = master.aider-chat;
+      # ytdl-sub-with-plugins =yt-dlp-pkgs
       # example = prev.example.overrideAttrs (oldAttrs: rec {
       # ...
       # });
@@ -137,6 +148,18 @@
             repo = "nixpkgs";
             rev = "1ea3c1d9676c9214492e82464174094c2130e002";
             sha256 = "sha256-ebShVkxVcXnu9Upv8OFE0/4hl5Srae61hJsbGsj6Lmw=";
+          })
+          {
+            system = final.system;
+            config.allowUnfree = true;
+          };
+      "2025-06-22" =
+        import
+          (final.fetchFromGitHub {
+            owner = "NixOS";
+            repo = "nixpkgs";
+            rev = "ee19f0a079baa7ac8243c612eacc6e80faa9658f";
+            sha256 = "sha256-abeIUYk8GUaXXSjDq8AKdXA0ea/lOioXHDdwN4yyuyo=";
           })
           {
             system = final.system;

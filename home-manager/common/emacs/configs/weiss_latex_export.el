@@ -1,14 +1,13 @@
+(defun weiss-export-pdf-dwim ()
+  "DOCSTRING"
+  (interactive)
+  (let ((current-frame (get-frame-name)))
+    (if (string= current-frame "PDF-Export")
+        (org-latex-export-to-pdf-enumerate)
+      (org-latex-export-to-pdf-enumerate-new-frame))
+    ))
+
 (with-eval-after-load 'latex
-  (defun weiss-export-pdf-dwim ()
-    "DOCSTRING"
-    (interactive)
-    (let ((current-frame (get-frame-name)))
-      (if (string= current-frame "PDF-Export")
-          (org-latex-export-to-pdf-enumerate)
-        (org-latex-export-to-pdf-enumerate-new-frame))
-      ))
-
-
   (require 'ox-latex)
 
   (setq LaTeX-command-style

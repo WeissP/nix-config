@@ -1,3 +1,13 @@
+(defun weiss-insert-aider-brace ()
+  "DOCSTRING"
+  (interactive)
+  (when (and 
+         (eq major-mode 'aider-comint-mode)
+         (s-starts-with? "*aider" (buffer-name) ))
+    (weiss-insert-pair "{aider" "aider}" t)
+    t
+    ))
+
 (defun weiss-run-aider-under-project-dir (run &rest args)
   "DOCSTRING"
   (interactive)
@@ -45,15 +55,6 @@
    :around #'weiss-run-aider-under-project-dir
    )
 
-  (defun weiss-insert-aider-brace ()
-    "DOCSTRING"
-    (interactive)
-    (when (and 
-           (eq major-mode 'aider-comint-mode)
-           (s-starts-with? "*aider" (buffer-name) ))
-      (weiss-insert-pair "{aider" "aider}" t)
-      t
-      ))
   (advice-add 'weiss-insert-brace :before-until #'weiss-insert-aider-brace)
   )
 

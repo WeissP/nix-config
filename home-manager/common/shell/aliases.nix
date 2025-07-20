@@ -4,27 +4,24 @@
 }:
 with myEnv;
 let
-  em = "Exec=GTK_IM_MODULE= QT_IM_MODULE= XMODIFIERS= emacs";
   posixAliases = {
     redshiftDual = "redshift -m randr:crtc=0 -l 51.5:10.5 -t 6500:3300 -b 1:0.9 & redshift -m randr:crtc=1 -l 51.5:10.5 -t 6500:3300  -b 1:1 &";
     pre_beg = "dunstctl set-paused true && xscreensaver-command -exit &";
     pre_end = "dunstctl set-paused false && xscreensaver -no-splash &";
   };
   generalAliases = {
-    inherit em;
-    emacs = em;
     deploy = "nix run github:serokell/deploy-rs -- -s";
     switch =
       if (arch == "linux") then
         # "sudo nixos-rebuild switch --flake ${homeDir}/nix-config#${configSession}"
         "nh os switch ${homeDir}/nix-config#nixosConfigurations.${configSession}"
       else
-        "darwin-rebuild switch --flake ${homeDir}/nix-config#${configSession}";
+        "sudo darwin-rebuild switch --flake ${homeDir}/nix-config#${configSession}";
     suspend = "sudo systemctl suspend";
     ns = "nix-shell";
-    ec = ''emacsclient --create-frame --alternate-editor="${em}"'';
+    ec = ''emacsclient --create-frame --alternate-editor="emacs"'';
     cg = "cargo";
-    emdbg = "${em} --debug-init";
+    emdbg = "emacs --debug-init";
     pyav = "getAvInfo.py";
     vpnon = "nmcli connection up wgtuk-Full-Desk";
     vpnoff = "nmcli connection down wgtuk-Full-Desk";

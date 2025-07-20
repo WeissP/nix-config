@@ -9,7 +9,8 @@
   services = {
     fusuma = rec {
       enable = true;
-      package = pkgs.pinnedUnstables."2024-10-11".fusuma;
+      # package = pkgs.pinnedUnstables."2024-10-11".fusuma;
+      package = pkgs.fusuma;
       extraPackages = with pkgs; [
         xdotool
         coreutils

@@ -11,6 +11,9 @@ rec {
     with args;
     args
     // rec {
+      ifDisplay = optionalAttrs (display != "none");
+      ifXorg = optionalAttrs (display == "Xorg");
+      ifWayland = optionalAttrs (display == "wayland");
       ifDarwin = optionalAttrs (arch == "darwin");
       ifLinux = optionalAttrs (arch == "linux");
       ifUsage = u: optionalAttrs (builtins.elem u usage);
@@ -24,6 +27,7 @@ rec {
       ifHomeServer = optionalAttrs (configSession == "homeServer");
       ifDesktop = optionalAttrs (configSession == "desktop");
       ifLinuxPersonal = optionalAttrs (arch == "linux" && builtins.elem "personal" usage);
+      ifLinuxDaily = optionalAttrs (arch == "linux" && builtins.elem "daily" usage);
       ifDarwinPersonal = optionalAttrs (arch == "darwin" && builtins.elem "personal" usage);
       homeDir = if (arch == "darwin") then "/Users/${username}" else "/home/${username}";
       nixDir = "${homeDir}/nix-config";
@@ -50,6 +54,11 @@ rec {
       "china"
       "japan"
       "uni"
+    ])
+    && (lib.assertOneOf "display" args.display [
+      "Xorg"
+      "wayland"
+      "none"
     ]);
 
   resource = path: myNixRepo + "/resources/" + path;

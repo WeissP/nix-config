@@ -24,6 +24,7 @@ lib.mkMerge [
     programs = {
       floorp = {
         enable = true;
+        package = pkgs.pinnedUnstables."2025-04-20".floorp;
         nativeMessagingHosts = with pkgs; [
           passff-host
           firefoxpwa
@@ -55,5 +56,22 @@ lib.mkMerge [
     #     ];
     #   };
     # };
+  })
+  (ifLinuxDaily {
+    home.packages = with pkgs; [
+      firefoxpwa
+      google-chrome
+    ];
+    stylix.targets.firefox.profileNames = [ "default" ];
+    stylix.targets.firefox.enable = false;
+    programs = {
+      firefox = {
+        enable = true;
+        nativeMessagingHosts = with pkgs; [
+          passff-host
+          firefoxpwa
+        ];
+      };
+    };
   })
 ]

@@ -12,6 +12,28 @@ with lib;
 with myEnv;
 let
   cfg = config.programs.weissEmacs;
+  basic_envs = [
+    "--unset"
+    "GTK_IM_MODULE"
+    "--unset"
+    "QT_IM_MODULE"
+    "--unset"
+    "XMODIFIERS"
+  ];
+  emacs-env = (
+    pkgs.writers.writeBashBin "emacs-env" {
+      makeWrapperArgs = basic_envs;
+    } (lib.getExe config.programs.emacs.finalPackage)
+  );
+  emacs-env-server = (
+    pkgs.writers.writeBashBin "emacs-env-server" {
+      makeWrapperArgs = basic_envs ++ [
+        "--set"
+        "Emacs_Server_Process"
+        "true"
+      ];
+    } (lib.getExe config.programs.emacs.finalPackage)
+  );
 in
 {
   options.programs.weissEmacs =
@@ -238,6 +260,17 @@ in
               })
             ];
           };
+          gptel-prompts = {
+            emacsPackages = [
+              "gptel"
+              "yaml"
+              "templatel"
+              "gptel-prompts"
+            ];
+            cmds = ''
+              (setq gptel-prompts-directory "${config.xdg.configHome}/prompts")
+            '';
+          };
           gptel = {
             emacsPackages = [
               "gptel"
@@ -295,7 +328,7 @@ in
             in
             {
               emacsPackages = [ "jinx" ];
-              externalPackages = with pkgs; [ myAspell ];
+              externalPackages = [ myAspell ];
               files.".aspell.conf".text = "dict-dir ${myAspell}/lib/aspell";
             };
           flymake-sqlfluff = {
@@ -644,6 +677,27 @@ in
             };
           };
 
+          flyover = pkgs.callPackage ./packages/flyover.nix {
+            inherit (final) trivialBuild;
+            inherit remoteFiles lib;
+            deps = with final; {
+              inherit
+                flycheck
+                flymake
+                ;
+            };
+          };
+
+          gptel-prompts = pkgs.callPackage ./packages/gptel-prompts.nix {
+            inherit (final) trivialBuild;
+            inherit remoteFiles;
+            deps = with final; {
+              inherit
+                gptel
+                ;
+            };
+          };
+
           consult-omni = pkgs.callPackage ./packages/consult-omni.nix {
             inherit remoteFiles;
             inherit (final) trivialBuild;
@@ -794,18 +848,12 @@ in
             "${userEmacsDirectory}/early-init.el".text = cfg.earlyInit;
             "${userEmacsDirectory}/init.el".text = cfg.extraConfig basicCfg;
           };
-        packages = externalPackages;
+        packages = externalPackages ++ [
+          emacs-env
+          emacs-env-server
+        ];
         sessionVariables = {
           EDITOR = "emacsclient --create-frame";
-        };
-      };
-
-      systemd.user.services.start_emacs = myLib.service.startup {
-        inherit (myEnv) username;
-        binName = "emacs";
-        service = {
-          Environment = "GTK_IM_MODULE= QT_IM_MODULE= XMODIFIERS=";
-          PassEnvironment = "PATH";
         };
       };
     };

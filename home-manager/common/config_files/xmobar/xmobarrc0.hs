@@ -3,10 +3,10 @@ Config
   , additionalFonts = ["symbola 14", "Source Han Sans CN bold 13"]
   , bgColor = "#2e3440"
   , fgColor = "#d0d0d0"
-  , position = TopH 30
+  , position = OnScreen 1 (TopH 30)
   , persistent = True
   , hideOnStart = False
-  , allDesktops = True
+  , allDesktops = False
   , lowerOnStart = True
   , commands =
       [ Run DynNetwork ["-t", "<fn=2>\xf0aa</fn> <tx>kb  <fn=2>\xf0ab</fn> <rx>kb"] 20

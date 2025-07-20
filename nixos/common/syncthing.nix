@@ -28,6 +28,10 @@ let
       id = "OSQX7ZN-HITPCGZ-UIAMHHE-R5IP2WB-G32SNOZ-OOEQLZR-OJR5TIN-UP7ZGAI";
       addresses = globalAddress;
     };
+    "mini" = {
+      id = "E4ALHDZ-L257CGT-Q5LLJQ3-IR4VTAZ-FN4EM5N-GIC7CHH-CC5FUYR-HG7Z3QK";
+      addresses = globalAddress;
+    };
     "uni" = {
       id = "CMBJKCO-A3K2VTQ-P5DBXIV-2ZNWWWU-PVHXQBV-X26OVGE-YBR3L7E-EB2BXAC";
       addresses = globalAddress;
@@ -109,7 +113,7 @@ lib.mkMerge [
                   "Mac-Air"
                   "uni"
                 ]
-              else if (configSession == "uni") then
+              else if (configSession == "uni" || configSession == "mini") then
                 [
                   "iPhone"
                   "iPad-mini"

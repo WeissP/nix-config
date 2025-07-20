@@ -95,7 +95,7 @@ in
 
             Timer = {
               inherit (instance) OnBootSec OnUnitActiveSec;
-              Unit = instance.serviceName;
+              Unit = "${instance.serviceName}.service";
             };
             Install = {
               WantedBy = [ "timers.target" ];

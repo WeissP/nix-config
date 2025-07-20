@@ -60,7 +60,8 @@
 +klarmobil_receipt -- is:klarmobil and subject:Rechnung
 +klarmobil_vertrag -- is:klarmobil and subject:"/.*Vertrag.*/"
 +klarmobil_info -- is:klarmobil and from:info
-+klarmobil_unimportant -- is:klarmobil_info and not is:klarmobil_vertrag
++klarmobil_important_info -- is:klarmobil_info and subject:wichtig
++klarmobil_unimportant -- is:klarmobil_info and not is:klarmobil_vertrag and not is:klarmobil_important_info
 
 +commerzbank -- from:commerzbank
 +commerzbank_doc -- is:commerzbank and subject:"Neues Dokument"

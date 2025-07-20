@@ -3,6 +3,7 @@
    ledger-mode-map
    ""
    '(("<tab>" . save-buffer)
+     ("C-c '" . ledger-navigate-next-uncleared)
      ))
   )
 

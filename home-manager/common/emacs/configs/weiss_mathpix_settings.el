@@ -61,16 +61,18 @@
     (delete-file img-path)
     ))
 
-(with-eval-after-load 'org
-  (defun mathpix-insert-and-preview ()
-    "DOCSTRING"
-    (interactive)
-    (mathpix-insert)
-    (pcase major-mode
-      ('org-mode (call-interactively 'org-latex-preview))
-      (_ (ignore))    
-      )
+(defun mathpix-insert-and-preview ()
+  "DOCSTRING"
+  (interactive)
+  (mathpix-insert)
+  (pcase major-mode
+    ('org-mode (call-interactively 'org-latex-preview))
+    (_ (ignore))    
     )
+  )
+
+(with-eval-after-load 'org
+
   )
 
 (provide 'weiss_mathpix_settings)

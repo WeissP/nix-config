@@ -1,5 +1,5 @@
 (with-eval-after-load 'diredfl
-  (diredfl-global-mode 1)
+  ;; (diredfl-global-mode -1)
   )
 
 ;; parent: 

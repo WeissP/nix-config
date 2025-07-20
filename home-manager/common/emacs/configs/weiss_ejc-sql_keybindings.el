@@ -19,7 +19,7 @@
   (wks-define-key
    sql-mode-map ""
    '(
-     ("<backtab>" . weiss-indent-paragraph)
+     ;; ("<backtab>" . weiss-indent-paragraph)
      ("t c" . ejc-connect)
      ("t e" . ejc-get-temp-editor-buffer)
      ("t t" . ejc-describe-table)

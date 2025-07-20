@@ -1,68 +1,148 @@
-#
-# Moves large media files from SSD to HDD when free space on the SSD falls below the configured threshold.
-# Performs SnapRAID touch and sync, duplicates NFO files then move all other files via rsync, cleans up sources, and sends notifications.
-#
-# Required environment variables:
-#   MIN_AVAILABLE_SPACE_STR  - threshold for SSD free space (e.g., "50Gb")
-#   SSD_MOUNT_POINT          - SSD mount point (e.g., "/mnt/media/ssd1")
-#   HDD_MOUNT_POINT          - HDD mount point (e.g., "/mnt/media_hdd_array")
-#   NFO_DIR                  - directory for NFO files on both disks (e.g., "videos")
-#   LOG_DIR                  - path to log dir
-#   log_level                - log level for logging (e.g., "debug")
-#
-export def main [] {
-   # logfile set-log-dir-with-timestamped-log $"($env.LOG_DIR)"
-   # logfile set-level $"($env.log_level)"
-   # let log_file = logfile get_log_file
-
-$env.HDD_MOUNT_POINT = "/mnt/media_hdd_array"
-$env.LOG_DIR = "/mnt/media/ssd1/.rsync_ssd_to_hdd_logs"
-$env.MIN_AVAILABLE_SPACE_STR = "50Gb"
-$env.NFO_DIR = "videos"
-$env.Path = [/nix/store/sb4ml8qjxcr2idzdgjcw2bz11p6nzff4-rsync-3.4.1/bin,/nix/store/ix3dyrp4afb1pm52a1n0dzfvb1wpjk30-snapraid-12.4/bin,/nix/store/jghj8vlgsvz73dyz8yabny7f7kk13p79-python3.12-jc-1.25.5/bin,/nix/store/8kapw327n9xwbwzcbd72jmgn1ghfaxny-notify/bin,/nix/store/87fck6hm17chxjq7badb11mq036zbyv9-coreutils-9.7/bin]
-$env.SSD_MOUNT_POINT = "/mnt/media/ssd1"
-$env.log_level = "debug"
+open /home/weiss/Documents/chats/errors.md
+| lines 
+| each {|in| $in | parse "{_}'/mnt/media/hdd1/{v}.mp4'{_}" | get v  }
+| flatten
+| each {|in| ["/mnt/media/hdd1", $"($in).mp4"] | path join }
+| uniq
+| each {|in| rm -r ($in | path dirname) }
 
 
+# $t | parse "{_}'/mnt/media/hdd1/{v}.mp4'{_}"
 
-
-    let MIN_AVAILABLE_SPACE = $env.MIN_AVAILABLE_SPACE_STR | into filesize
-    let SSD_NFO_DIR = [$env.SSD_MOUNT_POINT, $env.NFO_DIR] | path join
-    let HDD_NFO_DIR = [$env.HDD_MOUNT_POINT, $env.NFO_DIR] | path join
-
-    print $"SSD_NFO_DIR: ($SSD_NFO_DIR)"
-    print $"HDD_NFO_DIR: ($HDD_NFO_DIR)"
-
-    # let available = jc df -B KB | where "mounted_on" == $env.SSD_MOUNT_POINT | get available | first | into filesize
-    # if ($available >= $MIN_AVAILABLE_SPACE) {
-    #     logfile debug $"Available space on SSD ($available) is sufficient. No rsync needed at this time."
-    #     return
-    # }
-
-    # logfile info $"Available space on SSD ($available) is less than ($MIN_AVAILABLE_SPACE)."
-
-    # logfile debug $"Initiating pre-transfer SnapRAID touch and sync to ensure parity before moving files."
-    # snapraid touch
-    # snapraid sync
-
-    # notify home-server-maintenance $"Available space on SSD ($available) is less than ($MIN_AVAILABLE_SPACE), rsync files to HDD array..." -p 3
-
-    # logfile debug $"rsync: copying NFO files from ($SSD_NFO_DIR) to ($HDD_NFO_DIR)."
-
-    # rsync -aHAXWS --preallocate --checksum $SSD_NFO_DIR $HDD_NFO_DIR --dry-run
-
-    # ls -f ...(glob ([$SSD_NFO_DIR, "**", "*"] | path join))
-    # | where { $in.type == file and ($in.name | path parse).extension != "nfo" }
-    # | get name | uniq | each { rm $in }
-
-    # logfile debug $"rsync: copying all non-NFO files from ($SSD_NFO_DIR) to ($HDD_NFO_DIR)."
-    # rsync -aqHAXWS --preallocate --checksum --remove-source-files --exclude='.*' --exclude='lost+found' --exclude=$"($SSD_NFO_DIR)" --log-file=$"($log_file)" $env.SSD_MOUNT_POINT $env.HDD_MOUNT_POINT
-    # logfile info "Rsync process completed."
-
-    # logfile debug $"All files transferred to HDD. Performing final SnapRAID touch and sync."
-    # snapraid touch
-    # snapraid sync
-
-    # notify home-server-maintenance $"Successfully moved all files from SSD to HDD array and cleaned up source files." -p 3
+def main [] {
+  let ass_paths = ls `/media/videos/bilibili/**/*.ass` -f | get name
+  ls `/media/ytdl-sub/tv-shows/细细的蓝线11/Season */*.mp4` -f
+  | get name
+  | each { |n|
+      let p = ($n | path parse)
+      let date = ($p.stem | parse "{date} - {_}").date | first
+      let ass = $ass_paths  | where {|n| $n | str contains $date} | first
+      let ass_target_path = $p | upsert extension "ass" | path join
+      cp $ass $ass_target_path
+    }
 }
 
+open /home/weiss/projects/JavSP/data/genre_javbus.csv
+| each {|row| $"($row.ja)=($row.translate)"}
+
+def back_opus [dir: string] {
+cd $dir
+let name = ls *.jpg -f | get name | first | path parse | upsert extension opus | path join
+cp "old.opus.to_remove" $name
+}
+
+ls **/*.opus -f
+| get name
+| where {|f|
+  let stat = ls ($f | path dirname) | where {|n| $n.name | str contains "opus"} 
+  if ($stat | length) == 1 {
+    return true
+  }
+  if ($stat | length) >= 3 {
+    return false
+  }
+  let min_size = $stat | get size | math min
+  let max_size = $stat | get size | math max
+  ($max_size - $min_size) / $min_size > 0.1 
+}
+| par-each { |f|
+let path_comp = $f | path parse 
+let tmp_file = $path_comp | upsert stem "old" | path join
+mv $f $tmp_file
+ffmpeg -i $tmp_file -af "speechnorm=e=5:r=0.00005:l=1,loudnorm=I=-28:LRA=7:tp=-2" $f
+}
+
+
+# let all = open "/home/weiss/Downloads/all.csv" | get number
+# let downloaded = open "/home/weiss/Documents/downloaded.csv" | get number
+# let to_download = $all | where {$in not-in $downloaded}
+# open "/home/weiss/Documents/chats/chat-42-[14-55]-{28.06.2025}.org" --raw | decode utf-8  | lines | where { |$url| $to_download | any { |n| $url | str contains $"N($n)" }} 
+
+# open /home/weiss/Downloads/to_download.txt | lines | each { |url| curl http://192.168.0.33:6800/jsonrpc -H 'Content-Type: application/json' -d $'{"jsonrpc":"2.0","id":"qwer","method":"aria2.addUri","params":["token:1.048596",["($url)"],{ "dir": "/media/audios/tmp" }]}' ; sleep (random int 1..60 | into duration  --unit sec) }
+
+
+
+# open "/home/weiss/Documents/chats/chat-42-[14-55]-{28.06.2025}.org" --raw | decode utf-8  | lines | each { { raw: $in, n: ($in | parse '.*N/N(?P<number>\d).*')} } | where { $in.n | is-empty }
+
+# open "/home/weiss/Documents/chats/chat-42-[14-55]-{28.06.2025}.org" --raw | decode utf-8  | lines | each { ($in | parse --regex '.*N/N(?P<number>\d{3}).*' | first) } 
+
+# open "/home/weiss/Documents/chats/chat-42-[14-55]-{28.06.2025}.org" --raw | decode utf-8  | lines | first | parse '.*N/N(?P<number>\d).*'
+
+export def group_by_number [root: string] {
+let files = ls $root -f | where type == file | get name
+
+$files
+| each {
+     let parsed = ($in | path parse).stem | parse "N{number} {rest}"
+     let number = ($parsed | first).number
+     { number: $"N($number)", filename: $in }
+  }
+| flatten
+| group-by number --to-table 
+| each {|row|
+    if ("items" in $row) {
+       let dir_name = ($row.items.filename | first | path parse).stem
+       let dir = $root | path join $"($dir_name)" 
+       mkdir $dir
+       $row.items.filename | each {|n| cp $n  $"($dir)/"}        
+    }
+  }
+}
+
+export def group_by_stem [] {
+let root = "/media/ytdl-sub/podcasts/左為"
+ls $root -f
+| where type == file
+| get name
+| each {
+     { stem: ($in | path parse).stem, filename: $in }
+  }
+| flatten
+| group-by stem --to-table 
+# | each {|row|
+    # let dir = $root | path join $row.stem 
+    # $dir
+    # mkdir $dir
+    # $row.items.filename | each {|n|
+    #   mv $n $"($dir)/"
+    # }
+# }
+}
+
+export def group_by_authors [root: string] {
+cd $root
+ls *.mp3 -f
+| get name
+| each {
+     let parsed = ($in | path parse).stem | parse "{title}-{authors}"
+     let authors = if ($parsed | is-empty) {
+               "小野猫"
+          } else {
+               ($parsed | first).authors | str replace --all " " ","
+          }  
+     { authors: $authors, filename: $in }
+  }
+| flatten
+| group-by authors --to-table 
+| each {|row|
+    let dir = $root | path join $row.authors
+    mkdir $dir
+    $row.items.filename | each {|n|
+      let dir_name = $dir | path join ($n | path parse).stem
+      mkdir $dir_name
+      mv $n $"($dir_name)/"
+    }
+    group_by_number $dir
+}
+}
+
+export def main [] {
+ls -f  
+| where type == dir
+| get name
+| each {|n|
+  let new = $n | path parse | upsert stem {|r| $r.stem | str substring 13.. } | path join
+  mv $n $new
+}
+
+}

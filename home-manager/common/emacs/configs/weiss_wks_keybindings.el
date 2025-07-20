@@ -1,7 +1,6 @@
 (wks-unset-key (current-global-map) '("C-<end>"))
 (wks-unset-key help-mode-map '("SPC" "-" "l") t)
 (wks-unset-key messages-buffer-mode-map '("SPC" "9" "-" "0"))
-(wks-unset-key special-mode-map '("SPC" "9" "-" "0"))
 
 (wks-define-key
  prog-mode-map ""
@@ -66,7 +65,7 @@
  (current-global-map)
  ""
  '(("M-i" . wks-vanilla-mode-disable)
-   ("<backtab>" . weiss-indent)
+   ;; ("<backtab>" . weiss-indent)
    ("<S-delete>" . (weiss-insert-single-slash (insert "\\")))
    ("M-DEL" . (weiss-insert-single-vertical-bar (insert "|")))
    ("M-j" . forward-paragraph)
@@ -94,7 +93,14 @@
      ("<end> ." . next-buffer))))
 
 (wks-unset-key help-mode-map '("h" "c" "s" "i" "n"))
-(wks-unset-key special-mode-map '("h" "c" "s" "i"))
+(wks-unset-key special-mode-map '("SPC" "9" "-" "0" "h" "c" "s" "i"))
+(wks-define-key
+ special-mode-map
+ ""
+ '(
+   ("x" . (kill-window (quit-window t)))
+   ))
+
 (with-eval-after-load 'debug
   (wks-unset-key debugger-mode-map '("h" "j" "i" "l" "k")))
 (wks-unset-key messages-buffer-mode-map '("h") ':all-numbers)
@@ -116,7 +122,10 @@
      ("i" . left-char)
      ("l" . right-char)
      ("C-+" .  image-increase-size)
-     ("C--" .  image-decrease-size))))
+     ("+" .  image-increase-size)     
+     ("C--" .  image-decrease-size)
+     ("-" .  image-decrease-size)
+     )))
 
 (with-eval-after-load 'man
   (wks-unset-key Man-mode-map '("k" "n" "s")))

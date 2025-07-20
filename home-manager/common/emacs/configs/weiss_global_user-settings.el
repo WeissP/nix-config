@@ -95,7 +95,15 @@
   (if (and (featurep 'tramp)  (tramp-tramp-file-p filename))
       (dired-delete-file filename t nil)      
     (process-file-shell-command
-     (format "%s put --home-fallback %S" (executable-find "gtrash") (file-local-name filename)))
+     (let ((cmd (format
+                 "%s put --home-fallback %S"
+                 (executable-find "gtrash")
+                 (s-replace-all '(("$" . "\\$")) (file-local-name filename))))
+           )
+       ;; (message "%s" cmd)
+       cmd
+       )
+     )
     )
   )
 

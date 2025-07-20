@@ -12,13 +12,15 @@ with myEnv;
   home.packages = with pkgs; [
     nufmt
     jc
+    pueue
   ];
+  services.pueue.enable = true;
   programs.fish.enable = true; # I may use fish completer in nushell
   programs.nushell =
     let
-      # p = pkgs.pinnedUnstables."2025-04-20";
+      # p = pkgs.pinnedUnstables."2025-06-22";
       p = pkgs;
-      inherit (remoteFiles) nuScripts drbrain-nushell-config;
+      inherit (remoteFiles) nuScripts;
       nuHooks = "${nuScripts}/nu-hooks/nu-hooks";
       task = "${nuScripts}/modules/background_task/task.nu";
       jcModule = "${nuScripts}/modules/jc/";
@@ -38,17 +40,19 @@ with myEnv;
         use ${scriptsDir}/transfer.nu *
         $env.ACTIVITY_TRACKER_FILE = "${homeDir}/Documents/personal/activities.json"
         use ${scriptsDir}/track.nu
+        use ${scriptsDir}/fluentai_anki.nu
         use ${jcModule} 
-        # source ${drbrain-nushell-config}/completion/ssh
         source ${nuScripts}/custom-completions/ssh/ssh-completions.nu
-      '';
-      configFile.text = ''
         source ${
           pkgs.runCommand "zoxide-nushell-config.nu" { } ''
             ${lib.getExe pkgs.zoxide} init nushell >> "$out"
           ''
         }
-
+        def --env --wrapped j [...rest: string@"nu-complete zoxide path"] {
+          z ...$rest
+        }
+      '';
+      configFile.text = ''
         def "nu-complete zoxide path" [context: string] {
           let parts = $context | split row " " | skip 1
           {
@@ -60,10 +64,6 @@ with myEnv;
             }
             completions: (zoxide query --list --exclude $env.PWD -- ...$parts | lines)
           }
-        }
-
-        def --env --wrapped j [...rest: string@"nu-complete zoxide path"] {
-          z ...$rest
         }
 
         let carapace_completer = {|spans: list<string>|

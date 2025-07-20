@@ -1,18 +1,19 @@
 (recentf-mode 1)
+
+(defun weiss-update-recentf ()
+  "DOCSTRING"
+  (interactive)
+  (let ((message-log-max nil)
+        (save-silently t)
+        (inhibit-message t))
+    (recentf-save-list)
+    ))
+
 (with-eval-after-load 'recentf
   ;; (recentf-mode 1)
   ;; (message "recentf loaded!")
   ;; (load (weiss--get-config-file-path "recentf"))
   ;; (setq recentf-save-file (weiss--get-config-file-path "recentf"))
-
-  (defun weiss-update-recentf ()
-    "DOCSTRING"
-    (interactive)
-    (let ((message-log-max nil)
-          (save-silently t)
-          (inhibit-message t))
-      (recentf-save-list)
-      ))
 
   (run-at-time nil 60 'weiss-update-recentf)
   

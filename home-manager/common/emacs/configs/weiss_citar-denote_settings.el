@@ -1,3 +1,32 @@
+(defun weiss-citar-denote--update-last-created-note-cite-key (citekey &rest args)
+  "DOCSTRING"
+  (interactive)
+  (setq weiss-citar-denote--last-created-note-cite-key citekey)
+  )
+
+(defun weiss-citar-denote-org-note-template ()
+  "DOCSTRING"
+  (interactive)
+  (concat
+   (format "[cite:@%s]" weiss-citar-denote--last-created-note-cite-key)      
+   "\n\n"
+   "* notes"
+   "\n"
+   ":PROPERTIES:"
+   "\n"
+   ":NOTER_DOCUMENT: "
+   (->
+    weiss-citar-denote--last-created-note-cite-key
+    (citar--select-resource  :files t)
+    (cdr)
+    (f-relative)      
+    )
+   "\n" 
+   ":END:"
+   "\n"
+   )
+  )
+
 (with-eval-after-load 'citar-denote
   (setq
    citar-open-always-create-notes nil
@@ -18,34 +47,7 @@
   (advice-add 'citar-denote--create-note
               :before #'weiss-citar-denote--update-last-created-note-cite-key)
 
-  (defun weiss-citar-denote--update-last-created-note-cite-key (citekey &rest args)
-    "DOCSTRING"
-    (interactive)
-    (setq weiss-citar-denote--last-created-note-cite-key citekey)
-    )
 
-  (defun weiss-citar-denote-org-note-template ()
-    "DOCSTRING"
-    (interactive)
-    (concat
-     (format "[cite:@%s]" weiss-citar-denote--last-created-note-cite-key)      
-     "\n\n"
-     "* notes"
-     "\n"
-     ":PROPERTIES:"
-     "\n"
-     ":NOTER_DOCUMENT: "
-     (->
-      weiss-citar-denote--last-created-note-cite-key
-      (citar--select-resource  :files t)
-      (cdr)
-      (f-relative)      
-      )
-     "\n" 
-     ":END:"
-     "\n"
-     )
-    )
   (add-to-list 'denote-templates '(citar-org-note . weiss-citar-denote-org-note-template))
   (setq citar-denote-template 'citar-org-note)
 

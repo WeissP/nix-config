@@ -1,3 +1,23 @@
+(defun embark-default-action-in-other-window ()
+  "Run the default embark action in another window."
+  (interactive))
+(cl-defun run-default-action-in-other-window
+    (&rest rest &key run type &allow-other-keys)
+  (let ((default-action (embark--default-action type)))
+    (weiss-split-window-dwim) 
+    (funcall run :action default-action :type type rest)))
+
+(defun weiss-embark-copy-file-name (f)
+  "DOCSTRING"
+  (kill-new (f-filename f))
+  )
+
+(defun weiss-embark-eval-and-output-region ()
+  "DOCSTRING"
+  (interactive)
+  (eval-region (region-beginning) (region-end) t)
+  )
+
 (with-eval-after-load 'embark
   (add-to-list 'display-buffer-alist
                '("\\*Embark Collect \\(Live\\|Completions\\)\\*"
@@ -18,29 +38,10 @@
           embark-highlight-indicator
           embark-isearch-highlight-indicator))
 
-  (defun embark-default-action-in-other-window ()
-    "Run the default embark action in another window."
-    (interactive))
-  (cl-defun run-default-action-in-other-window
-      (&rest rest &key run type &allow-other-keys)
-    (let ((default-action (embark--default-action type)))
-      (weiss-split-window-dwim) 
-      (funcall run :action default-action :type type rest)))
   (setf (alist-get 'embark-default-action-in-other-window
                    embark-around-action-hooks)
         '(run-default-action-in-other-window))
-  (define-key embark-general-map "-" #'embark-default-action-in-other-window) 
-
-  (defun weiss-embark-copy-file-name (f)
-    "DOCSTRING"
-    (kill-new (f-filename f))
-    )
-
-  (defun weiss-embark-eval-and-output-region ()
-    "DOCSTRING"
-    (interactive)
-    (eval-region (region-beginning) (region-end) t)
-    )
+  (define-key embark-general-map "-" #'embark-default-action-in-other-window)
 
   (with-eval-after-load 'vertico
     (require 'vertico-multiform)

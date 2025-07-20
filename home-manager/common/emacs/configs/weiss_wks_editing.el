@@ -1198,7 +1198,8 @@ Version 2017-08-19"
       (if (eq real-last-command this-command)
           (progn (yank-pop 1))
         (progn (open-line 1) (yank)))))
-  (if (eq major-mode 'org-mode) nil (weiss-indent)))
+  ;; (if (eq major-mode 'org-mode) nil (weiss-indent))
+  )
 
 
 (defun xah-cycle-hyphen-underscore-space ( &optional @begin @end )

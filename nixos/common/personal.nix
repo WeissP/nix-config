@@ -7,18 +7,25 @@
 with lib;
 with myEnv;
 {
-  imports = [
-    ./autorandr.nix
-    ./xmonad.nix
-    ./psql.nix
-    ./syncthing.nix
-    ./zsh.nix
-    ./uxplay.nix
-    ./sunshine.nix
-    ./fonts.nix
-    ./gluqloFont.nix
-    ./stylix.nix
-  ];
+  imports =
+    [
+      ./psql.nix
+      ./syncthing.nix
+      ./zsh.nix
+      ./uxplay.nix
+      ./sunshine.nix
+      ./fonts.nix
+      ./gluqloFont.nix
+      ./stylix.nix
+    ]
+    ++ (
+      if myEnv.arch == "linux" then
+        [
+          ./display.nix
+        ]
+      else
+        [ ]
+    );
 
   services = {
     joycond.enable = true;
@@ -43,18 +50,7 @@ with myEnv;
       # If you want to use JACK applications, uncomment this
       #jack.enable = true;
     };
-    xserver = {
-      enable = true;
-      autorun = true;
-      xkb = {
-        layout = "de";
-        variant = ",nodeadkeys";
-      };
-      wacom.enable = true;
-      autoRepeatDelay = 230;
-      autoRepeatInterval = 30;
-    };
-    blueman.enable = true;
+    blueman.enable = false;
     myPostgresql = {
       enable = true;
     };
@@ -94,6 +90,7 @@ with myEnv;
   hardware = {
     bluetooth = {
       enable = true;
+      powerOnBoot = true;
     };
     graphics.enable32Bit = true;
   };

@@ -43,6 +43,34 @@
             opacity = 0.9;
           }
           {
+            match = "window_type = 'utility'";
+            opacity = 0.7;
+            animations = mkParensList [
+              {
+                triggers = [
+                  "open"
+                  "show"
+                ];
+                preset = "slide-in";
+                direction = "up";
+                duration = 0.05;
+              }
+            ];
+          }
+          {
+            match = "class_g = 'xmonad'";
+            animations = mkParensList [
+              {
+                triggers = [
+                  "open"
+                  "show"
+                ];
+                preset = "appear";
+                duration = 0.05;
+              }
+            ];
+          }
+          {
             match = "name ^= '[Scratchpad]'";
             opacity = 0.96;
             animations = mkParensList [
@@ -53,6 +81,7 @@
                 ];
                 preset = "appear";
                 duration = 0.2;
+                scale = 0.5;
               }
               {
                 triggers = [
@@ -60,6 +89,7 @@
                   "hide"
                 ];
                 preset = "disappear";
+                scale = 0.5;
                 duration = 0.1;
               }
             ];
