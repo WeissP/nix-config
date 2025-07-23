@@ -125,7 +125,6 @@
             additions
             modifications
             lts
-            yt-dlp-pkgs
             pinnedUnstables
             wired-notify
             emacs

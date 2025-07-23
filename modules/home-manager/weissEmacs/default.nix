@@ -256,7 +256,7 @@ in
             externalPackages = [
               (pkgs.aider-chat.withOptional {
                 withPlaywright = true;
-                withHelp = false;
+                withHelp = true;
               })
             ];
           };

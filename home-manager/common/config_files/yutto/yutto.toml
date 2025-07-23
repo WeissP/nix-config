@@ -1,0 +1,91 @@
+#:schema https://raw.githubusercontent.com/yutto-dev/yutto/refs/heads/main/schemas/config.json
+[basic]
+# 设置下载目录
+dir = "/media/videos/bilibili"
+# 设置临时文件目录
+tmp_dir = "/tmp/yutto"
+# 设置 SESSDATA
+# 设置大会员严格校验
+vip_strict = false
+# 设置登录严格校验
+login_strict = true
+
+[resource]
+# 不下载字幕
+require_subtitle = false
+
+[danmaku]
+# 设置弹幕速度
+speed = 1.0
+opacity = 0.65
+display-region-ratio = 0.4
+block_bottom = true
+block_colorful = true
+# 设置弹幕屏蔽关键词
+block_keyword_patterns = [
+  "弹幕",
+  "指挥",
+  "表白",
+  "早",
+  "简单",
+  "难",
+  "当你看到",
+  "剧透",
+  "齐神",
+  "有人",
+  "没人",
+  "休想",
+  "承包",
+  "不要忘记",
+  "前",
+  "第一",
+  "课代表",
+  "来世",
+  "此生无悔",
+  "kagari",
+  "monster",
+  "maya",
+  "red",
+  "blue",
+  "rmb",
+  "450",
+  "bilibili",
+  "fff",
+  "结",
+  "猜",
+  "优酷",
+  "优酷见",
+  "新年快乐",
+  "沙发",
+  "新春",
+  "来了",
+  "来啦",
+  "大门",
+  "二刷",
+  "三刷",
+  "等于现在",
+  "于现在",
+  "品质生活方法论",
+  "不喜欢.*可以",
+  "小时候",
+  "高能",
+  "黑皮",
+  "肤色",
+  "黑人",
+  "黑色",
+  "皮肤",
+  "黑狗",
+  "正确",
+  "错误",
+  "元购",
+  "黑",
+  "颜色",
+  "放假",
+  "休假",
+  "度假",
+  "放.*血",
+]
+
+[batch]
+# 下载额外剧集
+with_section = false

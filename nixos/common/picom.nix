@@ -42,8 +42,8 @@
             match = "window_type = 'dropdown_menu'";
             opacity = 0.9;
           }
-          {
-            match = "window_type = 'utility'";
+          { 
+            match = "class_g = 'Xmonad-easymotion'";
             opacity = 0.7;
             animations = mkParensList [
               {

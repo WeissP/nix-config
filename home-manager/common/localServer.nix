@@ -16,7 +16,7 @@
     ./webman.nix
     ./shell
     ./aria.nix
-    ./videosDownloader.nix
+    # ./videosDownloader.nix
     ./gtrash.nix
     ./ytdl-sub.nix
     ./yutto.nix

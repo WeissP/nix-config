@@ -16,6 +16,15 @@
   boot.loader.efi.canTouchEfiVariables = true;
 
   services = {
+    create_ap = {
+      enable = true;
+      settings = {
+        INTERNET_IFACE = "enp5s0";
+        WIFI_IFACE = "wlp4s0";
+        SSID = "DBIS-bai-Hotspot";
+        PASSPHRASE = "dbis-group-bai";
+      };
+    };
     # disable built-in bluetooth adapter
     udev.extraRules = ''
       SUBSYSTEM=="usb", ATTRS{idVendor}=="8087", ATTRS{idProduct}=="0032", ATTR{authorized}="0"

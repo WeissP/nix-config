@@ -101,7 +101,6 @@
                 alacritty
                 unrar
                 p7zip
-                yt-dlp-with-plugins
                 pueue
                 zoom-us
                 imagemagick
@@ -197,7 +196,7 @@
                 gtk.enable = true;
               };
               packages = with pkgs; [
-                (texlive.combine {
+                (lts.texlive.combine {
                   inherit (texlive) scheme-full;
                   pkgFilter = pkg: pkg.tlType == "run" || pkg.tlType == "bin" || pkg.pname == "cm-super";
                 })
@@ -213,7 +212,6 @@
                 sqlite
                 zotero
                 calibre
-                jetbrains.idea-community-bin
                 jellyfin-mpv-shim
                 qrencode
                 ripgrep-all
@@ -243,7 +241,6 @@
                 nodejs
                 feh
                 lshw
-                jetbrains.idea-community-bin
                 apfs-fuse
                 graphviz
                 libnotify
@@ -302,6 +299,7 @@
                 "/home/${username}/Documents/technical_assistant/dbis-exerciser/result/bin"
               ];
               packages = with pkgs; [
+                lts.jetbrains.idea-community-bin
                 inkscape
                 llm
                 mkvtoolnix

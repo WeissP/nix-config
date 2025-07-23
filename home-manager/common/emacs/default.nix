@@ -140,6 +140,7 @@ in
         "modus-themes"
         "circadian"
         "mustache-mode"
+        "annotate"
       ];
       idleLoad = {
         enable = true;

@@ -1490,11 +1490,11 @@
     "myNixRepo": {
       "flake": false,
       "locked": {
-        "lastModified": 1749623759,
-        "narHash": "sha256-Y/t0d5Na1/WKa+sf14VkozyRKmznm3yVB5z1Doy0iak=",
+        "lastModified": 1753038250,
+        "narHash": "sha256-oldoeTqJMo8WmxeFXM5NET9kJyMw1vk1CRhEvfB6SVw=",
         "owner": "WeissP",
         "repo": "nix-config",
-        "rev": "3ac73c3cc4452f5e9f1773d5419c9d4bae684c55",
+        "rev": "368200046d4547ee39ad207c75d74353bdfcd015",
         "type": "github"
       },
       "original": {
@@ -3050,11 +3050,11 @@
         ]
       },
       "locked": {
-        "lastModified": 1753022713,
-        "narHash": "sha256-ojiGhoyZSZqcS8atkGtjrk+jDkmhYNqQhSjTtEeSQD4=",
+        "lastModified": 1753110982,
+        "narHash": "sha256-+V4cBHAVW2KZXBR+9a6nx8sH4YRHs912pS2V531ASc8=",
         "owner": "WeissP",
         "repo": "weiss-xmonad",
-        "rev": "6253930121446d69529567171cad2925900f7f38",
+        "rev": "bd215e3d2cb12435def8c5b6eea26be943dad6dc",
         "type": "github"
       },
       "original": {
