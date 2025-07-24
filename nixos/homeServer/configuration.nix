@@ -9,12 +9,12 @@
     ../common/zsh.nix
     ../common/syncthing.nix
     ../common/sing-box.nix
-    ../common/navidrome.nix
+    # ../common/navidrome.nix
     ../common/karakeep.nix
     ../common/notesServer.nix
     # ../common/anki-sync-server.nix # unable to use it on IOS without purchasing the APP
-    ./mergerfs.nix
-    ./snapraid.nix
+    # ./mergerfs.nix
+    # ./snapraid.nix
   ];
 
   # Use the systemd-boot EFI boot loader.

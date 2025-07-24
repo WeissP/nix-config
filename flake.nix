@@ -370,6 +370,7 @@
               configSession = "installer";
               usage = [ ];
               location = "china";
+              display = "Xorg";
             };
             modules = [
               ./nixos/installer/installer.nix
@@ -382,6 +383,7 @@
               configSession = "installer";
               usage = [ ];
               location = "home";
+              display = "Xorg";
             };
             modules = [
               ./nixos/installer/installer.nix

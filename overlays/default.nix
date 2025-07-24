@@ -49,6 +49,14 @@
       yt-dlp = master.yt-dlp;
       # yt-dlp = yt-dlp-pkgs.ytdl-sub-with-plugins;
       aider-chat = master.aider-chat;
+      # bison =
+      #   (import (builtins.fetchGit {
+      #     # Descriptive name to make the store path easier to identify
+      #     name = "bison-revision";
+      #     url = "https://github.com/NixOS/nixpkgs/";
+      #     ref = "refs/heads/nixpkgs-unstable";
+      #     rev = "407f8825b321617a38b86a4d9be11fd76d513da2";
+      #   }) { inherit (prev) system; }).bison;
       # ytdl-sub-with-plugins =yt-dlp-pkgs
       # example = prev.example.overrideAttrs (oldAttrs: rec {
       # ...

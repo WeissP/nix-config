@@ -26,6 +26,7 @@
     home.packages = with pkgs; [
       dua
       lux
+      smartmontools
       (pkgs.additions.writeNuBinWithConfig "crop_fanart"
         {
           env = {

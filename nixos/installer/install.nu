@@ -217,3 +217,34 @@ export def install-nixos [
 
     print "Installation complete! You can now reboot into your new system."
 }
+
+export def install-nixos-plain [
+    session: string # The NixOS configuration session name from the flake (e.g., home_server). This parameter is required.
+] {
+    clone-and-unlock
+
+    let nix_config_repo_path = "/home/nixos/nix-config" # Assumes this path exists and is unlocked.
+
+    if not ($nix_config_repo_path | path exists) {
+        error make { msg: $"Nix config directory ($nix_config_repo_path) not found. Run disko-install first or ensure it's cloned and unlocked." }
+    }
+
+    let flake_uri = $"($nix_config_repo_path)#($session)"
+    let trusted_substituters = [
+        "https://weiss.cachix.org"
+        "https://nix-community.cachix.org"
+        "https://cache.nixos.org/"
+        "https://cache.iog.io"
+    ] | str join " "
+    let trusted_public_keys = [
+        "weiss.cachix.org-1:2IzFIzVwv8/iIrmz319mWB0KDqGl16eoNF67eX1YNdo="
+        "nix-community.cachix.org-1:mB9FSh9qf2dCimDSUo8Zy7bkq5CX+/rkCWyvRCYg3Fs="
+        "cache.nixos.org-1:6NCHdD59X431o0gWypbMrAURkbJ16ZPMQFGspcDShjY="
+        "sylvorg.cachix.org-1:xd1jb7cDkzX+D+Wqt6TemzkJH9u9esXEFu1yaR9p8H8="
+        "hydra.iohk.io:f/Ea+s+dFdN+3Y/G+FDgSq+a5NEWhJGzdjvKNGv0/EQ="
+    ] | str join " "
+
+    ^sudo nixos-install --flake $flake_uri --option trusted-substituters $trusted_substituters --option trusted-public-keys $trusted_public_keys
+
+    print "Installation complete! You can now reboot into your new system."
+}
