@@ -205,7 +205,6 @@
             ./home-manager
           ];
           desktopModules = baseModules ++ [
-            # inputs.niri.nixosModules.niri
             ./disko/btrfs_system.nix
             nixosModules.picom
             inputs.stylix.nixosModules.stylix
@@ -314,6 +313,7 @@
               # display = "Xorg";
             };
             modules = desktopModules ++ [
+              inputs.niri.nixosModules.niri
               ./nixos/laptop/hardware-configuration.nix
               ./nixos/laptop/configuration.nix
               (

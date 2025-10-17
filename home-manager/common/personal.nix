@@ -36,7 +36,6 @@
         ./flameshot.nix
         ./darkman.nix
         ./jellyfin-mpv-shim.nix
-        ./autorandr.nix
         ./ssh.nix
       ]
     else
@@ -49,6 +48,7 @@
         ./chromium.nix
         ./ariang.nix
         ./wired.nix
+        ./autorandr.nix
         ./prompts.nix
         ./handlr.nix
       ]
