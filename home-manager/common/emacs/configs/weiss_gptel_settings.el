@@ -1,11 +1,11 @@
 (with-eval-after-load 'gptel
   (setq 
-   gptel-track-media t
+   gptel-track-media t 
    gptel-default-mode 'org-mode   
    )
 
-  (setq gptel-model 'gpt-4.1)
-  (put 'o4-mini :request-params '(:reasoning_effort "high" :stream :json-false))
+  (setq gptel-model 'gpt-5)
+  ;; (put 'o4-mini :request-params '(:reasoning_effort "high" :stream :json-false))
   (when (fboundp 'password-store-get-field)
     (require 'password-store)
     (setq gptel-api-key (password-store-get-field "openai" "api"))

@@ -16,7 +16,6 @@ with myEnv;
   boot.loader.systemd-boot.enable = true;
   boot.loader.efi.canTouchEfiVariables = true;
 
-  programs.steam.protontricks.enable = true;
   virtualisation.docker.enable = true;
   services = {
     openssh = {
@@ -56,5 +55,5 @@ with myEnv;
     }
   ];
 
-  system.stateVersion = "25.05";
+  system.stateVersion = "25.11";
 }

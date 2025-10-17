@@ -23,7 +23,7 @@ let
         ;
     };
     sharedModules = [ inputs.wired-notify.homeManagerModules.default ];
-    backupFileExtension = "backup";
+    backupFileExtension = "hm_backup";
     useGlobalPkgs = true;
     useUserPackages = true;
     users."${myEnv.username}" = import (./users + "/${myEnv.username}.nix");

@@ -254,14 +254,38 @@ Otherwise, return PATH-STR unchanged."
           (if (string-equal major-mode 'dired-mode)
               (->> (dired-get-marked-files)
                    (-map #'file-local-name)
-                   (-map #'weiss--maybe-quote-path)
-                   (s-join sep)
                    )
             (if (buffer-file-name)
                 (file-local-name (buffer-file-name))
-              (expand-file-name default-directory)))))
-    (kill-new paths)
-    (message "File path copied: %s" paths)))
+              (expand-file-name default-directory))))
+         (to-copy
+          (if (and (not (listp paths)) current-prefix-arg)
+              (let* ((p paths)
+                     (candidates (-distinct
+                                  (-non-nil
+                                   (list
+                                    p 
+                                    (concat "'" p "'")
+                                    (when-let ((r (or (ignore-errors (caddr (project-current)))
+                                                      (ignore-errors (cdr (project-current))))))
+                                      (f-relative p r)             
+                                      )
+                                    ))))
+                     )
+
+                (consult--read
+                 candidates
+                 :prompt "Choose which one you want to copy"
+                 )
+                )
+            (if (listp paths) 
+                (s-join sep paths)
+              paths
+              )
+            ))
+         )
+    (kill-new to-copy)
+    (message "File path copied: %s" to-copy)))
 
 (defun weiss-dired-send-to-paperless ()
   "DOCSTRING"

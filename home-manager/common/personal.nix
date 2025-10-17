@@ -3,7 +3,7 @@
   inputs,
   outputs,
   myEnv,
-  location,
+  # location,
   lib,
   config,
   pkgs,
@@ -12,70 +12,64 @@
   ...
 }:
 {
-  imports =
-    [
-      ./minimum.nix
-      ./gtrash.nix
-      ./terminal/wezterm.nix
-      ./emacs
-      ./email.nix
-      ./pass.nix
-      ./webman.nix
-      ./shell
-      ./ripgrep.nix
-      ./browser.nix
-      ./aider.nix
-      ./singboxConfig.nix
-      ./mpv.nix
-      ./notification.nix
-      ./sioyek.nix
-    ]
-    ++ (
-      if myEnv.arch == "linux" then
-        [
-          ./fusuma.nix
-          ./flameshot.nix
-          ./darkman.nix
-          ./jellyfin-mpv-shim.nix
-          ./autorandr.nix
-        ]
-      else
-        [ ]
-    )
-    ++ (
-      if myEnv.location == "uni" then
-        [
-          ./ytdl-sub.nix
-        ]
-      else
-        [ ]
-    )
-    ++ (
-      if (builtins.elem "daily" myEnv.usage) then
-        [
-          ./hledger.nix
-          ./chromium.nix
-          ./ariang.nix
-          ./wired.nix
-          ./prompts.nix
-        ]
-      else
-        [ ]
-    )
-    ++ (
-      if (myEnv.display == "wayland") then
-        [
-          ./fuzzel.nix
-          ./niri.nix
-        ]
-      else if (myEnv.display == "Xorg") then
-        [
-          ./trayer.nix
-          ./xscreensaver.nix
-        ]
-      else
-        lib.asserts.assertMsg (myEnv.display == "none") "Unknow display" [ ]
-    );
+  imports = [
+    ./minimum.nix
+    ./gtrash.nix
+    ./terminal/wezterm.nix
+    ./emacs
+    ./email.nix
+    ./pass.nix
+    ./webman.nix
+    ./shell
+    ./ripgrep.nix
+    ./browser.nix
+    ./aider.nix
+    ./singboxConfig.nix
+    ./mpv.nix
+    ./notification.nix
+    ./sioyek.nix
+  ]
+  ++ (
+    if myEnv.arch == "linux" then
+      [
+        ./fusuma.nix
+        ./flameshot.nix
+        ./darkman.nix
+        ./jellyfin-mpv-shim.nix
+        ./autorandr.nix
+        ./ssh.nix
+      ]
+    else
+      [ ]
+  )
+  ++ (
+    if (builtins.elem "daily" myEnv.usage) then
+      [
+        ./hledger.nix
+        ./chromium.nix
+        ./ariang.nix
+        ./wired.nix
+        ./prompts.nix
+        ./handlr.nix
+      ]
+    else
+      [ ]
+  )
+  # ++ (lib.optional (myEnv.configSession == "mini") ./ytdl-sub.nix)
+  ++ (
+    if (myEnv.display == "wayland") then
+      [
+        ./fuzzel.nix
+        ./niri.nix
+      ]
+    else if (myEnv.display == "Xorg") then
+      [
+        ./trayer.nix
+        ./xscreensaver.nix
+      ]
+    else
+      lib.asserts.assertMsg (myEnv.display == "none") "Unknow display" [ ]
+  );
 
   config =
     with myEnv;
@@ -87,14 +81,10 @@
           in
           lib.mkMerge [
             {
-              file = {
-                "${homeDir}/.ssh/id_rsa".text = secrets.ssh."163".private;
-              };
               packages = with pkgs; [
                 bat
                 fd
                 exfat
-                git-crypt
                 bibtex-tidy
                 prettier
                 wget
@@ -196,6 +186,7 @@
                 gtk.enable = true;
               };
               packages = with pkgs; [
+                dufs
                 (lts.texlive.combine {
                   inherit (texlive) scheme-full;
                   pkgFilter = pkg: pkg.tlType == "run" || pkg.tlType == "bin" || pkg.pname == "cm-super";
@@ -204,6 +195,7 @@
                 devenv
                 bluetui
                 ffmpeg
+                wechat
                 # nur.repos.xddxdd.wechat-uos-bin
                 qemu
                 google-java-format
@@ -215,7 +207,7 @@
                 jellyfin-mpv-shim
                 qrencode
                 ripgrep-all
-                black
+                # black
                 (python3.withPackages (
                   ps: with ps; [
                     python-lsp-server
@@ -241,7 +233,7 @@
                 nodejs
                 feh
                 lshw
-                apfs-fuse
+                # apfs-fuse
                 graphviz
                 libnotify
                 libreoffice
@@ -250,7 +242,7 @@
                 mattermost-desktop
                 nodejs
                 ocamlPackages.cpdf
-                p3x-onenote
+                # p3x-onenote
                 pdfpc
                 poppler_utils
                 qq
@@ -292,6 +284,7 @@
             (ifDisplay {
               packages = with pkgs; [
                 syncthingtray
+                e2fsprogs
               ];
             })
             (ifUsage "daily" {
@@ -299,12 +292,30 @@
                 "/home/${username}/Documents/technical_assistant/dbis-exerciser/result/bin"
               ];
               packages = with pkgs; [
+                yt-dlp
+                additions.mill
+                # mill
+                # styluslabs-write
+                # kdePackages.dolphin
+                # libsForQt5.kio-extras
+                # nautilus
+                # (runCommandLocal "nautilus-portal" { } ''
+                #   mkdir -p $out/share/xdg-desktop-portal/portals
+                #   cat > $out/share/xdg-desktop-portal/portals/nautilus.portal <<EOF
+                #   [portal]
+                #   DBusName=org.gnome.Nautilus
+                #   Interfaces=org.freedesktop.impl.portal.FileChooser
+                #   EOF
+                # '')
+                ouch
+                xfce.thunar
+                scrcpy
+                saber
+                deploy-rs
                 lts.jetbrains.idea-community-bin
                 inkscape
                 llm
                 mkvtoolnix
-                steam
-                jellyfin-media-player
                 ausweisapp
                 masterpdfeditor
                 kdePackages.okular
@@ -313,21 +324,6 @@
               ];
             })
           ];
-        programs = {
-          ssh = {
-            enable = true;
-            matchBlocks = {
-              "home-server" = {
-                hostname = secrets.nodes.homeServer.localIp;
-                user = username;
-              };
-              "vultr" = {
-                hostname = secrets.nodes.Vultr.publicIp;
-                user = username;
-              };
-            };
-          };
-        };
       }
       (ifLinux {
         stylix.targets = {
@@ -342,6 +338,7 @@
           defaultApplications = {
             "application/pdf" = [ "sioyek.desktop" ];
             "image/png" = [ "feh" ];
+            "inode/directory" = "org.gnome.Nautilus.desktop";
           };
         };
         systemd.user = {
@@ -427,6 +424,9 @@
             pinentry.package = pkgs.pinentry-qt;
           };
         };
+      })
+      (ifUsage "daily" {
+        services.playerctld.enable = true;
       })
     ];
 }

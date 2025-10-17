@@ -1,6 +1,6 @@
 {
   myEnv,
-  swapSize ? "32G",
+  swapSize ? "64G",
   # Default user and group IDs (1000 is typically the first normal user)
   userId ? 1000,
   groupId ? 1000,

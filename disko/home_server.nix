@@ -143,7 +143,6 @@ let
 in
 {
   disko.devices = {
-    # disk = mainDiskCfg // backupDiskCfg // hddMediaCfgs // hddMediaParityCfgs;
-    disk = mainDiskCfg // backupDiskCfg;
+    disk = mainDiskCfg // backupDiskCfg // hddMediaCfgs // hddMediaParityCfgs;
   };
 }

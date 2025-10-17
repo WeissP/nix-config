@@ -1,3 +1,54 @@
+open /home/weiss/Downloads/to_download.txt | lines | each { |url| curl http://192.168.2.33:6800/jsonrpc -H 'Content-Type: application/json' -d $'{"jsonrpc":"2.0","id":"qwer","method":"aria2.addUri","params":["token:1.048596",["($url)"],{ "dir": "/media/audios/tmp" }]}' ; sleep (random int 1..60 | into duration  --unit sec) }
+
+mkdir /home/weiss/.config/singbox_config/old ; ls *.json -f | get name | each { |link_name|
+readlink $link_name | cp $in /home/weiss/.config/singbox_config/old/   
+}
+
+ls -f /media/videos/porn/metatube/run/media/weiss/Seagate_Backup/videos/porn
+| get name
+| each {|n|
+let parsed = $n | path parse
+let dir = "/media/videos/porn/metatube" | path join $parsed.stem
+mkdir $dir
+mv $n $"($dir)/"
+} 
+
+
+
+rsync -av --progress --files-from=/home/weiss/to_sync.txt / /mnt/media/hdd1/videos/porn/metatube/
+
+
+let skip = open /home/weiss/skip.txt | lines
+let bangos = open /home/weiss/saved-bangos.txt | lines
+/media/videos/porn
+ls -f /run/media/weiss/Seagate_Backup/videos/porn
+| get name
+| where {|in|
+let name = $in | path basename 
+let in_bango = $bangos | any {|bango| $name | str contains --ignore-case $bango } 
+not ($name in $skip) and not $in_bango
+}
+| save /home/weiss/to_sync.txt
+
+ls `/media/videos/porn/#processed/**/*.nfo` -f
+| get name
+| each { |in|
+ let dir = $in | path dirname
+ let bango = ($dir | path basename | parse "[{bango}]{_}").bango  
+ {dir: $dir, bango: $bango}
+}
+| where {|in| (ls $in.dir | get size | math max) > 100MB } 
+| each {|in| $in.bango | first}
+| save /home/weiss/saved-bangos.txt
+
+ 
+| each {|in| $in.bango | first}
+| 
+
+ls | get size | math max 
+
+| each { |in| ($in | path parse).stem | parse "" }
+
 open /home/weiss/Documents/chats/errors.md
 | lines 
 | each {|in| $in | parse "{_}'/mnt/media/hdd1/{v}.mp4'{_}" | get v  }
@@ -8,18 +59,35 @@ open /home/weiss/Documents/chats/errors.md
 
 
 # $t | parse "{_}'/mnt/media/hdd1/{v}.mp4'{_}"
+# ls /media/videos/bilibili/**/*.ass -a | where modified > ((date now) - 1day)
+
+
+ # | where modified > ((date now) - 1day)
+let ass_paths = ls /media/videos/bilibili/**/*.ass -af  | get name
+ls `/media/ytdl-sub/tv-shows/勒夫防御性驾驶/Season */*.mp4` -f
+| get name
+| each { |n|
+    let p = ($n | path parse)
+    let date = ($p.stem | parse "{date} - {_}").date | first
+    let found_ass = $ass_paths  | where {|n| $n | str contains $date} 
+    if ($found_ass | is-not-empty) {
+      let ass_target_path = $p | upsert extension "ass" | path join
+      cp ($found_ass | first) $ass_target_path    
+    }
+  }
+
+ls `/media/ytdl-sub/tv-shows/勒夫防御性驾驶/Season */*.mp4` -f
+| get name
+| where { |n|
+    let p = ($n | path parse)
+    let date = ($p.stem | parse "{date} - {_}").date | first
+    let ass = $ass_paths  | where {|n| $n | str contains $date} 
+    $ass | is-empty 
+  }
+
 
 def main [] {
-  let ass_paths = ls `/media/videos/bilibili/**/*.ass` -f | get name
-  ls `/media/ytdl-sub/tv-shows/细细的蓝线11/Season */*.mp4` -f
-  | get name
-  | each { |n|
-      let p = ($n | path parse)
-      let date = ($p.stem | parse "{date} - {_}").date | first
-      let ass = $ass_paths  | where {|n| $n | str contains $date} | first
-      let ass_target_path = $p | upsert extension "ass" | path join
-      cp $ass $ass_target_path
-    }
+
 }
 
 open /home/weiss/projects/JavSP/data/genre_javbus.csv

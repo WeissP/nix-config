@@ -9,6 +9,7 @@
   inherit (inputs.niri.overlays) niri;
 
   yt-dlp-pkgs = import ./yt-dlp.nix;
+  # yt-dlp-pkgs = import "${remoteFiles.mitchtyNixYtDlp}/nix/overlays/yt-dlp.nix" { };
 
   # This one brings our custom packages from the 'pkgs' directory
   additions = final: _prev: {
@@ -20,7 +21,7 @@
 
   emacs = import inputs.emacs-overlay;
   wired-notify = inputs.wired-notify.overlays.default;
-
+  
   # This one contains whatever you want to overlay
   # You can change versions, add patches, set compilation flags, anything really.
   # https://nixos.wiki/wiki/Overlays
@@ -46,9 +47,30 @@
           url = "https://github.com/NixOS/nixpkgs/archive/611bf8f183e6360c2a215fa70dfd659943a9857f.tar.gz";
           sha256 = "sha256:1rhrajxywl1kaa3pfpadkpzv963nq2p4a2y4vjzq0wkba21inr9k";
         }) { inherit (prev) system; }).tdlib;
+      meilisearch1152 =
+        (import (builtins.fetchTarball {
+          url = "https://github.com/NixOS/nixpkgs/archive/e6f23dc08d3624daab7094b701aa3954923c6bbb.tar.gz";
+          sha256 = "sha256:0m0xmk8sjb5gv2pq7s8w7qxf7qggqsd3rxzv3xrqkhfimy2x7bnx";
+        }) { inherit (prev) system; }).meilisearch;
+      meilisearch118 =
+        (import (builtins.fetchTarball {
+          url = "https://github.com/NixOS/nixpkgs/archive/c9425e1fab20e9c8cc6680bdf6cecfbf0f83f49c.tar.gz";
+          sha256 = "sha256:1wb84hgrir17k1sipgyisjx77gnj9dpha2f64ih87lpfq55w5qrr";
+        }) { inherit (prev) system; }).meilisearch;
+      # sing-box =
+      #   (import (builtins.fetchTarball {
+      #     url = "https://github.com/Prince213/nixpkgs/archive/fd3c69cc9424db0fc278e464eff4f2220384155e.tar.gz";
+      #     sha256 = "sha256:07cclkm93s8wpfj9r33hk7kh3jkfndj95x2s9nb12rwql2a449ir";
+      #   }) { inherit (prev) system; }).sing-box;
       yt-dlp = master.yt-dlp;
+      ytdl-sub = master.ytdl-sub;
       # yt-dlp = yt-dlp-pkgs.ytdl-sub-with-plugins;
       aider-chat = master.aider-chat;
+      # mill =
+      #   (import (builtins.fetchTarball {
+      #     url = "https://github.com/skykanin/nixpkgs/archive/9d4d5a28e83994803e8bc76ee3969268c13765ce.tar.gz";
+      #     sha256 = "sha256:0dd3zqc9m8y96lxgpdgdd71qi7cxigmwzjylr2ajz4zdxfzivh6h";
+      #   }) { inherit (prev) system; }).mill;
       # bison =
       #   (import (builtins.fetchGit {
       #     # Descriptive name to make the store path easier to identify
@@ -173,6 +195,18 @@
             system = final.system;
             config.allowUnfree = true;
           };
+      "2025-09-05" =
+        import
+          (final.fetchFromGitHub {
+            owner = "NixOS";
+            repo = "nixpkgs";
+            rev = "02794ad4d56af7586773b1e022f6cc3714ea311b";
+            sha256 = "sha256-zbbVMeVhp/XxhM3OpUfMWPf+7u1GOzqlIuqpC9y2IYA=";
+          })
+          {
+            system = final.system;
+            config.allowUnfree = true;
+          };
     };
   };
 
@@ -185,4 +219,10 @@
     };
   };
 
+  # serokell = final: _prev: {
+  #   serokell = import inputs.serokell-nixpkgs {
+  #     system = final.system;
+  #     config.allowUnfree = true;
+  #   };
+  # };
 }

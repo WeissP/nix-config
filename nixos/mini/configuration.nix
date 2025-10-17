@@ -1,5 +1,6 @@
 {
   pkgs,
+  lib,
   secrets,
   ...
 }:
@@ -17,12 +18,13 @@
 
   services = {
     create_ap = {
-      enable = true;
+      enable = false;
       settings = {
         INTERNET_IFACE = "enp5s0";
         WIFI_IFACE = "wlp4s0";
         SSID = "DBIS-bai-Hotspot";
         PASSPHRASE = "dbis-group-bai";
+        SHARE_METHOD = "nat";
       };
     };
     # disable built-in bluetooth adapter
@@ -37,6 +39,7 @@
   environment = {
     systemPackages = with pkgs; [
       wireguard-tools
+      linux-wifi-hotspot
     ];
   };
   hardware = {
@@ -65,6 +68,12 @@
       ];
     }
   ];
+
+  powerManagement.resumeCommands =
+    let
+      p = lib.getExe pkgs.autorandr;
+    in
+    "sleep 60s && ${p} off && ${p} --match-edid default";
 
   system.stateVersion = "25.05";
 }

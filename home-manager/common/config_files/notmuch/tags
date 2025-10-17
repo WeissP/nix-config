@@ -4,10 +4,14 @@
 +RPTU_CS -- path:rptu_cs/**
 +gmail -- path:gmail/**
 
++emil_order -- from:"EMIL | CarSharing in Kaiserslautern by SWK <noreply@moqo.de>"
++emil_invoice -- from:"noreply@moqo.de" and subject:invoice
++emil_unimportant -- is:emil_order or is:emil_invoice
+
 +denote -- to:"~protesilaos/denote@lists.sr.ht"
 +mailing_list -- is:denote
 
-+from_self -- from:"WeissBai@web.de" or from:"bai@rhrk.uni-kl.de" or from:"bai@rptu.de" or from:"b_bai19@cs.uni-kl.de" or from:"kingbaiing@163.com"
++from_self -- from:"WeissBai@web.de" or from:"bozhou.bai@cs.rptu.de" or from:"bai@rptu.de" or from:"b_bai19@cs.uni-kl.de" or from:"kingbaiing@163.com"
 
 +gitlab -- from:gitlab
 +github -- from:github
@@ -37,7 +41,7 @@
 +google_sign_in_notification -- (is:google_security_alert and body:"a new sign in")
 +google_drive_access_granted -- (is:google_security_alert and body:"Google Drive" body:"grant access")
 
-+unidays -- to:bai@rhrk.uni-kl.de and from:unidays
++unidays -- to:bozhou.bai@cs.rptu.de and from:unidays
 +unidays_advertisement -- is:unidays and not subject:wichtig
 +unidays_security_alert -- is:unidays and subject:"log-in" and body:"angemeldet"
 
@@ -133,8 +137,10 @@
 
 +newsletter -- is:medium_newsleter or is:bieleinianjian or is:stochastic_volatility
 
-+advertisement -- is:check24 or is:webde_info or is:heystudium or is:comdirect_news or from:"trysail" or from:前程无忧 or tag:"/.*advertisement.*/"
++gi -- from:"Gesellschaft für Informatik e.V.	<mitgliederservice@gi.de>"
+ 
++advertisement -- is:check24 or is:webde_info or is:heystudium or is:comdirect_news or from:"trysail" or from:前程无忧 or tag:"/.*advertisement.*/" or is:gi
 
 -unread -- is:advertisement
 
-+unimportant -- (not is:inbox) or (is:shipment and not is:shipment_today) or is:dhl_unimportant or is:receipt or is:advertisement or is:rptu_unimportant or is:cs_rundmail or is:print_notification or is:vlu_reminder or (is:mattermost and is:DBIS) or is:olat_notification or is:klarmobil_unimportant or is:commerzbank_doc or is:newsletter or is:lte_volume or is:from_self or is:drawboard or is:inoreader or is:codepen or is:amazon_unimportant or is:youtube or is:paypal or is:mailing_list or is:playasia
++unimportant -- (not is:inbox) or (is:shipment and not is:shipment_today) or is:dhl_unimportant or is:receipt or is:advertisement or is:rptu_unimportant or is:cs_rundmail or is:print_notification or is:vlu_reminder or (is:mattermost and is:DBIS) or is:olat_notification or is:klarmobil_unimportant or is:commerzbank_doc or is:newsletter or is:lte_volume or is:from_self or is:drawboard or is:inoreader or is:codepen or is:amazon_unimportant or is:youtube or is:paypal or is:mailing_list or is:playasia or is:emil_unimportant

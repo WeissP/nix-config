@@ -48,7 +48,7 @@
               :before #'weiss-citar-denote--update-last-created-note-cite-key)
 
 
-  (add-to-list 'denote-templates '(citar-org-note . weiss-citar-denote-org-note-template))
+  ;; (add-to-list 'denote-templates '(citar-org-note . weiss-citar-denote-org-note-template))
   (setq citar-denote-template 'citar-org-note)
 
   ;; (defun weiss-citar-denote--create-note (citekey &optional _entry)

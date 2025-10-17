@@ -219,6 +219,16 @@
      :pairs
      (
       ( 
+       :name "Quote ``''" 
+       :pair ("``" . "''")
+       :new-line nil
+       )
+      ( 
+       :name "verbatim" 
+       :pair ("\\begin{verbatim}" . "\\end{verbatim}")
+       :new-line t
+       ) 
+      ( 
        :name "Beamer only" 
        :pair ("\\only<2>{" . "}")
        :new-line t

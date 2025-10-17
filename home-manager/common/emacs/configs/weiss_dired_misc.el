@@ -20,7 +20,7 @@
         (wnd (current-window-configuration)))
     (if (<= (length files) 2)
         (let ((file1 (car files))
-              (file2
+              (file2 
                (if (cdr files)
                    (cadr files)
                  (read-file-name

@@ -17,7 +17,6 @@ with myEnv;
   boot.loader.systemd-boot.enable = true;
   boot.loader.efi.canTouchEfiVariables = true;
 
-  programs.steam.protontricks.enable = true;
   virtualisation.docker.enable = true;
   services = {
     openssh = {
@@ -33,8 +32,8 @@ with myEnv;
   };
 
   environment = {
-    systemPackages = [
-      pkgs.wireguard-tools
+    systemPackages = with pkgs; [
+      wireguard-tools
     ];
   };
   networking = {

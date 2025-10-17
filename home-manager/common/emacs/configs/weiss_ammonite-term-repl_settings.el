@@ -1,9 +1,9 @@
 (with-eval-after-load 'ammonite-term-repl
   (setq ammonite-term-repl-program "mill")
-  (add-hook 'scala-mode-hook #'ammonite-term-repl-minor-mode)
-  (add-hook 'ammonite-term-repl-run-hook #'weiss-after-ammonite-term-repl)
+  ;; (add-hook 'scala-mode-hook #'ammonite-term-repl-minor-mode)
+  ;; (add-hook 'ammonite-term-repl-run-hook #'weiss-after-ammonite-term-repl)
   )
-
+ 
 (defun weiss-ammonite-formatted-region-text (start end)
   "DOCSTRING"
   (interactive "r")

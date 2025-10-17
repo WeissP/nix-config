@@ -55,6 +55,7 @@
   (interactive)
   (setq weiss-denote-pdf-mode-p t)  
   (add-hook 'pdf-view-after-change-page-hook #'weiss-denote-pdf-open-files-cur-page nil t)
+  (call-interactively 'weiss-denote-pdf-open-files-cur-page)
   )
 
 (defun weiss-denote-pdf-mode-disable ()

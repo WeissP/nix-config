@@ -11,35 +11,40 @@
     ../common/sing-box.nix
     # ../common/navidrome.nix
     ../common/karakeep.nix
-    ../common/notesServer.nix
+    ../common/meilisearch.nix
     # ../common/anki-sync-server.nix # unable to use it on IOS without purchasing the APP
-    # ./mergerfs.nix
-    # ./snapraid.nix
+    ./mergerfs.nix
+    ./snapraid.nix
   ];
 
   # Use the systemd-boot EFI boot loader.
   boot.loader.systemd-boot.enable = true;
   boot.loader.efi.canTouchEfiVariables = true;
-  programs.steam.protontricks.enable = true;
 
   services = {
+    tailscale.enable = true;
     home-assistant = {
-      enable = false;
+      enable = true;
       extraComponents = [
+        "analytics"
         "esphome"
+        "isal"
+        "google_translate"
         "met"
         "radio_browser"
-        "zha"
+        "shopping_list"
         "xiaomi"
-        "xiaomi_ble"
         "xiaomi_aqara"
+        "xiaomi_ble"
         "xiaomi_miio"
+        "zha"
       ];
+      customComponents = with pkgs.home-assistant-custom-components; [ xiaomi_miot ];
       config = {
         # Includes dependencies for a basic setup
         # https://www.home-assistant.io/integrations/default_config/
         default_config = { };
-        "automation ui" = "!include automations.yaml";
+        # "automation ui" = "!include automations.yaml";
       };
     };
     xserver = {

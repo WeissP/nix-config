@@ -1,6 +1,7 @@
 (with-eval-after-load 'magit
   (wks-unset-key magit-status-mode-map '("SPC" "-" "a" "$" "^") :all-numbers)
   (wks-unset-key magit-revision-mode-map '("$" "^") :all-numbers)
+  (wks-unset-key magit-diff-mode-map '("^"))
   (wks-unset-key magit-blob-mode-map '("b") )
 
   (wks-define-key

@@ -7,27 +7,37 @@
 with lib;
 with myEnv;
 {
-  imports =
-    [
-      ./psql.nix
-      ./syncthing.nix
-      ./zsh.nix
-      ./uxplay.nix
-      ./sunshine.nix
-      ./fonts.nix
-      ./gluqloFont.nix
-      ./stylix.nix
-    ]
-    ++ (
-      if myEnv.arch == "linux" then
-        [
-          ./display.nix
-        ]
-      else
-        [ ]
-    );
+  imports = [
+    ./psql.nix
+    ./syncthing.nix
+    ./zsh.nix
+    ./uxplay.nix
+    ./fonts.nix
+    ./gluqloFont.nix
+    ./stylix.nix
+  ]
+  ++ (lib.optional (builtins.elem configSession [
+    "desktop"
+    "laptop"
+  ]) ./steam)
+  ++ (lib.optional (configSession == "desktop" || configSession == "mini") ./keymapper.nix)
+  ++ (lib.optional (myEnv.arch == "linux") ./display.nix);
 
   services = {
+    # Enable autodiscovery of network printers
+    avahi = {
+      enable = true;
+      nssmdns4 = true;
+      openFirewall = true;
+    };
+    printing = {
+      enable = true;
+      drivers = with pkgs; [
+        cups-filters
+        cups-browsed
+      ];
+    };
+
     joycond.enable = true;
     geoclue2.enable = true;
     libinput = {
@@ -57,6 +67,7 @@ with myEnv;
   };
 
   programs = {
+    dconf.enable = true;
     mosh.enable = true;
     zsh.enable = true;
     git = {
@@ -70,7 +81,6 @@ with myEnv;
     systemPackages = with pkgs; [
       kora-icon-theme
       adwaita-icon-theme
-      protontricks
       git-crypt
       ripgrep
       cachix
@@ -100,7 +110,7 @@ with myEnv;
     #   enable = true;
     #   storageDriver = "btrfs";
     # };
-    virtualbox.host.enable = true;
+    # virtualbox.host.enable = true;
   };
   users.extraGroups.vboxusers.members = [ "$username" ];
 }

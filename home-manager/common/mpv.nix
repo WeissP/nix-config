@@ -14,6 +14,7 @@
     scripts = with pkgs; [
       additions.mpv-bookmarker
       additions.mpv-thumbfast
+      mpvScripts.mpris
       mpvScripts.uosc
     ];
     config = {

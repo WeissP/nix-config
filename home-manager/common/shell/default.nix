@@ -13,5 +13,6 @@
     ./zsh.nix
     ./tools.nix
     ./starship.nix
+    ./yazi.nix
   ];
 }

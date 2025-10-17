@@ -118,10 +118,14 @@ with myEnv;
             provider.browsers = {
               # vivaldi.browser = "Vivaldi";
               # chromium.browser = "Chromium";
-              floorp = {
-                browser = "Floorp";
-                location = "${homeDir}/.floorp/9zfvq2bx.default/places.sqlite";
-              };
+              floorp =
+                let
+                  nodeInfo = secrets.nodes."${configSession}";
+                in
+                {
+                  browser = "Floorp";
+                  location = "${homeDir}/.floorp/${nodeInfo.floorp.session}.default/places.sqlite";
+                };
               # firefox = {
               #   browser = "Firefox";
               #   location = "${homeDir}/.mozilla/firefox/oqbprr8u.default/places.sqlite";

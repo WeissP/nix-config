@@ -159,6 +159,7 @@ in
           "citar"
           "citar-denote"
           # "org-roam"
+          "dired-collapse"
           "pdf-view"
           "pdf-view-restore"
           "ledger-mode"
@@ -426,10 +427,12 @@ in
           ];
           org = [
             "org"
+            "ox-reveal"
             "org-transclusion"
             "ox-beamer"
             "org-clock-csv"
             # "org-xournalpp"
+            "org-msg"
             "weiss-org-sp"
             "org-cite"
             "ob-sql-mode"
@@ -470,6 +473,7 @@ in
             "dired-hacks-utils"
             "peep-dired"
             "dired-single-handed-mode"
+            "dired-collapse"
           ];
           ui = [
             "ui"

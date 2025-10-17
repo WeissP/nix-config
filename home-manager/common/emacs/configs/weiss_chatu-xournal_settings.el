@@ -18,6 +18,7 @@
   )
 
 (with-eval-after-load 'chatu-xournal 
+  (setq chatu-xournal-compress-rate 60)
   )
 
 (provide 'weiss_chatu-xournal_settings)

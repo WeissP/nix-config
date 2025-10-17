@@ -14,7 +14,7 @@ with myEnv;
 
   nix.gc = {
     automatic = true;
-    frequency = "daily";
+    dates = "daily";
   };
 
   programs = {
@@ -49,7 +49,7 @@ with myEnv;
     packages = with pkgs; [
       lsof
       gtrash
-      git-crypt
+      lts.git-crypt
       additions.notify
     ];
     sessionPath = [
@@ -60,6 +60,7 @@ with myEnv;
       RASP_IP = secrets.nodes.RaspberryPi.localIp;
       HOME_SERVER_IP = secrets.nodes.homeServer.localIp;
       DESKTOP_IP = secrets.nodes.desktop.localIp;
+      GTK_USE_PORTAL = 1;
     };
     file = {
       "${homeDir}/scripts" = {

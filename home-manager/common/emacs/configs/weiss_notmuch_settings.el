@@ -1,3 +1,5 @@
+(setq mail-user-agent 'notmuch-user-agent)
+
 (defun weiss-notmuch-first-refresh-then-retrive ()
   "DOCSTRING"
   (interactive)
@@ -65,7 +67,7 @@
   (setq notmuch-saved-searches
         `(
           (:name " " :query "tag:unread AND is:inbox AND NOT is:unimportant" :key ,(kbd "n") :search-type tree :sort-order oldest-first)
-          (:name "📌" :query "tag:pinned" :key ,(kbd "p") :search-type tree :sort-order oldest-first)
+          (:name "🚩" :query "tag:flagged" :key ,(kbd "f") :search-type tree :sort-order oldest-first)
           (:name " " :query "tag:unread AND is:inbox AND is:unimportant AND NOT (is:newsletter or is:mailing_list)" :key ,(kbd "u") :search-type tree :sort-order oldest-first)
           (:name "  Newsletter" :query "is:newsletter" :key ,(kbd "r n") :search-type tree :count-query "is:newsletter AND is:unread" :sort-order newest-first)
           (:name " RPTU" :query "tag:RPTU AND is:inbox AND NOT is:unimportant" :key ,(kbd "i r") :search-type tree :sort-order newest-first)

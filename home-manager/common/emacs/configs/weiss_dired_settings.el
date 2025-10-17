@@ -66,10 +66,13 @@
       (progn
         (dired-hide-details-mode -1)
         (dired-omit-mode -1)
+        (ignore-errors (dired-collapse-mode -1))
         )      
     (dired-hide-details-mode 1)
     (dired-omit-mode 1)
+    (ignore-errors (dired-collapse-mode 1))
     )
+  (revert-buffer)
   )
 
 (defun weiss-show-icons-in-dired-p ()

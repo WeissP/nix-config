@@ -32,7 +32,6 @@ pkgs.stdenv.mkDerivation rec {
   meta = with lib; {
     description = "A server for MetaTube";
     homepage = "https://github.com/metatube-community/metatube-server";
-    license = licenses.unfree; # No license specified
     mainProgram = "metatube-server";
     # platforms = platforms.all.x86_64-linux;
   };

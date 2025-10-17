@@ -92,7 +92,9 @@
 
 (setq delete-by-moving-to-trash t)
 (defun system-move-file-to-trash (filename)
-  (if (and (featurep 'tramp)  (tramp-tramp-file-p filename))
+  (if (or (and (featurep 'tramp)  (tramp-tramp-file-p filename))
+          (s-starts-with? "/mnt/sshfs/" filename)
+          )
       (dired-delete-file filename t nil)      
     (process-file-shell-command
      (let ((cmd (format

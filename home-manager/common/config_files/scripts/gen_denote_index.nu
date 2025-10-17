@@ -1,10 +1,14 @@
-const MEILI_HOST = "http://192.168.0.33:7700"
+const MEILI_HOST = "http://192.168.2.33:7700"
 const INDEX_NAME = "notes"
 const INDEX_UID = $INDEX_NAME
 const ROOT_DIR = "/home/weiss/Documents/notes-export/notes"
 
 def is_denote [name: string] {
   $name =~ '\d{8}T\d{6}'
+}
+
+def is_sync_conflict [name: string] {
+  $name | str contains "sync-conflict"
 }
 
 def parse_denote [name: string] {
@@ -22,14 +26,14 @@ def meili_doc [p: path] {
    id: $parsed.timestamp
    sig: $parsed.sig 
    title: ($parsed.title | str replace --all "-" " " ) 
-   keywords: ($parsed.keywords | split row "_")  
+   keywords: ($parsed.keywords | default "" | split row "_")  
  }
 }
 
 def update_meili_index [] {
 ls -f ...(glob $"($ROOT_DIR)/**/*.html")
 | get name
-| where {is_denote $in}
+| where {(is_denote $in) and not (is_sync_conflict $in)}
 | each {meili_doc $in}
 | to json
 | http post $"($MEILI_HOST)/indexes/($INDEX_UID)/documents?primaryKey=id" 

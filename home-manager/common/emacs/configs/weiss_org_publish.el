@@ -3,7 +3,9 @@
   (interactive "P")
   (let ((org-export-with-broken-links 'mark)
         (name "update_meili_index")
-        (script-dir (getenv "SCRIPTS_DIR")))
+        (script-dir (getenv "SCRIPTS_DIR"))
+        (org-html-head "<link rel=\"stylesheet\" href=\"https://cdn.simplecss.org/simple.min.css\" />")
+        )
     (org-publish-all force)
     (start-process-shell-command
      name
@@ -53,10 +55,10 @@
         weiss-org-html-export-dir (file-name-as-directory "~/Documents/notes-export/notes/")
         org-html-validation-link nil
         org-html-head-include-default-style nil
-        org-html-head "<link rel=\"stylesheet\" href=\"https://cdn.simplecss.org/simple.min.css\" />"
+        
         )
 
- 
+  
   (setq org-publish-project-alist
         (append 
          (weiss-org-publish-generate-alist "~/Documents/notes/ddm" :recursive)

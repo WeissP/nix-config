@@ -9,6 +9,7 @@ tmp_dir = "/tmp/yutto"
 vip_strict = false
 # 设置登录严格校验
 login_strict = true
+download_interval = 1
 
 [resource]
 # 不下载字幕

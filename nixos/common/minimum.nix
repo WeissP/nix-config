@@ -6,6 +6,7 @@
   config,
   inputs,
   outputs,
+  remoteFiles,
   ...
 }:
 {
@@ -128,10 +129,14 @@
             pinnedUnstables
             wired-notify
             emacs
+            yt-dlp-pkgs
           ];
 
           config = {
             allowUnfree = true;
+            permittedInsecurePackages = [
+              "qtwebengine-5.15.19"
+            ];
           };
         };
 
@@ -153,8 +158,8 @@
         services = mkMerge [
           { }
           (ifLinux {
+            gvfs.enable = true;
             ntp.enable = true;
-            printing.enable = true;
             dbus.packages = [ pkgs.gcr ];
             udisks2.enable = true;
           })
@@ -170,6 +175,10 @@
           })
         ];
 
+        environment.pathsToLink = [
+          "/share/xdg-desktop-portal"
+          "/share/applications"
+        ];
         environment = {
           variables = {
             LANG = "en_US.UTF-8";

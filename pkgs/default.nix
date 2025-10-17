@@ -18,6 +18,7 @@ rec {
   private-gpt = pkgs.callPackage ./private-gpt { };
   gluqlo = pkgs.callPackage ./gluqlo.nix { };
   aider-chat = pkgs.callPackage ./aider.nix { };
+  mill = pkgs.callPackage ./mill.nix { };
   notify = pkgs.callPackage ./notify.nix {
     inherit pkgs lib secrets;
   };
@@ -44,22 +45,5 @@ rec {
       interpreter = "${lib.getExe pkgs.nushell} --config ${config}";
     in
     pkgs.writers.makeScriptWriter { inherit interpreter; } "/bin/${name}" script;
-  exp = (
-    writeNuBinWithConfig "on-complete-final"
-      {
-        modules = [ "/home/weiss/scripts/logfile.nu" ];
-        env = {
-          log_level = ''"debug"'';
-          NU_LOG_FILE = ''"/tmp/exp.log"'';
-          Path = myLib.mkNuBinPath [ pkgs.hello ];
-        };
-      }
-      ''
-        def main [] {
-           logfile set-level $"($env.log_level)"
-           logfile debug "content"
-           hello
-        }
-      ''
-  );
+  sing-box = pkgs.callPackage ./sing-box.nix { };
 }

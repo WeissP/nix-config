@@ -3,6 +3,7 @@
 
   inputs = {
     nixpkgs.url = "github:nixos/nixpkgs/nixos-unstable";
+    # serokell-nixpkgs.url = "github:serokell/nixpkgs";
     nixpkgs-master.url = "github:nixos/nixpkgs/master";
     nixpkgs-lts.url = "github:nixos/nixpkgs/nixos-25.05";
     darwin = {
@@ -52,7 +53,6 @@
       flake = false;
     };
     weissXmonad.url = "github:WeissP/weiss-xmonad";
-    # weissXmonad.url = "/home/weiss/projects/weiss-xmonad";
     hledger-importer.url = "github:WeissP/hledger-importer";
     nixpkgs-firefox-darwin.url = "github:bandithedoge/nixpkgs-firefox-darwin";
     nuScripts = {
@@ -85,6 +85,14 @@
     };
     gptel-prompts = {
       url = "github:jwiegley/gptel-prompts";
+      flake = false;
+    };
+    mitchtyNixYtDlp = {
+      url = "github:mitchty/nix";
+      flake = false;
+    };
+    sshfsYazi = {
+      url = "github:uhs-robert/sshfs.yazi";
       flake = false;
     };
     nix-alien.url = "github:thiagokokada/nix-alien";
@@ -147,8 +155,10 @@
               consult
               consult-omni
               aider-el
+              org-reveal
               flyover
               gptel-prompts
+              sshfsYazi
               ;
           };
         };
@@ -203,6 +213,28 @@
           ];
         in
         {
+          debug = nixpkgs.lib.nixosSystem {
+            system = "x86_64-linux";
+            specialArgs = mkSpecialArgs linuxEnv {
+              usage = [
+                "personal"
+                "webman-server"
+                "daily"
+              ];
+              mainScreen = "DisplayPort-1";
+              mainDevice = "/dev/nvme0n1";
+              swapSize = "48GB";
+              configSession = "desktop";
+              location = "home";
+              display = "Xorg";
+            };
+            modules = desktopModules ++ [
+              ./nixos/desktop/hardware-configuration.nix
+              ./nixos/desktop/configuration.nix
+              # { boot.binfmt.emulatedSystems = [ "aarch64-linux" ]; }
+            ];
+          };
+
           desktop = nixpkgs.lib.nixosSystem {
             system = "x86_64-linux";
             specialArgs = mkSpecialArgs linuxEnv {
@@ -250,6 +282,7 @@
               configSession = "mini";
               mainScreen = "HDMI-1";
               location = "uni";
+              swapSize = "64GB";
               mainDevice = "/dev/nvme0n1";
               usage = [
                 "personal"
@@ -275,7 +308,7 @@
               ];
               mainScreen = "DisplayPort-1";
               mainDevice = "/dev/nvme0n1";
-              swapSize = "48GB";
+              swapSize = "64GB";
               location = "home";
               display = "wayland";
               # display = "Xorg";
@@ -304,7 +337,8 @@
               mainDevice = "/dev/nvme0n1";
               hdd4t = "/dev/disk/by-id/ata-WDC_WD40EFPX-68C6CN0_WD-WX92D25D7417";
               hddMediaArray = {
-                hdd1 = "/dev/disk/by-id/ata-WDC_WD80EFPX-68C4ZN0_WD-RD255EDH";
+                # hdd1 = "/dev/disk/by-id/ata-WDC_WD80EFPX-68C4ZN0_WD-RD255EDH";
+                hdd1 = "/dev/disk/by-id/ata-WDC_WD80EFPX-68C4ZN0_WD-RD2TZEGH";
                 hdd2 = "/dev/disk/by-id/ata-WDC_WD80EFPX-68C4ZN0_WD-RD2579RH";
               };
               hddMediaParityArray = {
@@ -337,6 +371,7 @@
               display = "none";
             };
             modules = baseModules ++ [
+              # ./disko/vultr.nix
               ./nixos/vultr/configuration.nix
             ];
           };

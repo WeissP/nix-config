@@ -26,10 +26,13 @@
   )
 
 (with-eval-after-load 'cape
+  (setq completion-at-point-functions
+        '(pcomplete-completions-at-point cape-dict cape-file cape-dabbrev t))
+
   (with-eval-after-load 'org
-    (setq-mode-local
-     org-mode
-     completion-at-point-functions '(pcomplete-completions-at-point cape-dict t))
+    ;; (setq-mode-local
+    ;;  org-mode
+    ;;  completion-at-point-functions '(pcomplete-completions-at-point cape-dict t))
     (setq-mode-local
      org-mode
      corfu-auto-prefix 3)

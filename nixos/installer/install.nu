@@ -1,5 +1,5 @@
 export def show-disk [] {
-  ls -l /dev/disk/by-id/ | filter { |r| not ($r.name | str contains part)} | select name target
+  ls -l /dev/disk/by-id/ | where { |r| not ($r.name | str contains part)} | select name target
 }
 
 # Helper function for disko-install
@@ -55,7 +55,7 @@ export def generate-home-server-disko-config [
     --hdd4t: string,                                            # The 4TB HDD device for backups (e.g., /dev/sda). Required.
     --hdd8tArray: list<string>,                                 # List of 8TB HDD devices for media (e.g., ["/dev/sdb" "/dev/sdc"]). Required.
     --username: string = "weiss",                               # Username for the new system.
-    --swapSize: string = "32G",                                 # Size of the swapfile.
+    --swapSize: string = "64G",                                 # Size of the swapfile.
     --userId: string = "1000",                                  # User ID for the new user.
     --groupId: string = "1000",                                 # Group ID for the new user.
     --output_disko_config_path: path = "/home/nixos/disko-config.nix", # Path to save the generated disko configuration file.
@@ -95,9 +95,9 @@ export def generate-home-server-disko-config [
 
 # Generates a Disko configuration file specifically for home_server.nix.
 export def generate-btrfs-system-disko-config [
-    --mainDevice: string,                                       # The main SSD device (e.g., /dev/nvme0n1). Required.
+    --mainDevice: string,                                       # The main SSD device (e.g., nvme0n1). Required.
     --username: string = "weiss",                               # Username for the new system.
-    --swapSize: string = "32G",                                 # Size of the swapfile.
+    --swapSize: string = "64G",                                 # Size of the swapfile.
     --userId: string = "1000",                                  # User ID for the new user.
     --groupId: string = "1000",                                 # Group ID for the new user.
     --output_disko_config_path: path = "/home/nixos/disko-config.nix", # Path to save the generated disko configuration file.

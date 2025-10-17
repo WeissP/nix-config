@@ -14,25 +14,25 @@
 with myEnv;
 {
   imports = [
-    ./hardware-configuration.nix
+    ./hardware-configuration.nix 
     ../common/minimum.nix
     ../common/psql.nix
     ../common/zsh.nix
     ../common/syncthing.nix
     ../common/sing-box.nix
   ];
-
+ 
   nix.gc = {
     options = lib.mkForce "--delete-older-than 1d";
   };
- 
+
   networking.hostName = "${username}-${configSession}";
 
   zramSwap.enable = true;
 
   # boot.kernelPackages = pkgs.linuxKernel.packages.linux_6_11;
-  # boot.loader.systemd-boot.enable = true;
-  # boot.loader.efi.canTouchEfiVariables = true;
+  boot.loader.systemd-boot.enable = true;
+  boot.loader.efi.canTouchEfiVariables = true;
 
   # boot.loader.grub = {
   #   # no need to set devices, disko will add all devices that have a EF02 partition to the list already
@@ -151,14 +151,13 @@ with myEnv;
     enable = true;
     allowedUDPPorts = [
       53
-
     ];
     allowedTCPPorts = [
       80
       443
-
+      secrets.singbox.meta.shadowsocks.port
     ];
   };
 
-  system.stateVersion = "23.11";
+  system.stateVersion = "25.05";
 }

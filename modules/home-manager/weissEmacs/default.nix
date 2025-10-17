@@ -736,20 +736,20 @@ in
               inherit chatu;
             };
           };
-          lspce = pkgs.callPackage ./packages/lspce.nix {
-            inherit (final)
-              trivialBuild
-              f
-              markdown-mode
-              yasnippet
-              ;
-            inherit (pkgs)
-              lib
-              emacs
-              fetchFromGitHub
-              rustPlatform
-              ;
-          };
+          # lspce = pkgs.callPackage ./packages/lspce.nix {
+          #   inherit (final)
+          #     trivialBuild
+          #     f
+          #     markdown-mode
+          #     yasnippet
+          #     ;
+          #   inherit (pkgs)
+          #     lib
+          #     emacs
+          #     fetchFromGitHub
+          #     rustPlatform
+          #     ;
+          # };
           # lsp-bridge = pkgs.callPackage ./packages/lsp-bridge {
           #   inherit (final) melpaBuild markdown-mode tempel;
           #   inherit (pkgs)

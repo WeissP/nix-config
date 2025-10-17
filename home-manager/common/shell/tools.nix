@@ -10,6 +10,14 @@ with myEnv;
 {
   programs = {
     bat.enable = true;
+    less = {
+      enable = true;
+      config = ''
+        #command
+        \kd forw-newline
+        \ku back-newline
+      '';
+    };
     atuin = {
       enable = true;
       enableZshIntegration = true;
@@ -43,11 +51,6 @@ with myEnv;
       enableZshIntegration = true;
       # have to do it on my own to make sure the completer work
       enableNushellIntegration = false;
-    };
-    thefuck = {
-      enable = false;
-      enableZshIntegration = true;
-      enableNushellIntegration = true;
     };
     autojump = {
       enable = false;

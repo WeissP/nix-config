@@ -29,6 +29,10 @@
       source = "${pkgs.mpvScripts.uosc}/share/mpv/scripts/uosc";
       recursive = true;
     };
+    "jellyfin-mpv-shim/scripts/mpris" = {
+      source = "${pkgs.mpvScripts.mpris}/share/mpv/scripts";
+      recursive = true;
+    };
     "jellyfin-mpv-shim/fonts" = {
       source = "${pkgs.mpvScripts.uosc}/share/fonts";
       recursive = true;

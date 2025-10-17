@@ -56,6 +56,10 @@ let
       id = "75A5Z5M-PTQ65XJ-4PHURBD-DCLT4TD-4HST4NK-5MVCW4A-QZA6VDR-3EW75QC";
       addresses = globalAddress;
     };
+    "Samsung-Tablet" = {
+      id = "YEM7UPO-D3FGSYH-IMQDT74-JXB4N74-7JQWD7G-QC7W3QL-2IRKEAN-2YFYAAR";
+      addresses = globalAddress;
+    };
   };
   nodeInfo = secrets.nodes."${configSession}";
 in
@@ -71,7 +75,10 @@ lib.mkMerge [
         enable = true;
         providedBy = "my private relay server";
         pools = [ ''""'' ];
-        extraOptions = [ "--token=${token}" ];
+        extraOptions = [
+          "--token=${token}"
+          "-debug"
+        ];
       };
     };
   })
@@ -112,6 +119,8 @@ lib.mkMerge [
                   "iPad-mini"
                   "Mac-Air"
                   "uni"
+                  "mini"
+                  "Samsung-Tablet"
                 ]
               else if (configSession == "uni" || configSession == "mini") then
                 [
@@ -119,6 +128,7 @@ lib.mkMerge [
                   "iPad-mini"
                   "Mac-Air"
                   "homeServer"
+                  "Samsung-Tablet"
                 ]
               else
                 [
@@ -153,7 +163,7 @@ lib.mkMerge [
                 devices = toDevices;
               };
             }
-            (lib.optionalAttrs (builtins.elem "daily" usage || configSession == "homeServer") {
+            (lib.optionalAttrs (display != "none" || configSession == "homeServer") {
               "finance" = {
                 id = "ndnhp-9awzf";
                 path = genPath "finance";
@@ -161,6 +171,7 @@ lib.mkMerge [
                   "homeServer"
                   "desktop"
                   "iPhone"
+                  "mini"
                 ];
               };
               # "podcasts" = {
